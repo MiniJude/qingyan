@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vite-pwa/nuxt',
     '@nuxt/eslint',
+    '@element-plus/nuxt',
   ],
 
   devtools: {
@@ -32,6 +33,12 @@ export default defineNuxtConfig({
       ],
     },
   },
+
+  // css
+  css: [
+    '@unocss/reset/tailwind.css',
+    '~/assets/scss/index.scss',
+  ],
 
   colorMode: {
     classSuffix: '',
@@ -62,6 +69,23 @@ export default defineNuxtConfig({
       routes: ['/'],
       ignore: ['/hi'],
     },
+  },
+
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+          additionalData: `@use "@/assets/scss/element/index.scss" as element;`,
+        },
+      },
+    },
+  },
+
+  elementPlus: {
+    icon: 'ElIcon',
+    importStyle: 'scss',
+    themes: ['dark'], // 从@element-plus/nuxt/dist/element-plus/theme-chalk/src/dark/css-vars.scss导入组件库的暗黑模式样式
   },
 
   eslint: {
