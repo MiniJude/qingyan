@@ -1,3 +1,3 @@
 <template>
-  <TheExamples />
+  <div>13</div>
 </template>

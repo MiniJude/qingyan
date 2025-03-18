@@ -16,7 +16,9 @@ export default defineConfig({
     ['icon-btn', 'inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-teal-600'],
   ],
   presets: [
-    presetWind4(),
+    presetWind4({
+      themeVariable: false,
+    }),
     presetAttributify(),
     presetIcons({
       scale: 1.2,
@@ -35,4 +37,14 @@ export default defineConfig({
     transformerDirectives(),
     transformerVariantGroup(),
   ],
+  theme: {
+    colors: {
+      primary: 'var(--el-color-primary)',
+      success: 'var(--el-color-success)',
+      warning: 'var(--el-color-warning)',
+      danger: 'var(--el-color-danger)',
+      error: 'var(--el-color-error)',
+      info: 'var(--el-color-info)',
+    },
+  },
 })
