@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     '@nuxt/eslint',
     '@element-plus/nuxt',
+    'nuxt-svgo',
   ],
 
   devtools: {
@@ -98,4 +99,8 @@ export default defineNuxtConfig({
   },
 
   pwa,
+
+  svgo: {
+    autoImportPath: './assets/svg/',
+  },
 })

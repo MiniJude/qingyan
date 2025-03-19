@@ -1,26 +1,63 @@
 $-colors: (
-  'primary': (
-    'base': rgba(102, 8, 116, 1),
+  'primary': ('base': rgba(102, 8, 116, 1),
   ),
-  'success': (
-    'base': green,
+  'success': ('base': green,
   ),
-  'warning': (
-    'base': #f9a23c,
+  'warning': ('base': #f9a23c,
   ),
-  'danger': (
-    'base': #ff3300,
+  'danger': ('base': #ff3300,
   ),
-  'error': (
-    'base': #f56c6c,
+  'error': ('base': #f56c6c,
   ),
-  'info': (
-    'base': #909399,
+  'info': ('base': #909399,
   ),
 );
 
-@forward 'element-plus/theme-chalk/src/common/var.scss' with (
-  $colors: $-colors
+
+$text-color: (
+  // 强调文字/正文标题
+  'primary': #1D2129,
+  // 次强调文字
+  'regular': #4E5969,
+  'secondary': #909399,
+  'placeholder': #a8abb2,
+  'disabled': #4E5969,
+);
+
+// --el-border-color
+$border-color: (
+  '': #C9CDD4,
+);
+
+
+// --el-menu-bg-color
+$menu: (
+  'bg-color': transparent,
+  'hover-bg-color': #C9CDD4,
+  'active-color': #fff,
+  'item-height': 40px,
+);
+
+
+@forward 'element-plus/theme-chalk/src/common/var.scss' with ($colors: $-colors,
+  $text-color: $text-color,
+  $border-color: $border-color,
+  $menu: $menu,
 );
 
 @use './dark.scss';
+
+
+.el-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .el-menu-item {
+    border-radius: 4px;
+
+    &.is-active {
+      background-color: var(--el-color-primary);
+    }
+  }
+}
