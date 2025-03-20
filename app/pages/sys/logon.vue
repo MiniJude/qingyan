@@ -4,6 +4,7 @@ import { ref } from 'vue'
 
 definePageMeta({
   layout: 'sys',
+  title: '登录',
 })
 
 const form = ref({

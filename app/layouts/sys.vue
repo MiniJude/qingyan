@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { CircleCloseFilled } from '@element-plus/icons-vue'
+
+const route = useRoute()
+const title = computed(() => route.meta.title as string)
 </script>
 
 <template>
@@ -8,6 +11,9 @@ import { CircleCloseFilled } from '@element-plus/icons-vue'
       <img src="@/assets/img/logo.png" alt="logo" h-64px w-134px left-25px top-26px absolute>
       <CircleCloseFilled color="primary" h-40px w-40px cursor-pointer right-35px top-38px absolute />
       <div class="sys-form-container" rounded-10px bg-white max-w-200px min-h-200px>
+        <h1 text-24px font-bold>
+          {{ title }}
+        </h1>
         <slot />
       </div>
     </div>
