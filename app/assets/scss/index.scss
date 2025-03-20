@@ -14,3 +14,26 @@ a {
   font-weight: 400;
   color: var(--el-color-primary);
 }
+
+.el-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .el-menu-item {
+    border-radius: 4px;
+
+    &.is-active {
+      background-color: var(--el-color-primary);
+    }
+  }
+}
+
+
+.el-form {
+  .el-form-item {
+    .el-form-item__label {
+      color: var(--el-text-color-primary);
+    }
+  }
+}

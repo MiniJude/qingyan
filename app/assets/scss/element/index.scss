@@ -48,18 +48,3 @@ $menu: (
 );
 
 @use './dark.scss';
-
-
-.el-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  .el-menu-item {
-    border-radius: 4px;
-
-    &.is-active {
-      background-color: var(--el-color-primary);
-    }
-  }
-}
