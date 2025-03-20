@@ -25,4 +25,9 @@ body,
 html.dark {
   color-scheme: dark;
 }
+
+/* 清空Svgo Icon 组件的默认下边距 */
+.nuxt-icon {
+  margin-bottom: 0 !important;
+}
 </style>

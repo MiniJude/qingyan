@@ -19,9 +19,10 @@ $text-color: (
   'primary': #1D2129,
   // 次强调文字
   'regular': #4E5969,
+  // 辅助文字
   'secondary': #909399,
-  'placeholder': #a8abb2,
-  'disabled': #4E5969,
+  // 失效文字
+  'disabled': #737680,
 );
 
 // --el-border-color
@@ -36,6 +37,7 @@ $menu: (
   'hover-bg-color': #C9CDD4,
   'active-color': #fff,
   'item-height': 40px,
+  'base-level-padding': 10px,
 );
 
 

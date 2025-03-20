@@ -44,6 +44,13 @@ export default defineConfig({
       danger: 'var(--el-color-danger)',
       error: 'var(--el-color-error)',
       info: 'var(--el-color-info)',
+
+      // 文字颜色
+      tprimary: 'var(--el-text-color-primary)',
+      tregular: 'var(--el-text-color-regular)',
+      tsecondary: 'var(--el-text-color-secondary)',
+      tplaceholder: 'var(--el-text-color-placeholder)',
+      tdisabled: 'var(--el-text-color-disabled)',
     },
   },
 })

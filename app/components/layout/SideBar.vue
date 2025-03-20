@@ -1,3 +1,23 @@
+<script setup lang="ts">
+const route = useRoute()
+
+const menuList = [
+  {
+    name: '知识库',
+    icon: 'i-carbon:folder',
+    path: '/knowledge-base',
+  },
+  {
+    name: 'AI 助手',
+    icon: 'i-carbon:ai-label',
+    path: '/ai-assistant',
+  },
+]
+
+// 计算当前应该激活的菜单项
+const activeMenu = computed(() => route.path)
+</script>
+
 <template>
   <div class="side-bar" flex flex-col w-242px>
     <!-- logo -->
@@ -10,7 +30,7 @@
 
     <div flex flex-1 flex-col p="t-13px r-16px b-13px l-15px">
       <!-- 空间切换 -->
-      <div m="l-1px b-12px t-10px" flex h-35px cursor-pointer items-center>
+      <div m="l-4px b-12px t-10px" flex h-35px cursor-pointer items-center>
         <div text="white 10px" rounded-5px bg-primary flex-center h-36px w-36px>
           数智<br>空间
         </div>
@@ -18,15 +38,15 @@
         <div i-carbon:chevron-right h-20px w-20px />
       </div>
 
-      <el-menu pt-19px flex-1 !b-0 default-active="1">
-        <el-menu-item index="1">
-          <div i-carbon:folder h-20px w-20px />
-          <span ml-30px>知识库</span>
-        </el-menu-item>
-        <el-menu-item index="2">
-          <div i-carbon:ai-label h-20px w-20px />
-          <span ml-30px>AI 助手</span>
-        </el-menu-item>
+      <el-menu pt-19px flex-1 !b-0 :default-active="activeMenu">
+        <NuxtLink v-for="item in menuList" :key="item.path" :to="item.path">
+          <el-menu-item :index="item.path">
+            <div :class="item.icon" h-20px w-20px />
+            <span ml-30px>
+              {{ item.name }}
+            </span>
+          </el-menu-item>
+        </NuxtLink>
       </el-menu>
 
       <el-divider !mb-12px !mt-12px />
