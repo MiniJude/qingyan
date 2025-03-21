@@ -116,17 +116,25 @@ const data = reactive([
   {
     treeData: data1,
     showCheckbox: false,
+    checkedIds: [],
   },
   {
     treeData: data2,
     showCheckbox: false,
+    checkedIds: [],
   },
 ])
 </script>
 
 <template>
   <div>
-    <Tree v-for="(item, index) in data" :key="index" :data="item.treeData" :show-checkbox="item.showCheckbox" />
+    <template v-for="(item, index) in data" :key="index">
+      <div v-if="item.showCheckbox" flex items-center justify-between>
+        <span>选中{{ item.checkedIds.length }}项</span>
+        <span i-carbon:close-large cursor-pointer @click="item.showCheckbox = false" />
+      </div>
+      <Tree v-model:show-checkbox="item.showCheckbox" :data="item.treeData" :checked-ids="item.checkedIds" />
+    </template>
   </div>
 </template>
 

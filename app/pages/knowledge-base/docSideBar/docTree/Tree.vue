@@ -44,9 +44,9 @@ function handleNodeClick(data: TreeType) {
         </template>
 
         <span flex-1>{{ node.label }}</span>
-        <div v-if="data.level === 1" flex gap-5px style="color: #C9CDD4;" @click.stop>
+        <div v-if="data.level === 1 && !props.showCheckbox" flex gap-5px style="color: #C9CDD4;" @click.stop>
           <SvgoPlus />
-          <SvgoMultiSelect />
+          <SvgoMultiSelect @click="emits('update:showCheckbox', true)" />
         </div>
       </div>
     </template>
