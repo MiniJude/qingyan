@@ -1,8 +1,31 @@
 <script lang="ts" setup>
 import type { TreeType } from './Tree.vue'
+import { useId } from 'vue'
 import Tree from './Tree.vue'
 
-const data1: TreeType[] = [
+// 递归为树节点添加唯一ID
+function addUidToNodes(nodes: TreeType[]): TreeType[] {
+  return nodes.map((node) => {
+    const nodeWithUid = {
+      ...node,
+      id: useId(),
+    }
+
+    if (nodeWithUid.children && nodeWithUid.children.length > 0) {
+      nodeWithUid.children = addUidToNodes(nodeWithUid.children)
+    }
+
+    return nodeWithUid
+  })
+}
+
+type OptionalIdTree<T extends { children?: T[] }> = Omit<T, 'id' | 'children'> & {
+  id?: string
+  children?: OptionalIdTree<T>[]
+}
+
+type TreeTypeWithOptionalId = OptionalIdTree<TreeType>
+const data1: TreeTypeWithOptionalId[] = [
   {
     label: '文件夹',
     level: 1,
@@ -61,7 +84,7 @@ const data1: TreeType[] = [
     ],
   },
 ]
-const data2: TreeType[] = [
+const data2: TreeTypeWithOptionalId[] = [
   {
     label: '微信输入',
     level: 1,
@@ -75,31 +98,31 @@ const data2: TreeType[] = [
             label: '四六级报名通知',
             level: 3,
             type: 'file',
-            fileType: 'doc',
+            fileType: 'wechat-article',
           },
           {
             label: '问题解答',
             level: 3,
             type: 'file',
-            fileType: 'doc',
+            fileType: 'wechat-records',
           },
           {
             label: '学习通',
             level: 3,
             type: 'file',
-            fileType: 'doc',
+            fileType: 'url',
           },
           {
             label: '高数MOOC',
             level: 3,
             type: 'file',
-            fileType: 'doc',
+            fileType: 'link',
           },
           {
             label: '实验数据',
             level: 3,
             type: 'file',
-            fileType: 'doc',
+            fileType: 'picture',
           },
         ],
       },
@@ -112,29 +135,50 @@ const data2: TreeType[] = [
   },
 ]
 
-const data = reactive([
+// 为树节点添加唯一ID
+const treeData1WithUid = addUidToNodes(data1)
+const treeData2WithUid = addUidToNodes(data2)
+
+const data = reactive<{
+  treeData: TreeType[]
+  showCheckbox: boolean
+  checkedKeys: string[]
+}[]>([
   {
-    treeData: data1,
+    treeData: treeData1WithUid,
     showCheckbox: false,
-    checkedIds: [],
+    checkedKeys: [],
   },
   {
-    treeData: data2,
+    treeData: treeData2WithUid,
     showCheckbox: false,
-    checkedIds: [],
+    checkedKeys: [],
   },
 ])
+
+function handleCheckChange(checkedKeys: string[], index: number) {
+  data[index]!.checkedKeys = checkedKeys
+}
+
+const treeRef = useTemplateRef<InstanceType<typeof Tree>[]>('treeRef')
+
+function cancelCheck(index: number) {
+  if (treeRef.value) {
+    treeRef.value[index]?.setCheckedKeys([])
+    data[index]!.showCheckbox = false
+  }
+}
 </script>
 
 <template>
-  <div>
-    <template v-for="(item, index) in data" :key="index">
-      <div v-if="item.showCheckbox" flex items-center justify-between>
-        <span>选中{{ item.checkedIds.length }}项</span>
-        <span i-carbon:close-large cursor-pointer @click="item.showCheckbox = false" />
+  <div flex flex-col gap-4px>
+    <div v-for="(item, index) in data" :key="index">
+      <div v-if="item.showCheckbox" mb-8px flex items-center justify-between>
+        <span>选中 {{ item.checkedKeys.length }} 项</span>
+        <span i-carbon:close-large cursor-pointer @click="cancelCheck(index)" />
       </div>
-      <Tree v-model:show-checkbox="item.showCheckbox" :data="item.treeData" :checked-ids="item.checkedIds" />
-    </template>
+      <Tree ref="treeRef" v-model:show-checkbox="item.showCheckbox" :data="item.treeData" @check-change="handleCheckChange($event, index)" />
+    </div>
   </div>
 </template>
 

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import DocSideBar from './docSideBar/index.vue'
+import DocSideBar from './knowledge-base/docSideBar/index.vue'
 </script>
 
 <template>
   <div flex="~" h-full>
     <DocSideBar />
     <div flex-1>
-      12313
+      <!-- 使用NuxtPage作为嵌套路由出口 -->
+      <NuxtPage />
     </div>
   </div>
 </template>

@@ -16,7 +16,7 @@ import DocTree from './docTree/index.vue'
       <div>
         <DocTree />
       </div>
-      <div mt-40px flex gap-10px items-center>
+      <div mt-40px flex gap-10px cursor-pointer items-center>
         <SvgoTrash />
         <span text-tprimary>回收站</span>
       </div>
