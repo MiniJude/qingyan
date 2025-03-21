@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { Search } from '@element-plus/icons-vue'
-
 const searchValue = ref('')
 </script>
 

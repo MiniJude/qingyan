@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import DocSideBar from './docSideBar/index.vue'
+</script>
+
 <template>
-  <div>这是知识库</div>
+  <div flex="~" h-full>
+    <DocSideBar />
+    <div flex-1>
+      12313
+    </div>
+  </div>
 </template>

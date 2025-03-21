@@ -37,3 +37,10 @@ a {
     }
   }
 }
+
+.el-button {
+  &.is-plain {
+    border: 1px solid var(--el-color-primary);
+    color: var(--el-color-primary);
+  }
+}

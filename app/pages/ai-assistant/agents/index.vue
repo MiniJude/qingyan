@@ -24,9 +24,9 @@ const agents = ref<Agent[]>([
 
 <template>
   <div class="agents-container" w-322px p="t-27px r-11px b-10px l-9px">
-    <el-button type="primary" class="mb-24px w-full !px-9px !h-44px !justify-start">
+    <el-button type="primary" class="mb-24px w-full !text-18px !px-9px !h-44px !justify-start">
       <template #icon>
-        <SvgoCirclePlus text="white 18px" />
+        <SvgoCirclePlus text="white" />
       </template>
       <span text-16px ml-8px>新建</span>
     </el-button>

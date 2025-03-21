@@ -1,3 +1,4 @@
+@use "sass:map";
 $-colors: (
   'primary': ('base': rgba(102, 8, 116, 1),
   ),
@@ -40,11 +41,20 @@ $menu: (
   'base-level-padding': 10px,
 );
 
+// --el-tree-node-hover-bg-color
+$tree: (
+  'node-content-height': 28px,
+  'node-hover-bg-color': var(--el-color-primary),
+  'text-color': var(--el-text-color-primary),
+  'expand-icon-color': var(--el-text-color-primary),
+);
+
 
 @forward 'element-plus/theme-chalk/src/common/var.scss' with ($colors: $-colors,
   $text-color: $text-color,
   $border-color: $border-color,
   $menu: $menu,
+  $tree: $tree,
 );
 
 @use './dark.scss';
