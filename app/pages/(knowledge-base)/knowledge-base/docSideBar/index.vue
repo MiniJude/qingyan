@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import CircleDoc from '@/assets/svg/circle-doc.svg?skipsvgo'
 import DocTree from './docTree/index.vue'
+
+const docTreeRef = useTemplateRef<InstanceType<typeof DocTree>>('docTreeRef')
+
+/** 是否显示底部按钮组 */
+const isBtnGroupShow = computed(() => {
+  return docTreeRef.value?.data.some(item => item.showCheckbox)
+})
+
+const allCheckedKeys = computed(() => {
+  return docTreeRef.value?.data.map(item => item.checkedKeys).flat() ?? []
+})
 </script>
 
 <template>
@@ -13,23 +24,21 @@ import DocTree from './docTree/index.vue'
     </el-button>
 
     <div flex="~ col 1">
-      <div>
-        <DocTree />
-      </div>
+      <DocTree ref="docTreeRef" />
       <div mt-40px flex gap-10px cursor-pointer items-center>
         <SvgoTrash />
         <span text-tprimary>回收站</span>
       </div>
     </div>
 
-    <div class="btn-group" mt-16px flex justify-between>
-      <el-button plain>
+    <div v-if="isBtnGroupShow" class="btn-group" mt-16px flex justify-between>
+      <el-button plain :disabled="!allCheckedKeys.length">
         创建副本
       </el-button>
-      <el-button plain>
+      <el-button plain :disabled="!allCheckedKeys.length">
         移动到
       </el-button>
-      <el-button plain>
+      <el-button plain :disabled="!allCheckedKeys.length">
         删除
       </el-button>
     </div>

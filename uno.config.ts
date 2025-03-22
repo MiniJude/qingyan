@@ -25,9 +25,18 @@ export default defineConfig({
     presetTypography(),
     presetWebFonts({
       fonts: {
-        sans: 'DM Sans',
-        serif: 'DM Serif Display',
-        mono: 'DM Mono',
+        sans: {
+          name: 'System Font',
+          provider: 'none',
+        },
+        serif: {
+          name: 'System Serif',
+          provider: 'none',
+        },
+        mono: {
+          name: 'System Mono',
+          provider: 'none',
+        },
       },
       processors: createLocalFontProcessor(),
     }),

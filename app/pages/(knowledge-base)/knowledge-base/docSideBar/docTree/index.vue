@@ -4,7 +4,7 @@ import { useId } from 'vue'
 import Tree from './Tree.vue'
 
 // 递归为树节点添加唯一ID
-function addUidToNodes(nodes: TreeType[]): TreeType[] {
+function addUidToNodes(nodes: TreeTypeWithOptionalId[]): TreeType[] {
   return nodes.map((node) => {
     const nodeWithUid = {
       ...node,
@@ -15,7 +15,7 @@ function addUidToNodes(nodes: TreeType[]): TreeType[] {
       nodeWithUid.children = addUidToNodes(nodeWithUid.children)
     }
 
-    return nodeWithUid
+    return nodeWithUid as TreeType
   })
 }
 
@@ -168,6 +168,10 @@ function cancelCheck(index: number) {
     data[index]!.showCheckbox = false
   }
 }
+
+defineExpose({
+  data,
+})
 </script>
 
 <template>
