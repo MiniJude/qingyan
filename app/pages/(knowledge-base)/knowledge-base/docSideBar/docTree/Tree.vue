@@ -1,14 +1,7 @@
 <script lang="ts" setup>
 import type { ElTree } from 'element-plus'
 import ArrowRightFilled from '@/assets/svg/arrow-right-filled.svg?component'
-import DocIcon from '@/assets/svg/doc.svg?component'
 import Folder from '@/assets/svg/folder.svg?component'
-import LinkIcon from '@/assets/svg/link.svg?component'
-import PictureIcon from '@/assets/svg/picture.svg?component'
-import PptIcon from '@/assets/svg/ppt.svg?component'
-import UrlIcon from '@/assets/svg/url.svg?component'
-import WechatArticleIcon from '@/assets/svg/wechat-article.svg?component'
-import WechatRecordsIcon from '@/assets/svg/wechat-records.svg?component'
 
 export interface TreeType {
   label: string
@@ -16,7 +9,7 @@ export interface TreeType {
   children?: TreeType[]
   level?: number
   type?: 'folder' | 'file'
-  fileType?: 'doc' | 'pdf' | 'ppt' | 'wechat-article' | 'wechat-records' | 'url' | 'picture' | 'link'
+  fileType?: FileType
 }
 
 const props = defineProps<{
@@ -70,15 +63,9 @@ defineExpose({
   >
     <template #default="{ node, data }">
       <div class="custom-tree-node" flex items-center justify-between>
-        <Folder v-if="data.type === 'folder'" mr-7px h-12px w-12px />
+        <Folder v-if="data.type === 'folder'" color-tregular mr-7px h-12px w-12px />
         <template v-else-if="data.type === 'file'">
-          <DocIcon v-if="data.fileType === 'doc'" mr-7px h-12px w-12px />
-          <PptIcon v-else-if="data.fileType === 'ppt'" mr-7px h-12px w-12px />
-          <WechatArticleIcon v-else-if="data.fileType === 'wechat-article'" mr-7px h-12px w-12px />
-          <WechatRecordsIcon v-else-if="data.fileType === 'wechat-records'" mr-7px h-12px w-12px />
-          <UrlIcon v-else-if="data.fileType === 'url'" mr-7px h-12px w-12px />
-          <PictureIcon v-else-if="data.fileType === 'picture'" mr-7px h-12px w-12px />
-          <LinkIcon v-else-if="data.fileType === 'link'" mr-7px h-12px w-12px />
+          <FileIcon :file-type="data.fileType" mr-7px :size="12" />
         </template>
 
         <span flex-1>{{ node.label }}</span>

@@ -35,7 +35,7 @@ $border-color: (
 // --el-menu-bg-color
 $menu: (
   'bg-color': transparent,
-  'hover-bg-color': #C9CDD4,
+  'hover-bg-color': var(--el-border-color),
   'active-color': #fff,
   'item-height': 40px,
   'base-level-padding': 10px,

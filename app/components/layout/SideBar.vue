@@ -1,15 +1,17 @@
 <script setup lang="ts">
+import { SvgoAiChat, SvgoFolder2 } from '#components'
+
 const route = useRoute()
 
 const menuList = [
   {
     name: '知识库',
-    icon: 'i-carbon:folder',
+    icon: SvgoFolder2,
     path: '/knowledge-base',
   },
   {
     name: 'AI 助手',
-    icon: 'i-carbon:ai-label',
+    icon: SvgoAiChat,
     path: '/ai-assistant',
   },
 ]
@@ -41,7 +43,7 @@ const activeMenu = computed(() => route.path)
       <el-menu pt-19px flex-1 !b-0 :default-active="activeMenu">
         <NuxtLink v-for="item in menuList" :key="item.path" :to="item.path">
           <el-menu-item :index="item.path">
-            <div :class="item.icon" h-20px w-20px />
+            <component :is="item.icon" text="20px" />
             <span ml-30px>
               {{ item.name }}
             </span>
