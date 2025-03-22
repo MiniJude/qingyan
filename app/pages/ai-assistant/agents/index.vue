@@ -32,8 +32,8 @@ const agents = ref<Agent[]>([
     </el-button>
     <ul>
       <li
-        v-for="agent in agents" :key="agent.name" p="l-21px r-14px y-25px" rounded-4px flex h-117px cursor-pointer
-        items-center hover:bg-gray-100
+        v-for="agent in agents" :key="agent.name" p="l-21px r-14px y-25px"
+        rounded-4px flex h-117px cursor-pointer duration-300 items-center hover:bg-gray-100
       >
         <!-- <img :src="agent.icon" alt="agent icon"> -->
         <div i-carbon:logo-kubernetes text="primary 48px" />

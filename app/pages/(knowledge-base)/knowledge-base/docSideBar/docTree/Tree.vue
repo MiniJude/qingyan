@@ -35,9 +35,7 @@ onMounted(() => {
   defaultExpandedKeys.value = props.data.filter(item => item.level === 1).map(item => item.id)
 })
 
-function handleNodeClick(data: TreeType) {
-  emits('nodeClick', data)
-}
+function handleNodeClick() {}
 
 const treeRef = useTemplateRef<InstanceType<typeof ElTree>>('treeRef')
 // 选中的节点

@@ -5,6 +5,10 @@ body,
   padding: 0;
 }
 
+* {
+  outline: none;
+}
+
 html.dark {
   background: #222;
   color: white;
@@ -42,5 +46,9 @@ a {
   &.is-plain {
     border: 1px solid var(--el-color-primary);
     color: var(--el-color-primary);
+    &:hover {
+      background-color: var(--el-color-primary-light-9);
+      outline: none;
+    }
   }
 }

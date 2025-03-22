@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@element-plus/nuxt',
     'nuxt-svgo',
+    'nuxt-echarts',
   ],
 
   devtools: {
@@ -43,6 +44,12 @@ export default defineNuxtConfig({
 
   colorMode: {
     classSuffix: '',
+  },
+
+  routeRules: {
+    '/': {
+      redirect: '/ai-assistant',
+    },
   },
 
   future: {
@@ -81,6 +88,11 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+
+  echarts: {
+    charts: ['BarChart'],
+    components: ['DatasetComponent', 'GridComponent', 'TooltipComponent'],
   },
 
   elementPlus: {
