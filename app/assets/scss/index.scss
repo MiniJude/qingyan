@@ -52,3 +52,67 @@ a {
     }
   }
 }
+
+
+.el-dialog {
+
+  .el-dialog__header {
+    &:not(.show-close) {
+      padding-right: 0;
+    }
+
+    .el-dialog__title {
+      display: block;
+      width: 100%;
+      text-align: center;
+      color: #000;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 26.4px;
+    }
+  }
+}
+
+
+.el-form {
+  &--large {
+    .el-form-item {
+      .el-form-item__label {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.el-overlay {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+// .el-select-dropdown {
+
+//   // .is-focusable {
+//   //   .el-select-dropdown__item {
+//   //     color: #fff;
+//   //   }
+//   // }
+
+//   .el-tree-node__content {
+//     &:has(.el-select-dropdown__item.is-selected, .el-select-dropdown__item.is-hovering) {
+//       background-color: var(--el-color-primary);
+//     }
+
+//     &:hover {
+//       .el-select-dropdown__item {
+//         color: #fff;
+//       }
+//     }
+
+//     .el-select-dropdown__item {
+
+//       &.is-selected,
+//       &.is-hovering {
+//         color: #fff;
+//       }
+//     }
+//   }
+// }

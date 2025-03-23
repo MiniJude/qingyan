@@ -44,9 +44,15 @@ $menu: (
 // --el-tree-node-hover-bg-color
 $tree: (
   'node-content-height': 28px,
-  'node-hover-bg-color': var(--el-color-primary),
+  // 'node-hover-bg-color': var(--el-color-primary),
   'text-color': var(--el-text-color-primary),
   'expand-icon-color': var(--el-text-color-primary),
+);
+
+// --el-dialog-box-shadow
+$dialog: (
+  'box-shadow': 5px 5px 4px 0 rgba(0, 0, 0, 0.25),
+  'border-radius': 10px,
 );
 
 
@@ -55,6 +61,7 @@ $tree: (
   $border-color: $border-color,
   $menu: $menu,
   $tree: $tree,
+  $dialog: $dialog,
 );
 
 @use './dark.scss';

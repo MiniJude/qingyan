@@ -86,8 +86,6 @@ defineExpose({
         background-color: transparent;
 
         .custom-tree-node {
-          // background-color: var(--el-color-primary);
-          // color: white;
         }
       }
     }

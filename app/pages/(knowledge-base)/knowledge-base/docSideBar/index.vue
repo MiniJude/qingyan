@@ -12,6 +12,82 @@ const isBtnGroupShow = computed(() => {
 const allCheckedKeys = computed(() => {
   return docTreeRef.value?.data.map(item => item.checkedKeys).flat() ?? []
 })
+
+// 移动到
+const folderData = [
+  {
+    value: '1',
+    label: 'Level one 1',
+    children: [
+      {
+        value: '1-1',
+        label: 'Level two 1-1',
+        children: [
+          {
+            value: '1-1-1',
+            label: 'Level three 1-1-1',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    value: '2',
+    label: 'Level one 2',
+    children: [
+      {
+        value: '2-1',
+        label: 'Level two 2-1',
+        children: [
+          {
+            value: '2-1-1',
+            label: 'Level three 2-1-1',
+          },
+        ],
+      },
+      {
+        value: '2-2',
+        label: 'Level two 2-2',
+        children: [
+          {
+            value: '2-2-1',
+            label: 'Level three 2-2-1',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    value: '3',
+    label: 'Level one 3',
+    children: [
+      {
+        value: '3-1',
+        label: 'Level two 3-1',
+        children: [
+          {
+            value: '3-1-1',
+            label: 'Level three 3-1-1',
+          },
+        ],
+      },
+      {
+        value: '3-2',
+        label: 'Level two 3-2',
+        children: [
+          {
+            value: '3-2-1',
+            label: 'Level three 3-2-1',
+          },
+        ],
+      },
+    ],
+  },
+]
+const moveFormVisible = ref(false)
+const form = ref({
+  folderId: '',
+})
 </script>
 
 <template>
@@ -35,13 +111,39 @@ const allCheckedKeys = computed(() => {
       <el-button plain :disabled="!allCheckedKeys.length">
         创建副本
       </el-button>
-      <el-button plain :disabled="!allCheckedKeys.length">
+      <el-button plain :disabled="!allCheckedKeys.length" @click="moveFormVisible = true">
         移动到
       </el-button>
       <el-button plain :disabled="!allCheckedKeys.length">
         删除
       </el-button>
     </div>
+
+    <!-- 移动到 -->
+    <el-dialog v-model="moveFormVisible" title="移动到" width="600" :show-close="false" align-center>
+      <el-form :model="form" size="large">
+        <el-form-item label="选择文件夹" label-width="140px">
+          <el-tree-select
+            v-model="form.folderId"
+            :data="folderData"
+            :check-strictly="true"
+            :render-after-expand="false"
+            placeholder="请选择"
+            class="!w-322px"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button plain @click="moveFormVisible = false">
+            取消
+          </el-button>
+          <el-button type="primary" @click="moveFormVisible = false">
+            确定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
