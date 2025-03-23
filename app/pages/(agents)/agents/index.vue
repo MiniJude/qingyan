@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { SvgoAiDoc, SvgoAiGenerate, SvgoAiMindmap, SvgoAiMore, SvgoAiQa, SvgoAiRewrite, SvgoAiTalk } from '#components'
-import Agents from './components/agents/index.vue'
 
 const features = [
   {
@@ -42,34 +41,31 @@ const features = [
 </script>
 
 <template>
-  <div flex h-full>
-    <Agents />
-    <div flex flex-1 flex-col min-h-0>
-      <p text-24px text-tprimary font-bold line-height-32px ml-32px mt-149px>
-        hi~我是你的知识库智能体助手
-        <br>
-        我将基于选定的数据源
-        <br>
-        快速定位、提取和应用信息
-      </p>
-      <div my-40px flex-1 min-h-0 overflow-y-auto>
-        <ul class="box-container">
-          <li
-            v-for="feature in features" :key="feature.title" class="box-item" p="x-24px y-16px"
-            rounded-4px flex h-120px cursor-pointer items-center
-          >
-            <component :is="feature.icon" mr-21px text="40px primary" />
-            <div flex flex-col gap-3px>
-              <p text-16px text-black>
-                {{ feature.title }}
-              </p>
-              <p text-14px text-tsecondary style="color: #86909C;">
-                {{ feature.description }}
-              </p>
-            </div>
-          </li>
-        </ul>
-      </div>
+  <div flex flex-1 flex-col min-h-0>
+    <p text-24px text-tprimary font-bold line-height-32px ml-32px mt-149px>
+      hi~我是你的知识库智能体助手
+      <br>
+      我将基于选定的数据源
+      <br>
+      快速定位、提取和应用信息
+    </p>
+    <div my-40px flex-1 min-h-0 overflow-y-auto>
+      <ul class="box-container">
+        <li
+          v-for="feature in features" :key="feature.title" class="box-item" p="x-24px y-16px"
+          rounded-4px flex h-120px cursor-pointer items-center
+        >
+          <component :is="feature.icon" mr-21px text="40px primary" />
+          <div flex flex-col gap-3px>
+            <p text-16px text-black>
+              {{ feature.title }}
+            </p>
+            <p text-14px text-tsecondary style="color: #86909C;">
+              {{ feature.description }}
+            </p>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>

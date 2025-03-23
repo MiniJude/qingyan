@@ -12,7 +12,7 @@ const menuList = [
   {
     name: 'AI 助手',
     icon: SvgoAiChat,
-    path: '/ai-assistant',
+    path: '/agents',
   },
 ]
 

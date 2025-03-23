@@ -50,7 +50,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': {
-      redirect: '/ai-assistant',
+      redirect: '/agents',
     },
   },
 
