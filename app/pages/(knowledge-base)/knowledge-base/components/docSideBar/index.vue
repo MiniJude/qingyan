@@ -5,6 +5,11 @@ import DocTree from './docTree/index.vue'
 
 const docTreeRef = useTemplateRef<InstanceType<typeof DocTree>>('docTreeRef')
 
+// 当前路由是否是全部文档（/knowledge-base）
+const isAllDoc = computed(() => {
+  return useRoute().path === '/knowledge-base'
+})
+
 /** 是否显示底部按钮组 */
 const isBtnGroupShow = computed(() => {
   return docTreeRef.value?.data.some(item => item.showCheckbox)
@@ -97,21 +102,26 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
 
 <template>
   <div class="doc-side-bar" p="t-28px r-16px b-18px l-16px" bg-white h-full w-263px flex="~ col">
-    <el-button type="primary" class="mb-24px w-full !text-18px !px-9px !h-44px !justify-start">
-      <template #icon>
+    <!-- 顶部按钮（全部文档） -->
+    <NuxtLink to="/knowledge-base" class="mb-24px">
+      <div class="all-doc-btn" :class="{ active: isAllDoc }">
         <CircleDoc />
-      </template>
-      <span text-16px ml-8px>全部文档</span>
-    </el-button>
+        <span text-16px ml-12px>全部文档</span>
+      </div>
+    </NuxtLink>
 
+    <!-- 文档树 -->
     <div flex="~ col 1">
       <DocTree ref="docTreeRef" />
-      <div mt-40px flex gap-10px cursor-pointer items-center>
-        <SvgoTrash />
-        <span text-tprimary>回收站</span>
-      </div>
+      <NuxtLink to="/knowledge-base/trush">
+        <div mt-40px flex gap-10px cursor-pointer items-center>
+          <SvgoTrash />
+          <span text-tprimary>回收站</span>
+        </div>
+      </NuxtLink>
     </div>
 
+    <!-- 底部按钮组（移动到、创建副本、删除） -->
     <div v-if="isBtnGroupShow" class="btn-group" mt-16px flex justify-between>
       <el-button plain :disabled="!allCheckedKeys.length" @click="copyFormDialogRef?.open()">
         创建副本
@@ -124,7 +134,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
       </el-button>
     </div>
 
-    <!-- 移动到 -->
+    <!-- 弹框：移动到 -->
     <el-dialog v-model="moveFormVisible" title="移动到" width="600" :show-close="false" align-center>
       <el-form :model="moveForm" size="large">
         <el-form-item label="选择文件夹" label-width="140px" label-position="left">
@@ -149,7 +159,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
         </div>
       </template>
     </el-dialog>
-    <!-- 创建副本 -->
+    <!-- 弹框：创建副本 -->
     <CopyFormDialog ref="copyFormDialogRef" />
   </div>
 </template>
@@ -157,6 +167,27 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
 <style lang="scss" scoped>
 .doc-side-bar {
   border-right: 1px solid var(--el-border-color);
+
+  .all-doc-btn {
+    color: var(--el-color-primary);
+    border-radius: 4px;
+    background-color: white;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    font-size: 18px;
+    padding: 9px;
+    height: 44px;
+    justify-content: start;
+    border: 1px solid var(--el-color-primary);
+    cursor: pointer;
+    &.active {
+      background-color: var(--el-color-primary);
+      color: white;
+      cursor: auto;
+    }
+  }
+
   .btn-group {
     .el-button {
       margin: 0;

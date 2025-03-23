@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DocSideBar from './knowledge-base/docSideBar/index.vue'
+import DocSideBar from './knowledge-base/components/docSideBar/index.vue'
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SvgoAiDoc, SvgoAiGenerate, SvgoAiMindmap, SvgoAiMore, SvgoAiQa, SvgoAiRewrite, SvgoAiTalk } from '#components'
-import Agents from './agents/index.vue'
+import Agents from './components/agents/index.vue'
 
 const features = [
   {

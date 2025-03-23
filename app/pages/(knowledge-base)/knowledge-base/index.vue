@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import FolderIcon from '@/assets/svg/folder.svg?component'
-import Dashboard from './Dashboard.vue'
+import Dashboard from './components/Dashboard.vue'
 
 const folderList = ref([
   {

@@ -2,7 +2,7 @@
 import { localData } from '~/mock/knowledge-base'
 import PureDocTree from './docTree/Tree.vue'
 // 创建副本
-const visible = ref(true)
+const visible = ref(false)
 const form = ref({
   folderId: '',
 })

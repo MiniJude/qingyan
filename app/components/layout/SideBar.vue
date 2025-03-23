@@ -17,7 +17,9 @@ const menuList = [
 ]
 
 // 计算当前应该激活的菜单项
-const activeMenu = computed(() => route.path)
+const activeMenu = computed(() => {
+  return menuList.find(item => route.path.includes(item.path))?.path ?? ''
+})
 </script>
 
 <template>
