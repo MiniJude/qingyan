@@ -3,19 +3,17 @@ import type { ElTree } from 'element-plus'
 import ArrowRightFilled from '@/assets/svg/arrow-right-filled.svg?component'
 import Folder from '@/assets/svg/folder.svg?component'
 
-export interface TreeType {
-  label: string
-  id: string
-  children?: TreeType[]
-  level?: number
-  type?: 'folder' | 'file'
-  fileType?: FileType
+interface Props {
+  data: FileTreeType[]
+  showCheckbox: boolean
+  editable?: boolean
+  checkable?: boolean
 }
 
-const props = defineProps<{
-  data: TreeType[]
-  showCheckbox: boolean
-}>()
+const props = withDefaults(defineProps<Props>(), {
+  editable: false,
+  checkable: false,
+})
 
 const emits = defineEmits<{
   (e: 'update:showCheckbox', value: boolean): void
@@ -48,7 +46,6 @@ defineExpose({
 <template>
   <el-tree
     ref="treeRef"
-    style="max-width: 600px"
     :data="props.data"
     :icon="ArrowRightFilled"
     :show-checkbox="props.showCheckbox"
@@ -70,8 +67,8 @@ defineExpose({
 
         <span flex-1>{{ node.label }}</span>
         <div v-if="data.level === 1 && !props.showCheckbox" flex gap-5px style="color: #C9CDD4;" @click.stop>
-          <SvgoPlus />
-          <SvgoMultiSelect @click="emits('update:showCheckbox', true)" />
+          <SvgoPlus v-if="props.editable" />
+          <SvgoMultiSelect v-if="props.editable" @click="emits('update:showCheckbox', true)" />
         </div>
       </div>
     </template>

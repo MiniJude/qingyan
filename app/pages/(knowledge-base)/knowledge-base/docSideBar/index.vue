@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CircleDoc from '@/assets/svg/circle-doc.svg?skipsvgo'
+import CopyFormDialog from './CopyFormDialog.vue'
 import DocTree from './docTree/index.vue'
 
 const docTreeRef = useTemplateRef<InstanceType<typeof DocTree>>('docTreeRef')
@@ -84,10 +85,14 @@ const folderData = [
     ],
   },
 ]
+
+// 移动到
 const moveFormVisible = ref(false)
-const form = ref({
+const moveForm = ref({
   folderId: '',
 })
+
+const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('copyFormDialogRef')
 </script>
 
 <template>
@@ -108,7 +113,7 @@ const form = ref({
     </div>
 
     <div v-if="isBtnGroupShow" class="btn-group" mt-16px flex justify-between>
-      <el-button plain :disabled="!allCheckedKeys.length">
+      <el-button plain :disabled="!allCheckedKeys.length" @click="copyFormDialogRef?.open()">
         创建副本
       </el-button>
       <el-button plain :disabled="!allCheckedKeys.length" @click="moveFormVisible = true">
@@ -121,10 +126,10 @@ const form = ref({
 
     <!-- 移动到 -->
     <el-dialog v-model="moveFormVisible" title="移动到" width="600" :show-close="false" align-center>
-      <el-form :model="form" size="large">
-        <el-form-item label="选择文件夹" label-width="140px">
+      <el-form :model="moveForm" size="large">
+        <el-form-item label="选择文件夹" label-width="140px" label-position="left">
           <el-tree-select
-            v-model="form.folderId"
+            v-model="moveForm.folderId"
             :data="folderData"
             :check-strictly="true"
             :render-after-expand="false"
@@ -144,6 +149,8 @@ const form = ref({
         </div>
       </template>
     </el-dialog>
+    <!-- 创建副本 -->
+    <CopyFormDialog ref="copyFormDialogRef" />
   </div>
 </template>
 
