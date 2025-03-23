@@ -54,6 +54,10 @@ export default defineNuxtConfig({
     },
   },
 
+  devServer: {
+    port: 4000,
+  },
+
   future: {
     compatibilityVersion: 4,
   },
