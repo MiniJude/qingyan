@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FormDialog from './FormDialog.vue'
+
 interface Agent {
   name: string
   icon: string
@@ -20,11 +22,13 @@ const agents = ref<Agent[]>([
     dateTime: '昨天',
   },
 ])
+
+const formDialogRef = ref<InstanceType<typeof FormDialog>>()
 </script>
 
 <template>
   <div class="agents-container" w-322px p="t-27px r-11px b-10px l-9px">
-    <el-button type="primary" class="mb-24px w-full !text-18px !px-9px !h-44px !justify-start">
+    <el-button type="primary" class="mb-24px w-full !text-18px !px-9px !h-44px !justify-start" @click="formDialogRef?.open()">
       <template #icon>
         <SvgoCirclePlus text="white" />
       </template>
@@ -44,6 +48,7 @@ const agents = ref<Agent[]>([
         <span text-12px self-start style="color: #86909C;">{{ agent.dateTime }}</span>
       </li>
     </ul>
+    <FormDialog ref="formDialogRef" />
   </div>
 </template>
 

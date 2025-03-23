@@ -12,17 +12,17 @@ const treeData2WithUid = addUidToNodes(wechatData)
 
 const data = reactive<{
   treeData: FileTreeType[]
-  showCheckbox: boolean
+  checkboxVisible: boolean
   checkedKeys: string[]
 }[]>([
   {
     treeData: treeData1WithUid,
-    showCheckbox: false,
+    checkboxVisible: false,
     checkedKeys: [],
   },
   {
     treeData: treeData2WithUid,
-    showCheckbox: false,
+    checkboxVisible: false,
     checkedKeys: [],
   },
 ])
@@ -36,7 +36,7 @@ const treeRef = useTemplateRef<InstanceType<typeof Tree>[]>('treeRef')
 function cancelCheck(index: number) {
   if (treeRef.value) {
     treeRef.value[index]?.setCheckedKeys([])
-    data[index]!.showCheckbox = false
+    data[index]!.checkboxVisible = false
   }
 }
 
@@ -59,11 +59,11 @@ defineExpose({
 <template>
   <div flex flex-col gap-4px>
     <div v-for="(item, index) in data" :key="index">
-      <div v-if="item.showCheckbox" mb-8px flex items-center justify-between>
+      <div v-if="item.checkboxVisible" mb-8px flex items-center justify-between>
         <span>选中 {{ item.checkedKeys.length }} 项</span>
         <span i-carbon:close-large cursor-pointer @click="cancelCheck(index)" />
       </div>
-      <Tree ref="treeRef" v-model:show-checkbox="item.showCheckbox" :data="item.treeData" :editable="true" :checkable="true" @check-change="handleCheckChange($event, index)" @node-click="handleNodeClick" />
+      <Tree ref="treeRef" v-model:checkbox-visible="item.checkboxVisible" :data="item.treeData" :editable="true" :checkable="true" @check-change="handleCheckChange($event, index)" @node-click="handleNodeClick" />
     </div>
   </div>
 </template>

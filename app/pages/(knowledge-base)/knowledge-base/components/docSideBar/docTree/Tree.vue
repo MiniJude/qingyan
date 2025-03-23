@@ -5,7 +5,7 @@ import Folder from '@/assets/svg/folder.svg?component'
 
 interface Props {
   data: FileTreeType[]
-  showCheckbox: boolean
+  checkboxVisible?: boolean
   editable?: boolean
   checkable?: boolean
 }
@@ -13,10 +13,11 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   editable: false,
   checkable: false,
+  checkboxVisible: false,
 })
 
 const emits = defineEmits<{
-  (e: 'update:showCheckbox', value: boolean): void
+  (e: 'update:checkboxVisible', value: boolean): void
   (e: 'checkChange', data: string[]): void
   (e: 'nodeClick', data: FileTreeType, fileRoute: string[]): void
 }>()
@@ -55,6 +56,10 @@ function setCheckedKeys(keys: string[]) {
 defineExpose({
   setCheckedKeys,
 })
+
+onUpdated(() => {
+  console.log('treeRef.value 被更新了')
+})
 </script>
 
 <template>
@@ -62,7 +67,7 @@ defineExpose({
     ref="treeRef"
     :data="props.data"
     :icon="ArrowRightFilled"
-    :show-checkbox="props.showCheckbox"
+    :show-checkbox="props.checkboxVisible"
     :check-strictly="true"
     :expand-on-click-node="false"
     :check-on-click-leaf="false"
@@ -80,9 +85,9 @@ defineExpose({
         </template>
 
         <span flex-1>{{ node.label }}</span>
-        <div v-if="data.level === 1 && !props.showCheckbox" flex gap-5px style="color: #C9CDD4;" @click.stop>
+        <div v-if="data.level === 1 && !props.checkboxVisible" flex gap-5px style="color: #C9CDD4;" @click.stop>
           <SvgoPlus v-if="props.editable" />
-          <SvgoMultiSelect v-if="props.editable" @click="emits('update:showCheckbox', true)" />
+          <SvgoMultiSelect v-if="props.editable" @click="emits('update:checkboxVisible', true)" />
         </div>
       </div>
     </template>
