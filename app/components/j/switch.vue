@@ -96,6 +96,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .j-switch {
+  flex-shrink: 0;
   display: inline-block;
   width: fit-content;
   position: relative;

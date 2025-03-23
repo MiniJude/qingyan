@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emits = defineEmits<{
   (e: 'update:showCheckbox', value: boolean): void
   (e: 'checkChange', data: string[]): void
+  (e: 'nodeClick', data: FileTreeType, fileRoute: string[]): void
 }>()
 
 // 默认展开一级节点
@@ -26,7 +27,20 @@ onMounted(() => {
   defaultExpandedKeys.value = props.data.filter(item => item.level === 1).map(item => item.id)
 })
 
-function handleNodeClick() {}
+function handleNodeClick(data: FileTreeType, node: any) {
+  // 递归寻找node.parent.label
+  const getFileRoute = (node: any): string => {
+    const label = node.data.label
+
+    if (!node.parent || node.parent.level === 0)
+      return label
+
+    return `${getFileRoute(node.parent)}/${label}`
+  }
+  const fileRouteStr = getFileRoute(node)
+
+  emits('nodeClick', data, fileRouteStr.split('/').filter(Boolean))
+}
 
 const treeRef = useTemplateRef<InstanceType<typeof ElTree>>('treeRef')
 // 选中的节点
