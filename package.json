@@ -1,9 +1,9 @@
 {
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.6.3",
+  "packageManager": "pnpm@10.6.5",
   "scripts": {
-    "build": "nuxi build",
+    "build": "nuxi build && mkdir .output/server/node_modules/@popperjs && move .output/server/node_modules/@sxzz/popperjs-es .output/server/node_modules/@popperjs/core",
     "dev:pwa": "VITE_PLUGIN_PWA=true nuxi dev",
     "dev": "nuxi dev",
     "generate": "nuxi generate",

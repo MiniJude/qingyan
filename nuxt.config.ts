@@ -116,7 +116,7 @@ export default defineNuxtConfig({
     },
   },
 
-  pwa,
+  // pwa,
 
   svgo: {
     autoImportPath: './assets/svg/',
