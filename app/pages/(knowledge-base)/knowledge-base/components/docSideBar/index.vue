@@ -12,7 +12,7 @@ const isAllDoc = computed(() => {
 
 /** 是否显示底部按钮组 */
 const isBtnGroupShow = computed(() => {
-  return docTreeRef.value?.data.some(item => item.showCheckbox)
+  return docTreeRef.value?.data.some(item => item.checkboxVisible)
 })
 
 const allCheckedKeys = computed(() => {
