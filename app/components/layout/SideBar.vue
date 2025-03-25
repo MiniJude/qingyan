@@ -23,7 +23,7 @@ const activeMenu = computed(() => {
 </script>
 
 <template>
-  <div class="side-bar" flex flex-col w-242px>
+  <div class="side-bar bg-[#edeff3]" flex flex-col w-242px dark:bg-black>
     <!-- logo -->
     <!-- <div flex gap-2 h-69px items-center p="l-13px">
       <div i-carbon:logo-kubernetes text="primary 48px" />
@@ -58,9 +58,3 @@ const activeMenu = computed(() => {
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.side-bar {
-  background-color: #edeff3;
-}
-</style>

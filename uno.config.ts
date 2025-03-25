@@ -5,7 +5,7 @@ import {
   presetIcons,
   presetTypography,
   presetWebFonts,
-  presetWind4,
+  presetWind3,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
@@ -17,7 +17,7 @@ export default defineConfig({
     ['flex-center', 'flex items-center justify-center'],
   ],
   presets: [
-    presetWind4(),
+    presetWind3(),
     presetAttributify(),
     presetIcons({
       scale: 1.2,
@@ -60,6 +60,8 @@ export default defineConfig({
       tsecondary: 'var(--el-text-color-secondary)',
       tplaceholder: 'var(--el-text-color-placeholder)',
       tdisabled: 'var(--el-text-color-disabled)',
+
+      overlay: 'var(--el-bg-color-overlay)',
     },
   },
 })

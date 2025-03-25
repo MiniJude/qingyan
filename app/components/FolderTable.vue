@@ -51,7 +51,6 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
     <el-table
       :data="fileList"
       style="width: 100%"
-      row-class-name="file-row"
       :height="folderTableHeight > 0 ? folderTableHeight : undefined"
     >
       <el-table-column prop="fileName" label="文件名" label-class-name="text-tregular !font-normal">
@@ -92,7 +91,7 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
                   </el-dropdown-item>
                   <el-dropdown-item divided @click="handleFileAction('delete', row)">
                     <el-icon><Delete /></el-icon>
-                    <span class="text-red">删除</span>
+                    <span>删除</span>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
@@ -123,18 +122,6 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
   .file-actions {
     display: flex;
     justify-content: center;
-  }
-
-  .text-red {
-    color: #f56c6c;
-  }
-
-  :deep(.file-row) {
-    cursor: pointer;
-
-    &:hover {
-      background-color: #f5f7fa;
-    }
   }
 
   // 添加表头居中样式

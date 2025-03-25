@@ -101,7 +101,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
 </script>
 
 <template>
-  <div class="doc-side-bar" p="t-28px r-16px b-18px l-16px" bg-white h-full w-263px flex="~ col">
+  <div class="doc-side-bar" p="t-28px r-16px b-18px l-16px" h-full w-263px flex="~ col">
     <!-- 顶部按钮（全部文档） -->
     <NuxtLink to="/knowledge-base" class="mb-24px">
       <div class="all-doc-btn" :class="{ active: isAllDoc }">
@@ -171,7 +171,6 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
   .all-doc-btn {
     color: var(--el-color-primary);
     border-radius: 4px;
-    background-color: white;
     display: flex;
     width: 100%;
     align-items: center;

@@ -101,7 +101,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="dashboard-container" flex flex-col relative>
+  <div class="dashboard-container bg-[#f7f7f7] dark:bg-black" flex flex-col relative>
     <h1 text="20px tprimary" line-height="28px">
       知识雷达
     </h1>
@@ -109,7 +109,7 @@ onMounted(() => {
       2024-12
     </p>
     <el-dropdown class="outline-none right-25px top-33px !absolute">
-      <div pl-12px pr-10px rounded-6px bg-white flex h-36px w-150px shadow-gray items-center justify-between>
+      <div dark:bg-overlay pl-12px pr-10px rounded-6px bg-white flex h-36px w-150px shadow-gray items-center justify-between>
         <div rounded-2px bg-primary h-12px w-12px />
         <div ml-8px mr-auto text="14px" line-height="20px" style="color: #86909C;">
           个人上传
@@ -162,7 +162,6 @@ onMounted(() => {
   width: 65%;
   height: 416px;
   border-radius: 6px;
-  background: rgba(247, 247, 247, 1);
   box-shadow: 0px 25px 50px rgba(0, 0, 0, 0.06);
   padding: 25px;
 }

@@ -52,12 +52,12 @@ const features = [
     <div my-40px flex-1 min-h-0 overflow-y-auto>
       <ul class="box-container">
         <li
-          v-for="feature in features" :key="feature.title" class="box-item" p="x-24px y-16px"
+          v-for="feature in features" :key="feature.title" class="box-item bg-[#edeff3] dark:bg-black" p="x-24px y-16px"
           rounded-4px flex h-120px cursor-pointer items-center
         >
           <component :is="feature.icon" mr-21px text="40px primary" />
           <div flex flex-col gap-3px>
-            <p text-16px text-black>
+            <p text-16px>
               {{ feature.title }}
             </p>
             <p text-14px text-tsecondary style="color: #86909C;">
@@ -78,7 +78,6 @@ const features = [
   padding: 20px 75px 6px 32px;
 
   .box-item {
-    background-color: #edeff3;
     transition: all 0.3s ease;
     &:hover {
       transform: translateY(-6px);

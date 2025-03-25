@@ -21,7 +21,6 @@
   position: relative;
   padding: 60px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(4px);
   z-index: 1;
 }

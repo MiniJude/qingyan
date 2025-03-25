@@ -70,7 +70,7 @@ function handleSubmit() {
 
   .el-input {
     .el-input__wrapper {
-      background-color: #c9cdd4;
+      // background-color: #c9cdd4;
       padding-top: 0;
       padding-bottom: 0;
     }

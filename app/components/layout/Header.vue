@@ -14,6 +14,7 @@ const searchValue = ref('')
       </template>
     </el-input>
     <div flex gap-12px items-center>
+      <DarkToggle />
       <SvgoNotice class="icon-notice" text="24px" cursor-pointer />
       <img src="@/assets/img/avatar.png" alt="avatar" rounded-full h-36px w-36px cursor-pointer>
     </div>

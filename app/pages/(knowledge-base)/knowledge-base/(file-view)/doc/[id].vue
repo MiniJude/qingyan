@@ -57,7 +57,7 @@ const activeIndex = ref(0)
           <span ml-22px>文档助手</span>
         </el-button>
         <JSwitch v-model:active-index="activeIndex" :columns="[{ label: '内容大纲' }, { label: '批注笔记' }]" h-36px :item-width="83" />
-        <div class="note-container">
+        <div class="note-container bg-[#edeff3] dark:bg-black">
           <span v-if="activeIndex === 0">这是内容大纲</span>
           <span v-else>这是批注笔记</span>
         </div>
@@ -80,7 +80,6 @@ const activeIndex = ref(0)
 .note-container {
   height: 459px;
   border-radius: 10px;
-  background: #edeff3;
   padding: 16px;
   font-size: 14px;
 }

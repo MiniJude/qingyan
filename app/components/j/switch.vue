@@ -72,9 +72,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="j-switch">
+  <div class="j-switch bg-[#e9edf7] dark:bg-black">
     <span
       class="slider"
+
+      dark:bg-overlay bg-white
       :style="{ left: `${sliderLeft}px`, width: `${sliderWidth}px` }"
     />
     <div class="switch_items_wrapper">
@@ -100,7 +102,6 @@ onUnmounted(() => {
   display: inline-block;
   width: fit-content;
   position: relative;
-  background-color: #e9edf7;
   border-radius: 4px;
   padding: v-bind('`${PADDING}px`');
   .slider {
@@ -108,7 +109,6 @@ onUnmounted(() => {
     top: v-bind('`${PADDING}px`');
     left: v-bind('`${PADDING}px`');
     height: v-bind('`calc(100% - ${PADDING * 2}px)`');
-    background-color: #fff;
     border-radius: 4px;
     z-index: 99;
     transition: all ease 0.2s;

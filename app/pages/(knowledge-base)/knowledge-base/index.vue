@@ -72,8 +72,8 @@ const folderList = ref([
       <div text-16px text-tprimary font-bold mb-8px>
         文件夹
       </div>
-      <div p-8px class="folder-container">
-        <div v-for="item in folderList" :key="item.name" class="folder-item" p="y-20px l-20px r-11px" rounded-4px flex items-center justify-between>
+      <div p-8px class="folder-container bg-[#f7f7f7] dark:bg-black">
+        <div v-for="item in folderList" :key="item.name" class="folder-item" p="y-20px l-20px r-11px" dark:bg-overlay rounded-4px bg-white flex items-center justify-between>
           <div flex gap-13px items-center>
             <FolderIcon h-19px w-19px style="color: #FFC300;" />
             <div text-tprimary>
@@ -108,12 +108,9 @@ const folderList = ref([
   gap: 16px;
   padding: 8px;
   border-radius: 4px;
-  background-color: #edeff3;
   .folder-item {
-    background-color: #fff;
     height: 60px;
     border-radius: 4px;
-    background: #ffffff;
     border: 1px solid var(--el-border-color);
     display: flex;
   }
