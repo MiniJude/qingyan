@@ -58,40 +58,40 @@ function handleAgentAnswer() {
 
 <template>
   <div flex flex-col>
-    <div class="agent-header" pl-37px pr-53px flex h-80px items-center justify-between>
-      <div flex gap-8px items-center>
+    <div class="agent-header" h-80px flex items-center justify-between pl-37px pr-53px>
+      <div flex items-center gap-8px>
         <img width="48" src="@/assets/img/logo-icon.png" alt="">
         <span text-20px text-tprimary>知识库问答助手</span>
       </div>
-      <div text-20px flex gap-20px items-center style="color: #4E5969;">
+      <div flex items-center gap-20px text-20px style="color: #4E5969;">
         <SvgoNotice cursor-pointer />
         <SvgoClear cursor-pointer />
         <SvgoInfo cursor-pointer />
       </div>
     </div>
 
-    <div class="agent-content" flex flex-1 flex-col min-h-0 items-center>
-      <div style="color: #86909C;" text-14px mt-43px flex gap-17px items-center justify-center>
+    <div class="agent-content" min-h-0 flex flex-1 flex-col items-center>
+      <div style="color: #86909C;" mt-43px flex items-center justify-center gap-17px text-14px>
         <span>2025-01-10</span>
         <el-icon class="cursor-pointer">
           <ArrowDown />
         </el-icon>
       </div>
-      <div flex flex-1 flex-col gap-24px min-h-0 w-1060px overflow-y-auto>
+      <div min-h-0 w-1060px flex flex-1 flex-col gap-24px overflow-y-auto>
         <!-- 这里是对话记录 -->
-        <div pt-23px flex flex-1 flex-col gap-16px min-h-0 overflow-y-auto>
+        <div min-h-0 flex flex-1 flex-col gap-16px overflow-y-auto pt-23px>
           <template v-for="(msg, index) in messages" :key="index">
             <!-- 用户对话框 -->
-            <div v-if="msg.role === 'user'" flex flex-row-reverse gap-20px w-full items-start>
+            <div v-if="msg.role === 'user'" w-full flex flex-row-reverse items-start gap-20px>
               <img width="40" src="@/assets/img/avatar.png" alt="">
-              <div class="msg-box" text-right>
+              <div class="msg-box bg-white dark:bg-black" text-right>
                 {{ msg.content }}
               </div>
             </div>
             <!-- 智能体对话框 -->
-            <div v-else flex gap-20px w-full items-start>
+            <div v-else w-full flex items-start gap-20px>
               <img width="40" src="@/assets/img/logo-icon.png" alt="">
-              <div class="msg-box">
+              <div class="msg-box bg-white dark:bg-black">
                 {{ msg.content }}
               </div>
             </div>
@@ -99,7 +99,7 @@ function handleAgentAnswer() {
         </div>
 
         <!-- 在这里输入 -->
-        <div flex h-54px items-center>
+        <div h-54px flex items-center>
           <el-input v-model="input" class="h-full" placeholder="请输入内容" />
           <el-button type="primary" size="large" class="w-192px !h-full" @click="handleSend">
             发送
@@ -121,7 +121,6 @@ function handleAgentAnswer() {
 
 .msg-box {
   border-radius: 4px;
-  background: #ffffff;
   box-shadow: 14px 27px 45px 4px rgba(102, 81, 240, 0.08);
   padding: 20px;
   width: 940px;

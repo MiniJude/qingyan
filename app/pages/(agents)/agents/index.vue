@@ -41,19 +41,19 @@ const features = [
 </script>
 
 <template>
-  <div flex flex-1 flex-col min-h-0>
-    <p text-24px text-tprimary font-bold line-height-32px ml-32px mt-149px>
+  <div min-h-0 flex flex-1 flex-col>
+    <p ml-32px mt-149px text-24px text-tprimary font-bold line-height-32px>
       hi~我是你的知识库智能体助手
       <br>
       我将基于选定的数据源
       <br>
       快速定位、提取和应用信息
     </p>
-    <div my-40px flex-1 min-h-0 overflow-y-auto>
+    <div my-40px min-h-0 flex-1 overflow-y-auto>
       <ul class="box-container">
         <li
           v-for="feature in features" :key="feature.title" class="box-item bg-[#edeff3] dark:bg-black" p="x-24px y-16px"
-          rounded-4px flex h-120px cursor-pointer items-center
+          h-120px flex cursor-pointer items-center rounded-4px
         >
           <component :is="feature.icon" mr-21px text="40px primary" />
           <div flex flex-col gap-3px>
