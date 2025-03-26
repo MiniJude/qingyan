@@ -1,22 +1,24 @@
 <script lang="ts" setup>
 const searchValue = ref('')
+
+const { currentMenu } = useMenu()
 </script>
 
 <template>
-  <div class="header" p="l-24px r-53px" flex h-64px items-center justify-between>
+  <div class="header" p="l-24px r-53px" h-64px flex items-center justify-between>
     <div flex items-center>
-      <div i-carbon:ai-label text-primary h-30px w-30px />
-      <span ml-8px>AI 助手</span>
+      <component :is="currentMenu?.iconUrl" h-30px w-30px text-primary />
+      <span ml-8px>{{ currentMenu?.name }}</span>
     </div>
-    <el-input v-model="searchValue" class="search-input ml-auto mr-100px h-36px !rounded-50px !w-260px">
+    <el-input v-model="searchValue" class="search-input ml-auto mr-100px h-36px !w-260px !rounded-50px">
       <template #prefix>
         <SvgoSearch text="20px primary" />
       </template>
     </el-input>
-    <div flex gap-12px items-center>
+    <div flex items-center gap-12px>
       <DarkToggle />
       <SvgoNotice class="icon-notice" text="24px" cursor-pointer />
-      <img src="@/assets/img/avatar.png" alt="avatar" rounded-full h-36px w-36px cursor-pointer>
+      <img src="@/assets/img/avatar.png" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
     </div>
   </div>
 </template>

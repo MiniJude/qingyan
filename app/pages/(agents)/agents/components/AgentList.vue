@@ -38,11 +38,11 @@ const formDialogRef = ref<InstanceType<typeof FormDialog>>()
 
 <template>
   <div class="agents-container" w-322px p="t-27px r-11px b-10px l-9px">
-    <el-button type="primary" class="mb-24px w-full !text-18px !px-9px !h-44px !justify-start" @click="formDialogRef?.open()">
+    <el-button type="primary" class="mb-24px w-full !h-44px !justify-start !px-9px !text-18px" @click="formDialogRef?.open()">
       <template #icon>
         <SvgoCirclePlus text="white" />
       </template>
-      <span text-16px ml-8px>新建</span>
+      <span ml-8px text-16px>新建</span>
     </el-button>
     <ul>
       <NuxtLink v-for="agent in agents" :key="agent.name" :to="agent.path">
@@ -50,15 +50,14 @@ const formDialogRef = ref<InstanceType<typeof FormDialog>>()
           class="agent-item dark:hover:bg-[#1d1e1f]"
           :class="{ 'is-active': activeAgentPath === agent.path }"
           p="l-21px r-14px y-25px"
-          rounded-4px flex h-117px cursor-pointer items-center hover:bg-gray-100
+          h-117px flex cursor-pointer items-center rounded-4px hover:bg-gray-100
         >
-          <!-- <img :src="agent.icon" alt="agent icon"> -->
-          <div i-carbon:logo-kubernetes text="primary 48px" />
-          <div ml-18px mr-24px flex flex-1 flex-col gap-7px h-full self-start>
-            <span line-height-20px line-clamp-1 class="text-[#323E4A] dark:text-white">{{ agent.name }}</span>
-            <span text-14px text-tregular line-height-20px flex-1 min-h-0px line-clamp-2>{{ agent.description }}</span>
+          <img src="@/assets/img/logo-icon.png" alt="" h-48px w-48px>
+          <div ml-18px mr-24px h-full flex flex-1 flex-col self-start gap-7px>
+            <span line-clamp-1 line-height-20px class="text-[#323E4A] dark:text-white">{{ agent.name }}</span>
+            <span line-clamp-2 min-h-0px flex-1 text-14px text-tregular line-height-20px>{{ agent.description }}</span>
           </div>
-          <span text-12px self-start style="color: #86909C;">{{ agent.dateTime }}</span>
+          <span self-start text-12px style="color: #86909C;">{{ agent.dateTime }}</span>
         </li>
       </NuxtLink>
     </ul>

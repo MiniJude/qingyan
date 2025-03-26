@@ -1,6 +1,6 @@
 import type { ModuleOptions } from '@vite-pwa/nuxt'
 import process from 'node:process'
-import { appDescription, appName } from '../constants/index'
+import { APP_DESC, APP_NAME } from '../constants/index'
 
 const scope = '/'
 
@@ -11,9 +11,9 @@ export const pwa: ModuleOptions = {
   manifest: {
     id: scope,
     scope,
-    name: appName,
-    short_name: appName,
-    description: appDescription,
+    name: APP_NAME,
+    short_name: APP_NAME,
+    description: APP_DESC,
     theme_color: '#ffffff',
     icons: [
       {
