@@ -48,6 +48,13 @@ export default defineNuxtConfig({
     classSuffix: '',
   },
 
+  runtimeConfig: {
+    public: {
+      // eslint-disable-next-line node/prefer-global/process
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:4001',
+    },
+  },
+
   routeRules: {
     '/': {
       redirect: '/agents',

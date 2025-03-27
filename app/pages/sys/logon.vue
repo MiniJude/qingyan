@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
 import { User } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
+import { emailRules, passwordRules } from '~/utils/validate'
 
 definePageMeta({
   layout: 'sys',
@@ -9,17 +11,13 @@ definePageMeta({
 })
 
 const form = ref({
-  account: '',
+  email: '',
   password: '',
 })
 
 const rules = ref({
-  account: [
-    { message: '请输入登录账户', trigger: 'blur' },
-  ],
-  password: [
-    { message: '请输入登录密码', trigger: 'blur' },
-  ],
+  email: emailRules,
+  password: passwordRules,
 })
 
 const formRef = ref<FormInstance>()
@@ -27,7 +25,13 @@ const formRef = ref<FormInstance>()
 function handleSubmit() {
   formRef.value?.validate((valid) => {
     if (valid) {
-      console.log('submit!')
+      $fetch('/auth/signin', {
+        method: 'POST',
+        body: form.value,
+        baseURL: 'http://localhost:4001',
+      }).then(() => {
+        ElMessage.success('登录成功')
+      })
     }
   })
 }
@@ -37,7 +41,7 @@ function handleSubmit() {
   <div p="r-60px" flex="~ gap-5px" w-650px items-center>
     <div flex="~ col items-center" w-265px>
       <img src="@/assets/img/qrcode.png" alt="wechat" w-145px>
-      <div mt-15px pl-7px flex w-145px items-center>
+      <div mt-15px w-145px flex items-center pl-7px>
         <img src="@/assets/img/wechat.png" alt="wechat" w-21px>
         <span text="12px tprimary" ml-27px>清研智库</span>
       </div>
@@ -46,11 +50,11 @@ function handleSubmit() {
       </p>
     </div>
     <el-form
-      ref="formRef" class="pb-40px pt-83px w-320px" :model="form" :rules="rules" label-width="100px"
+      ref="formRef" class="w-320px pb-40px pt-83px" :model="form" :rules="rules" label-width="100px"
       label-position="top"
     >
-      <el-form-item label="账号" prop="account">
-        <el-input v-model="form.account" autocomplete="off">
+      <el-form-item label="账号" prop="email">
+        <el-input v-model="form.email" autocomplete="off">
           <template #suffix>
             <el-icon>
               <User />
@@ -61,19 +65,17 @@ function handleSubmit() {
       <el-form-item label="密码" prop="password">
         <el-input v-model="form.password" type="password" show-password />
       </el-form-item>
-      <p text="12px tprimary" text-right opacity-90 cursor-pointer>
+      <p text="12px tprimary" cursor-pointer text-right opacity-90>
         忘记密码
       </p>
       <el-form-item class="!mb-0 !mt-30px">
-        <el-button type="primary" class="mx-auto block !h-40px !w-102px">
+        <el-button type="primary" class="mx-auto block !h-40px !w-102px" @click="handleSubmit">
           下一步
         </el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
-
-<style></style>
 
 <style lang="scss" scoped>
 :deep(.el-input) {
