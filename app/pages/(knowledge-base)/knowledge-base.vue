@@ -5,7 +5,7 @@ import DocSideBar from './knowledge-base/components/docSideBar/index.vue'
 <template>
   <div flex="~" h-full>
     <DocSideBar />
-    <div flex-1 min-h-0>
+    <div min-w-0 flex-1>
       <!-- 使用NuxtPage作为嵌套路由出口 -->
       <NuxtPage />
     </div>
