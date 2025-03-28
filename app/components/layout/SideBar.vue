@@ -4,6 +4,8 @@ import { SvgoAiChat, SvgoFolder2 } from '#components'
 const route = useRoute()
 const { t } = useI18n()
 
+const localePath = useLocalePath()
+
 // 改为计算属性，依赖 locale 变化自动更新
 const menuList = computed(() => [
   {
@@ -45,7 +47,7 @@ const activeMenu = computed(() => {
       </div>
 
       <el-menu flex-1 pt-19px !b-0 :default-active="activeMenu">
-        <NuxtLink v-for="item in menuList" :key="item.path" :to="item.path">
+        <NuxtLink v-for="item in menuList" :key="item.path" :to="localePath(item.path)">
           <el-menu-item :index="item.path">
             <component :is="item.icon" text="20px" />
             <span ml-30px>
