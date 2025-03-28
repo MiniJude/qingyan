@@ -1,4 +1,3 @@
-import { pwa } from './app/config/pwa'
 import { APP_DESC } from './app/constants/index'
 
 export default defineNuxtConfig({
@@ -13,6 +12,7 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     'nuxt-svgo',
     'nuxt-echarts',
+    '@nuxtjs/i18n',
   ],
 
   devtools: {
@@ -123,7 +123,20 @@ export default defineNuxtConfig({
     },
   },
 
-  // pwa,
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en.json',
+      },
+      {
+        code: 'zh-CN',
+        file: 'zh-CN.json',
+      },
+    ],
+    lazy: true,
+    defaultLocale: 'zh-CN',
+  },
 
   svgo: {
     autoImportPath: './assets/svg/',

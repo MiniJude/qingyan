@@ -2,6 +2,11 @@
 const searchValue = ref('')
 
 const { currentMenu } = useMenu()
+const { locale, setLocale } = useI18n()
+
+function toggleLanguage() {
+  setLocale(locale.value === 'en' ? 'zh-CN' : 'en')
+}
 </script>
 
 <template>
@@ -16,6 +21,9 @@ const { currentMenu } = useMenu()
       </template>
     </el-input>
     <div flex items-center gap-12px>
+      <el-button w-32px type="text" @click="toggleLanguage">
+        {{ locale === 'en' ? '中' : 'EN' }}
+      </el-button>
       <DarkToggle />
       <SvgoNotice class="icon-notice" text="24px" cursor-pointer />
       <img src="@/assets/img/avatar.png" alt="avatar" h-36px w-36px cursor-pointer rounded-full>

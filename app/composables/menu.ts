@@ -8,12 +8,12 @@ export function useMenu() {
     {
       name: '知识库',
       path: '/knowledge-base',
-      iconUrl: BookIcon,
+      iconUrl: shallowRef(BookIcon),
     },
     {
       name: 'AI助手',
       path: '/agents',
-      iconUrl: Ai2Icon,
+      iconUrl: shallowRef(Ai2Icon),
     },
   ])
 
