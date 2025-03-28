@@ -3,28 +3,29 @@ import { useRoute } from 'nuxt/app'
 import FormDialog from './AgentForm.vue'
 
 const route = useRoute()
+const localePath = useLocalePath()
 
 interface Agent {
   name: string
   icon: string
   description: string
   dateTime: string
-  path: string
+  path: any
 }
 
 const agents = ref<Agent[]>([
   {
-    name: '知识库问答助手',
+    name: useNuxtApp().$i18n.t('agents.kb_qa_assistant.name'),
     icon: '',
-    description: 'hi~ 我是你的知识库问答助手，有关知识库的问题都可以问我哦~',
-    dateTime: '今天',
+    description: useNuxtApp().$i18n.t('agents.kb_qa_assistant.description'),
+    dateTime: useNuxtApp().$i18n.t('agents.kb_qa_assistant.today'),
     path: '/agents/qa',
   },
   {
-    name: 'AI文档助手',
+    name: useNuxtApp().$i18n.t('agents.doc_assistant.name'),
     icon: '',
-    description: 'hi~ 我是你基于多文档生成的私有大模型智能体，有关文档的问题都可以问我哦~',
-    dateTime: '昨天',
+    description: useNuxtApp().$i18n.t('agents.doc_assistant.description'),
+    dateTime: useNuxtApp().$i18n.t('agents.doc_assistant.yesterday'),
     path: '/agents/doc',
   },
 ])
@@ -42,10 +43,10 @@ const formDialogRef = ref<InstanceType<typeof FormDialog>>()
       <template #icon>
         <SvgoCirclePlus text="white" />
       </template>
-      <span ml-8px text-16px>新建</span>
+      <span ml-8px text-16px>{{ $t('agents.create_new') }}</span>
     </el-button>
     <ul>
-      <NuxtLink v-for="agent in agents" :key="agent.name" :to="agent.path">
+      <NuxtLink v-for="agent in agents" :key="agent.name" :to="localePath(agent.path)">
         <li
           class="agent-item dark:hover:bg-[#1d1e1f]"
           :class="{ 'is-active': activeAgentPath === agent.path }"

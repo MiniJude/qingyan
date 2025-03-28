@@ -1,9 +1,9 @@
 <template>
-  <main flex h-full w-full>
+  <main h-full w-full flex>
     <LayoutSideBar />
-    <div flex flex-1 flex-col min-w-0>
+    <div min-w-0 flex flex-1 flex-col>
       <LayoutHeader />
-      <div flex-1 min-h-0>
+      <div min-h-0 flex-1>
         <slot />
       </div>
     </div>

@@ -1,8 +1,184 @@
 {
-  "greeting": "Hello",
-  "welcome_message": "Welcome to our website!",
-  "contact_us": "Contact Us",
-  "about_us": "About Us",
-  "thank_you": "Thank you for visiting!",
-  "welcome": "Welcome"
+  "login": {
+    "title": "Login Account",
+    "email": "Email",
+    "password": "Password",
+    "forgot_password": "Forgot Password",
+    "next_step": "Next",
+    "success": "Login successful",
+    "wechat_title": "Qingyan Think Tank",
+    "wechat_desc": "Get the latest news and exciting activities",
+    "phone": {
+      "title": "Enter Phone Number",
+      "phone": "Phone Number",
+      "code": "Verification Code",
+      "get_code": "Get Code",
+      "finish": "Finish",
+      "phone_required": "Please enter your phone number",
+      "code_required": "Please enter verification code"
+    }
+  },
+  "sidebar": {
+    "knowledge_base": "Knowledge Base",
+    "ai_assistant": "AI Assistant",
+    "personal_space": "Personal Space",
+    "digital_space": "Digital Space"
+  },
+  "storage": {
+    "capacity": "Capacity",
+    "settings": "Settings",
+    "expand": "Expand"
+  },
+  "knowledge_base": {
+    "all_documents": "All Documents",
+    "trash": "Trash",
+    "create_copy": "Copy",
+    "move_to": "Move",
+    "delete": "Delete",
+    "select_folder": "Select Folder",
+    "please_select": "Please Select",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "copy_dialog": {
+      "title": "Create Copy",
+      "select_kb": "Select Knowledge Base",
+      "please_select": "Please Select",
+      "personal_kb": "Personal Knowledge Base",
+      "team_kb": "Team Knowledge Base",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "index": {
+      "template_library": "Template Library",
+      "auto_classify": "Auto Classify",
+      "upload": "Upload",
+      "create_new": "Create New",
+      "document": "Document",
+      "spreadsheet": "Spreadsheet",
+      "image": "Image",
+      "folder": "Folder",
+      "folders": "Folders",
+      "knowledge_space": "Knowledge Space",
+      "my_personal": "Personal",
+      "shared_with_me": "Shared",
+      "uncategorized": "Uncategorized"
+    },
+    "dashboard": {
+      "knowledge_radar": "Knowledge Radar",
+      "personal_upload": "Personal",
+      "team_upload": "Team",
+      "compared_to_last_month": "New Documents Compared to Last Month",
+      "read": "Read",
+      "downloaded": "Downloaded",
+      "uploaded": "Uploaded"
+    },
+    "folder_table": {
+      "file_name": "File Name",
+      "owner": "Owner",
+      "last_update": "Last Updated",
+      "edit": "Edit",
+      "download": "Download",
+      "delete": "Delete"
+    },
+    "doc_view": {
+      "last_modified": "Last modified: {date}",
+      "edit": "Edit",
+      "download": "Download",
+      "share": "Share",
+      "copy_link": "Copy Link",
+      "generate_qrcode": "Generate QR Code",
+      "document_assistant": "Assistant",
+      "content_outline": "Outline",
+      "notes": "Notes",
+      "content_placeholder": "This is the content",
+      "outline_placeholder": "This is the outline",
+      "notes_placeholder": "These are the notes"
+    }
+  },
+  "common": {
+    "coming_soon": {
+      "title": "Feature in Development",
+      "description": "Coming soon!",
+      "back_home": "Back to Home"
+    }
+  },
+  "agents": {
+    "create_new": "Create New",
+    "kb_qa_assistant": {
+      "name": "Knowledge Base QA Assistant",
+      "description": "Hi~ I am your knowledge base Q&A assistant. You can ask me questions about the knowledge base!",
+      "today": "Today"
+    },
+    "doc_assistant": {
+      "name": "AI Document Assistant",
+      "description": "Hi~ I am your private large model agent based on multiple documents. You can ask me questions about documents!",
+      "yesterday": "Yesterday"
+    },
+    "form": {
+      "step1_title": "Configure AI Assistant",
+      "step2_title": "Select Data Source Range",
+      "enter_name": "Enter name",
+      "select_data_source": "Select Template Data Source",
+      "data_source_options": {
+        "current_space": "Current Space Data",
+        "llm_native": "LLM Native Data"
+      },
+      "knowledge_base": "Knowledge Base",
+      "selected_items": "{count} Items Selected",
+      "prev_step": "Previous",
+      "create": "Create"
+    },
+    "doc": {
+      "create_new_doc": "Create AI Document",
+      "ai_documents": "AI Documents",
+      "formats": {
+        "ppt": "PPT",
+        "word": "Word",
+        "excel": "Excel"
+      }
+    },
+    "index": {
+      "welcome_message": "Hi~ I am your knowledge base intelligent assistant\nI will quickly locate, extract and apply information\nbased on the selected data sources",
+      "features": {
+        "chat": {
+          "title": "Intelligent Chat",
+          "description": "Smart conversation understanding, efficient information delivery"
+        },
+        "doc": {
+          "title": "AI Documents",
+          "description": "Efficiently organize content, precisely match needs"
+        },
+        "mindmap": {
+          "title": "Mind Mapping",
+          "description": "Clear logical organization, efficient thought presentation"
+        },
+        "rewrite": {
+          "title": "Paper Rewriting",
+          "description": "Professional personalized transformation of articles"
+        },
+        "generate": {
+          "title": "Content Generator",
+          "description": "One-click efficient content generation with media standards"
+        },
+        "qa": {
+          "title": "Problem Solving",
+          "description": "Image analysis, precise answering"
+        },
+        "more": {
+          "title": "More Features",
+          "description": "Coming soon, stay tuned~"
+        }
+      }
+    },
+    "qa": {
+      "welcome_message": "Hi~ I am your knowledge base Q&A assistant. You can ask me any questions about the knowledge base!",
+      "sample_question": "Please introduce the advantages of artificial intelligence",
+      "sample_answer": "Artificial Intelligence (AI) has many advantages:\n1. Automated processing: can process large amounts of data and perform repetitive tasks, saving time and manpower\n2. Decision support: can analyze large amounts of data to identify patterns and make accurate decisions\n3. Improved accuracy: shows high precision in tasks such as image recognition and natural language processing\n4. 24/7 operation: works tirelessly continuously, suitable for manufacturing, monitoring and other scenarios",
+      "input_required": "Please enter content",
+      "busy_message": "Server is busy, please try again later!",
+      "date": "2025-01-10",
+      "input_placeholder": "Enter your message",
+      "send": "Send"
+    }
+  }
 }

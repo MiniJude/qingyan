@@ -53,7 +53,7 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
       style="width: 100%"
       :height="folderTableHeight > 0 ? folderTableHeight : undefined"
     >
-      <el-table-column prop="fileName" label="文件名" label-class-name="text-tregular !font-normal">
+      <el-table-column prop="fileName" :label="$t('knowledge_base.folder_table.file_name')" label-class-name="text-tregular !font-normal">
         <template #default="{ row }">
           <div class="file-name-cell">
             <FileIcon :file-type="row.fileType" :size="20" />
@@ -62,13 +62,13 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
         </template>
       </el-table-column>
 
-      <el-table-column prop="owner" label="所有者" label-class-name="text-tregular !font-normal">
+      <el-table-column prop="owner" :label="$t('knowledge_base.folder_table.owner')" label-class-name="text-tregular !font-normal">
         <template #default="{ row }">
           <span text-tregular>{{ row.owner }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column prop="updateTime" label-class-name="text-tregular !font-normal" label="最近更新" width="220">
+      <el-table-column prop="updateTime" label-class-name="text-tregular !font-normal" :label="$t('knowledge_base.folder_table.last_update')" width="220">
         <template #default="{ row }">
           <span text-tregular>{{ row.updateTime }}</span>
         </template>
@@ -83,15 +83,15 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
                 <el-dropdown-menu>
                   <el-dropdown-item @click="handleFileAction('edit', row)">
                     <el-icon><Edit /></el-icon>
-                    <span>编辑</span>
+                    <span>{{ $t('knowledge_base.folder_table.edit') }}</span>
                   </el-dropdown-item>
                   <el-dropdown-item @click="handleFileAction('download', row)">
                     <el-icon><Download /></el-icon>
-                    <span>下载</span>
+                    <span>{{ $t('knowledge_base.folder_table.download') }}</span>
                   </el-dropdown-item>
                   <el-dropdown-item divided @click="handleFileAction('delete', row)">
                     <el-icon><Delete /></el-icon>
-                    <span>删除</span>
+                    <span>{{ $t('knowledge_base.folder_table.delete') }}</span>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </template>

@@ -1,8 +1,184 @@
 {
-  "greeting": "你好",
-  "welcome_message": "欢迎来到我们的网站！",
-  "contact_us": "联系我们",
-  "about_us": "关于我们",
-  "thank_you": "感谢您的访问！",
-  "welcome": "欢迎"
+  "login": {
+    "title": "登录账户",
+    "email": "账号",
+    "password": "密码",
+    "forgot_password": "忘记密码",
+    "next_step": "下一步",
+    "success": "登录成功",
+    "wechat_title": "清研智库",
+    "wechat_desc": "获取最新资讯动态和精彩活动",
+    "phone": {
+      "title": "输入手机号",
+      "phone": "手机号",
+      "code": "验证码",
+      "get_code": "获取验证码",
+      "finish": "完成",
+      "phone_required": "请输入手机号",
+      "code_required": "请输入验证码"
+    }
+  },
+  "sidebar": {
+    "knowledge_base": "知识库",
+    "ai_assistant": "AI 助手",
+    "personal_space": "个人空间",
+    "digital_space": "数智空间"
+  },
+  "storage": {
+    "capacity": "空间容量",
+    "settings": "设置",
+    "expand": "扩容"
+  },
+  "knowledge_base": {
+    "all_documents": "全部文档",
+    "trash": "回收站",
+    "create_copy": "创建副本",
+    "move_to": "移动到",
+    "delete": "删除",
+    "select_folder": "选择文件夹",
+    "please_select": "请选择",
+    "cancel": "取消",
+    "confirm": "确定",
+    "copy_dialog": {
+      "title": "创建副本",
+      "select_kb": "选择知识库",
+      "please_select": "请选择",
+      "personal_kb": "个人知识库",
+      "team_kb": "团队知识库",
+      "cancel": "取消",
+      "confirm": "确认"
+    },
+    "index": {
+      "template_library": "模板库",
+      "auto_classify": "自动分类",
+      "upload": "上传",
+      "create_new": "新建",
+      "document": "文档",
+      "spreadsheet": "表格",
+      "image": "图片",
+      "folder": "文件夹",
+      "folders": "文件夹",
+      "knowledge_space": "知识空间",
+      "my_personal": "我个人的",
+      "shared_with_me": "邀请协作的",
+      "uncategorized": "未分类"
+    },
+    "dashboard": {
+      "knowledge_radar": "知识雷达",
+      "personal_upload": "个人上传",
+      "team_upload": "团队上传",
+      "compared_to_last_month": "新增文档对比上月",
+      "read": "已阅读",
+      "downloaded": "已下载",
+      "uploaded": "共上传"
+    },
+    "folder_table": {
+      "file_name": "文件名",
+      "owner": "所有者",
+      "last_update": "最近更新",
+      "edit": "编辑",
+      "download": "下载",
+      "delete": "删除"
+    },
+    "doc_view": {
+      "last_modified": "最近修改：{date}",
+      "edit": "编辑",
+      "download": "下载",
+      "share": "分享",
+      "copy_link": "复制链接",
+      "generate_qrcode": "生成二维码",
+      "document_assistant": "文档助手",
+      "content_outline": "内容大纲",
+      "notes": "批注笔记",
+      "content_placeholder": "这是正文",
+      "outline_placeholder": "这是内容大纲",
+      "notes_placeholder": "这是批注笔记"
+    }
+  },
+  "common": {
+    "coming_soon": {
+      "title": "功能开发中",
+      "description": "敬请期待~",
+      "back_home": "返回首页"
+    }
+  },
+  "agents": {
+    "create_new": "新建",
+    "kb_qa_assistant": {
+      "name": "知识库问答助手",
+      "description": "hi~ 我是你的知识库问答助手，有关知识库的问题都可以问我哦~",
+      "today": "今天"
+    },
+    "doc_assistant": {
+      "name": "AI文档助手",
+      "description": "hi~ 我是你基于多文档生成的私有大模型智能体，有关文档的问题都可以问我哦~",
+      "yesterday": "昨天"
+    },
+    "form": {
+      "step1_title": "配置智能助手",
+      "step2_title": "选择数据源范围",
+      "enter_name": "请输入",
+      "select_data_source": "选择模板数据源",
+      "data_source_options": {
+        "current_space": "基于当前空间数据",
+        "llm_native": "大模型原生数据"
+      },
+      "knowledge_base": "知识库",
+      "selected_items": "已选{count}项目",
+      "prev_step": "上一步",
+      "create": "创建"
+    },
+    "doc": {
+      "create_new_doc": "新建AI文档",
+      "ai_documents": "AI文档",
+      "formats": {
+        "ppt": "ppt",
+        "word": "word",
+        "excel": "excel"
+      }
+    },
+    "index": {
+      "welcome_message": "hi~我是你的知识库智能体助手\n我将基于选定的数据源\n快速定位、提取和应用信息",
+      "features": {
+        "chat": {
+          "title": "智能对话",
+          "description": "智能理解对话，高效提供信息"
+        },
+        "doc": {
+          "title": "AI文档",
+          "description": "高效梳理内容，精准匹配需求"
+        },
+        "mindmap": {
+          "title": "思维导图",
+          "description": "清晰梳理逻辑，高效呈现思维"
+        },
+        "rewrite": {
+          "title": "论文改写",
+          "description": "专业致力于文章的个性化重塑"
+        },
+        "generate": {
+          "title": "文案生成器",
+          "description": "一键生成高效文案，拥有自媒体素涵"
+        },
+        "qa": {
+          "title": "解题答疑",
+          "description": "传图解析，精准答疑"
+        },
+        "more": {
+          "title": "更多功能",
+          "description": "陆续上线中，敬请期待~"
+        }
+      }
+    },
+    "qa": {
+      "welcome_message": "hi~ 我是你的知识库问答助手，有关知识库的问题都可以问我哦~",
+      "sample_question": "请介绍一下人工智能的优势",
+      "sample_answer": "人工智能(AI)具有许多优势:\n1. 自动化处理:可以处理大量数据和执行重复任务,节省时间和人力\n2. 决策支持:能分析大量数据识别模式,做出准确决策\n3. 提高准确性:在图像识别、自然语言处理等任务中表现出高精度\n4. 24/7工作:不知疲倦地持续工作,适合制造、监控等场景",
+      "input_required": "请输入内容",
+      "busy_message": "服务器繁忙，请稍后再试！",
+      "date": "2025-01-10",
+      "input_placeholder": "请输入内容",
+      "send": "发送"
+    }
+  }
 }

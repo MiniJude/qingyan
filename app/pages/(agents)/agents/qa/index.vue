@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ArrowDown } from '@element-plus/icons-vue'
 
+const { t } = useI18n()
+
 const input = ref('')
 
 // 对话记录列表
@@ -30,7 +32,7 @@ const messages = ref<Message[]>([
 
 function handleSend() {
   if (!input.value) {
-    ElMessage.warning('请输入内容')
+    ElMessage.warning(t('agents.qa.input_placeholder'))
     return
   }
 
@@ -61,7 +63,7 @@ function handleAgentAnswer() {
     <div class="agent-header" h-80px flex items-center justify-between pl-37px pr-53px>
       <div flex items-center gap-8px>
         <img width="48" src="@/assets/img/logo-icon.png" alt="">
-        <span text-20px text-tprimary>知识库问答助手</span>
+        <span text-20px text-tprimary>{{ $t('agents.kb_qa_assistant.name') }}</span>
       </div>
       <div flex items-center gap-20px text-20px style="color: #4E5969;">
         <SvgoNotice cursor-pointer />
@@ -72,7 +74,7 @@ function handleAgentAnswer() {
 
     <div class="agent-content" min-h-0 flex flex-1 flex-col items-center>
       <div style="color: #86909C;" mt-43px flex items-center justify-center gap-17px text-14px>
-        <span>2025-01-10</span>
+        <span>{{ $t('agents.qa.date') }}</span>
         <el-icon class="cursor-pointer">
           <ArrowDown />
         </el-icon>
@@ -100,9 +102,9 @@ function handleAgentAnswer() {
 
         <!-- 在这里输入 -->
         <div h-54px flex items-center>
-          <el-input v-model="input" class="h-full" placeholder="请输入内容" />
+          <el-input v-model="input" class="h-full" :placeholder="$t('agents.qa.input_placeholder')" />
           <el-button type="primary" size="large" class="w-192px !h-full" @click="handleSend">
-            发送
+            {{ $t('agents.qa.send') }}
           </el-button>
         </div>
       </div>

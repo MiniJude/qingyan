@@ -3,7 +3,7 @@ import AgentList from './agents/components/AgentList.vue'
 </script>
 
 <template>
-  <div flex h-full>
+  <div h-full flex>
     <AgentList class="flex-shrink-0" />
     <NuxtPage class="flex-1" />
   </div>

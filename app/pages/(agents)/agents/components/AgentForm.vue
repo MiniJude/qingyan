@@ -14,8 +14,8 @@ const currentStep = ref(1)
 
 // 数据源选项
 const dataSourceOptions = [
-  { label: '基于当前空间数据', value: 0 },
-  { label: '大模型原生数据', value: 1 },
+  { label: useNuxtApp().$i18n.t('agents.form.data_source_options.current_space'), value: 0 },
+  { label: useNuxtApp().$i18n.t('agents.form.data_source_options.llm_native'), value: 1 },
 ]
 
 // 处理步骤导航
@@ -56,7 +56,10 @@ defineExpose({
 
 <template>
   <el-dialog
-    v-model="visible" :title="currentStep === 1 ? '配置智能助手' : '选择数据源范围'" width="675" :show-close="false"
+    v-model="visible"
+    :title="currentStep === 1 ? $t('agents.form.step1_title') : $t('agents.form.step2_title')"
+    width="675"
+    :show-close="false"
     align-center
   >
     <!-- 第一步：配置智能助手名称和选择数据源 -->
@@ -66,11 +69,11 @@ defineExpose({
           <template #label>
             <img w-51px src="@/assets/img/avatar2.png" alt="avatar">
           </template>
-          <el-input v-model="form.name" class="h-51px !text-20px" placeholder="请输入" />
+          <el-input v-model="form.name" class="h-51px !text-20px" :placeholder="$t('agents.form.enter_name')" />
         </el-form-item>
 
-        <el-form-item label="选择模板数据源" label-position="top" class="mb-0 mt-60px">
-          <el-radio-group v-model="form.dataSource" class="mt-10px pl-33px flex gap-100px">
+        <el-form-item :label="$t('agents.form.select_data_source')" label-position="top" class="mb-0 mt-60px">
+          <el-radio-group v-model="form.dataSource" class="mt-10px flex gap-100px pl-33px">
             <el-radio v-for="option in dataSourceOptions" :key="option.value" :label="option.value">
               {{ option.label }}
             </el-radio>
@@ -80,18 +83,18 @@ defineExpose({
     </div>
 
     <!-- 第二步：选择数据范围 -->
-    <div v-if="currentStep === 2" flex h-420px>
-      <div text-white pl-13px rounded-4px bg-primary flex gap-10px gap-30px h-35px w-154px items-center>
+    <div v-if="currentStep === 2" h-420px flex>
+      <div h-35px w-154px flex items-center whitespace-nowrap rounded-4px bg-primary pl-13px text-white>
         <SvgoFolder2 text-20px />
-        知识库
+        <span flex-1 text-center>{{ $t('agents.form.knowledge_base') }}</span>
       </div>
 
       <el-divider direction="vertical" class="h-full" />
 
       <div flex-1>
-        <div class="pure-doc-tree-container" p="r-20px b-24px l-20px" rounded-4px h-410px w-full overflow-y-auto>
+        <div class="pure-doc-tree-container" p="r-20px b-24px l-20px" h-410px w-full overflow-y-auto rounded-4px>
           <div text-16px text-tprimary>
-            已选{{ checkedKeys.length }}项目
+            {{ $t('agents.form.selected_items', { count: checkedKeys.length }) }}
           </div>
           <!-- 使用ClientOnly包裹，解决勾选后，Tree组件被重新渲染的问题 -->
           <ClientOnly>
@@ -106,19 +109,19 @@ defineExpose({
       <div class="dialog-footer">
         <template v-if="currentStep === 1">
           <el-button plain @click="handleCancel">
-            取消
+            {{ $t('knowledge_base.cancel') }}
           </el-button>
           <el-button type="primary" @click="nextStep">
-            下一步
+            {{ $t('login.next_step') }}
           </el-button>
         </template>
 
         <template v-if="currentStep === 2">
           <el-button plain @click="prevStep">
-            上一步
+            {{ $t('agents.form.prev_step') }}
           </el-button>
           <el-button type="primary" @click="createAssistant()">
-            创建
+            {{ $t('agents.form.create') }}
           </el-button>
         </template>
       </div>

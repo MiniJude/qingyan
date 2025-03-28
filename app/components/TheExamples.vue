@@ -50,7 +50,7 @@ const colorMode = computed({
 
   <TheCounter class="m-4" />
 
-  <div class="flex flex-col gap-2 items-center justify-center">
+  <div class="flex flex-col items-center justify-center gap-2">
     <ExampleDatePickers />
     <ExampleIcons />
     <ExampleButtons />

@@ -3,11 +3,13 @@ import CircleDoc from '@/assets/svg/circle-doc.svg?skipsvgo'
 import CopyFormDialog from './CopyFormDialog.vue'
 import DocTree from './docTree/index.vue'
 
+const localePath = useLocalePath()
+
 const docTreeRef = useTemplateRef<InstanceType<typeof DocTree>>('docTreeRef')
 
 // 当前路由是否是全部文档（/knowledge-base）
 const isAllDoc = computed(() => {
-  return useRoute().path === '/knowledge-base'
+  return useRoute().path === localePath('/knowledge-base')
 })
 
 /** 是否显示底部按钮组 */
@@ -106,7 +108,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
     <NuxtLink to="/knowledge-base" class="mb-24px">
       <div class="all-doc-btn" :class="{ active: isAllDoc }">
         <CircleDoc />
-        <span text-16px ml-12px>全部文档</span>
+        <span ml-12px text-16px>{{ $t('knowledge_base.all_documents') }}</span>
       </div>
     </NuxtLink>
 
@@ -114,9 +116,9 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
     <div flex="~ col 1">
       <DocTree ref="docTreeRef" />
       <NuxtLink to="/knowledge-base/trush">
-        <div mt-40px flex gap-10px cursor-pointer items-center>
+        <div mt-40px flex cursor-pointer items-center gap-10px>
           <SvgoTrash />
-          <span text-tprimary>回收站</span>
+          <span text-tprimary>{{ $t('knowledge_base.trash') }}</span>
         </div>
       </NuxtLink>
     </div>
@@ -124,26 +126,26 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
     <!-- 底部按钮组（移动到、创建副本、删除） -->
     <div v-if="isBtnGroupShow" class="btn-group" mt-16px flex justify-between>
       <el-button plain :disabled="!allCheckedKeys.length" @click="copyFormDialogRef?.open()">
-        创建副本
+        {{ $t('knowledge_base.create_copy') }}
       </el-button>
       <el-button plain :disabled="!allCheckedKeys.length" @click="moveFormVisible = true">
-        移动到
+        {{ $t('knowledge_base.move_to') }}
       </el-button>
       <el-button plain :disabled="!allCheckedKeys.length">
-        删除
+        {{ $t('knowledge_base.delete') }}
       </el-button>
     </div>
 
     <!-- 弹框：移动到 -->
-    <el-dialog v-model="moveFormVisible" title="移动到" width="600" :show-close="false" align-center>
+    <el-dialog v-model="moveFormVisible" :title="$t('knowledge_base.move_to')" width="600" :show-close="false" align-center>
       <el-form :model="moveForm" size="large">
-        <el-form-item label="选择文件夹" label-width="140px" label-position="left">
+        <el-form-item :label="$t('knowledge_base.select_folder')" label-width="140px" label-position="left">
           <el-tree-select
             v-model="moveForm.folderId"
             :data="folderData"
             :check-strictly="true"
             :render-after-expand="false"
-            placeholder="请选择"
+            :placeholder="$t('knowledge_base.please_select')"
             class="!w-322px"
           />
         </el-form-item>
@@ -151,10 +153,10 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
       <template #footer>
         <div class="dialog-footer">
           <el-button plain @click="moveFormVisible = false">
-            取消
+            {{ $t('knowledge_base.cancel') }}
           </el-button>
           <el-button type="primary" @click="moveFormVisible = false">
-            确定
+            {{ $t('knowledge_base.confirm') }}
           </el-button>
         </div>
       </template>

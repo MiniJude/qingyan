@@ -3,26 +3,40 @@ import BookIcon from '@/assets/svg/book.svg?component'
 
 export function useMenu() {
   const route = useRoute()
+  const { t } = useI18n()
 
+  // 创建图标引用
+  const knowledgeIcon = shallowRef(BookIcon)
+  const aiIcon = shallowRef(Ai2Icon)
+
+  // 定义菜单结构
   const menu = ref([
     {
-      name: '知识库',
+      key: 'knowledge_base',
       path: '/knowledge-base',
-      iconUrl: shallowRef(BookIcon),
+      iconUrl: knowledgeIcon,
     },
     {
-      name: 'AI助手',
+      key: 'ai_assistant',
       path: '/agents',
-      iconUrl: shallowRef(Ai2Icon),
+      iconUrl: aiIcon,
     },
   ])
 
+  // 带翻译的菜单
+  const localizedMenu = computed(() =>
+    menu.value.map(item => ({
+      ...item,
+      name: t(`sidebar.${item.key}`),
+    })),
+  )
+
   const currentMenu = computed(() => {
-    return menu.value.find(menu => route.path.includes(menu.path))
+    return localizedMenu.value.find(item => route.path.includes(item.path))
   })
 
   return {
-    menu,
+    menu: localizedMenu,
     currentMenu,
   }
 }

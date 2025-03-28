@@ -22,46 +22,46 @@ const folderList = ref([
 </script>
 
 <template>
-  <div pb-18px flex flex-col h-full>
-    <div class="btn-group" mr-54px mt-28px flex gap-12px justify-end>
+  <div h-full flex flex-col pb-18px>
+    <div class="btn-group" mr-54px mt-28px flex justify-end gap-12px>
       <el-button plain size="large">
         <template #icon>
           <SvgoTxt />
         </template>
-        模板库
+        {{ $t('knowledge_base.index.template_library') }}
       </el-button>
       <el-button plain size="large">
         <template #icon>
           <SvgoFolder2 />
         </template>
-        自动分类
+        {{ $t('knowledge_base.index.auto_classify') }}
       </el-button>
       <el-dropdown>
         <el-button plain size="large">
-          上传
-          <div ml-8px flex-center h-16px w-16px>
+          {{ $t('knowledge_base.index.upload') }}
+          <div ml-8px h-16px w-16px flex-center>
             <SvgoArrowBottomFilled text-6px />
           </div>
         </el-button>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>文档</el-dropdown-item>
-            <el-dropdown-item>表格</el-dropdown-item>
-            <el-dropdown-item>图片</el-dropdown-item>
+            <el-dropdown-item>{{ $t('knowledge_base.index.document') }}</el-dropdown-item>
+            <el-dropdown-item>{{ $t('knowledge_base.index.spreadsheet') }}</el-dropdown-item>
+            <el-dropdown-item>{{ $t('knowledge_base.index.image') }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
       <el-dropdown>
         <el-button type="primary" size="large">
-          新建
-          <div ml-8px flex-center h-16px w-16px>
+          {{ $t('knowledge_base.index.create_new') }}
+          <div ml-8px h-16px w-16px flex-center>
             <SvgoArrowBottomFilled text-6px />
           </div>
         </el-button>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>文件夹</el-dropdown-item>
-            <el-dropdown-item>文档</el-dropdown-item>
+            <el-dropdown-item>{{ $t('knowledge_base.index.folder') }}</el-dropdown-item>
+            <el-dropdown-item>{{ $t('knowledge_base.index.document') }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -69,28 +69,33 @@ const folderList = ref([
     <Dashboard />
     <!-- 文件夹 -->
     <div pl-37px pr-53px>
-      <div text-16px text-tprimary font-bold mb-8px>
-        文件夹
+      <div mb-8px text-16px text-tprimary font-bold>
+        {{ $t('knowledge_base.index.folders') }}
       </div>
       <div p-8px class="folder-container bg-[#f7f7f7] dark:bg-black">
-        <div v-for="item in folderList" :key="item.name" class="folder-item" p="y-20px l-20px r-11px" dark:bg-overlay rounded-4px bg-white flex items-center justify-between>
-          <div flex gap-13px items-center>
+        <div v-for="item in folderList" :key="item.name" class="folder-item" p="y-20px l-20px r-11px" flex items-center justify-between rounded-4px bg-white dark:bg-overlay>
+          <div flex items-center gap-13px>
             <FolderIcon h-19px w-19px style="color: #FFC300;" />
             <div text-tprimary>
               {{ item.name }}
             </div>
           </div>
-          <SvgoMore text-20px text-tregular cursor-pointer />
+          <SvgoMore cursor-pointer text-20px text-tregular />
         </div>
       </div>
     </div>
     <!-- 知识空间 -->
-    <div mt-16px pl-37px pr-53px flex flex-1 flex-col min-h-0>
-      <div text-16px text-tprimary font-bold mb-16px>
-        知识空间
+    <div mt-16px min-h-0 flex flex-1 flex-col pl-37px pr-53px>
+      <div mb-16px text-16px text-tprimary font-bold>
+        {{ $t('knowledge_base.index.knowledge_space') }}
       </div>
-      <JSwitch h-36px :columns="[{ label: '我个人的' }, { label: '邀请协作的' }]" :item-width="83" />
-      <FolderTable class="mt-16px flex-1 min-h-0" />
+      <JSwitch
+        h-36px :columns="[
+          { label: $t('knowledge_base.index.my_personal') },
+          { label: $t('knowledge_base.index.shared_with_me') },
+        ]" :item-width="83"
+      />
+      <FolderTable class="mt-16px min-h-0 flex-1" />
     </div>
   </div>
 </template>

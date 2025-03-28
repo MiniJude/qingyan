@@ -4,8 +4,10 @@ import { ref } from 'vue'
 
 definePageMeta({
   layout: 'sys',
-  title: '输入手机号',
+  title: 'login.phone.title',
 })
+
+const { t } = useI18n()
 
 const form = ref({
   phone: '',
@@ -14,10 +16,10 @@ const form = ref({
 
 const rules = ref({
   phone: [
-    { message: '请输入手机号', trigger: 'blur' },
+    { message: t('login.phone.phone_required'), trigger: 'blur' },
   ],
   code: [
-    { message: '请输入验证码', trigger: 'blur' },
+    { message: t('login.phone.code_required'), trigger: 'blur' },
   ],
 })
 
@@ -26,7 +28,7 @@ const formRef = ref<FormInstance>()
 function handleSubmit() {
   formRef.value?.validate((valid) => {
     if (valid) {
-      console.log('submit!')
+      console.warn('Form submitted')
     }
   })
 }
@@ -35,24 +37,24 @@ function handleSubmit() {
 <template>
   <div w-450px p="t-48px b-40px r-65px l-65px">
     <el-form ref="formRef" class="w-320px" :model="form" :rules="rules" label-width="100px" label-position="top">
-      <el-form-item label="手机号" prop="phone">
+      <el-form-item :label="$t('login.phone.phone')" prop="phone">
         <el-input v-model="form.phone">
           <template #suffix>
             <SvgoPhone text-tprimary />
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item label="验证码" prop="code">
+      <el-form-item :label="$t('login.phone.code')" prop="code">
         <div flex="~ gap-15px" w-full>
           <el-input v-model="form.code" class="flex-1" />
           <el-button type="primary" class="!h-45px !w-119px">
-            获取验证码
+            {{ $t('login.phone.get_code') }}
           </el-button>
         </div>
       </el-form-item>
       <el-form-item class="!mt-45px">
-        <el-button type="primary" class="mx-auto block !h-40px !w-102px">
-          完成
+        <el-button type="primary" class="mx-auto block !h-40px !w-102px" @click="handleSubmit">
+          {{ $t('login.phone.finish') }}
         </el-button>
       </el-form-item>
     </el-form>

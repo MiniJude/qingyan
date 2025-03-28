@@ -3,38 +3,38 @@ import { SvgoAiDoc, SvgoAiGenerate, SvgoAiMindmap, SvgoAiMore, SvgoAiQa, SvgoAiR
 
 const features = [
   {
-    title: '智能对话',
-    description: '智能理解对话，高效提供信息',
+    title: useNuxtApp().$i18n.t('agents.index.features.chat.title'),
+    description: useNuxtApp().$i18n.t('agents.index.features.chat.description'),
     icon: SvgoAiTalk,
   },
   {
-    title: 'AI文档',
-    description: '高效梳理内容，精准匹配需求',
+    title: useNuxtApp().$i18n.t('agents.index.features.doc.title'),
+    description: useNuxtApp().$i18n.t('agents.index.features.doc.description'),
     icon: SvgoAiDoc,
   },
   {
-    title: '思维导图',
-    description: '清晰梳理逻辑，高效呈现思维',
+    title: useNuxtApp().$i18n.t('agents.index.features.mindmap.title'),
+    description: useNuxtApp().$i18n.t('agents.index.features.mindmap.description'),
     icon: SvgoAiMindmap,
   },
   {
-    title: '论文改写',
-    description: '专业致力于文章的个性化重塑',
+    title: useNuxtApp().$i18n.t('agents.index.features.rewrite.title'),
+    description: useNuxtApp().$i18n.t('agents.index.features.rewrite.description'),
     icon: SvgoAiRewrite,
   },
   {
-    title: '文案生成器',
-    description: '一键生成高效文案，拥有自媒体素涵',
+    title: useNuxtApp().$i18n.t('agents.index.features.generate.title'),
+    description: useNuxtApp().$i18n.t('agents.index.features.generate.description'),
     icon: SvgoAiGenerate,
   },
   {
-    title: '解题答疑',
-    description: '传图解析，精准答疑',
+    title: useNuxtApp().$i18n.t('agents.index.features.qa.title'),
+    description: useNuxtApp().$i18n.t('agents.index.features.qa.description'),
     icon: SvgoAiQa,
   },
   {
-    title: '更多功能',
-    description: '陆续上线中，敬请期待~',
+    title: useNuxtApp().$i18n.t('agents.index.features.more.title'),
+    description: useNuxtApp().$i18n.t('agents.index.features.more.description'),
     icon: SvgoAiMore,
   },
 ]
@@ -43,11 +43,7 @@ const features = [
 <template>
   <div min-h-0 flex flex-1 flex-col>
     <p ml-32px mt-149px text-24px text-tprimary font-bold line-height-32px>
-      hi~我是你的知识库智能体助手
-      <br>
-      我将基于选定的数据源
-      <br>
-      快速定位、提取和应用信息
+      {{ $t('agents.index.welcome_message') }}
     </p>
     <div my-40px min-h-0 flex-1 overflow-y-auto>
       <ul class="box-container">

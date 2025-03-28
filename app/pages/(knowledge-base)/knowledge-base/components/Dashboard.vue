@@ -101,56 +101,56 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="dashboard-container bg-[#f7f7f7] dark:bg-black" flex flex-col relative>
+  <div class="dashboard-container bg-[#f7f7f7] dark:bg-black" relative flex flex-col>
     <h1 text="20px tprimary" line-height="28px">
-      知识雷达
+      {{ $t('knowledge_base.dashboard.knowledge_radar') }}
     </h1>
     <p mt-2px text="14px" line-height="20px" style="color: #86909C;">
       2024-12
     </p>
-    <el-dropdown class="outline-none right-25px top-33px !absolute">
-      <div dark:bg-overlay pl-12px pr-10px rounded-6px bg-white flex h-36px w-150px shadow-gray items-center justify-between>
-        <div rounded-2px bg-primary h-12px w-12px />
+    <el-dropdown class="right-25px top-33px outline-none !absolute">
+      <div h-36px w-150px flex items-center justify-between rounded-6px bg-white pl-12px pr-10px shadow-gray dark:bg-overlay>
+        <div h-12px w-12px rounded-2px bg-primary />
         <div ml-8px mr-auto text="14px" line-height="20px" style="color: #86909C;">
-          个人上传
+          {{ $t('knowledge_base.dashboard.personal_upload') }}
         </div>
-        <div ml-8px flex-center h-16px w-16px>
+        <div ml-8px h-16px w-16px flex-center>
           <SvgoArrowBottomFilled text-6px />
         </div>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>团队上传</el-dropdown-item>
+          <el-dropdown-item>{{ $t('knowledge_base.dashboard.team_upload') }}</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <div mb-25px mt-17px flex h-45px items-center justify-between>
+    <div mb-25px mt-17px h-45px flex items-center justify-between>
       <div>
-        <div flex gap-6px items-center :class="increasePercentage > 0 ? 'text-primary' : 'text-green-500'">
-          <SvgoArrowRightFilled v-if="increasePercentage > 0" text-10px rotate--90 />
-          <SvgoArrowRightFilled v-else text-10px rotate-90 />
+        <div flex items-center gap-6px :class="increasePercentage > 0 ? 'text-primary' : 'text-green-500'">
+          <SvgoArrowRightFilled v-if="increasePercentage > 0" rotate--90 text-10px />
+          <SvgoArrowRightFilled v-else rotate-90 text-10px />
           <span text-20px line-height="20px">{{ Math.abs(increasePercentage) }}%</span>
         </div>
         <div mt-6px line-height="17px" style="color: #86909C;">
-          新增文档对比上月
+          {{ $t('knowledge_base.dashboard.compared_to_last_month') }}
         </div>
       </div>
       <ul mr-48px flex gap-70px>
         <li class="statistic-item">
           <span class="statistic-item-number">{{ data.readCount }}</span>
-          <span class="statistic-item-text">已阅读</span>
+          <span class="statistic-item-text">{{ $t('knowledge_base.dashboard.read') }}</span>
         </li>
         <li class="statistic-item">
           <span class="statistic-item-number">{{ data.downloadCount }}</span>
-          <span class="statistic-item-text">已下载</span>
+          <span class="statistic-item-text">{{ $t('knowledge_base.dashboard.downloaded') }}</span>
         </li>
         <li class="statistic-item">
           <span class="statistic-item-number">{{ data.uploadCount }}</span>
-          <span class="statistic-item-text">共上传</span>
+          <span class="statistic-item-text">{{ $t('knowledge_base.dashboard.uploaded') }}</span>
         </li>
       </ul>
     </div>
-    <div ref="chartContainer" class="flex-1 w-full">
+    <div ref="chartContainer" class="w-full flex-1">
       <VChart ref="chartRef" class="h-full w-full" :option="option" />
     </div>
   </div>

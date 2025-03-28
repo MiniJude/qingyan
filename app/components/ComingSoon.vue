@@ -1,15 +1,15 @@
 <template>
-  <div flex-center flex-col h-full>
+  <div h-full flex-center flex-col>
     <div class="coming-soon-container" flex-center flex-col>
-      <h1 text-30px text-tprimary font-bold mb-16px>
-        功能开发中
+      <h1 mb-16px text-30px text-tprimary font-bold>
+        {{ $t('common.coming_soon.title') }}
       </h1>
-      <p text-16px text-tsecondary mx-auto text-center max-w-500px>
-        敬请期待~
+      <p mx-auto max-w-500px text-center text-16px text-tsecondary>
+        {{ $t('common.coming_soon.description') }}
       </p>
       <NuxtLink to="/">
         <el-button type="primary" size="large" mt-40px rounded>
-          返回首页
+          {{ $t('common.coming_soon.back_home') }}
         </el-button>
       </NuxtLink>
     </div>

@@ -7,8 +7,10 @@ import { emailRules, passwordRules } from '~/utils/validate'
 
 definePageMeta({
   layout: 'sys',
-  title: '登录账户',
+  title: 'login.title',
 })
+
+const { t } = useI18n()
 
 const form = ref({
   email: '',
@@ -30,7 +32,7 @@ function handleSubmit() {
         body: form.value,
         baseURL: 'http://localhost:4001',
       }).then(() => {
-        ElMessage.success('登录成功')
+        ElMessage.success(t('login.success'))
       })
     }
   })
@@ -43,17 +45,17 @@ function handleSubmit() {
       <img src="@/assets/img/qrcode.png" alt="wechat" w-145px>
       <div mt-15px w-145px flex items-center pl-7px>
         <img src="@/assets/img/wechat.png" alt="wechat" w-21px>
-        <span text="12px tprimary" ml-27px>清研智库</span>
+        <span text="12px tprimary" ml-27px whitespace-nowrap>{{ $t('login.wechat_title') }}</span>
       </div>
       <p mt-5px text="12px tprimary" opacity-80>
-        获取最新资讯动态和精彩活动
+        {{ $t('login.wechat_desc') }}
       </p>
     </div>
     <el-form
       ref="formRef" class="w-320px pb-40px pt-83px" :model="form" :rules="rules" label-width="100px"
       label-position="top"
     >
-      <el-form-item label="账号" prop="email">
+      <el-form-item :label="$t('login.email')" prop="email">
         <el-input v-model="form.email" autocomplete="off">
           <template #suffix>
             <el-icon>
@@ -62,15 +64,15 @@ function handleSubmit() {
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
+      <el-form-item :label="$t('login.password')" prop="password">
         <el-input v-model="form.password" type="password" show-password />
       </el-form-item>
       <p text="12px tprimary" cursor-pointer text-right opacity-90>
-        忘记密码
+        {{ $t('login.forgot_password') }}
       </p>
       <el-form-item class="!mb-0 !mt-30px">
         <el-button type="primary" class="mx-auto block !h-40px !w-102px" @click="handleSubmit">
-          下一步
+          {{ $t('login.next_step') }}
         </el-button>
       </el-form-item>
     </el-form>

@@ -3,38 +3,38 @@ const activeIndex = ref(0)
 </script>
 
 <template>
-  <div p="t-29px r-53px b-27px l-19px" flex flex-col gap-58px h-full>
+  <div p="t-29px r-53px b-27px l-19px" h-full flex flex-col gap-58px>
     <!-- 顶部区域 -->
     <div flex items-center justify-between>
       <div flex flex-col gap-4px>
         <FileBreadCrumb />
-        <span class="last-modify-time">最近修改：2025年1月1日</span>
+        <span class="last-modify-time">{{ $t('knowledge_base.doc_view.last_modified', { date: '2025年1月1日' }) }}</span>
       </div>
       <div class="btn-group" flex gap-12px>
         <el-button plain size="large">
           <template #icon>
             <SvgoEdit />
           </template>
-          编辑
+          {{ $t('knowledge_base.doc_view.edit') }}
         </el-button>
         <el-button plain size="large">
           <template #icon>
             <SvgoDownload />
           </template>
-          下载
+          {{ $t('knowledge_base.doc_view.download') }}
         </el-button>
 
         <el-dropdown>
           <el-button type="primary" size="large">
-            分享
-            <div ml-8px flex-center h-16px w-16px>
+            {{ $t('knowledge_base.doc_view.share') }}
+            <div ml-8px h-16px w-16px flex-center>
               <SvgoArrowBottomFilled text-6px />
             </div>
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>复制链接</el-dropdown-item>
-              <el-dropdown-item>生成二维码</el-dropdown-item>
+              <el-dropdown-item>{{ $t('knowledge_base.doc_view.copy_link') }}</el-dropdown-item>
+              <el-dropdown-item>{{ $t('knowledge_base.doc_view.generate_qrcode') }}</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -42,24 +42,24 @@ const activeIndex = ref(0)
     </div>
 
     <!-- 内容区域 -->
-    <div pl-81px flex flex-1 flex-gap-67px min-h-0>
+    <div min-h-0 flex flex-1 flex-gap-67px pl-81px>
       <!-- 左侧内容区域 -->
-      <div flex-1 h-full min-w-895px overflow-y-auto>
+      <div h-full min-w-895px flex-1 overflow-y-auto>
         <div v-for="i in 100" :key="i">
-          这是正文
+          {{ $t('knowledge_base.doc_view.content_placeholder') }}
         </div>
       </div>
 
       <!-- 右侧批注区域 -->
-      <div flex flex-col gap-24px h-full w-331px overflow-y-auto>
+      <div h-full w-331px flex flex-col gap-24px overflow-y-auto>
         <el-button type="primary" size="large" class="w-145px !rounded-lb-50px !rounded-lt-50px !rounded-rb-0 !rounded-rt-0" self-end>
           <SvgoAi class="text-24px" />
-          <span ml-22px>文档助手</span>
+          <span ml-22px>{{ $t('knowledge_base.doc_view.document_assistant') }}</span>
         </el-button>
-        <JSwitch v-model:active-index="activeIndex" :columns="[{ label: '内容大纲' }, { label: '批注笔记' }]" h-36px :item-width="83" />
+        <JSwitch v-model:active-index="activeIndex" :columns="[{ label: $t('knowledge_base.doc_view.content_outline') }, { label: $t('knowledge_base.doc_view.notes') }]" h-36px :item-width="83" />
         <div class="note-container bg-[#edeff3] dark:bg-black">
-          <span v-if="activeIndex === 0">这是内容大纲</span>
-          <span v-else>这是批注笔记</span>
+          <span v-if="activeIndex === 0">{{ $t('knowledge_base.doc_view.outline_placeholder') }}</span>
+          <span v-else>{{ $t('knowledge_base.doc_view.notes_placeholder') }}</span>
         </div>
       </div>
     </div>
