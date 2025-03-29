@@ -1,0 +1,41 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- 在给组件使用unocss样式时，一定要用class="" 包裹，不要直接作为属性使用
+- 写新的html代码时，样式尽可能要用unocss完成，第三方组件非根节点的样式使用scss
+- 在写业务代码时，比如写html和js时，要遵循DRY原则，尽可能复用代码，减少重复代码
+- 定义组件的prop时，要按照以下代码示例：
+
+
+``` typescript
+// 定义组件的props
+interface Props {
+  columns: ColumnItem[]
+  activeIndex?: number
+  /** switch_item的固定宽度，不传则自适应各自的宽度 */
+  itemWidth?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  activeIndex: 0,
+})
+
+```
+
+
+
+- 页面跳转的触发元素如果真实展示在DOM上，需要使用NuxtLink实现跳转这样有利于SEO
+
+- 页面跳转必须使用localePath函数包裹，因为项目使用了国际化，localePath可以返回当前语言下的目标路劲：
+```ts
+const localePath = useLocalePath()
+
+router.push(localePath('/xxx'))
+```
+如果能NuxtLink实现跳转最好：
+
+```html
+<NuxtLink :to="localePath('/xxx')">
+```

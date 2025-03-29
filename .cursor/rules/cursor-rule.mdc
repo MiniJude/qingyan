@@ -38,23 +38,6 @@ alwaysApply: true
 - **无障碍设计**：语义化标签，ARIA 属性，确保用户可访问性
 - **交互体验**：交互细节考虑周全，包含过渡动画与微交互，增强用户愉悦感
 
-## 技术细节
-- 在给组件使用unocss样式时，一定要用class="" 包裹，不要直接作为属性使用
-- 在写业务代码时，比如写html和js时，要遵循DRY原则，尽可能复用代码，减少重复代码
-- 定义组件的prop时，要按照以下代码示例：
-``` typescript
-// 定义组件的props
-interface Props {
-  columns: ColumnItem[]
-  activeIndex?: number
-  /** switch_item的固定宽度，不传则自适应各自的宽度 */
-  itemWidth?: number
-}
 
-const props = withDefaults(defineProps<Props>(), {
-  activeIndex: 0,
-})
-
-```
 
 请严格按照以上要求进行设计和开发，随时关注细节，确保最终产出质量符合预期。
