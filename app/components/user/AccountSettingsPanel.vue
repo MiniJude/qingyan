@@ -32,15 +32,33 @@ onMounted(() => {
 
 // 密码修改对话框
 const passwordDialogVisible = ref(false)
+// 手机号修改对话框
+const phoneDialogVisible = ref(false)
+// 邮箱修改对话框
+const emailDialogVisible = ref(false)
 
 // 密码表单ref
 const passwordFormRef = ref<FormInstance>()
+// 手机号表单ref
+const phoneFormRef = ref<FormInstance>()
+// 邮箱表单ref
+const emailFormRef = ref<FormInstance>()
 
 // 密码表单数据
 const passwordForm = ref({
   currentPassword: '',
   newPassword: '',
   confirmPassword: '',
+})
+
+// 手机号表单数据
+const phoneForm = ref({
+  newPhone: '',
+})
+
+// 邮箱表单数据
+const emailForm = ref({
+  newEmail: '',
 })
 
 // 密码表单验证规则
@@ -72,40 +90,38 @@ const passwordRules = reactive<FormRules>({
   ],
 })
 
-// 修改手机号
+// 手机号表单验证规则
+const phoneRules = reactive<FormRules>({
+  newPhone: [
+    { required: true, message: t('header.user_profile.phone_required'), trigger: 'blur' },
+    { pattern: /^1[3-9]\d{9}$/, message: t('header.user_profile.phone_format_error'), trigger: 'blur' },
+  ],
+})
+
+// 邮箱表单验证规则
+const emailRules = reactive<FormRules>({
+  newEmail: [
+    { required: true, message: t('header.user_profile.email_required'), trigger: 'blur' },
+    { pattern: /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/, message: t('header.user_profile.email_format_error'), trigger: 'blur' },
+  ],
+})
+
+// 显示修改手机号对话框
 function updatePhone() {
-  // 这里可以添加验证逻辑
-  ElMessageBox.prompt(t('header.user_profile.enter_new_phone'), t('header.user_profile.update_phone'), {
-    confirmButtonText: t('knowledge_base.confirm'),
-    cancelButtonText: t('knowledge_base.cancel'),
-    inputPattern: /^1[3-9]\d{9}$/,
-    inputErrorMessage: t('header.user_profile.phone_format_error'),
-  })
-    .then(({ value }) => {
-      formData.value.phone = value
-      ElMessage.success(t('header.user_profile.phone_update_success'))
-    })
-    .catch(() => {
-      // 用户取消操作
-    })
+  phoneDialogVisible.value = true
+  // 重置表单
+  phoneForm.value = {
+    newPhone: '',
+  }
 }
 
-// 修改邮箱
+// 显示修改邮箱对话框
 function updateEmail() {
-  // 这里可以添加验证逻辑
-  ElMessageBox.prompt(t('header.user_profile.enter_new_email'), t('header.user_profile.update_email'), {
-    confirmButtonText: t('knowledge_base.confirm'),
-    cancelButtonText: t('knowledge_base.cancel'),
-    inputPattern: /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/,
-    inputErrorMessage: t('header.user_profile.email_format_error'),
-  })
-    .then(({ value }) => {
-      formData.value.email = value
-      ElMessage.success(t('header.user_profile.email_update_success'))
-    })
-    .catch(() => {
-      // 用户取消操作
-    })
+  emailDialogVisible.value = true
+  // 重置表单
+  emailForm.value = {
+    newEmail: '',
+  }
 }
 
 // 显示修改密码对话框
@@ -116,6 +132,58 @@ function updatePassword() {
     currentPassword: '',
     newPassword: '',
     confirmPassword: '',
+  }
+}
+
+// 提交手机号修改
+async function submitPhoneChange() {
+  if (!phoneFormRef.value)
+    return
+
+  try {
+    await phoneFormRef.value.validate()
+
+    // 这里添加手机号修改的API调用逻辑
+    // await updateUserPhone(phoneForm.value.newPhone)
+
+    // 更新本地显示的手机号
+    formData.value.phone = phoneForm.value.newPhone
+
+    // 显示成功消息
+    ElMessage.success(t('header.user_profile.phone_update_success'))
+
+    // 关闭对话框
+    phoneDialogVisible.value = false
+  }
+  catch (error) {
+    // 表单验证失败
+    console.error('Phone form validation failed', error)
+  }
+}
+
+// 提交邮箱修改
+async function submitEmailChange() {
+  if (!emailFormRef.value)
+    return
+
+  try {
+    await emailFormRef.value.validate()
+
+    // 这里添加邮箱修改的API调用逻辑
+    // await updateUserEmail(emailForm.value.newEmail)
+
+    // 更新本地显示的邮箱
+    formData.value.email = emailForm.value.newEmail
+
+    // 显示成功消息
+    ElMessage.success(t('header.user_profile.email_update_success'))
+
+    // 关闭对话框
+    emailDialogVisible.value = false
+  }
+  catch (error) {
+    // 表单验证失败
+    console.error('Email form validation failed', error)
   }
 }
 
@@ -145,9 +213,17 @@ async function submitPasswordChange() {
   }
 }
 
-// 关闭密码对话框
-function closePasswordDialog() {
-  passwordDialogVisible.value = false
+// 关闭对话框
+function closeDialog(type: 'password' | 'phone' | 'email') {
+  if (type === 'password') {
+    passwordDialogVisible.value = false
+  }
+  else if (type === 'phone') {
+    phoneDialogVisible.value = false
+  }
+  else if (type === 'email') {
+    emailDialogVisible.value = false
+  }
 }
 </script>
 
@@ -189,6 +265,80 @@ function closePasswordDialog() {
       </div>
     </el-form-item>
   </el-form>
+
+  <!-- 修改手机号对话框 -->
+  <el-dialog
+    v-model="phoneDialogVisible"
+    :title="$t('header.user_profile.update_phone')"
+    width="500px"
+    :close-on-click-modal="false"
+  >
+    <el-form
+      ref="phoneFormRef"
+      :model="phoneForm"
+      :rules="phoneRules"
+      label-width="160px"
+    >
+      <el-form-item
+        :label="$t('header.user_profile.new_phone')"
+        prop="newPhone"
+      >
+        <el-input
+          v-model="phoneForm.newPhone"
+          :placeholder="$t('header.user_profile.enter_new_phone')"
+        />
+      </el-form-item>
+    </el-form>
+
+    <!-- 底部按钮 -->
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="closeDialog('phone')">
+          {{ $t('knowledge_base.cancel') }}
+        </el-button>
+        <el-button type="primary" @click="submitPhoneChange">
+          {{ $t('knowledge_base.confirm') }}
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
+
+  <!-- 修改邮箱对话框 -->
+  <el-dialog
+    v-model="emailDialogVisible"
+    :title="$t('header.user_profile.update_email')"
+    width="500px"
+    :close-on-click-modal="false"
+  >
+    <el-form
+      ref="emailFormRef"
+      :model="emailForm"
+      :rules="emailRules"
+      label-width="160px"
+    >
+      <el-form-item
+        :label="$t('header.user_profile.new_email')"
+        prop="newEmail"
+      >
+        <el-input
+          v-model="emailForm.newEmail"
+          :placeholder="$t('header.user_profile.enter_new_email')"
+        />
+      </el-form-item>
+    </el-form>
+
+    <!-- 底部按钮 -->
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="closeDialog('email')">
+          {{ $t('knowledge_base.cancel') }}
+        </el-button>
+        <el-button type="primary" @click="submitEmailChange">
+          {{ $t('knowledge_base.confirm') }}
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 
   <!-- 修改密码对话框 -->
   <el-dialog
@@ -246,7 +396,7 @@ function closePasswordDialog() {
     <!-- 底部按钮 -->
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="closePasswordDialog">
+        <el-button @click="closeDialog('password')">
           {{ $t('knowledge_base.cancel') }}
         </el-button>
         <el-button type="primary" @click="submitPasswordChange">

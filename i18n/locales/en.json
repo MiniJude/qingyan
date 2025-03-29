@@ -68,7 +68,11 @@
       "confirm_password_required": "Please confirm new password",
       "password_format_error": "Password should be 6-30 letters, numbers or special characters",
       "password_not_match": "Passwords do not match",
-      "password_update_success": "Password updated successfully"
+      "password_update_success": "Password updated successfully",
+      "new_phone": "New Phone Number",
+      "new_email": "New Email",
+      "phone_required": "Please enter your phone number",
+      "email_required": "Please enter your email"
     }
   },
   "sidebar": {

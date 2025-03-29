@@ -68,7 +68,11 @@
       "confirm_password_required": "请再次输入新密码",
       "password_format_error": "密码应为6-30个英文、数字或特殊字符",
       "password_not_match": "两次输入的密码不一致",
-      "password_update_success": "密码修改成功"
+      "password_update_success": "密码修改成功",
+      "new_phone": "新手机号",
+      "new_email": "新邮箱",
+      "phone_required": "请输入手机号",
+      "email_required": "请输入邮箱"
     }
   },
   "sidebar": {

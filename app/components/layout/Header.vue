@@ -5,7 +5,7 @@ const { currentMenu } = useMenu()
 const { locale, setLocale } = useI18n()
 
 // 个人中心弹框可见性
-const userProfileDialogVisible = ref(true)
+const userProfileDialogVisible = ref(false)
 
 // 打开个人中心弹框
 function openUserProfile() {
