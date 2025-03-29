@@ -54,7 +54,7 @@ const activeMenu = computed(() => {
 
       <!-- 展开/收起按钮 -->
       <div
-        class="collapse-btn"
+        class="collapse-btn bg-white dark:bg-gray-300"
         :class="isCollapsed ? 'right-[-12px] top-20px' : 'right-3 top-20px'"
         @click="toggleSidebar"
       >
@@ -63,7 +63,7 @@ const activeMenu = computed(() => {
           h-20px
           w-20px
           :class="{ 'rotate-180': isCollapsed }"
-          class="transition-transform duration-300"
+          class="text-primary transition-transform duration-300"
         />
       </div>
     </div>
@@ -118,7 +118,6 @@ const activeMenu = computed(() => {
 .collapse-btn {
   position: absolute;
   cursor: pointer;
-  background-color: white;
   border-radius: 9999px;
   padding: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);

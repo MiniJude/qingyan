@@ -18,6 +18,22 @@
       "code_required": "请输入验证码"
     }
   },
+  "header": {
+    "user_center": "个人中心",
+    "logout": "退出登录",
+    "user_profile": {
+      "account_settings": "账号设置",
+      "wechat_assistant": "微信助手",
+      "avatar": "头像",
+      "username": "用户名",
+      "bio": "个人简介",
+      "phone": "手机号",
+      "email": "邮箱",
+      "password": "密码",
+      "coming_soon": "功能开发中，敬请期待...",
+      "bio_placeholder": "请输入个人简介"
+    }
+  },
   "sidebar": {
     "knowledge_base": "知识库",
     "ai_assistant": "AI 助手",

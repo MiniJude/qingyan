@@ -4,8 +4,23 @@ const searchValue = ref('')
 const { currentMenu } = useMenu()
 const { locale, setLocale } = useI18n()
 
+// 个人中心弹框可见性
+const userProfileDialogVisible = ref(true)
+
+// 打开个人中心弹框
+function openUserProfile() {
+  userProfileDialogVisible.value = true
+}
+
 function toggleLanguage() {
   setLocale(locale.value === 'en' ? 'zh-CN' : 'en')
+}
+
+// 退出登录
+function logout() {
+  // 可以在这里添加实际的登出逻辑，如清除token等
+  // 例如：清除token，重定向到登录页
+  // localStorage.removeItem('token')
 }
 </script>
 
@@ -26,8 +41,29 @@ function toggleLanguage() {
       </el-button>
       <DarkToggle />
       <SvgoNotice class="icon-notice" text="24px" cursor-pointer />
-      <img src="@/assets/img/avatar.png" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
+      <el-dropdown trigger="click">
+        <img src="@/assets/img/avatar.png" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <div class="flex items-center gap-2 text-tprimary dark:text-white" @click="openUserProfile">
+                <div i-carbon:user class="h-16px w-16px" />
+                {{ $t('header.user_center') }}
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item divided>
+              <div class="flex items-center gap-2 text-tprimary dark:text-white" @click="logout">
+                <div i-carbon:logout class="h-16px w-16px" />
+                {{ $t('header.logout') }}
+              </div>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
+
+    <!-- 个人中心弹框 -->
+    <UserProfileDialog v-model="userProfileDialogVisible" />
   </div>
 </template>
 

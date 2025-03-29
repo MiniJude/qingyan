@@ -18,6 +18,22 @@
       "code_required": "Please enter verification code"
     }
   },
+  "header": {
+    "user_center": "User Center",
+    "logout": "Logout",
+    "user_profile": {
+      "account_settings": "Account Settings",
+      "wechat_assistant": "WeChat Assistant",
+      "avatar": "Avatar",
+      "username": "Username",
+      "bio": "Bio",
+      "phone": "Phone",
+      "email": "Email",
+      "password": "Password",
+      "coming_soon": "Feature in development, stay tuned...",
+      "bio_placeholder": "Please enter your bio"
+    }
+  },
   "sidebar": {
     "knowledge_base": "Knowledge Base",
     "ai_assistant": "AI Assistant",
