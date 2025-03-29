@@ -153,6 +153,12 @@ function closePasswordDialog() {
 
 <template>
   <el-form class="account-settings-form" label-width="80px" label-position="left">
+    <!-- 头部标题和描述 -->
+    <div class="mb-20px">
+      <h2 class="mb-10px text-24px font-bold">
+        {{ $t('header.user_profile.account_settings') }}
+      </h2>
+    </div>
     <!-- 手机号 -->
     <el-form-item :label="$t('header.user_profile.phone')">
       <div class="flex flex-1 items-center justify-between">
@@ -253,7 +259,7 @@ function closePasswordDialog() {
 
 <style lang="scss" scoped>
 .account-settings-form {
-  padding: 0 20px;
+  padding: 20px;
 
   :deep(.el-form-item) {
     margin-bottom: 0;

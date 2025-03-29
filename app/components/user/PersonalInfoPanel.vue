@@ -103,53 +103,57 @@ const avatar = computed({
 </script>
 
 <template>
-  <div>
-    <el-form
-      ref="formRef"
-      :model="formData"
-      :rules="rules"
-      label-width="80px"
-      class="personal-info-form"
-    >
-      <!-- 头像 -->
-      <el-form-item>
-        <div class="flex items-center">
-          <AvatarUploader
-            v-model="avatar"
-            :has-changed="avatarChanged"
-            :original-avatar="originalData.avatar"
-            @cancel="cancelAvatarUpload"
-          />
-        </div>
-      </el-form-item>
-
-      <!-- 用户名 -->
-      <el-form-item :label="$t('header.user_profile.username')" prop="username">
-        <el-input v-model="formData.username" :placeholder="$t('header.user_profile.username')" />
-      </el-form-item>
-
-      <!-- 个人简介 -->
-      <el-form-item :label="$t('header.user_profile.bio')" prop="bio">
-        <el-input
-          v-model="formData.bio"
-          type="textarea"
-          :rows="4"
-          :placeholder="$t('header.user_profile.bio_placeholder')"
+  <el-form
+    ref="formRef"
+    :model="formData"
+    :rules="rules"
+    label-width="80px"
+    class="personal-info-form"
+  >
+    <!-- 头部标题和描述 -->
+    <div class="mb-20px">
+      <h2 class="mb-10px text-24px font-bold">
+        {{ $t('header.user_profile.personal_info') }}
+      </h2>
+    </div>
+    <!-- 头像 -->
+    <el-form-item>
+      <div class="flex items-center">
+        <AvatarUploader
+          v-model="avatar"
+          :has-changed="avatarChanged"
+          :original-avatar="originalData.avatar"
+          @cancel="cancelAvatarUpload"
         />
-      </el-form-item>
+      </div>
+    </el-form-item>
 
-      <!-- 保存按钮 -->
-      <el-form-item>
-        <el-button
-          type="primary"
-          :disabled="!isDifferent"
-          @click="saveForm"
-        >
-          {{ $t('header.user_profile.save_changes') }}
-        </el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+    <!-- 用户名 -->
+    <el-form-item :label="$t('header.user_profile.username')" prop="username">
+      <el-input v-model="formData.username" :placeholder="$t('header.user_profile.username')" />
+    </el-form-item>
+
+    <!-- 个人简介 -->
+    <el-form-item :label="$t('header.user_profile.bio')" prop="bio">
+      <el-input
+        v-model="formData.bio"
+        type="textarea"
+        :rows="4"
+        :placeholder="$t('header.user_profile.bio_placeholder')"
+      />
+    </el-form-item>
+
+    <!-- 保存按钮 -->
+    <el-form-item>
+      <el-button
+        type="primary"
+        :disabled="!isDifferent"
+        @click="saveForm"
+      >
+        {{ $t('header.user_profile.save_changes') }}
+      </el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <style lang="scss" scoped>

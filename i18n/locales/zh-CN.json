@@ -233,5 +233,29 @@
       "input_placeholder": "请输入内容",
       "send": "发送"
     }
+  },
+  "wechat_assistant": {
+    "title": "微信助手",
+    "description": "绑定微信、添加微信助手，即可将微信内容发送至空间",
+    "step1_title": "第一步：绑定微信",
+    "step1_description": "扫码绑定微信账号",
+    "step2_title": "第二步：添加微信助手",
+    "step2_description": "添加微信助手为好友",
+    "step3_title": "第三步：选择数字空间",
+    "step3_description": "选择同步的目标空间",
+    "scan_bind_tip": "请使用手机微信扫描二维码，绑定微信账号",
+    "scan_add_tip": "请使用手机微信扫描二维码，添加微信助手为好友",
+    "select_space_tip": "向微信助手发送聊天记录、图片、文件、音视频、文章链接等，自动同步到指定数字空间的云文档频道里",
+    "personal_space": "个人空间",
+    "team_space": "团队空间",
+    "project_space": "项目空间",
+    "feature_chat": "聊天记录",
+    "feature_image": "图片",
+    "feature_file": "文件",
+    "feature_media": "音视频",
+    "feature_link": "文章链接",
+    "previous": "上一步",
+    "next": "下一步",
+    "complete": "完成"
   }
 }

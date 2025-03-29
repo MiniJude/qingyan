@@ -233,5 +233,29 @@
       "input_placeholder": "Enter your message",
       "send": "Send"
     }
+  },
+  "wechat_assistant": {
+    "title": "Assistant",
+    "description": "Connect WeChat and add assistant to send WeChat content to your space",
+    "step1_title": "Step 1: Connect WeChat",
+    "step1_description": "Scan QR code to connect",
+    "step2_title": "Step 2: Add Assistant",
+    "step2_description": "Add assistant as friend",
+    "step3_title": "Step 3: Select Space",
+    "step3_description": "Choose target space",
+    "scan_bind_tip": "Please scan this QR code with WeChat to connect your account",
+    "scan_add_tip": "Please scan this QR code with WeChat to add assistant as friend",
+    "select_space_tip": "Send chat history, images, files, media, and article links to the assistant for automatic sync to your selected space",
+    "personal_space": "Personal Space",
+    "team_space": "Team Space",
+    "project_space": "Project Space",
+    "feature_chat": "Chat History",
+    "feature_image": "Images",
+    "feature_file": "Files",
+    "feature_media": "Media",
+    "feature_link": "Article Links",
+    "previous": "Previous",
+    "next": "Next",
+    "complete": "Complete"
   }
 }
