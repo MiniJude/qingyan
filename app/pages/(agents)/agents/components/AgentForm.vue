@@ -160,7 +160,6 @@ defineExpose({
     .el-radio__label {
       font-size: 20px;
       padding-left: 18px;
-      color: #000;
     }
   }
 }

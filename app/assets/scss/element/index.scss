@@ -57,12 +57,21 @@ $dialog: (
 );
 
 
+// --el-messagebox-border-radius
+$messagebox: (
+  'box-shadow': 5px 5px 4px 0 rgba(0, 0, 0, 0.25),
+  'border-radius': 10px,
+  'padding-primary': 28px,
+);
+
+
 @forward 'element-plus/theme-chalk/src/common/var.scss' with ($colors: $-colors,
   $text-color: $text-color,
   $border-color: $border-color,
   $menu: $menu,
   $tree: $tree,
   $dialog: $dialog,
+  $messagebox: $messagebox,
 );
 
 @use './dark.scss';

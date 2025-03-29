@@ -1,3 +1,13 @@
+<script setup lang="ts">
+interface Props {
+  showBackHome?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  showBackHome: true,
+})
+</script>
+
 <template>
   <div h-full flex-center flex-col>
     <div class="coming-soon-container" flex-center flex-col>
@@ -7,7 +17,7 @@
       <p mx-auto max-w-500px text-center text-16px text-tsecondary>
         {{ $t('common.coming_soon.description') }}
       </p>
-      <NuxtLink to="/">
+      <NuxtLink v-if="showBackHome" to="/">
         <el-button type="primary" size="large" mt-40px rounded>
           {{ $t('common.coming_soon.back_home') }}
         </el-button>
