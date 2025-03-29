@@ -21,7 +21,7 @@ function toggleLanguage() {
       </template>
     </el-input>
     <div flex items-center gap-12px>
-      <el-button w-32px type="text" @click="toggleLanguage">
+      <el-button link w-32px @click="toggleLanguage">
         {{ locale === 'en' ? '中' : 'EN' }}
       </el-button>
       <DarkToggle />
