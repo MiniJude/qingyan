@@ -47,10 +47,12 @@ async function handleLogout() {
       <DarkToggle />
       <SvgoNotice class="icon-notice" text="24px" cursor-pointer />
       <el-dropdown trigger="click">
-        <ClientOnly>
-          <img v-if="user?.avatar" :src="user?.avatar" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
-          <img v-else src="@/assets/img/avatar.png" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
-        </ClientOnly>
+        <div>
+          <ClientOnly>
+            <img v-if="user?.avatar" :src="user?.avatar" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
+            <img v-else src="@/assets/img/avatar.png" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
+          </ClientOnly>
+        </div>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
