@@ -36,8 +36,3 @@ pnpm build
 ```bash
 pnpm deploy
 ```
-
-
-
-
-https://github.com/element-plus/element-plus/issues/10979

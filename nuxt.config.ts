@@ -58,6 +58,14 @@ export default defineNuxtConfig({
     '/': {
       redirect: '/agents',
     },
+    '/api/proxy/**': {
+      cors: true,
+      headers: {
+        'access-control-allow-origin': '*',
+        'access-control-allow-methods': 'GET,POST,PUT,DELETE',
+        'access-control-allow-headers': '*',
+      },
+    },
   },
 
   devServer: {
@@ -97,6 +105,15 @@ export default defineNuxtConfig({
         scss: {
           api: 'modern-compiler',
           additionalData: `@use "@/assets/scss/element/index.scss" as element;`,
+        },
+      },
+    },
+    server: {
+      proxy: {
+        '/external-api': {
+          target: 'https://www.writebug.com',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/external-api/, '/api/v3'),
         },
       },
     },

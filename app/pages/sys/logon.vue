@@ -18,7 +18,7 @@ const form = ref({
 })
 
 const rules = ref({
-  email: emailRules,
+  // email: emailRules,
   password: passwordRules,
 })
 
@@ -26,15 +26,26 @@ const formRef = ref<FormInstance>()
 
 function handleSubmit() {
   formRef.value?.validate((valid) => {
-    if (valid) {
-      $fetch('/auth/signin', {
-        method: 'POST',
-        body: form.value,
-        baseURL: 'http://localhost:4001',
-      }).then(() => {
-        ElMessage.success(t('login.success'))
-      })
-    }
+    // if (valid) {
+    //   $fetch('/auth/signin', {
+    //     method: 'POST',
+    //     body: form.value,
+    //     baseURL: 'http://localhost:4001',
+    //   }).then(() => {
+    //     ElMessage.success(t('login.success'))
+    //   })
+    // }
+
+    $api('/copy/?url=https://www.writebug.com/api/v3/member/login/', {
+      method: 'POST',
+      body: {
+        phone: form.value.email,
+        password: form.value.password,
+      },
+    }).then((res) => {
+      debugger
+      ElMessage.success(t('login.success'))
+    })
   })
 }
 </script>

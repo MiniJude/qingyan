@@ -1,4 +1,25 @@
-export default defineNuxtPlugin((nuxtApp) => {
+import { ElMessage } from 'element-plus'
+
+// /copy?url=https://www.writebug.com 接口返回的数据结构
+interface CopyApiResponse {
+  code: number
+  data: any
+  message: string
+}
+
+function copyApiResponseHandler(response: CopyApiResponse) {
+  return new Promise((resolve, reject) => {
+    // 如果返回的code不是50000，则抛出错误
+    if (response.code !== 20000) {
+      ElMessage.error(response.message)
+      reject(new Error(response.message))
+    }
+
+    resolve(response.data)
+  })
+}
+
+export default defineNuxtPlugin((_nuxtApp) => {
   const config = useRuntimeConfig()
   //   const { session } = useUserSession()
 
@@ -10,17 +31,32 @@ export default defineNuxtPlugin((nuxtApp) => {
     //     options.headers.set('Authorization', `Bearer ${session.value?.token}`)
     //   }
     },
-    async onResponseError({ response }) {
-      if (response.status === 401) {
-        await nuxtApp.runWithContext(() => navigateTo('/sys/logon'))
-      }
+    // onResponse钩子不应返回值，只应执行副作用
+    onResponse({ response: _response }) {
+      // 可以在这里执行副作用，但不返回任何值
+    },
+    async onResponseError({ response: _response }) {
+      // if (response.status === 401) {
+      //   await nuxtApp.runWithContext(() => navigateTo('/sys/logon'))
+      // }
     },
   })
+
+  // 包装 api 函数以处理特殊路径
+  const apiWrapper = (url: string, options?: any) => {
+    // 如果是 /copy 路径，使用根路径而不是 apiBase
+    if (url.startsWith('/copy')) {
+      // 直接发送请求到服务器代理路由，不在客户端解析URL
+      return $fetch<CopyApiResponse>(url, options).then(copyApiResponseHandler)
+    }
+    // 其他正常路径使用配置的 api
+    return api(url, options)
+  }
 
   // Expose to useNuxtApp().$api
   return {
     provide: {
-      api,
+      api: apiWrapper,
     },
   }
 })
