@@ -1,41 +1,57 @@
 ---
 description: 
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
-- 在给组件使用unocss样式时，一定要用class="" 包裹，不要直接作为属性使用
-- 写新的html代码时，样式尽可能要用unocss完成，第三方组件非根节点的样式使用scss
-- 在写业务代码时，比如写html和js时，要遵循DRY原则，尽可能复用代码，减少重复代码
-- 定义组件的prop时，要按照以下代码示例：
 
+### 1. **Unocss样式使用**
+- 在给组件应用Unocss样式时，务必使用`class=""`进行包裹，避免直接将样式作为属性使用。
 
-``` typescript
-// 定义组件的props
-interface Props {
-  columns: ColumnItem[]
-  activeIndex?: number
-  /** switch_item的固定宽度，不传则自适应各自的宽度 */
-  itemWidth?: number
-}
+### 2. **样式书写规范**
+- 在编写新的HTML代码时，尽可能使用Unocss来完成样式的设置。
+- 对于第三方组件的非根节点样式，建议使用SCSS进行处理。
 
-const props = withDefaults(defineProps<Props>(), {
-  activeIndex: 0,
-})
+### 3. **遵循DRY原则**
+- 在编写业务代码（HTML、JS等）时，务必遵循**DRY（Don't Repeat Yourself）原则**，尽可能复用代码，减少重复部分。
 
-```
+### 4. **定义组件的props**
+- 在定义组件的`props`时，按照以下示例进行规范：
+  
+  ```typescript
+  // 定义组件的props
+  interface Props {
+    columns: ColumnItem[]
+    activeIndex?: number
+    /** switch_item的固定宽度，不传则自适应各自的宽度 */
+    itemWidth?: number
+  }
+  
+  const props = withDefaults(defineProps<Props>(), {
+    activeIndex: 0,
+  })
+  ```
 
+### 5. **页面跳转处理**
+- 页面跳转的触发元素如果真实展示在DOM中，必须使用`NuxtLink`进行跳转，这有利于SEO优化。
+- 页面跳转时，必须使用`localePath`函数来包裹跳转路径，因为项目使用了国际化。`localePath`可以返回当前语言下的目标路径：
 
+  ```ts
+  const localePath = useLocalePath()
 
-- 页面跳转的触发元素如果真实展示在DOM上，需要使用NuxtLink实现跳转这样有利于SEO
+  router.push(localePath('/xxx'))
+  ```
 
-- 页面跳转必须使用localePath函数包裹，因为项目使用了国际化，localePath可以返回当前语言下的目标路劲：
-```ts
-const localePath = useLocalePath()
+  如果使用`NuxtLink`实现跳转，示例如下：
 
-router.push(localePath('/xxx'))
-```
-如果能NuxtLink实现跳转最好：
+  ```html
+  <NuxtLink :to="localePath('/xxx')">
+  ```
 
-```html
-<NuxtLink :to="localePath('/xxx')">
-```
+### 6. **函数声明方式**
+- 在编写生成函数时，**请使用`function`声明**，避免使用`const`来声明函数表达式：
+
+  ```ts
+  function add() {}
+  // don't
+  const add = () => {}
+  ```
