@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FolderIcon from '@/assets/svg/folder.svg?component'
+import TemplateLibraryDialog from '@/components/TemplateLibraryDialog.vue'
 import Dashboard from './components/Dashboard.vue'
 
 const folderList = ref([
@@ -19,12 +20,18 @@ const folderList = ref([
     name: '未分类',
   },
 ])
+
+// 模板库对话框
+const templateLibraryDialog = ref(false)
+function openTemplateLibrary() {
+  templateLibraryDialog.value = true
+}
 </script>
 
 <template>
   <div h-full flex flex-col pb-18px>
     <div class="btn-group" mr-54px mt-28px flex justify-end gap-12px>
-      <el-button plain size="large">
+      <el-button plain size="large" @click="openTemplateLibrary">
         <template #icon>
           <SvgoTxt />
         </template>
@@ -97,6 +104,8 @@ const folderList = ref([
       />
       <FolderTable class="mt-16px min-h-0 flex-1" />
     </div>
+
+    <TemplateLibraryDialog v-model="templateLibraryDialog" />
   </div>
 </template>
 

@@ -130,6 +130,35 @@
       "content_placeholder": "这是正文",
       "outline_placeholder": "这是内容大纲",
       "notes_placeholder": "这是批注笔记"
+    },
+    "template": {
+      "all": "全部",
+      "markdown": "Markdown文档",
+      "mind": "思维笔记",
+      "flow": "流程图",
+      "ai_doc": "AI文档",
+      "online_doc": "在线文档",
+      "word": "word文档",
+      "powerpoint": "ppt演示文稿",
+      "excel": "excel表格",
+      "new_folder": "新建文件夹",
+      "upload": "上传文档",
+      "daily_plan": "每日计划",
+      "weekly_report": "工作周报",
+      "cornell_notes": "康奈尔笔记",
+      "product_requirements": "产品需求文档",
+      "project_planning": "项目规划",
+      "brainstorming": "头脑风暴",
+      "business_flow": "业务流程图",
+      "decision_flow": "决策流程图",
+      "ai_report": "AI生成报告",
+      "team_doc": "团队协作文档",
+      "resume": "简历模板",
+      "business_plan": "商业计划书",
+      "company_intro": "公司介绍",
+      "project_report": "项目汇报",
+      "budget": "预算表",
+      "project_tracking": "项目跟踪表"
     }
   },
   "common": {
@@ -148,7 +177,8 @@
       "update_success": "{item}已更新",
       "format_error": "格式错误",
       "upload_success": "{item}上传成功",
-      "size_error": "{item}大小不能超过{size}"
+      "size_error": "{item}大小不能超过{size}",
+      "no_templates": "没有找到相关模板"
     },
     "actions": {
       "save": "保存",

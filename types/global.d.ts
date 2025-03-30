@@ -15,3 +15,13 @@ type OptionalIdTree<T extends { children?: T[] }> = Omit<T, 'id' | 'children'> &
 }
 
 type FileTreeTypeWithOptionalId = OptionalIdTree<FileTreeType>
+
+interface Template {
+  id: string
+  type: string
+  file_type: string
+  title: string
+  content: string
+  image: string
+  preview_url: string
+}

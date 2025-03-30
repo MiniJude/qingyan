@@ -78,9 +78,9 @@ function switchMenu(key: string) {
       <div class="w-160px flex flex-col gap-10px rounded-4px p-12px">
         <div
           v-for="menu in menuList" :key="menu.key"
-          class="cursor-pointer rounded-4px p-16px px-20px text-tprimary transition-all duration-300"
-          :class="{ 'text-white !bg-[var(--el-color-primary)]': currentMenu === menu.key }"
-          hover="bg-[var(--el-color-primary-light-3)] !text-white" @click="switchMenu(menu.key)"
+          class="menu-btn hover:menu-btn-hover"
+          :class="{ 'menu-btn-active': currentMenu === menu.key }"
+          @click="switchMenu(menu.key)"
         >
           <div class="flex items-center gap-3">
             <div class="h-20px w-20px shrink-0" :class="[menu.icon]" />

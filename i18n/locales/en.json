@@ -130,6 +130,35 @@
       "content_placeholder": "This is the content",
       "outline_placeholder": "This is the outline",
       "notes_placeholder": "These are the notes"
+    },
+    "template": {
+      "all": "All",
+      "markdown": "Markdown Document",
+      "mind": "Mind Map",
+      "flow": "Flowchart",
+      "ai_doc": "AI Document",
+      "online_doc": "Online Document",
+      "word": "Word Document",
+      "powerpoint": "PowerPoint Presentation",
+      "excel": "Excel Spreadsheet",
+      "new_folder": "New Folder",
+      "upload": "Upload Document",
+      "daily_plan": "Daily Plan",
+      "weekly_report": "Weekly Report",
+      "cornell_notes": "Cornell Notes",
+      "product_requirements": "Product Requirements",
+      "project_planning": "Project Planning",
+      "brainstorming": "Brainstorming",
+      "business_flow": "Business Flow",
+      "decision_flow": "Decision Flow",
+      "ai_report": "AI Generated Report",
+      "team_doc": "Team Collaboration",
+      "resume": "Resume Template",
+      "business_plan": "Business Plan",
+      "company_intro": "Company Introduction",
+      "project_report": "Project Report",
+      "budget": "Budget Table",
+      "project_tracking": "Project Tracking"
     }
   },
   "common": {
@@ -148,7 +177,8 @@
       "update_success": "{item} updated successfully",
       "format_error": "Format error",
       "upload_success": "{item} uploaded successfully",
-      "size_error": "{item} size cannot exceed {size}"
+      "size_error": "{item} size cannot exceed {size}",
+      "no_templates": "No templates found"
     },
     "actions": {
       "save": "Save",
