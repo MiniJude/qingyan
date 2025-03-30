@@ -111,7 +111,7 @@ const templates = ref<Template[]>([])
 
 async function fetchTemplates() {
   try {
-    const { data } = await useFetch<Template[]>('/api/templates')
+    const { data } = await useFetch<Template[]>('/templates')
     if (data.value) {
       templates.value = data.value
     }
