@@ -68,7 +68,7 @@ const spaces = [
       </p>
 
       <div class="mb-20px mt-4">
-        <el-select v-model="selectedSpace" placeholder="请选择空间" class="w-320px">
+        <el-select v-model="selectedSpace" :placeholder="t('common.validation.required', { field: t('wechat_assistant.step3_title') })" class="w-320px">
           <el-option
             v-for="item in spaces"
             :key="item.value"

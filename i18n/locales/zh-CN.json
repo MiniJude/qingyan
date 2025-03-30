@@ -33,28 +33,16 @@
       "email": "邮箱",
       "password": "密码",
       "coming_soon": "功能开发中，敬请期待",
-      "username_required": "请输入用户名",
       "username_length": "用户名长度在2-20个字符之间",
-      "update_success": "个人资料已更新",
       "form_error": "请完善表单信息",
-      "save_changes": "保存修改",
-      "cancel_upload": "撤销上传",
       "save_to_apply": "点击下方保存修改后生效",
-      "avatar_format_info": "上传格式：支持JPG、PNG、JPEG，大小：5M以内",
       "avatar_format_type": "上传格式：支持JPG、PNG、JPEG",
       "avatar_format_size": "大小：5M以内",
       "click_to_change_avatar": "点击修改头像",
-      "avatar_format_error": "只支持JPG、PNG、JPEG格式的图片",
-      "avatar_size_error": "图片大小不能超过5MB",
-      "avatar_upload_success": "头像上传成功",
       "enter_new_phone": "请输入新手机号",
       "enter_new_email": "请输入新邮箱",
       "update_phone": "更新手机号",
       "update_email": "更新邮箱",
-      "phone_format_error": "请输入正确的手机号",
-      "email_format_error": "请输入正确的邮箱格式",
-      "phone_update_success": "手机号已更新",
-      "email_update_success": "邮箱已更新",
       "password_change_coming_soon": "密码修改功能将在后续版本中实现",
       "change_password": "修改密码",
       "current_password": "当前密码",
@@ -63,16 +51,8 @@
       "enter_current_password": "请输入当前密码",
       "password_format_tip": "6-30个英文、数字、特殊字符",
       "enter_confirm_password": "再输入一遍新密码",
-      "current_password_required": "请输入当前密码",
-      "new_password_required": "请输入新密码",
-      "confirm_password_required": "请再次输入新密码",
-      "password_format_error": "密码应为6-30个英文、数字或特殊字符",
-      "password_not_match": "两次输入的密码不一致",
-      "password_update_success": "密码修改成功",
       "new_phone": "新手机号",
-      "new_email": "新邮箱",
-      "phone_required": "请输入手机号",
-      "email_required": "请输入邮箱"
+      "new_email": "新邮箱"
     }
   },
   "sidebar": {
@@ -157,6 +137,34 @@
       "title": "功能开发中",
       "description": "敬请期待~",
       "back_home": "返回首页"
+    },
+    "messages": {
+      "success": "成功",
+      "failed": "失败",
+      "updated": "已更新",
+      "saved": "已保存",
+      "deleted": "已删除",
+      "operation_success": "{operation}成功",
+      "update_success": "{item}已更新",
+      "format_error": "格式错误",
+      "upload_success": "{item}上传成功",
+      "size_error": "{item}大小不能超过{size}"
+    },
+    "actions": {
+      "save": "保存",
+      "cancel": "取消",
+      "confirm": "确定",
+      "edit": "编辑",
+      "delete": "删除",
+      "submit": "提交",
+      "next": "下一步",
+      "previous": "上一步",
+      "complete": "完成"
+    },
+    "validation": {
+      "required": "请输入{field}",
+      "format_error": "{field}格式错误",
+      "password_not_match": "两次输入的密码不一致"
     }
   },
   "agents": {

@@ -64,22 +64,22 @@ const emailForm = ref({
 // 密码表单验证规则
 const passwordRules = reactive<FormRules>({
   currentPassword: [
-    { required: true, message: t('header.user_profile.current_password_required'), trigger: 'blur' },
+    { required: true, message: t('common.validation.required', { field: t('header.user_profile.current_password') }), trigger: 'blur' },
   ],
   newPassword: [
-    { required: true, message: t('header.user_profile.new_password_required'), trigger: 'blur' },
+    { required: true, message: t('common.validation.required', { field: t('header.user_profile.new_password') }), trigger: 'blur' },
     {
       pattern: /^[\w!@#$%^&*]{6,30}$/,
-      message: t('header.user_profile.password_format_error'),
+      message: t('common.validation.format_error', { field: t('header.user_profile.password') }),
       trigger: 'blur',
     },
   ],
   confirmPassword: [
-    { required: true, message: t('header.user_profile.confirm_password_required'), trigger: 'blur' },
+    { required: true, message: t('common.validation.required', { field: t('header.user_profile.confirm_password') }), trigger: 'blur' },
     {
       validator: (rule: any, value: string, callback: (error?: Error) => void) => {
         if (value !== passwordForm.value.newPassword) {
-          callback(new Error(t('header.user_profile.password_not_match')))
+          callback(new Error(t('common.validation.password_not_match')))
         }
         else {
           callback()
@@ -93,16 +93,16 @@ const passwordRules = reactive<FormRules>({
 // 手机号表单验证规则
 const phoneRules = reactive<FormRules>({
   newPhone: [
-    { required: true, message: t('header.user_profile.phone_required'), trigger: 'blur' },
-    { pattern: /^1[3-9]\d{9}$/, message: t('header.user_profile.phone_format_error'), trigger: 'blur' },
+    { required: true, message: t('common.validation.required', { field: t('header.user_profile.phone') }), trigger: 'blur' },
+    { pattern: /^1[3-9]\d{9}$/, message: t('common.validation.format_error', { field: t('header.user_profile.phone') }), trigger: 'blur' },
   ],
 })
 
 // 邮箱表单验证规则
 const emailRules = reactive<FormRules>({
   newEmail: [
-    { required: true, message: t('header.user_profile.email_required'), trigger: 'blur' },
-    { pattern: /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/, message: t('header.user_profile.email_format_error'), trigger: 'blur' },
+    { required: true, message: t('common.validation.required', { field: t('header.user_profile.email') }), trigger: 'blur' },
+    { pattern: /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/, message: t('common.validation.format_error', { field: t('header.user_profile.email') }), trigger: 'blur' },
   ],
 })
 
@@ -150,7 +150,7 @@ async function submitPhoneChange() {
     formData.value.phone = phoneForm.value.newPhone
 
     // 显示成功消息
-    ElMessage.success(t('header.user_profile.phone_update_success'))
+    ElMessage.success(t('common.messages.update_success', { item: t('header.user_profile.phone') }))
 
     // 关闭对话框
     phoneDialogVisible.value = false
@@ -176,7 +176,7 @@ async function submitEmailChange() {
     formData.value.email = emailForm.value.newEmail
 
     // 显示成功消息
-    ElMessage.success(t('header.user_profile.email_update_success'))
+    ElMessage.success(t('common.messages.update_success', { item: t('header.user_profile.email') }))
 
     // 关闭对话框
     emailDialogVisible.value = false
@@ -202,7 +202,7 @@ async function submitPasswordChange() {
     formData.value.password = '********'
 
     // 显示成功消息
-    ElMessage.success(t('header.user_profile.password_update_success'))
+    ElMessage.success(t('common.messages.update_success', { item: t('header.user_profile.password') }))
 
     // 关闭对话框
     passwordDialogVisible.value = false
@@ -294,10 +294,10 @@ function closeDialog(type: 'password' | 'phone' | 'email') {
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="closeDialog('phone')">
-          {{ $t('knowledge_base.cancel') }}
+          {{ $t('common.actions.cancel') }}
         </el-button>
         <el-button type="primary" @click="submitPhoneChange">
-          {{ $t('knowledge_base.confirm') }}
+          {{ $t('common.actions.confirm') }}
         </el-button>
       </div>
     </template>
@@ -331,10 +331,10 @@ function closeDialog(type: 'password' | 'phone' | 'email') {
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="closeDialog('email')">
-          {{ $t('knowledge_base.cancel') }}
+          {{ $t('common.actions.cancel') }}
         </el-button>
         <el-button type="primary" @click="submitEmailChange">
-          {{ $t('knowledge_base.confirm') }}
+          {{ $t('common.actions.confirm') }}
         </el-button>
       </div>
     </template>
@@ -397,10 +397,10 @@ function closeDialog(type: 'password' | 'phone' | 'email') {
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="closeDialog('password')">
-          {{ $t('knowledge_base.cancel') }}
+          {{ $t('common.actions.cancel') }}
         </el-button>
         <el-button type="primary" @click="submitPasswordChange">
-          {{ $t('knowledge_base.confirm') }}
+          {{ $t('common.actions.confirm') }}
         </el-button>
       </div>
     </template>

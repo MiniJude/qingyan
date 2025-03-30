@@ -33,28 +33,16 @@
       "email": "Email",
       "password": "Password",
       "coming_soon": "Coming Soon",
-      "username_required": "Please enter your username",
       "username_length": "Username must be 2-20 characters",
-      "update_success": "Profile updated successfully",
       "form_error": "Please complete the form",
-      "save_changes": "Save Changes",
-      "cancel_upload": "Cancel Upload",
       "save_to_apply": "Click save below to apply changes",
-      "avatar_format_info": "Formats: JPG, PNG, JPEG, Size: Up to 5MB",
       "avatar_format_type": "Formats: JPG, PNG, JPEG",
       "avatar_format_size": "Size: Up to 5MB",
-      "click_to_change_avatar": "Click to change avatar",
-      "avatar_format_error": "Only JPG, PNG and JPEG formats are supported",
-      "avatar_size_error": "Image size cannot exceed 5MB",
-      "avatar_upload_success": "Avatar uploaded successfully",
+      "click_to_change_avatar": "Click to change",
       "enter_new_phone": "Enter new phone number",
       "enter_new_email": "Enter new email address",
       "update_phone": "Update Phone Number",
       "update_email": "Update Email",
-      "phone_format_error": "Please enter a valid phone number",
-      "email_format_error": "Please enter a valid email format",
-      "phone_update_success": "Phone number updated successfully",
-      "email_update_success": "Email updated successfully",
       "password_change_coming_soon": "Password change feature will be available in future versions",
       "change_password": "Change Password",
       "current_password": "Current Password",
@@ -63,16 +51,8 @@
       "enter_current_password": "Enter current password",
       "password_format_tip": "6-30 letters, numbers, special characters",
       "enter_confirm_password": "Enter new password again",
-      "current_password_required": "Please enter current password",
-      "new_password_required": "Please enter new password",
-      "confirm_password_required": "Please confirm new password",
-      "password_format_error": "Password should be 6-30 letters, numbers or special characters",
-      "password_not_match": "Passwords do not match",
-      "password_update_success": "Password updated successfully",
       "new_phone": "New Phone Number",
-      "new_email": "New Email",
-      "phone_required": "Please enter your phone number",
-      "email_required": "Please enter your email"
+      "new_email": "New Email"
     }
   },
   "sidebar": {
@@ -157,6 +137,34 @@
       "title": "Feature in Development",
       "description": "Coming soon!",
       "back_home": "Back to Home"
+    },
+    "messages": {
+      "success": "Success",
+      "failed": "Failed",
+      "updated": "Updated",
+      "saved": "Saved",
+      "deleted": "Deleted",
+      "operation_success": "{operation} successful",
+      "update_success": "{item} updated successfully",
+      "format_error": "Format error",
+      "upload_success": "{item} uploaded successfully",
+      "size_error": "{item} size cannot exceed {size}"
+    },
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "edit": "Edit",
+      "delete": "Delete",
+      "submit": "Submit",
+      "next": "Next",
+      "previous": "Previous",
+      "complete": "Complete"
+    },
+    "validation": {
+      "required": "Please enter {field}",
+      "format_error": "Invalid {field} format",
+      "password_not_match": "Passwords do not match"
     }
   },
   "agents": {

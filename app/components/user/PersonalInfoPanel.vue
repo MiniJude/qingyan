@@ -51,7 +51,7 @@ const avatarChanged = computed(() =>
 // 表单校验规则
 const rules = ref<FormRules>({
   username: [
-    { required: true, message: t('header.user_profile.username_required'), trigger: 'blur' },
+    { required: true, message: t('common.validation.required', { field: t('header.user_profile.username') }), trigger: 'blur' },
     { min: 2, max: 20, message: t('header.user_profile.username_length'), trigger: 'blur' },
   ],
 })
@@ -84,7 +84,7 @@ async function saveForm() {
       isDifferent.value = false
 
       // 显示成功提示
-      ElMessage.success(t('header.user_profile.update_success'))
+      ElMessage.success(t('common.messages.update_success', { item: t('header.user_profile.personal_info') }))
 
       // 如果需要通知父组件更新已完成，可以使用emit
       // emit('update-complete', formData.value)
@@ -150,7 +150,7 @@ const avatar = computed({
         :disabled="!isDifferent"
         @click="saveForm"
       >
-        {{ $t('header.user_profile.save_changes') }}
+        {{ $t('common.actions.save') }}
       </el-button>
     </el-form-item>
   </el-form>

@@ -43,13 +43,13 @@ function handleFileChange(event: Event) {
   // 检查文件类型
   const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg']
   if (!allowedTypes.includes(file.type)) {
-    ElMessage.error(t('header.user_profile.avatar_format_error'))
+    ElMessage.error(t('common.messages.format_error', { item: t('header.user_profile.avatar') }))
     return
   }
 
   // 检查文件大小 (5MB = 5 * 1024 * 1024 bytes)
   if (file.size > 5 * 1024 * 1024) {
-    ElMessage.error(t('header.user_profile.avatar_size_error'))
+    ElMessage.error(t('common.messages.size_error', { item: t('header.user_profile.avatar'), size: '5MB' }))
     return
   }
 
@@ -58,7 +58,7 @@ function handleFileChange(event: Event) {
   reader.onload = (e) => {
     if (e.target?.result) {
       emit('update:modelValue', e.target.result as string)
-      ElMessage.success(t('header.user_profile.avatar_upload_success'))
+      ElMessage.success(t('common.messages.upload_success', { item: t('header.user_profile.avatar') }))
     }
   }
   reader.readAsDataURL(file)
@@ -97,7 +97,7 @@ function cancelUpload() {
       <template v-if="hasChanged">
         <div>
           <el-button type="text" class="text-primary" @click="cancelUpload">
-            {{ $t('header.user_profile.cancel_upload') }}
+            {{ $t('common.actions.cancel') }}
           </el-button>
         </div>
         <div class="mt-1 text-xs text-gray-500">
