@@ -154,8 +154,8 @@ function getStatusText(status: string) {
     </el-upload>
 
     <!-- 文件上传列表 -->
-    <div v-if="fileList.length > 0" class="mt-20px border border-gray-200 rounded-8px">
-      <div v-for="(file, index) in fileList" :key="index" class="border-b border-gray-200 px-12px py-10px last:border-none">
+    <div v-if="fileList.length > 0" class="mt-20px rounded-8px">
+      <div v-for="(file, index) in fileList" :key="index" class="px-12px py-10px">
         <div class="mb-4px flex items-center justify-between">
           <span class="max-w-80% truncate text-14px">{{ file.name }}</span>
           <span class="text-14px" :class="file.status === 'success' ? 'text-success' : ''">

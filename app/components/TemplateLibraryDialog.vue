@@ -193,7 +193,7 @@ const uploadFolders = [
             <div
               v-for="template in filteredTemplates"
               :key="template.id"
-              class="group hover:border-primary-light-8 relative cursor-pointer overflow-hidden border border-gray-200 rounded-8px border-solid bg-overlay shadow-sm transition-all duration-300 hover:translate-y--2px hover:shadow"
+              class="group hover:border-primary-light-8 relative cursor-pointer overflow-hidden border border-gray-200 rounded-8px border-solid bg-overlay shadow-sm transition-all duration-300 hover:translate-y--2px dark:border-gray-9 hover:shadow"
             >
               <!-- 模板标题和描述 -->
               <div class="px-16px py-12px">
