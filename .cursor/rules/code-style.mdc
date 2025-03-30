@@ -55,3 +55,14 @@ alwaysApply: false
   // don't
   const add = () => {}
   ```
+
+
+### 7. **优先使用Element-plus组件**
+
+新增html代码时，优先使用项目的组件库Element-plus来实现。比如：
+- 要用el-button，而不要用button
+
+
+
+
+
