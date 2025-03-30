@@ -191,7 +191,9 @@
       "submit": "提交",
       "next": "下一步",
       "previous": "上一步",
-      "complete": "完成"
+      "complete": "完成",
+      "undo": "撤销",
+      "redo": "重做"
     },
     "validation": {
       "required": "请输入{field}",

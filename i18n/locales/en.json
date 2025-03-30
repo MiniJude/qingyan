@@ -191,7 +191,9 @@
       "submit": "Submit",
       "next": "Next",
       "previous": "Previous",
-      "complete": "Complete"
+      "complete": "Complete",
+      "undo": "Undo",
+      "redo": "Redo"
     },
     "validation": {
       "required": "Please enter {field}",

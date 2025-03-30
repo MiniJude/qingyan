@@ -97,7 +97,7 @@ function cancelUpload() {
       <template v-if="hasChanged">
         <div>
           <el-button type="text" class="text-primary" @click="cancelUpload">
-            {{ $t('common.actions.cancel') }}
+            {{ $t('common.actions.undo') }}
           </el-button>
         </div>
         <div class="mt-1 text-xs text-gray-500">
