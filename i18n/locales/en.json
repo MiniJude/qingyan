@@ -6,6 +6,8 @@
     "forgot_password": "Forgot Password",
     "next_step": "Next",
     "success": "Login successful",
+    "failed": "Login failed",
+    "logout_success": "Logout successful",
     "wechat_title": "Qingyan Think Tank",
     "wechat_desc": "Get the latest news and exciting activities",
     "phone": {

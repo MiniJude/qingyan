@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { CircleCloseFilled } from '@element-plus/icons-vue'
 
-const route = useRoute()
 const { t } = useI18n()
-const title = computed(() => t(route.meta.title as string))
+
+const route = useRoute()
+const getRouteBaseName = useRouteBaseName()
+
+const title = computed(() => {
+  const obj = {
+    'sys-logon': t('login.title'),
+    'sys-logon-phone': t('login.phone.title'),
+  }
+
+  const baseRouteName = getRouteBaseName(route) as keyof typeof obj
+  return obj[baseRouteName]
+})
 </script>
 
 <template>

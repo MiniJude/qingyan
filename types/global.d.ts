@@ -25,3 +25,10 @@ interface Template {
   image: string
   preview_url: string
 }
+
+// /copy?url=https://www.writebug.com 接口返回的数据结构
+interface CopyApiResponse<T> {
+  code: number
+  data: T
+  message: string
+}

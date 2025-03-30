@@ -2,7 +2,10 @@
 const searchValue = ref('')
 
 const { currentMenu } = useMenu()
-const { locale, setLocale } = useI18n()
+const { t, locale, setLocale } = useI18n()
+const localePath = useLocalePath()
+const { logout } = useAuth()
+const { user } = useAuth()
 
 // 个人中心弹框可见性
 const userProfileDialogVisible = ref(false)
@@ -12,15 +15,17 @@ function openUserProfile() {
   userProfileDialogVisible.value = true
 }
 
+// 切换语言
 function toggleLanguage() {
   setLocale(locale.value === 'en' ? 'zh-CN' : 'en')
 }
 
 // 退出登录
-function logout() {
-  // 可以在这里添加实际的登出逻辑，如清除token等
-  // 例如：清除token，重定向到登录页
-  // localStorage.removeItem('token')
+async function handleLogout() {
+  await logout()
+  ElMessage.success(t('login.logout_success'))
+  const path = localePath('sys-logon')
+  await navigateTo(path)
 }
 </script>
 
@@ -42,7 +47,10 @@ function logout() {
       <DarkToggle />
       <SvgoNotice class="icon-notice" text="24px" cursor-pointer />
       <el-dropdown trigger="click">
-        <img src="@/assets/img/avatar.png" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
+        <!-- <img src="@/assets/img/avatar.png" alt="avatar" h-36px w-36px cursor-pointer rounded-full> -->
+        <ClientOnly>
+          <img :src="user?.avatar" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
+        </ClientOnly>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
@@ -52,7 +60,7 @@ function logout() {
               </div>
             </el-dropdown-item>
             <el-dropdown-item divided>
-              <div class="flex items-center gap-2 text-tprimary dark:text-white" @click="logout">
+              <div class="flex items-center gap-2 text-tprimary dark:text-white" @click="handleLogout">
                 <div i-carbon:logout class="h-16px w-16px" />
                 {{ $t('header.logout') }}
               </div>

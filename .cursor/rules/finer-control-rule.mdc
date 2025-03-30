@@ -11,6 +11,11 @@ alwaysApply: true
 ## 技术细节
 
 
+### 国际化配置的路径
+
+- 国际化配置的路径是项目根目录下 /i18n/locales/en.json 和 /i18n/locales/zh-CN.json
+
+
 ### 写新业务代码时
 
 - 你必须严格遵守我在 [code-style.mdc](mdc:.cursor/rules/code-style.mdc) 中提供的代码规范

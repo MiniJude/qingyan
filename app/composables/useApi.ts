@@ -11,7 +11,7 @@ export function useAPI<T>(
   })
 }
 
-export function $api(url: string, options?: any) {
+export function $api<T>(url: string, options?: any): Promise<T> {
   const { $api } = useNuxtApp()
-  return $api(url, options)
+  return $api<T>(url, options)
 }

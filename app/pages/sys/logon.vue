@@ -7,10 +7,11 @@ import { emailRules, passwordRules } from '~/utils/validate'
 
 definePageMeta({
   layout: 'sys',
-  title: 'login.title',
 })
 
 const { t } = useI18n()
+
+const { login } = useAuth()
 
 const form = ref({
   email: '',
@@ -25,27 +26,19 @@ const rules = ref({
 const formRef = ref<FormInstance>()
 
 function handleSubmit() {
-  formRef.value?.validate((valid) => {
-    // if (valid) {
-    //   $fetch('/auth/signin', {
-    //     method: 'POST',
-    //     body: form.value,
-    //     baseURL: 'http://localhost:4001',
-    //   }).then(() => {
-    //     ElMessage.success(t('login.success'))
-    //   })
-    // }
+  formRef.value?.validate(async (valid) => {
+    if (!valid) {
+      return
+    }
 
-    $api('/copy/?url=https://www.writebug.com/api/v3/member/login/', {
-      method: 'POST',
-      body: {
-        phone: form.value.email,
-        password: form.value.password,
-      },
-    }).then((res) => {
-      debugger
+    try {
+      await login(form.value.email, form.value.password)
       ElMessage.success(t('login.success'))
-    })
+      navigateTo('/')
+    }
+    catch (error) {
+      console.error(error)
+    }
   })
 }
 </script>

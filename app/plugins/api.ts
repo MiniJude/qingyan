@@ -1,13 +1,6 @@
 import { ElMessage } from 'element-plus'
 
-// /copy?url=https://www.writebug.com 接口返回的数据结构
-interface CopyApiResponse {
-  code: number
-  data: any
-  message: string
-}
-
-function copyApiResponseHandler(response: CopyApiResponse) {
+function copyApiResponseHandler<T>(response: CopyApiResponse<T>): Promise<T> {
   return new Promise((resolve, reject) => {
     // 如果返回的code不是50000，则抛出错误
     if (response.code !== 20000) {
@@ -43,14 +36,14 @@ export default defineNuxtPlugin((_nuxtApp) => {
   })
 
   // 包装 api 函数以处理特殊路径
-  const apiWrapper = (url: string, options?: any) => {
+  const apiWrapper = <T>(url: string, options?: any): Promise<T> => {
     // 如果是 /copy 路径，使用根路径而不是 apiBase
     if (url.startsWith('/copy')) {
       // 直接发送请求到服务器代理路由，不在客户端解析URL
-      return $fetch<CopyApiResponse>(url, options).then(copyApiResponseHandler)
+      return $fetch<CopyApiResponse<T>>(url, options).then(res => copyApiResponseHandler<T>(res))
     }
     // 其他正常路径使用配置的 api
-    return api(url, options)
+    return api<T>(url, options)
   }
 
   // Expose to useNuxtApp().$api
