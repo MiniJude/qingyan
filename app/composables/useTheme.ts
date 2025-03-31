@@ -136,8 +136,70 @@ export function useTheme() {
     html.style.setProperty('--app-scroll-thumb', colors.value.scrollThumb)
     html.style.setProperty('--app-scroll-regular', colors.value.scrollRegular)
 
-    // 同时更新Element Plus的主要颜色，保持兼容性
+    // 直接更新Element Plus的所有主色调变量
+    // 这样可以覆盖SCSS编译时生成的颜色
     html.style.setProperty('--el-color-primary', colors.value.primaryColor)
+
+    // 动态计算并设置Element Plus的衍生色
+    // 浅色系列 (light)
+    for (let i = 1; i <= 9; i++) {
+      const lightColor = lightenColor(colors.value.primaryColor, i * 10)
+      html.style.setProperty(`--el-color-primary-light-${i}`, lightColor)
+    }
+
+    // 深色系列 (dark)
+    const darkColor = darkenColor(colors.value.primaryColor, 20)
+    html.style.setProperty('--el-color-primary-dark-2', darkColor)
+  }
+
+  // 辅助函数：根据百分比使颜色变浅（与白色混合）
+  function lightenColor(hex: string, percent: number): string {
+    return blendColors(hex, '#ffffff', percent)
+  }
+
+  // 辅助函数：根据百分比使颜色变深（与黑色混合）
+  function darkenColor(hex: string, percent: number): string {
+    return blendColors(hex, '#000000', percent)
+  }
+
+  // 颜色混合函数
+  function blendColors(color1: string, color2: string, percent: number): string {
+    // 转换hex为rgb
+    const rgb1 = hexToRgb(color1)
+    const rgb2 = hexToRgb(color2)
+
+    if (!rgb1 || !rgb2)
+      return color1
+
+    const p = percent / 100
+
+    // 混合颜色
+    const r = Math.round(rgb1.r * (1 - p) + rgb2.r * p)
+    const g = Math.round(rgb1.g * (1 - p) + rgb2.g * p)
+    const b = Math.round(rgb1.b * (1 - p) + rgb2.b * p)
+
+    // 转回hex
+    return rgbToHex(r, g, b)
+  }
+
+  // hex转rgb
+  function hexToRgb(hex: string) {
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i
+    hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b)
+
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+    return result
+      ? {
+          r: Number.parseInt(result[1]!, 16),
+          g: Number.parseInt(result[2]!, 16),
+          b: Number.parseInt(result[3]!, 16),
+        }
+      : null
+  }
+
+  // rgb转hex
+  function rgbToHex(r: number, g: number, b: number): string {
+    return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`
   }
 
   // 修改主题颜色

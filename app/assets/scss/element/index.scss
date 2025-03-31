@@ -1,6 +1,16 @@
 @use "sass:map";
+// Element Plus要求SCSS编译时使用实际颜色值，而不是CSS变量
+// 在这里使用硬编码的颜色值，需要与theme-variables.scss中定义的--app-primary-color保持一致
 $-colors: (
-  'primary': ('base': #660874,
+  'primary': (
+    'base': #660874,
+    // Element Plus 会根据 base 色自动生成这些颜色
+    // 'light-3': #b29fc0,
+    // 'light-5': #ccc1d6,
+    // 'light-7': #e5e0eb,
+    // 'light-8': #efeaf3,
+    // 'light-9': #f7f5f9,
+    // 'dark-2': #52065d,
   ),
   'success': ('base': green,
   ),
@@ -14,29 +24,18 @@ $-colors: (
   ),
 );
 
-
+// 这些组件不需要颜色混合，可以使用CSS变量
 $text-color: (
-  // 强调文字/正文标题
-  'primary': #1D2129,
-  // 次强调文字
-  'regular': #4E5969,
-  // 辅助文字
-  'secondary': #909399,
   // 失效文字
   'disabled': #C9CDD4,
-);
-
-// --el-border-color
-$border-color: (
-  '': #C9CDD4,
 );
 
 
 // --el-menu-bg-color
 $menu: (
   'bg-color': transparent,
-  'hover-bg-color': var(--el-border-color),
-  'active-color': #fff,
+  'hover-bg-color': #E9EDF7,
+  'active-color': #660874,
   'item-height': 40px,
   'base-level-padding': 10px,
 );
@@ -45,8 +44,8 @@ $menu: (
 $tree: (
   'node-content-height': 28px,
   // 'node-hover-bg-color': var(--el-color-primary),
-  'text-color': var(--el-text-color-primary),
-  'expand-icon-color': var(--el-text-color-primary),
+  'text-color': #1D2129,
+  'expand-icon-color': #4E5969,
 );
 
 // --el-dialog-box-shadow
@@ -67,7 +66,6 @@ $messagebox: (
 
 @forward 'element-plus/theme-chalk/src/common/var.scss' with ($colors: $-colors,
   $text-color: $text-color,
-  $border-color: $border-color,
   $menu: $menu,
   $tree: $tree,
   $dialog: $dialog,

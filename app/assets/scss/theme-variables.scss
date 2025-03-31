@@ -48,8 +48,10 @@
 
 // 为Element Plus组件提供自定义主题变量的支持
 :root {
-  // 将Element Plus的主色调链接到我们的自定义变量
-  --el-color-primary: var(--app-primary-color);
+  // 注意：Element Plus的颜色计算需要在SCSS编译时执行
+  // 1. primary颜色需要在index.scss和dark.scss中硬编码与CSS变量相同的值
+  // 2. 当需要修改主题色时，需要同时修改CSS变量和SCSS变量
+  // 3. 以下映射只用于那些不需要颜色计算的属性
   
   // 文本色彩映射
   --el-text-color-primary: var(--app-text-emphasis);
@@ -66,4 +68,9 @@
   --el-scrollbar-bg-color: transparent;
   --el-scrollbar-hover-bg-color: var(--app-scroll-regular);
   --el-scrollbar-thumb-color: var(--app-scroll-thumb);
+
+  // 注意：对于运行时主题切换，我们已经在useTheme.ts中实现了动态计算方案
+  // 1. 通过JavaScript在运行时动态设置--el-color-primary和其所有衍生色
+  // 2. 这样即使SCSS编译时使用了固定颜色，也可以在运行时被CSS变量覆盖
+  // 3. 用户通过ThemeDrawer组件修改颜色时，会自动计算并应用所有的衍生色
 } 
