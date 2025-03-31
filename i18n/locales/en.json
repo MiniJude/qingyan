@@ -20,6 +20,16 @@
       "code_required": "Please enter verification code"
     }
   },
+  "theme": {
+    "title": "Theme Settings",
+    "colors": "Color Configuration",
+    "primary": "Primary Color",
+    "success": "Success Color",
+    "warning": "Warning Color",
+    "danger": "Danger Color",
+    "info": "Info Color",
+    "reset": "Reset Default"
+  },
   "header": {
     "user_center": "User Center",
     "logout": "Logout",

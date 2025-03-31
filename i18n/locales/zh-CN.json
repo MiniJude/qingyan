@@ -20,6 +20,16 @@
       "code_required": "请输入验证码"
     }
   },
+  "theme": {
+    "title": "主题设置",
+    "colors": "颜色配置",
+    "primary": "主要颜色",
+    "success": "成功颜色",
+    "warning": "警告颜色",
+    "danger": "危险颜色",
+    "info": "信息颜色",
+    "reset": "重置默认"
+  },
   "header": {
     "user_center": "个人中心",
     "logout": "退出登录",

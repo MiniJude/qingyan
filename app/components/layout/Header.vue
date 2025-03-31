@@ -6,6 +6,7 @@ const { t, locale, setLocale } = useI18n()
 const localePath = useLocalePath()
 const { logout } = useAuth()
 const { user } = useAuth()
+const { openThemeDrawer } = useTheme()
 
 // 个人中心弹框可见性
 const userProfileDialogVisible = ref(false)
@@ -27,6 +28,11 @@ async function handleLogout() {
   const path = localePath('sys-logon')
   await navigateTo(path)
 }
+
+// 打开主题设置
+function handleOpenThemeDrawer() {
+  openThemeDrawer()
+}
 </script>
 
 <template>
@@ -41,6 +47,9 @@ async function handleLogout() {
       </template>
     </el-input>
     <div flex items-center gap-12px>
+      <el-button link w-32px @click="handleOpenThemeDrawer">
+        <div class="i-carbon-color-palette" text="24px" />
+      </el-button>
       <el-button link w-32px @click="toggleLanguage">
         {{ locale === 'en' ? '中' : 'EN' }}
       </el-button>
@@ -74,6 +83,9 @@ async function handleLogout() {
 
     <!-- 个人中心弹框 -->
     <UserProfileDialog v-model="userProfileDialogVisible" />
+
+    <!-- 主题设置抽屉 -->
+    <ThemeDrawer />
   </div>
 </template>
 
