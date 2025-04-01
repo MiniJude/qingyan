@@ -168,7 +168,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
 
 <style lang="scss" scoped>
 .doc-side-bar {
-  border-right: 1px solid var(--el-border-color);
+  border-right: 1px solid var(--app-border-regular);
 
   .all-doc-btn {
     color: var(--el-color-primary);

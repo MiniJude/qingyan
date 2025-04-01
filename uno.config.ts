@@ -58,13 +58,14 @@ export default defineConfig({
       info: 'var(--el-color-info)',
 
       // 文字颜色
-      tprimary: 'var(--el-text-color-primary)',
-      tregular: 'var(--el-text-color-regular)',
-      tsecondary: 'var(--el-text-color-secondary)',
+      tprimary: 'var(--app-text-emphasis)',
+      tregular: 'var(--app-text-sub-emphasis)',
+      tdisabled: 'var(--app-text-disabled)',
       tplaceholder: 'var(--el-text-color-placeholder)',
-      tdisabled: 'var(--el-text-color-disabled)',
 
       overlay: 'var(--el-bg-color-overlay)',
+      board: 'var(--app-board-bg-color)',
+      cut: 'var(--app-bg-cut-color)',
     },
   },
 })

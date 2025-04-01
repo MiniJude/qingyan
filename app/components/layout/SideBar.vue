@@ -15,7 +15,11 @@ function toggleSidebar() {
 }
 
 // 改为计算属性，依赖 locale 变化自动更新
-const menuList = computed(() => [
+const menuList = computed<{
+  name: string
+  icon: Component
+  path: any
+}[]>(() => [
   {
     name: t('sidebar.knowledge_base'),
     icon: SvgoFolder2,
@@ -36,16 +40,10 @@ const activeMenu = computed(() => {
 
 <template>
   <div
-    class="side-bar bg-[#edeff3]"
+    class="side-bar bg-board"
     :class="[isCollapsed ? 'w-80px' : 'w-242px']"
     relative flex flex-col dark:bg-black
   >
-    <!-- logo -->
-    <!-- <div flex gap-2 h-69px items-center p="l-13px">
-      <div i-carbon:logo-kubernetes text="primary 48px" />
-      <span text="primary font-bold 28px">清研</span>
-    </div> -->
-
     <div class="flex items-center overflow-hidden">
       <div
         class="logo"

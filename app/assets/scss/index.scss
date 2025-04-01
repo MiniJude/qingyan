@@ -1,3 +1,12 @@
+@use './costom/scrollbar';
+
+:root {
+  --el-text-color-primary: var(--app-text-emphasis);
+  --el-text-color-regular: var(--app-text-sub-emphasis);
+  --el-border-color: var(--app-border-regular);
+  --el-bg-color: var(--app-bg-main-white);
+}
+
 html,
 body,
 #app {
@@ -9,9 +18,9 @@ body,
   outline: none;
 }
 
-html.dark {
-  background: #222;
-  color: white;
+html {
+  background-color: var(--app-bg-main-white);
+  color: var(--app-text-emphasis);
 }
 
 a {
@@ -31,6 +40,10 @@ a {
       background-color: var(--el-color-primary);
     }
   }
+}
+
+.el-tree {
+  background-color: var(--app-bg-main-white) !important;
 }
 
 

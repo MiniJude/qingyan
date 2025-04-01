@@ -72,22 +72,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="j-switch bg-[#e9edf7] dark:bg-black">
-    <span
-      class="slider"
-
-      dark:bg-overlay bg-white
-      :style="{ left: `${sliderLeft}px`, width: `${sliderWidth}px` }"
-    />
+  <div class="j-switch bg-cut dark:bg-black">
+    <span class="slider" bg-white dark:bg-overlay :style="{ left: `${sliderLeft}px`, width: `${sliderWidth}px` }" />
     <div class="switch_items_wrapper">
       <span
-        v-for="(item, index) in columns"
-        :key="index"
-        :ref="el => {
+        v-for="(item, index) in columns" :key="index" :ref="el => {
           if (el) switchItemRefs[`switchItem${index}`] = [el as HTMLElement]
-        }"
-        class="switch_item"
-        :style="{ width: itemWidth ? `${itemWidth}px` : 'auto' }"
+        }" class="switch_item" :style="{ width: itemWidth ? `${itemWidth}px` : 'auto' }"
         @click="handleClick($event, item, index)"
       >
         {{ item.label }}
@@ -104,6 +95,7 @@ onUnmounted(() => {
   position: relative;
   border-radius: 4px;
   padding: v-bind('`${PADDING}px`');
+
   .slider {
     position: absolute;
     top: v-bind('`${PADDING}px`');
@@ -113,10 +105,12 @@ onUnmounted(() => {
     z-index: 99;
     transition: all ease 0.2s;
   }
+
   .switch_items_wrapper {
     position: relative;
     z-index: 999;
     height: 100%;
+
     .switch_item {
       cursor: pointer;
       font-size: 12px;

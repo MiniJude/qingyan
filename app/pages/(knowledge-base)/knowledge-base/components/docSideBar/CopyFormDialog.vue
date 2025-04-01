@@ -48,6 +48,6 @@ defineExpose({
 
 <style lang="scss" scoped>
 .pure-doc-tree-container {
-  border: 1px solid var(--el-border-color);
+  border: 1px solid var(--app-border-regular);
 }
 </style>

@@ -14,7 +14,7 @@ withDefaults(defineProps<Props>(), {
       <h1 mb-16px text-30px text-tprimary font-bold>
         {{ $t('common.coming_soon.title') }}
       </h1>
-      <p mx-auto max-w-500px text-center text-16px text-tsecondary>
+      <p mx-auto max-w-500px text-center text-16px text-tdisabled>
         {{ $t('common.coming_soon.description') }}
       </p>
       <NuxtLink v-if="showBackHome" to="/">

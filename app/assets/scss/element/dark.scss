@@ -1,14 +1,9 @@
+// 这些是Element Plus暗黑模式的编译时默认值
+// 实际运行时会被useTheme.ts中的动态颜色覆盖
 @forward 'element-plus/theme-chalk/src/dark/var.scss' with (
   $colors: (
     'primary': (
-      'base': #8D7697,
-      // Element Plus 会根据 base 色自动生成这些颜色
-      // 'light-3': #b29fc0, 
-      // 'light-5': #ccc1d6,
-      // 'light-7': #e5e0eb,
-      // 'light-8': #efeaf3,
-      // 'light-9': #f7f5f9,
-      // 'dark-2': #52065d,
+      'base': #8D7697, // 暗黑模式下的主题色
     ),
   ),
   $bg-color: (

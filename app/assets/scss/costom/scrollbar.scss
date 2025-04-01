@@ -1,0 +1,26 @@
+.el-scrollbar {
+    --el-scrollbar-opacity: 1 !important;
+    --el-scrollbar-bg-color: var(--app-scroll-regular) !important;
+    --el-scrollbar-hover-opacity: 1 !important;
+    --el-scrollbar-hover-bg-color: var(--app-scroll-thumb) !important;
+}
+
+* {
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--app-scroll-regular);
+        border-radius: 3px;
+
+        &:hover {
+            background-color: var(--app-scroll-thumb);
+        }
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+}
