@@ -32,3 +32,12 @@ interface CopyApiResponse<T> {
   data: T
   message: string
 }
+
+/** 流程弹框的每个步骤的类型 */
+interface FlowStepItem {
+  component: ShallowRef<Component>
+  title?: string
+}
+
+/** 国际化路由路径 */
+type I18nRoutePath = keyof RouteNamedMapI18n | RouteLocationI18nGenericPath

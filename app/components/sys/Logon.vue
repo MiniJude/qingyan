@@ -3,62 +3,56 @@ import type { FormInstance } from 'element-plus'
 import { User } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
-import RegisterDialog from '~/components/RegisterDialog.vue'
+import { HOME_ROUTE } from '~/constants'
+import { callbackSymbol } from '~/constants/symbols'
 import { createValidationRules } from '~/utils/validate'
 
-definePageMeta({
-  layout: 'sys',
-})
+const callback = inject(callbackSymbol) as (eventName: string, ...args: any[]) => void
 
 const { t } = useI18n()
 
 const { login } = useAuth()
 
-// 注册弹框显示状态
-const registerDialogVisible = ref(false)
-
-// 打开注册弹框
-function openRegisterDialog() {
-  registerDialogVisible.value = true
-}
+const localePath = useLocalePath()
 
 const form = ref({
-  email: '',
+  phone: '',
   password: '',
 })
 
 // 获取表单验证规则
-const { emailRules, passwordRules } = createValidationRules()
+const { passwordRules } = createValidationRules()
 
 const rules = ref({
-  email: emailRules,
+  phone: [{ required: true, message: t('common.validation.required', { field: t('header.user_profile.phone') }), trigger: 'blur' }],
   password: passwordRules,
 })
 
 const formRef = ref<FormInstance>()
 
-function handleSubmit() {
-  formRef.value?.validate(async (valid) => {
-    if (!valid) {
-      return
-    }
+async function submit() {
+  await formRef.value?.validate()
 
-    try {
-      await login(form.value.email, form.value.password)
-      ElMessage.success(t('login.success'))
-      navigateTo('/')
-    }
-    catch (error) {
-      console.error(error)
-    }
-  })
+  try {
+    await login(form.value.phone, form.value.password)
+    ElMessage.success(t('login.success'))
+    navigateTo(localePath(HOME_ROUTE))
+  }
+  catch (error) {
+    console.error(error)
+    throw new Error('登录失败')
+  }
 }
+
+defineExpose({
+  submit,
+})
 </script>
 
 <template>
   <div>
     <div p="r-60px" flex="~ gap-5px" w-650px items-center>
-      <div flex="~ col items-center" w-265px>
+      <div flex="~ col items-center" mb-10px w-265px self-end>
         <img src="@/assets/img/qrcode.png" alt="wechat" w-145px>
         <div mt-15px w-145px flex items-center pl-7px>
           <img src="@/assets/img/wechat.png" alt="wechat" w-21px>
@@ -69,11 +63,11 @@ function handleSubmit() {
         </p>
       </div>
       <el-form
-        ref="formRef" class="w-320px pb-40px pt-83px" :model="form" :rules="rules" label-width="100px"
+        ref="formRef" class="w-320px pb-20px pt-83px" :model="form" :rules="rules" label-width="100px"
         label-position="top"
       >
-        <el-form-item :label="$t('login.email')" prop="email">
-          <el-input v-model="form.email" autocomplete="off">
+        <el-form-item :label="`${$t('login.phone.phone')}/${$t('header.user_profile.username')}`" prop="phone">
+          <el-input v-model="form.phone" autocomplete="off">
             <template #suffix>
               <el-icon>
                 <User />
@@ -85,19 +79,11 @@ function handleSubmit() {
           <el-input v-model="form.password" type="password" show-password />
         </el-form-item>
         <div flex="~ justify-between" text="12px tprimary" opacity-90>
-          <span cursor-pointer hover-text-primary @click="openRegisterDialog">{{ $t('login.no_account_register') }}</span>
-          <span cursor-pointer>{{ $t('login.forgot_password') }}</span>
+          <span cursor-pointer hover-text-primary @click="callback('openRegisterDialog')">{{ $t('login.no_account_register') }}</span>
+          <span cursor-pointer hover-text-primary>{{ $t('login.forgot_password') }}</span>
         </div>
-        <el-form-item class="!mb-0 !mt-30px">
-          <el-button type="primary" class="mx-auto block !h-40px !w-102px" @click="handleSubmit">
-            {{ $t('login.next_step') }}
-          </el-button>
-        </el-form-item>
       </el-form>
     </div>
-
-    <!-- 注册弹框组件 -->
-    <RegisterDialog v-model:visible="registerDialogVisible" />
   </div>
 </template>
 

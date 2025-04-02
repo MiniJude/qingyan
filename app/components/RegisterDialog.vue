@@ -94,26 +94,23 @@ async function getVerificationCode() {
     const encodedPhone = btoa(registerForm.value.phone)
     const phoneWithPrefix = `${PHONE_ENCRYPT_PREFIX}${encodedPhone}`
 
-    // 发送验证码请求
-    await $api(`/copy/?url=https://www.writebug.com/api/v3/member/vcode/?phone=${encodeURIComponent(phoneWithPrefix)}`)
-    // 手机号验证通过后发送验证码
-    ElMessage.success(t('login.phone.vcode_sent'))
-    // 设置验证码已发送状态
-    isVcodeSent.value = true
-    // 开始倒计时
-    startCountdown()
+    try {
+      // 发送验证码请求
+      await $api(`/copy/?url=https://www.writebug.com/api/v3/member/vcode/?phone=${encodeURIComponent(phoneWithPrefix)}`)
+      // 手机号验证通过后发送验证码
+      ElMessage.success(t('login.phone.vcode_sent'))
+      // 设置验证码已发送状态
+      isVcodeSent.value = true
+      // 开始倒计时
+      startCountdown()
+    }
+    catch (error) {
+      console.error('验证码发送失败', error)
+      ElMessage.error(t('login.phone.vcode_sent_failed'))
+    }
   }
   catch (error) {
-    console.error('验证码发送失败', error)
-    ElMessage.error(t('login.phone.vcode_sent_failed'))
-  }
-}
-
-// 监听验证码输入
-async function handleVcodeInput() {
-  // 当验证码已发送且达到6位时自动校验
-  if (isVcodeSent.value && registerForm.value.vcode.length === 6) {
-    await submitRegister()
+    console.error('手机号验证失败', error)
   }
 }
 
@@ -121,9 +118,22 @@ async function handleVcodeInput() {
 async function submitRegister() {
   try {
     await registerFormRef.value?.validate()
-    // 校验成功，这里添加注册逻辑
-    ElMessage.success(t('login.register_success'))
-    closeDialog()
+
+    try {
+      // 校验成功，这里添加注册逻辑
+      await $api(`/copy/?url=https://www.writebug.com/api/v3/member/vcode/`, {
+        method: 'POST',
+        body: {
+          phone: registerForm.value.phone,
+          vcode: registerForm.value.vcode,
+        },
+      })
+      ElMessage.success(t('login.register_success'))
+      closeDialog()
+    }
+    catch (error) {
+      console.error('注册失败', error)
+    }
   }
   catch (error) {
     // 校验失败
@@ -168,12 +178,11 @@ async function submitRegister() {
             v-model="registerForm.vcode"
             class="flex-1"
             maxlength="6"
-            @input="handleVcodeInput"
           />
           <el-button
             type="primary"
             min-w-20
-            :disabled="countdown > 0"
+            :disabled="(countdown > 0) || (registerForm.phone.length !== 11)"
             @click="getVerificationCode"
           >
             {{ countdown > 0 ? `${countdown}s` : (isVcodeSent ? $t('login.phone.resend_vcode') : $t('login.phone.get_vcode')) }}
@@ -181,5 +190,13 @@ async function submitRegister() {
         </div>
       </el-form-item>
     </el-form>
+
+    <template #footer>
+      <div flex="~ justify-center">
+        <el-button type="primary" size="large" @click="submitRegister">
+          {{ $t('common.actions.confirm') }}
+        </el-button>
+      </div>
+    </template>
   </el-dialog>
 </template>

@@ -1,6 +1,11 @@
 ---
 description: 
 globs: 
+alwaysApply: false
+---
+---
+description: 
+globs: 
 alwaysApply: true
 ---
 
@@ -128,3 +133,20 @@ const response = await fetch(`https://www.writebug.com/api/v3/member/vcode/?phon
 const data = await response.json()
 
 ```
+
+
+### 12. **使用 TypeScript 类型定义 emit**
+- 在定义组件的`emit`时，应该使用使用 TypeScript 类型定义 emit，而不要使用defineEmits的运行时定义 props。如下示例：
+  
+  ```typescript
+  // should: 
+  const emit = defineEmits<{
+    (e: 'update:currentStep', value: number): void
+    (e: 'update:modelValue', value: boolean): void
+  }>()
+
+
+  // don't
+  const emit = defineEmits(['update:currentStep', 'update:modelValue'])
+  ```
+

@@ -56,9 +56,6 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/': {
-      redirect: '/agents',
-    },
     '/api/proxy/**': {
       cors: true,
       headers: {

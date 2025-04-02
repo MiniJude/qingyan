@@ -24,7 +24,7 @@ function toggleLanguage() {
 async function handleLogout() {
   await logout()
   ElMessage.success(t('login.logout_success'))
-  const path = localePath('sys-logon')
+  const path = localePath('/' as I18nRoutePath)
   await navigateTo(path)
 }
 </script>

@@ -18,6 +18,7 @@ export default defineConfig({
     ['menu-btn', 'cursor-pointer rounded-4px p-16px px-20px text-tprimary transition-all duration-300'],
     ['menu-btn-active', 'text-white !bg-[var(--el-color-primary)]'],
     ['menu-btn-hover', 'hover:bg-[var(--el-color-primary-light-3)] !text-white'],
+    ['absolute-center', 'absolute inset-0 flex-center'],
   ],
   presets: [
     presetWind3(),
