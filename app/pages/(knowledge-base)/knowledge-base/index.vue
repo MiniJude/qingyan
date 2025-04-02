@@ -125,7 +125,7 @@ function openTemplateLibrary() {
   .folder-item {
     height: 60px;
     border-radius: 4px;
-    border: 1px solid var(--el-border-color);
+    border: 1px solid var(--app-border-regular);
     display: flex;
   }
 }

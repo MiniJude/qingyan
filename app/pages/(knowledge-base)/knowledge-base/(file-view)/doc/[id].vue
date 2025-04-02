@@ -57,7 +57,7 @@ const activeIndex = ref(0)
           <span ml-22px>{{ $t('knowledge_base.doc_view.document_assistant') }}</span>
         </el-button>
         <JSwitch v-model:active-index="activeIndex" :columns="[{ label: $t('knowledge_base.doc_view.content_outline') }, { label: $t('knowledge_base.doc_view.notes') }]" h-36px :item-width="83" />
-        <div class="note-container bg-[#edeff3] dark:bg-black">
+        <div class="note-container bg-board dark:bg-black">
           <span v-if="activeIndex === 0">{{ $t('knowledge_base.doc_view.outline_placeholder') }}</span>
           <span v-else>{{ $t('knowledge_base.doc_view.notes_placeholder') }}</span>
         </div>

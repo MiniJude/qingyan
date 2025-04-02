@@ -1,18 +1,16 @@
 // 全局主题变量
 
-// 主调色板
+// 基础亮色主题变量 - 这些变量作为默认值且会被JavaScript在运行时动态更新
 :root {
-  // 主调色板
-  --app-primary-color: #660874;          // 强调的功能操作，确定按钮
-  --app-primary-hover-color: #8D7697;    // 悬浮色
-  --app-nav-bar-bg-color: #EDEFF3;       // 导航栏底色，看板底色
+  // // 主调色板
+  --app-board-bg-color: #EDEFF3;       // 导航栏底色，看板底色
   --app-bg-cut-color: #E9EDF7;           // 切换按钮色，目录选中色白底悬浮色
-  --app-bg-main-white: #FFFFFF;          // 主页背景底色
+  --app-bg-main-white: #fff;          // 主页背景底色
 
   // 字体调色板
   --app-text-emphasis: #1D2129;          // 强调文字/正文标题
   --app-text-sub-emphasis: #4E5969;      // 次强调文字
-  --app-text-secondary: #C9CDD4;         // 置灰信息
+  --app-text-disabled: #C9CDD4;         // 置灰信息
   --app-text-light: #FFFFFF;             // 深底文字
 
   // 边框/分割线调色板
@@ -23,19 +21,18 @@
   --app-scroll-regular: #C9CDD4;         // 常规
 }
 
-// 暗黑模式变量
+// 暗黑模式变量 - 这些变量会在dark类被添加时生效，但会被JS动态覆盖
+// 这些仅作为回退值，真实暗黑模式颜色将由useTheme.ts动态应用
 .dark {
   // 主调色板
-  --app-primary-color: #8D7697;          // 暗色模式下的主色调
-  --app-primary-hover-color: #660874;    // 暗色模式下的悬浮色
-  --app-nav-bar-bg-color: #2D313A;       // 暗色模式下的导航栏底色
+  --app-board-bg-color: #2D313A;       // 暗色模式下的导航栏底色
   --app-bg-cut-color: #4E5969;           // 暗色模式下的切换按钮色
   --app-bg-main-white: #1D2129;          // 暗色模式下的主页背景底色
 
   // 字体调色板
   --app-text-emphasis: #FFFFFF;          // 暗色模式下的强调文字
   --app-text-sub-emphasis: #C9CDD4;      // 暗色模式下的次强调文字
-  --app-text-secondary: #4E5969;         // 暗色模式下的置灰信息
+  --app-text-disabled: #4E5969;         // 暗色模式下的置灰信息
   --app-text-light: #1D2129;             // 暗色模式下的深底文字
 
   // 边框/分割线调色板
@@ -46,31 +43,3 @@
   --app-scroll-regular: #4E5969;         // 暗色模式下的滚动条常规
 }
 
-// 为Element Plus组件提供自定义主题变量的支持
-:root {
-  // 注意：Element Plus的颜色计算需要在SCSS编译时执行
-  // 1. primary颜色需要在index.scss和dark.scss中硬编码与CSS变量相同的值
-  // 2. 当需要修改主题色时，需要同时修改CSS变量和SCSS变量
-  // 3. 以下映射只用于那些不需要颜色计算的属性
-  
-  // 文本色彩映射
-  --el-text-color-primary: var(--app-text-emphasis);
-  --el-text-color-regular: var(--app-text-sub-emphasis);
-  --el-text-color-secondary: var(--app-text-secondary);
-  
-  // 边框颜色映射
-  --el-border-color: var(--app-border-regular);
-  
-  // 背景颜色映射
-  --el-bg-color: var(--app-bg-main-white);
-  
-  // 滚动条样式
-  --el-scrollbar-bg-color: transparent;
-  --el-scrollbar-hover-bg-color: var(--app-scroll-regular);
-  --el-scrollbar-thumb-color: var(--app-scroll-thumb);
-
-  // 注意：对于运行时主题切换，我们已经在useTheme.ts中实现了动态计算方案
-  // 1. 通过JavaScript在运行时动态设置--el-color-primary和其所有衍生色
-  // 2. 这样即使SCSS编译时使用了固定颜色，也可以在运行时被CSS变量覆盖
-  // 3. 用户通过ThemeDrawer组件修改颜色时，会自动计算并应用所有的衍生色
-} 

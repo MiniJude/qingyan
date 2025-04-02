@@ -48,7 +48,7 @@ const features = [
     <div my-40px min-h-0 flex-1 overflow-y-auto>
       <ul class="box-container">
         <li
-          v-for="feature in features" :key="feature.title" class="box-item bg-[#edeff3] dark:bg-black" p="x-24px y-16px"
+          v-for="feature in features" :key="feature.title" class="box-item bg-board dark:bg-black" p="x-24px y-16px"
           h-120px flex cursor-pointer items-center rounded-4px
         >
           <component :is="feature.icon" mr-21px text="40px primary" />
@@ -56,7 +56,7 @@ const features = [
             <p text-16px>
               {{ feature.title }}
             </p>
-            <p text-14px text-tsecondary style="color: #86909C;">
+            <p text-14px style="color: #86909C;">
               {{ feature.description }}
             </p>
           </div>

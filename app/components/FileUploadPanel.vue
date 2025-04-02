@@ -182,7 +182,7 @@ function getStatusText(status: string) {
   justify-content: center;
   align-items: center;
   padding: 40px;
-  border: 1px dashed var(--el-border-color);
+  border: 1px dashed var(--app-border-regular);
   border-radius: 8px;
   transition: colors 0.3s;
 

@@ -19,7 +19,7 @@ const title = computed(() => {
 
 <template>
   <main h-full flex-center>
-    <div class="sys-layout bg-[#edeff3] dark:bg-black" relative m-auto h-850px w-1351px flex-center rounded-10px>
+    <div class="sys-layout bg-board dark:bg-black" relative m-auto h-850px w-1351px flex-center rounded-10px>
       <img src="@/assets/img/logo.png" alt="logo" absolute left-25px top-26px h-64px w-134px>
       <CircleCloseFilled color="primary" absolute right-35px top-38px h-40px w-40px cursor-pointer />
 

@@ -39,6 +39,6 @@
 
 <style lang="scss" scoped>
 .agent-header {
-  border-bottom: 1px solid var(--el-border-color);
+  border-bottom: 1px solid var(--app-border-regular);
 }
 </style>

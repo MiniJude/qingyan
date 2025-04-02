@@ -75,7 +75,7 @@ const formDialogRef = ref<InstanceType<typeof FormDialog>>()
 }
 
 .agents-container {
-  border-right: 1px solid var(--el-border-color);
+  border-right: 1px solid var(--app-border-regular);
 }
 
 .agent-item {
