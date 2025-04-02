@@ -68,7 +68,34 @@ alwaysApply: true
 
 - 封装业务组件时，如果和其父组件没有明显联动需求，就无需向父组件暴露方法或者emit事件
 
+### 9. **使用async await的异步编程风格**
 
+- 在涉及到异步编程时，请使用async await的编程风格，不要使用Promise.then的风格
+- 捕获异常时请使用try catch，不要使用Promise.catch
+
+比如：
+```ts
+// should:
+async function submitRegister() {
+  try {
+    await registerFormRef.value?.validate()
+    // 校验成功
+  } catch (error) {
+    // 校验失败
+  }
+}
+
+// don't:
+function submitRegister() {
+  registerFormRef.value?.validate((valid) => {
+    if (valid) {
+      // 校验成功
+    } else {
+      // 校验失败
+    }
+  })
+}
+```
 
 
 
