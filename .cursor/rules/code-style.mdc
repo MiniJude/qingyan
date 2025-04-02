@@ -14,20 +14,26 @@ alwaysApply: true
 ### 3. **遵循DRY原则**
 - 在编写业务代码（HTML、JS等）时，务必遵循**DRY（Don't Repeat Yourself）原则**，尽可能复用代码，减少重复部分。
 
-### 4. **定义组件的props**
-- 在定义组件的`props`时，按照以下示例进行规范：
+### 4. **使用 TypeScript 类型定义 props**
+- 在定义组件的`props`时，应该使用使用 TypeScript 类型定义 props，而不要使用 Options API 风格的对象语法定义 props。如下示例：
   
   ```typescript
+  // should: 
   // 定义组件的props
   interface Props {
-    columns: ColumnItem[]
-    activeIndex?: number
-    /** switch_item的固定宽度，不传则自适应各自的宽度 */
-    itemWidth?: number
+    visible?: boolean
   }
-  
   const props = withDefaults(defineProps<Props>(), {
-    activeIndex: 0,
+    visible: false,
+  })
+
+
+  // don't
+  const props = defineProps({
+    visible: {
+      type: Boolean,
+      default: false,
+    }
   })
   ```
 
@@ -97,5 +103,28 @@ function submitRegister() {
 }
 ```
 
+### 10. **优先使用vueuse库**
 
+- 实现功能时，优先查找本项目的vueuse版本是否支持响应的hook，如果有则使用vueuse封装好的
 
+### 11. **使用我自己封装的$api 或者 useAPI来发起http请求**
+
+- 请不要使用原生的fetch方法来发起http请求
+
+- 请使用我自己封装的$api 或者 useAPI来发起http请求
+
+- $api和useAPI文件路径在app\composables\useApi.ts，但请注意你不需要显示导入，因为写在composables目录下的export函数会自动注册到全局
+
+- 当我提到“转发”接口时，请在我提供的url前面拼接'/copy/?url='
+  
+- 写法示例：
+```ts
+
+// should:
+const data = await $api(`/copy/?url=https://www.writebug.com/api/v3/member/vcode/?phone=${encodeURIComponent(phoneWithPrefix)}`)
+
+// don't
+const response = await fetch(`https://www.writebug.com/api/v3/member/vcode/?phone=${encodeURIComponent(phoneWithPrefix)}`)
+const data = await response.json()
+
+```

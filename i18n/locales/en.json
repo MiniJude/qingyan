@@ -10,14 +10,23 @@
     "logout_success": "Logout successful",
     "wechat_title": "Qingyan Think Tank",
     "wechat_desc": "Get the latest news and exciting activities",
+    "no_account_register": "No account? Register now",
+    "register": "Register Account",
+    "register_success": "Registration successful",
+    "password_length": "Password must be 6-16 characters",
     "phone": {
       "title": "Enter Phone Number",
       "phone": "Phone Number",
-      "code": "Verification Code",
-      "get_code": "Get Code",
+      "vcode": "Verification Code",
+      "get_vcode": "Get Code",
+      "resend_vcode": "Resend",
       "finish": "Finish",
       "phone_required": "Please enter your phone number",
-      "code_required": "Please enter verification code"
+      "phone_format_error": "Please enter a valid phone number",
+      "phone_not_available": "This phone number is already registered",
+      "vcode_required": "Please enter the verification code",
+      "vcode_sent": "Verification code sent",
+      "vcode_sent_failed": "Failed to send verification code, please try again later"
     }
   },
   "theme": {

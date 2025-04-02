@@ -1,22 +1,88 @@
 import type { FormItemRule } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
-// 邮箱验证规则
-export const emailRules: FormItemRule[] = [
-  { required: true, message: '请输入邮箱', trigger: 'blur' },
-  {
-    pattern: /^[\w.%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
-    message: '请输入正确的邮箱格式',
-    trigger: 'blur',
-  },
-]
+/**
+ * 检查手机号是否有效（通过后端API验证）
+ * @param phone 手机号
+ * @returns 验证结果
+ */
+async function checkPhone(phone: string) {
+  await $api('/copy/?url=https://www.writebug.com/api/v3/member/register/checkPhone/', {
+    method: 'POST',
+    body: { phone },
+  })
+}
 
-// 密码验证规则
-export const passwordRules: FormItemRule[] = [
-  { required: true, message: '请输入密码', trigger: 'blur' },
-  {
-    min: 6,
-    max: 16,
-    message: '密码长度在6-16个字符之间',
-    trigger: 'blur',
-  },
-]
+/**
+ * 创建带有国际化的表单验证规则
+ */
+export function createValidationRules() {
+  const { t } = useI18n()
+
+  // 邮箱验证规则
+  const emailRules: FormItemRule[] = [
+    { required: true, message: t('common.validation.required', { field: t('header.user_profile.email') }), trigger: 'blur' },
+    {
+      pattern: /^[\w.%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
+      message: t('common.validation.format_error', { field: t('header.user_profile.email') }),
+      trigger: 'blur',
+    },
+  ]
+
+  // 密码验证规则
+  const passwordRules: FormItemRule[] = [
+    { required: true, message: t('common.validation.required', { field: t('header.user_profile.password') }), trigger: 'blur' },
+    {
+      min: 6,
+      max: 16,
+      message: t('login.password_length'),
+      trigger: 'blur',
+    },
+  ]
+
+  // 手机号验证规则
+  const phonePattern = /^1[3-9]\d{9}$/
+  const phoneRules: FormItemRule[] = [
+    { required: true, message: t('login.phone.phone_required'), trigger: 'blur' },
+    {
+      pattern: phonePattern,
+      message: t('login.phone.phone_format_error'),
+      trigger: 'blur',
+    },
+    // 异步验证手机号
+    {
+      validator: (rule, value, callback) => {
+        // 如果手机号不是11位或者不符合正则，不进行API验证
+        if (!value || value.length !== 11 || !phonePattern.test(value)) {
+          callback()
+          return
+        }
+
+        // 进行API验证
+        checkPhone(value).then(() => {
+          callback()
+        }).catch((error) => {
+          if (error.message) {
+            callback(new Error(error.message))
+          }
+          else {
+            callback(new Error(t('login.phone.phone_not_available')))
+          }
+        })
+      },
+      trigger: ['blur', 'change'],
+    },
+  ]
+
+  // 验证码验证规则
+  const vcodeRules: FormItemRule[] = [
+    { required: true, message: t('login.phone.vcode_required'), trigger: 'blur' },
+  ]
+
+  return {
+    emailRules,
+    passwordRules,
+    phoneRules,
+    vcodeRules,
+  }
+}

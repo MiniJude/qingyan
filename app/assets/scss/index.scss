@@ -57,9 +57,7 @@ a {
 .el-dialog {
 
   .el-dialog__header {
-    &:not(.show-close) {
-      padding-right: 0;
-    }
+    padding-right: 0 !important;
 
     .el-dialog__title {
       display: block;
