@@ -4,8 +4,7 @@ const searchValue = ref('')
 const { currentMenu } = useMenu()
 const { t, locale, setLocale } = useI18n()
 const localePath = useLocalePath()
-const { logout } = useAuth()
-const { user } = useAuth()
+const user = useUser()
 
 // 个人中心弹框可见性
 const userProfileDialogVisible = ref(false)
@@ -22,7 +21,7 @@ function toggleLanguage() {
 
 // 退出登录
 async function handleLogout() {
-  await logout()
+  await useLogout()
   ElMessage.success(t('login.logout_success'))
   const path = localePath('/' as I18nRoutePath)
   await navigateTo(path)

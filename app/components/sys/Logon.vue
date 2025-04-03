@@ -13,8 +13,6 @@ const props = defineProps<{
 
 const { t } = useI18n()
 
-const { login } = useAuth()
-
 const localePath = useLocalePath()
 
 const form = ref({
@@ -36,7 +34,7 @@ async function submit() {
   await formRef.value?.validate()
 
   try {
-    await login(form.value.phone, form.value.password)
+    await useLogin(form.value.phone, form.value.password)
     ElMessage.success(t('login.success'))
     navigateTo(localePath(HOME_ROUTE))
   }
