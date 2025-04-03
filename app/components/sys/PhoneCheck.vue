@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
-import { useIntervalFn } from '@vueuse/core'
-import { ElMessage } from 'element-plus'
-import { ref, watch } from 'vue'
 import { PHONE_ENCRYPT_PREFIX } from '~/constants'
 import { createValidationRules } from '~/utils/validate'
 
 const { t } = useI18n()
 
-// 注册表单数据
-const registerForm = ref({
-  phone: '',
-  vcode: '',
-})
+interface Form {
+  phone: string
+  vcode: string
+}
+const form = defineModel<Form>('form', { required: true })
 
 // 从集中化验证规则中获取需要的规则
 const { phoneRules, vcodeRules } = createValidationRules()
@@ -53,7 +50,7 @@ async function getVerificationCode() {
     await registerFormRef.value?.validateField('phone')
 
     // 对手机号进行base64编码
-    const encodedPhone = btoa(registerForm.value.phone)
+    const encodedPhone = btoa(form.value.phone)
     const phoneWithPrefix = `${PHONE_ENCRYPT_PREFIX}${encodedPhone}`
 
     try {
@@ -85,8 +82,8 @@ async function submit() {
     await $api(`/copy/?url=https://www.writebug.com/api/v3/member/vcode/`, {
       method: 'POST',
       body: {
-        phone: registerForm.value.phone,
-        vcode: registerForm.value.vcode,
+        phone: form.value.phone,
+        vcode: form.value.vcode,
       },
     })
     ElMessage.success(t('login.register_success'))
@@ -105,7 +102,7 @@ defineExpose({
 <template>
   <el-form
     ref="registerFormRef"
-    :model="registerForm"
+    :model="form"
     :rules="registerRules"
     label-width="100px"
     label-position="top"
@@ -114,7 +111,7 @@ defineExpose({
   >
     <el-form-item :label="$t('login.phone.phone')" prop="phone">
       <el-input
-        v-model="registerForm.phone"
+        v-model="form.phone"
         maxlength="11"
       >
         <template #suffix>
@@ -125,14 +122,14 @@ defineExpose({
     <el-form-item :label="$t('login.phone.vcode')" prop="vcode">
       <div flex="~ gap-15px" w-full>
         <el-input
-          v-model="registerForm.vcode"
+          v-model="form.vcode"
           class="flex-1"
           maxlength="6"
         />
         <el-button
           type="primary"
           min-w-20
-          :disabled="(countdown > 0) || (registerForm.phone.length !== 11)"
+          :disabled="(countdown > 0) || (form.phone.length !== 11)"
           @click="getVerificationCode"
         >
           {{ countdown > 0 ? `${countdown}s` : (isVcodeSent ? $t('login.phone.resend_vcode') : $t('login.phone.get_vcode')) }}

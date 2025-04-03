@@ -40,6 +40,28 @@ export function createValidationRules() {
     },
   ]
 
+  // 确认密码验证规则
+  const createPassword2Rules = (form: any): FormItemRule[] => [
+    { required: true, message: t('common.validation.required', { field: t('header.user_profile.confirm_password') }), trigger: 'blur' },
+    {
+      min: 6,
+      max: 16,
+      message: t('login.password_length'),
+      trigger: 'blur',
+    },
+    {
+      validator: (rule, value, callback) => {
+        if (value !== form.password) {
+          callback(new Error(t('common.validation.password_not_match')))
+        }
+        else {
+          callback()
+        }
+      },
+      trigger: 'blur',
+    },
+  ]
+
   // 手机号验证规则
   const phonePattern = /^1[3-9]\d{9}$/
   const phoneRules: FormItemRule[] = [
@@ -82,6 +104,7 @@ export function createValidationRules() {
   return {
     emailRules,
     passwordRules,
+    createPassword2Rules,
     phoneRules,
     vcodeRules,
   }

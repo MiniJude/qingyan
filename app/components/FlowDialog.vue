@@ -1,27 +1,22 @@
 <script setup lang="ts">
 import { CircleCloseFilled } from '@element-plus/icons-vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
 
 // 定义组件的props
 interface Props {
   steps: FlowStepItem[]
-  modelValue: boolean
 }
 
-const props = defineProps<Props>()
+// 禁用属性继承
+defineOptions({
+  inheritAttrs: false,
+})
 
-// 发射事件
+const props = defineProps<Props>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
-  (e: 'showRegisterDialog'): void
-  // 添加这一行，用于转发任意事件
-  (e: string, ...args: any[]): void
 }>()
 
-const modelValue = computed({
-  get: () => props.modelValue,
-  set: val => emit('update:modelValue', val),
-})
+const dialogRef = ref()
 
 const currentIndex = ref(0)
 
@@ -48,58 +43,86 @@ async function toNextStep() {
   }
 }
 
-// 关闭弹框
-function closeDialog() {
+// 关闭对话框
+function handleClose() {
   emit('update:modelValue', false)
 }
+
+// 将dialogRef的方法暴露给父组件
+defineExpose(new Proxy({}, {
+  get(target, key) {
+    return dialogRef.value?.[key]
+  },
+  has(target, key) {
+    return key in dialogRef.value!
+  },
+}))
 </script>
 
 <template>
-  <transition name="el-zoom-in-top">
-    <main v-show="modelValue" h-full flex-center>
-      <div class="sys-layout bg-board dark:bg-black" relative m-auto h-850px w-1351px flex-center rounded-10px>
-        <img src="@/assets/img/logo.png" alt="logo" absolute left-25px top-26px h-64px w-134px>
-        <CircleCloseFilled color="primary" absolute right-35px top-38px h-40px w-40px cursor-pointer @click="closeDialog" />
+  <el-dialog
+    ref="dialogRef"
+    v-bind="$attrs"
+    class="!bg-board !p-0 !dark:bg-black"
+    destroy-on-close
+    :show-close="false"
+    align-center
+    header-class="hidden"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+  >
+    <div relative m-auto h-850px flex-center rounded-10px>
+      <img src="@/assets/img/logo.png" alt="logo" absolute left-25px top-26px h-64px w-134px>
+      <CircleCloseFilled color="primary" absolute right-35px top-38px h-40px w-40px cursor-pointer @click="handleClose" />
 
-        <div relative>
-          <div class="dot" left--10px top-20px style="background: #6CB5EE;" />
-          <div class="dot" bottom-20px right--10px style="background: #25DFE2;" />
-          <div class="dot" bottom-55px right--10px style="background: #8F67E8;" />
-          <div class="dot" bottom-90px right--10px style="background: #1A61FA;" />
-          <div class="absolute left-[50%] z-2 translate-x-[-50%] rounded-[0_0_30px_30px]" text="14px white" h-35px w-172px flex-center style="background: #660874;">
-            {{ steps[currentIndex]?.title }}
+      <div relative>
+        <div class="dot" left--10px top-20px style="background: #6CB5EE;" />
+        <div class="dot" bottom-20px right--10px style="background: #25DFE2;" />
+        <div class="dot" bottom-55px right--10px style="background: #8F67E8;" />
+        <div class="dot" bottom-90px right--10px style="background: #1A61FA;" />
+        <div class="absolute left-[50%] z-2 translate-x-[-50%] rounded-[0_0_30px_30px]" text="14px white" h-35px w-172px flex-center style="background: #660874;">
+          {{ steps[currentIndex]?.title }}
+        </div>
+
+        <div class="sys-form-container" relative min-h-200px min-w-200px rounded-10px bg-white dark:bg-overlay>
+          <!-- 步骤内容区域，使用Transition实现动画效果 -->
+          <div class="steps-container">
+            <transition :name="animationDirection === 'right' ? 'slide-left' : 'slide-right'">
+              <component :is="currentFlowStepItem?.component" ref="currentStepComponentRef" :key="currentIndex" v-bind="currentFlowStepItem?.props" />
+            </transition>
           </div>
 
-          <div class="sys-form-container" relative min-h-200px min-w-200px rounded-10px bg-white dark:bg-overlay>
-            <!-- 步骤内容区域，使用Transition实现动画效果 -->
-            <div class="steps-container">
-              <transition :name="animationDirection === 'right' ? 'slide-left' : 'slide-right'">
-                <component :is="currentFlowStepItem?.component" ref="currentStepComponentRef" :key="currentIndex" v-bind="currentFlowStepItem?.props" />
-              </transition>
-            </div>
-
-            <!-- 步骤导航按钮 -->
-            <div flex justify-center gap-4 py-8>
-              <el-button v-if="currentIndex > 0" size="large" @click="toPrevStep">
-                {{ $t('common.actions.previous') }}
-              </el-button>
-              <el-button v-if="currentIndex < props.steps.length - 1" type="primary" size="large" @click="toNextStep">
-                {{ $t('common.actions.next') }}
-              </el-button>
-              <el-button v-if="currentIndex === steps.length - 1" type="primary" size="large" @click="toNextStep">
-                {{ $t('common.actions.confirm') }}
-              </el-button>
-            </div>
+          <!-- 步骤导航按钮 -->
+          <div flex justify-center gap-4 py-8>
+            <el-button v-if="currentIndex > 0" size="large" @click="toPrevStep">
+              {{ $t('common.actions.previous') }}
+            </el-button>
+            <el-button v-if="currentIndex < props.steps.length - 1" type="primary" size="large" @click="toNextStep">
+              {{ $t('common.actions.next') }}
+            </el-button>
+            <el-button v-if="currentIndex === steps.length - 1" type="primary" size="large" @click="toNextStep">
+              {{ $t('common.actions.confirm') }}
+            </el-button>
           </div>
         </div>
       </div>
-    </main>
-  </transition>
+    </div>
+  </el-dialog>
 </template>
 
 <style lang="scss" scoped>
-.sys-layout {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.16);
+:deep(.el-dialog) {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+:deep(.el-dialog__header) {
+  margin: 0;
+  padding: 0;
+}
+
+:deep(.el-dialog__body) {
+  padding: 0;
 }
 
 .sys-form-container {

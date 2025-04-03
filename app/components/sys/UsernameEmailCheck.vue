@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
-import { ref } from 'vue'
-import { createValidationRules } from '~/utils/validate'
 
 const { t } = useI18n()
 
+interface Form {
+  username: string
+  email: string
+}
+
 // 注册表单数据
-const registerForm = ref({
-  username: '',
-  email: '',
-})
+const form = defineModel<Form>('form', { required: true })
 
 // 从集中化验证规则中获取需要的规则
 const { emailRules } = createValidationRules()
@@ -38,8 +38,8 @@ async function submit() {
   await $api(`/copy/?url=https://www.writebug.com/api/v3/member/register/checkAccount/`, {
     method: 'POST',
     body: {
-      username: registerForm.value.username,
-      email: registerForm.value.email,
+      username: form.value.username,
+      email: form.value.email,
     },
   })
 }
@@ -52,7 +52,7 @@ defineExpose({
 <template>
   <el-form
     ref="registerFormRef"
-    :model="registerForm"
+    :model="form"
     :rules="registerRules"
     label-width="100px"
     label-position="top"
@@ -61,7 +61,7 @@ defineExpose({
   >
     <el-form-item :label="$t('header.user_profile.username')" prop="username">
       <el-input
-        v-model="registerForm.username"
+        v-model="form.username"
         maxlength="20"
       >
         <template #suffix>
@@ -71,7 +71,7 @@ defineExpose({
     </el-form-item>
     <el-form-item :label="$t('login.email')" prop="email">
       <el-input
-        v-model="registerForm.email"
+        v-model="form.email"
       >
         <template #suffix>
           <SvgoEmail text-tprimary />

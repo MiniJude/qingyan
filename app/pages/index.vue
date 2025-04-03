@@ -16,11 +16,20 @@ const logonSteps = ref<FlowStepItem[]>([
 ])
 
 // 注册流程
+const registerForm = ref({
+  invite_code: '',
+  phone: '',
+  vcode: '',
+  username: '',
+  email: '',
+  password: '',
+  password2: '',
+})
 const registerDialogVisible = ref(false)
 const registerSteps = ref<FlowStepItem[]>([
-  { component: shallowRef(PhoneCheck), title: '手机验证' },
-  { component: shallowRef(UsernameEmailCheck), title: '输入用户名' },
-  { component: shallowRef(SysPasswordSetting), title: '密码设置' },
+  { component: shallowRef(PhoneCheck), title: '手机验证', props: { form: registerForm } },
+  { component: shallowRef(UsernameEmailCheck), title: '输入用户名', props: { form: registerForm } },
+  { component: shallowRef(SysPasswordSetting), title: '密码设置', props: { form: registerForm, onRegisterSuccess } },
 ])
 
 // 密码修改流程
@@ -29,15 +38,15 @@ const passwordModificationSteps = ref<FlowStepItem[]>([
   { component: shallowRef(PhoneCheck), title: '手机验证' },
   { component: shallowRef(PasswordModification), title: '密码修改' },
 ])
-function openPasswordModificationDialog() {
-  registerDialogVisible.value = false
-  passwordModificationDialogVisible.value = true
-}
 
 // 给登录流程提供的事件
 function onOpenRegisterDialog() {
-  logonDialogVisible.value = false
   registerDialogVisible.value = true
+}
+
+// 给注册流程提供的事件
+function onRegisterSuccess() {
+  registerDialogVisible.value = false
 }
 </script>
 
@@ -51,12 +60,12 @@ function onOpenRegisterDialog() {
     </div>
 
     <!-- 登录流程 -->
-    <FlowDialog v-model:model-value="logonDialogVisible" class="absolute-center z-0" :steps="logonSteps" />
+    <FlowDialog v-model:model-value="logonDialogVisible" :steps="logonSteps" />
 
     <!-- 注册流程 -->
-    <FlowDialog v-model:model-value="registerDialogVisible" class="absolute-center z-1" :steps="registerSteps" />
+    <FlowDialog v-model:model-value="registerDialogVisible" :steps="registerSteps" />
 
     <!-- 密码修改流程 -->
-    <FlowDialog v-model:model-value="passwordModificationDialogVisible" class="absolute-center z-2" :steps="passwordModificationSteps" />
+    <FlowDialog v-model:model-value="passwordModificationDialogVisible" :steps="passwordModificationSteps" />
   </div>
 </template>

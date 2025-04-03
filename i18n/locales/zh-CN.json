@@ -69,7 +69,7 @@
       "change_password": "修改密码",
       "current_password": "当前密码",
       "new_password": "新密码",
-      "confirm_password": "再次输入新密码",
+      "confirm_password": "确认密码",
       "enter_current_password": "请输入当前密码",
       "password_format_tip": "6-30个英文、数字、特殊字符",
       "enter_confirm_password": "再输入一遍新密码",
