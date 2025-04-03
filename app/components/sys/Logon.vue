@@ -8,6 +8,7 @@ import { createValidationRules } from '~/utils/validate'
 
 const props = defineProps<{
   onOpenRegisterDialog: () => void
+  onForgotPassword: () => void
 }>()
 
 const { t } = useI18n()
@@ -81,9 +82,14 @@ defineExpose({
         </el-form-item>
         <div flex="~ justify-between" text="12px tprimary" opacity-90>
           <span cursor-pointer hover-text-primary @click="props.onOpenRegisterDialog">{{ $t('login.no_account_register') }}</span>
-          <span cursor-pointer hover-text-primary>{{ $t('login.forgot_password') }}</span>
+          <span cursor-pointer hover-text-primary @click="props.onForgotPassword">{{ $t('login.forgot_password') }}</span>
         </div>
       </el-form>
+    </div>
+    <div class="text-center !py-30px">
+      <el-button type="primary" class="mx-auto block !h-40px !w-102px" @click="submit">
+        {{ $t('login.login_button') }}
+      </el-button>
     </div>
   </div>
 </template>

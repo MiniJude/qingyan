@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
 import { PHONE_ENCRYPT_PREFIX } from '~/constants'
-import { createValidationRules } from '~/utils/validate'
+
+const props = defineProps<{
+  type: 'register' | 'changePassword'
+}>()
+
+defineSlots<{
+  footer: () => any
+}>()
 
 const { t } = useI18n()
 
@@ -12,11 +19,11 @@ interface Form {
 const form = defineModel<Form>('form', { required: true })
 
 // 从集中化验证规则中获取需要的规则
-const { phoneRules, vcodeRules } = createValidationRules()
+const { createPhoneRules, vcodeRules } = createValidationRules()
 
 // 注册表单验证规则
 const registerRules = {
-  phone: phoneRules,
+  phone: createPhoneRules(props.type),
   vcode: vcodeRules,
 }
 
@@ -136,5 +143,6 @@ defineExpose({
         </el-button>
       </div>
     </el-form-item>
+    <slot name="footer" />
   </el-form>
 </template>

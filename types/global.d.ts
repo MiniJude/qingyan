@@ -38,6 +38,7 @@ interface FlowStepItem {
   component: ShallowRef<Component>
   title?: string
   props?: Record<string, any>
+  showFooter?: boolean
 }
 
 /** 国际化路由路径 */

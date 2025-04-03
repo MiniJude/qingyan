@@ -2,9 +2,14 @@
 import type { FormInstance } from 'element-plus'
 
 const props = defineProps<{
-  onRegisterSuccess: () => void
+  type: 'set' | 'change'
+  onRegisterSuccess?: () => void
+  onChangePasswordSuccess?: () => void
 }>()
 
+defineSlots<{
+  footer: () => any
+}>()
 interface Form {
   password: string
   password2: string
@@ -26,12 +31,17 @@ const registerFormRef = ref<FormInstance>()
 async function submit() {
   // 验证表单
   await registerFormRef.value?.validate()
-
-  await $api(`/copy/?url=https://www.writebug.com/api/v3/member/register/`, {
+  const url = `/copy/?url=https://www.writebug.com/api/v3/member/${props.type === 'set' ? 'register' : 'changePassword'}/`
+  await $api(url, {
     method: 'POST',
     body: form.value,
   })
-  props.onRegisterSuccess()
+  if (props.type === 'set') {
+    props.onRegisterSuccess?.()
+  }
+  else {
+    props.onChangePasswordSuccess?.()
+  }
 }
 
 defineExpose({
@@ -53,15 +63,20 @@ defineExpose({
       <el-input
         v-model="form.password"
         maxlength="20"
-        type="password" show-password
+        autocomplete="new-password"
+        type="password"
+        show-password
       />
     </el-form-item>
     <el-form-item :label="$t('header.user_profile.confirm_password')" prop="password2">
       <el-input
         v-model="form.password2"
         maxlength="20"
-        type="password" show-password
+        autocomplete="new-password"
+        type="password"
+        show-password
       />
     </el-form-item>
+    <slot name="footer" />
   </el-form>
 </template>

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
 
+defineSlots<{
+  footer: () => any
+}>()
+
 const { t } = useI18n()
 
 interface Form {
@@ -78,5 +82,6 @@ defineExpose({
         </template>
       </el-input>
     </el-form-item>
+    <slot name="footer" />
   </el-form>
 </template>

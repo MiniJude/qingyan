@@ -6,8 +6,9 @@ import { useI18n } from 'vue-i18n'
  * @param phone 手机号
  * @returns 验证结果
  */
-async function checkPhone(phone: string) {
-  await $api('/copy/?url=https://www.writebug.com/api/v3/member/register/checkPhone/', {
+async function checkPhone(phone: string, type: 'register' | 'changePassword') {
+  const url = `/copy/?url=https://www.writebug.com/api/v3/member/${type === 'register' ? 'register' : 'changePassword'}/checkPhone/`
+  await $api(url, {
     method: 'POST',
     body: { phone },
   })
@@ -64,7 +65,7 @@ export function createValidationRules() {
 
   // 手机号验证规则
   const phonePattern = /^1[3-9]\d{9}$/
-  const phoneRules: FormItemRule[] = [
+  const createPhoneRules = (type: 'register' | 'changePassword' = 'register'): FormItemRule[] => [
     { required: true, message: t('login.phone.phone_required'), trigger: 'blur' },
     {
       pattern: phonePattern,
@@ -81,7 +82,7 @@ export function createValidationRules() {
         }
 
         // 进行API验证
-        checkPhone(value).then(() => {
+        checkPhone(value, type).then(() => {
           callback()
         }).catch((error) => {
           if (error.message) {
@@ -105,7 +106,7 @@ export function createValidationRules() {
     emailRules,
     passwordRules,
     createPassword2Rules,
-    phoneRules,
+    createPhoneRules,
     vcodeRules,
   }
 }
