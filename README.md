@@ -32,9 +32,3 @@ pnpm build
 ```
 
 构建后的文件将位于 `.output/public` 目录中。
-
-### 部署
-
-```bash
-pnpm deploy
-```
