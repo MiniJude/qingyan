@@ -43,7 +43,7 @@ async function handleLogout() {
       <el-button link w-32px @click="toggleLanguage">
         {{ locale === 'en' ? '中' : 'EN' }}
       </el-button>
-      <DarkToggle />
+      <!-- <DarkToggle /> -->
       <SvgoNotice class="icon-notice" text="24px" cursor-pointer />
       <el-dropdown trigger="click">
         <div>
