@@ -23,28 +23,28 @@ const modelValue = computed({
   set: val => emit('update:modelValue', val),
 })
 
-const currentStep = ref(0)
+const currentIndex = ref(0)
 
 // 动画方向
 const animationDirection = ref('right') // 'right' 或 'left'
 
-const currentStepComponent = computed(() => props.steps[currentStep.value]?.component)
+const currentFlowStepItem = computed(() => props.steps[currentIndex.value])
 const currentStepComponentRef = ref<ComponentPublicInstance & { submit: () => void }>()
 
 // 前往上一步
 function toPrevStep() {
-  if (currentStep.value > 0) {
+  if (currentIndex.value > 0) {
     animationDirection.value = 'left'
-    currentStep.value--
+    currentIndex.value--
   }
 }
 
 // 前往下一步
 async function toNextStep() {
   await currentStepComponentRef.value?.submit()
-  if (currentStep.value < props.steps.length - 1) {
+  if (currentIndex.value < props.steps.length - 1) {
     animationDirection.value = 'right'
-    currentStep.value++
+    currentIndex.value++
   }
 }
 
@@ -67,26 +67,26 @@ function closeDialog() {
           <div class="dot" bottom-55px right--10px style="background: #8F67E8;" />
           <div class="dot" bottom-90px right--10px style="background: #1A61FA;" />
           <div class="absolute left-[50%] z-2 translate-x-[-50%] rounded-[0_0_30px_30px]" text="14px white" h-35px w-172px flex-center style="background: #660874;">
-            {{ steps[currentStep]?.title }}
+            {{ steps[currentIndex]?.title }}
           </div>
 
           <div class="sys-form-container" relative min-h-200px min-w-200px rounded-10px bg-white dark:bg-overlay>
             <!-- 步骤内容区域，使用Transition实现动画效果 -->
             <div class="steps-container">
               <transition :name="animationDirection === 'right' ? 'slide-left' : 'slide-right'">
-                <component :is="currentStepComponent" ref="currentStepComponentRef" :key="currentStep" />
+                <component :is="currentFlowStepItem?.component" ref="currentStepComponentRef" :key="currentIndex" v-bind="currentFlowStepItem?.props" />
               </transition>
             </div>
 
             <!-- 步骤导航按钮 -->
             <div flex justify-center gap-4 py-8>
-              <el-button v-if="currentStep > 0" size="large" @click="toPrevStep">
+              <el-button v-if="currentIndex > 0" size="large" @click="toPrevStep">
                 {{ $t('common.actions.previous') }}
               </el-button>
-              <el-button v-if="currentStep < props.steps.length - 1" type="primary" size="large" @click="toNextStep">
+              <el-button v-if="currentIndex < props.steps.length - 1" type="primary" size="large" @click="toNextStep">
                 {{ $t('common.actions.next') }}
               </el-button>
-              <el-button v-if="currentStep === steps.length - 1" type="primary" size="large" @click="toNextStep">
+              <el-button v-if="currentIndex === steps.length - 1" type="primary" size="large" @click="toNextStep">
                 {{ $t('common.actions.confirm') }}
               </el-button>
             </div>

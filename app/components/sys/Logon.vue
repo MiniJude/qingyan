@@ -4,10 +4,11 @@ import { User } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import { HOME_ROUTE } from '~/constants'
-import { callbackSymbol } from '~/constants/symbols'
 import { createValidationRules } from '~/utils/validate'
 
-const callback = inject(callbackSymbol) as (eventName: string, ...args: any[]) => void
+const props = defineProps<{
+  onOpenRegisterDialog: () => void
+}>()
 
 const { t } = useI18n()
 
@@ -79,7 +80,7 @@ defineExpose({
           <el-input v-model="form.password" type="password" show-password />
         </el-form-item>
         <div flex="~ justify-between" text="12px tprimary" opacity-90>
-          <span cursor-pointer hover-text-primary @click="callback('openRegisterDialog')">{{ $t('login.no_account_register') }}</span>
+          <span cursor-pointer hover-text-primary @click="props.onOpenRegisterDialog">{{ $t('login.no_account_register') }}</span>
           <span cursor-pointer hover-text-primary>{{ $t('login.forgot_password') }}</span>
         </div>
       </el-form>

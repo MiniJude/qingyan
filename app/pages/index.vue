@@ -4,7 +4,6 @@ import PasswordModification from '@/components/sys/PasswordModification.vue'
 import SysPasswordSetting from '@/components/sys/PasswordSetting.vue'
 import PhoneCheck from '@/components/sys/PhoneCheck.vue'
 import UsernameEmailCheck from '@/components/sys/UsernameEmailCheck.vue'
-import { callbackSymbol } from '~/constants/symbols'
 
 // 不设置layout
 definePageMeta({
@@ -13,20 +12,16 @@ definePageMeta({
 // 登录流程
 const logonDialogVisible = ref(false)
 const logonSteps = ref<FlowStepItem[]>([
-  { component: shallowRef(Logon), title: '登录' },
+  { component: shallowRef(Logon), title: '登录', props: { onOpenRegisterDialog } },
 ])
 
 // 注册流程
 const registerDialogVisible = ref(false)
 const registerSteps = ref<FlowStepItem[]>([
-  // { component: shallowRef(PhoneCheck), title: '手机验证' },
+  { component: shallowRef(PhoneCheck), title: '手机验证' },
   { component: shallowRef(UsernameEmailCheck), title: '输入用户名' },
   { component: shallowRef(SysPasswordSetting), title: '密码设置' },
 ])
-function openRegisterDialog() {
-  logonDialogVisible.value = false
-  registerDialogVisible.value = true
-}
 
 // 密码修改流程
 const passwordModificationDialogVisible = ref(false)
@@ -39,15 +34,11 @@ function openPasswordModificationDialog() {
   passwordModificationDialogVisible.value = true
 }
 
-// 给孙子组件提供事件
-type EventName = 'openRegisterDialog'
-type ProvideKey = InjectionKey<(eventName: EventName, ...args: any[]) => void>
-function provideCallback(eventName: EventName, callback: (...args: any[]) => void) {
-  if (eventName === 'openRegisterDialog') {
-    registerDialogVisible.value = true
-  }
+// 给登录流程提供的事件
+function onOpenRegisterDialog() {
+  logonDialogVisible.value = false
+  registerDialogVisible.value = true
 }
-provide(callbackSymbol as ProvideKey, provideCallback)
 </script>
 
 <template>
