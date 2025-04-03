@@ -5,6 +5,9 @@ $-colors: (
   'primary': (
     'base': #660874, // 主题色，与CSS变量--app-primary-color保持一致
   ),
+  'success': (
+    'base': #660874, // 主题色，与CSS变量--app-primary-color保持一致
+  ),
 );
 
 // 这些组件不需要颜色混合，可以使用CSS变量
