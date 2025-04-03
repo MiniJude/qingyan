@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import AgentList from './agents/components/AgentList.vue'
+
+definePageMeta({
+  middleware: 'auth',
+})
 </script>
 
 <template>

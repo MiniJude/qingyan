@@ -189,6 +189,11 @@
       "description": "Coming soon!",
       "back_home": "Back to Home"
     },
+    "forbidden_page": {
+      "title": "403 Forbidden",
+      "description": "Sorry, you don't have permission to access this page.",
+      "go_login": "Go to Login"
+    },
     "messages": {
       "success": "Success",
       "failed": "Failed",

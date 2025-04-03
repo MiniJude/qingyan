@@ -189,6 +189,11 @@
       "description": "敬请期待~",
       "back_home": "返回首页"
     },
+    "forbidden_page": {
+      "title": "403 Forbidden",
+      "description": "抱歉，您没有权限访问此页面。",
+      "go_login": "去登录"
+    },
     "messages": {
       "success": "成功",
       "failed": "失败",

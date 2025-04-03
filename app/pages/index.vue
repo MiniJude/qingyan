@@ -20,7 +20,7 @@ const passwordModificationForm = ref({
 
 // 登录流程
 const logonDialogRef = ref<InstanceType<typeof FlowDialog>>()
-const logonDialogVisible = ref(false)
+const logonDialogVisible = ref(true)
 const logonSteps = ref<FlowStepItem[]>([
   { component: shallowRef(Logon), title: '登录', props: { onOpenRegisterDialog, onForgotPassword }, showFooter: false },
   { component: shallowRef(PhoneCheck), title: '手机验证', props: { form: passwordModificationForm, type: 'changePassword' } },
@@ -69,7 +69,9 @@ function onRegisterSuccess() {
       <el-button @click="logonDialogVisible = true">
         登录
       </el-button>
-      <el-button>注册</el-button>
+      <el-button @click="registerDialogVisible = true">
+        注册
+      </el-button>
     </div>
 
     <!-- 登录流程 -->

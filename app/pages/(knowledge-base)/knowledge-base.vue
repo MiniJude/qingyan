@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import DocSideBar from './knowledge-base/components/docSideBar/index.vue'
+
+definePageMeta({
+  middleware: 'auth',
+})
 </script>
 
 <template>
