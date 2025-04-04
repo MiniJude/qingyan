@@ -60,7 +60,6 @@
       "save_to_apply": "Click save below to apply changes",
       "avatar_format_type": "Formats: JPG, PNG, JPEG",
       "avatar_format_size": "Size: Up to 5MB",
-      "click_to_change_avatar": "Click to change",
       "enter_new_phone": "Enter new phone number",
       "enter_new_email": "Enter new email address",
       "update_phone": "Update Phone Number",
@@ -211,14 +210,14 @@
       "save": "Save",
       "cancel": "Cancel",
       "confirm": "Confirm",
-      "edit": "Edit",
       "delete": "Delete",
       "submit": "Submit",
       "next": "Next",
       "previous": "Previous",
       "complete": "Complete",
       "undo": "Undo",
-      "redo": "Redo"
+      "redo": "Redo",
+      "edit": "Edit"
     },
     "validation": {
       "required": "Please enter {field}",
@@ -381,13 +380,30 @@
       "name": "Space Name",
       "name_placeholder": "Please enter space name",
       "name_length": "Space name should be between 2-20 characters",
+      "space_description": "Space Description",
       "description_placeholder": "Please enter space description",
       "description_length": "Space description cannot exceed 200 characters",
-      "visibility": {
-        "label": "Visibility",
-        "private": "Private",
-        "public": "Public"
-      }
+      "public": {
+        "title": "Space Public Access",
+        "status": "Current Status",
+        "private": "Private (Only space members can access)",
+        "public": "Public (Anyone can access without joining)",
+        "description": "When enabled, the space will be accessible to everyone on the internet without joining"
+      },
+      "public_apply": {
+        "title": "Public Join Application",
+        "status": "Current Status",
+        "off": "Disabled (Visitors can only join through invitation)",
+        "on": "Enabled (Visitors can actively apply to join)",
+        "description": "When enabled, the sidebar will show [Apply to Join] button for visitors"
+      },
+      "domain": {
+        "title": "Space LOGO",
+        "edit": "Edit LOGO",
+        "name": "Space Name",
+        "domain": "Space Domain"
+      },
+      "save_success": "Space settings saved successfully"
     },
     "model": {
       "title": "Model Settings",

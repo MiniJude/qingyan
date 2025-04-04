@@ -66,7 +66,7 @@ const menuList = computed<MenuItem[]>(() => [
     v-model="dialogVisible" width="800" class="user-profile-dialog" :close-on-click-modal="false"
     :title="$t('header.user_center')"
   >
-    <JMenuSplitContent
+    <MenuSplitContent
       v-model="currentMenu"
       :menu-list="menuList"
       content-height="600px"

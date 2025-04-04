@@ -103,7 +103,7 @@ const activeMenu = computed(() => {
       </el-menu>
 
       <el-divider class="!mb-12px !mt-12px" />
-      <LayoutStorageUsageBox :is-collapsed="isCollapsed" />
+      <StorageUsageBox :is-collapsed="isCollapsed" />
     </div>
   </div>
 </template>

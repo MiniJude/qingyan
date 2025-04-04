@@ -96,7 +96,7 @@ function openTemplateLibrary() {
       <div mb-16px text-16px text-tprimary font-bold>
         {{ $t('knowledge_base.index.knowledge_space') }}
       </div>
-      <JSwitch
+      <Switch
         h-36px :columns="[
           { label: $t('knowledge_base.index.my_personal') },
           { label: $t('knowledge_base.index.shared_with_me') },

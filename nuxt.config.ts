@@ -14,6 +14,12 @@ export default defineNuxtConfig({
     'nuxt-echarts',
     '@nuxtjs/i18n',
   ],
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
 
   devtools: {
     enabled: true,
@@ -121,7 +127,6 @@ export default defineNuxtConfig({
     charts: ['BarChart'],
     components: ['DatasetComponent', 'GridComponent', 'TooltipComponent'],
   },
-
   elementPlus: {
     icon: 'ElIcon',
     importStyle: 'scss',

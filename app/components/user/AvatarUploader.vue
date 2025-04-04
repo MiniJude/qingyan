@@ -81,7 +81,7 @@ function cancelUpload() {
         <div class="text-24px text-white">
           +
         </div>
-        <span class="text-12px text-white">{{ $t('header.user_profile.click_to_change_avatar') }}</span>
+        <span class="text-12px text-white">{{ $t('common.actions.edit') }}</span>
       </div>
       <!-- 隐藏的文件输入 -->
       <input

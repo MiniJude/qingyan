@@ -1,8 +1,8 @@
 <template>
   <main h-full w-full flex>
-    <LayoutSideBar />
+    <SideBar />
     <div min-w-0 flex flex-1 flex-col>
-      <LayoutHeader />
+      <Header />
       <div min-h-0 flex-1>
         <slot />
       </div>

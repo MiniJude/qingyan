@@ -60,7 +60,6 @@
       "save_to_apply": "点击下方保存修改后生效",
       "avatar_format_type": "上传格式：支持JPG、PNG、JPEG",
       "avatar_format_size": "大小：5M以内",
-      "click_to_change_avatar": "点击修改头像",
       "enter_new_phone": "请输入新手机号",
       "enter_new_email": "请输入新邮箱",
       "update_phone": "更新手机号",
@@ -210,15 +209,15 @@
     "actions": {
       "save": "保存",
       "cancel": "取消",
-      "confirm": "确定",
-      "edit": "编辑",
+      "confirm": "确认",
       "delete": "删除",
       "submit": "提交",
       "next": "下一步",
       "previous": "上一步",
       "complete": "完成",
       "undo": "撤销",
-      "redo": "重做"
+      "redo": "重做",
+      "edit": "修改"
     },
     "validation": {
       "required": "请输入{field}",
@@ -381,13 +380,30 @@
       "name": "空间名称",
       "name_placeholder": "请输入空间名称",
       "name_length": "空间名称长度应在2-20个字符之间",
+      "space_description": "空间描述",
       "description_placeholder": "请输入空间描述",
       "description_length": "空间描述不能超过200个字符",
-      "visibility": {
-        "label": "可见性",
-        "private": "私有",
-        "public": "公开"
-      }
+      "public": {
+        "title": "空间公开",
+        "status": "当前空间状态",
+        "private": "私密（只有加入空间的成员可以访问）",
+        "public": "公开（任何人无需加入均可直接访问）",
+        "description": "开启后，空间将对全互联网公开，任何人无需加入均可直接访问您空间主页及空间里的所有内容"
+      },
+      "public_apply": {
+        "title": "公开申请加入",
+        "status": "当前状态",
+        "off": "未开放（访客只能被动通过邀请加入）",
+        "on": "已开放（访客可以主动申请加入）",
+        "description": "开启后，空间左侧边栏将对访客（非空间成员）显示【申请加入】按钮，方便访客加入空间"
+      },
+      "domain": {
+        "title": "空间LOGO",
+        "edit": "修改LOGO",
+        "name": "空间名称",
+        "domain": "空间域名"
+      },
+      "save_success": "空间设置保存成功"
     },
     "model": {
       "title": "模型设置",

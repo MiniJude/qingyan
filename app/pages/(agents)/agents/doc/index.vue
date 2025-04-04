@@ -31,7 +31,7 @@
       <div mb-16px mt-34px text-16px text-tprimary font-bold>
         {{ $t('agents.doc.ai_documents') }}
       </div>
-      <JSwitch h-36px :columns="[{ label: $t('knowledge_base.index.my_personal') }, { label: $t('knowledge_base.index.shared_with_me') }]" :item-width="83" />
+      <Switch h-36px :columns="[{ label: $t('knowledge_base.index.my_personal') }, { label: $t('knowledge_base.index.shared_with_me') }]" :item-width="83" />
       <FolderTable class="mt-16px min-h-0 flex-1" />
     </div>
   </div>

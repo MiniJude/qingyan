@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import MenuSplitContent from '../j/MenuSplitContent.vue'
-import SpaceSettingUpgradePanel from './UpgradePanel.vue'
+import { MenuSplitContent, SpaceSettingPanel, SpaceUpgradePanel } from '#components'
 
 const dialogVisible = defineModel<boolean>('modelValue')
 
@@ -15,13 +14,13 @@ const menuList = computed(() => [
     key: 'space-upgrade',
     icon: 'i-carbon:upgrade',
     name: t('space.menu.upgrade'),
-    component: shallowRef(SpaceSettingUpgradePanel),
+    component: shallowRef(SpaceUpgradePanel),
   },
   {
     key: 'space-setting',
     icon: 'i-carbon:settings',
     name: t('space.menu.settings'),
-    component: shallowRef(SpaceSettingUpgradePanel),
+    component: shallowRef(SpaceSettingPanel),
   },
   {
     key: 'space-model',

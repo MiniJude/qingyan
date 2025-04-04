@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import UpgradePlans from './UpgradePlans.vue'
-
 const { t } = useI18n()
 
 // 控制升级套餐弹框的显示
@@ -124,7 +122,7 @@ function handleUpgrade(data: { plan: { title: string }, type: string }) {
     </div>
 
     <!-- 升级套餐弹框 -->
-    <UpgradePlans
+    <SpaceUpgradePlans
       v-model:visible="showUpgradeDialog"
       :upgrade-type="currentUpgradeType"
       @upgrade="handleUpgrade"
