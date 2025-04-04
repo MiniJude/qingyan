@@ -379,7 +379,8 @@
       "upgrade": "Space Upgrade",
       "settings": "Space Settings",
       "model": "Model Settings",
-      "member": "Member Management"
+      "member": "Member Management",
+      "model_description": "These configurations only apply to the current space, using OpenAI API format"
     },
     "upgrade": {
       "current_version": "Current Version",
@@ -445,20 +446,18 @@
     "model": {
       "title": "Model Settings",
       "description": "Configure AI model parameters for better conversation results.",
+      "model_type": "Model Type",
+      "api_url": "API URL",
+      "api_key": "API Key",
+      "model_version": "Model Version",
       "default_model": "Default Model",
-      "temperature": "Temperature",
-      "temperature_tip": "Higher values make the output more random, while lower values make it more focused and deterministic.",
-      "temperature_range": "Temperature must be between 0-1",
-      "max_tokens": "Max Tokens",
-      "max_tokens_tip": "Maximum length limit for generated text.",
-      "max_tokens_range": "Max tokens must be between 1-4096",
-      "top_p": "Top P",
-      "top_p_tip": "Affects the diversity of output text, lower values make the output more focused.",
-      "top_p_range": "Top P must be between 0-1",
-      "frequency_penalty": "Frequency Penalty",
-      "frequency_penalty_tip": "Reduces the model's tendency to repeat the same words.",
-      "presence_penalty": "Presence Penalty",
-      "presence_penalty_tip": "Increases the likelihood of the model talking about new topics."
+      "default_model_title": "Default AI Model",
+      "default_model_tip": "Current space default AI model, including message assistant, sidebar document conversation, AI editor, etc.",
+      "doc_model_title": "Sidebar Document Conversation Model",
+      "doc_model_tip": "Only applies to the sidebar document intelligent conversation model in current space",
+      "model_type_placeholder": "Please select model type",
+      "model_version_placeholder": "Please select model version",
+      "api_url_placeholder": "https://open.bigmodel.cn/api/paas/v4/"
     },
     "member": {
       "title": "Member Management",

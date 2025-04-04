@@ -8,6 +8,8 @@ interface MenuItem {
   icon: string
   /** 菜单名称 */
   name: string
+  /** 菜单描述 */
+  description?: string
   /** 菜单禁用状态 */
   disabled?: boolean
   /** 对应的面板组件 */
@@ -78,6 +80,10 @@ const currentActiveMenu = computed(() => {
         <div class="text-20px font-bold">
           {{ currentActiveMenu?.name }}
         </div>
+        <div v-if="currentActiveMenu?.description" class="mt-8px text-tdisabled">
+          {{ currentActiveMenu?.description }}
+        </div>
+        <el-divider class="!my-12px" />
       </div>
       <slot :active-menu="activeMenu">
         <component

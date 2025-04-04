@@ -379,7 +379,8 @@
       "upgrade": "空间升级",
       "settings": "空间设置",
       "model": "模型设置",
-      "member": "成员管理"
+      "member": "成员管理",
+      "model_description": "以下配置仅对当前空间生效，使用 OpenAI API 格式"
     },
     "upgrade": {
       "current_version": "当前版本",
@@ -445,20 +446,18 @@
     "model": {
       "title": "模型设置",
       "description": "配置AI模型的参数，以获得更好的对话效果。",
+      "model_type": "模型类型",
+      "api_url": "API地址",
+      "api_key": "API密钥",
+      "model_version": "模型版本",
       "default_model": "默认模型",
-      "temperature": "温度",
-      "temperature_tip": "较高的值会使输出更加随机，较低的值会使输出更加集中和确定。",
-      "temperature_range": "温度值必须在0-1之间",
-      "max_tokens": "最大令牌数",
-      "max_tokens_tip": "生成文本的最大长度限制。",
-      "max_tokens_range": "最大令牌数必须在1-4096之间",
-      "top_p": "采样阈值",
-      "top_p_tip": "影响输出文本的多样性，较低的值会使输出更加集中。",
-      "top_p_range": "采样阈值必须在0-1之间",
-      "frequency_penalty": "频率惩罚",
-      "frequency_penalty_tip": "减少模型重复使用相同词语的倾向。",
-      "presence_penalty": "存在惩罚",
-      "presence_penalty_tip": "增加模型谈论新主题的可能性。"
+      "default_model_title": "默认大模型",
+      "default_model_tip": "当前空间默认 AI 大模型，包括消息智能助手、侧边栏文档智能对话、AI 编辑器等",
+      "doc_model_title": "侧边栏文档对话大模型",
+      "doc_model_tip": "仅对当前空间侧边栏文档智能对话大模型生效",
+      "model_type_placeholder": "请选择模型类型",
+      "model_version_placeholder": "请选择模型版本",
+      "api_url_placeholder": "https://open.bigmodel.cn/api/paas/v4/"
     },
     "member": {
       "title": "成员管理",

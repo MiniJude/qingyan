@@ -3,6 +3,11 @@ description:
 globs: 
 alwaysApply: true
 ---
+---
+description: 
+globs: 
+alwaysApply: true
+---
 
 ### 1. **Unocss样式使用**
 - 在给组件应用Unocss样式时，务必使用`class=""`进行包裹，避免直接将样式作为属性使用。

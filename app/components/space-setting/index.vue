@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MenuSplitContent, SpaceSettingPanel, SpaceUpgradePanel } from '#components'
+import { MenuSplitContent, SpaceModelSettingPanel, SpaceSettingPanel, SpaceUpgradePanel } from '#components'
 
 const dialogVisible = defineModel<boolean>('modelValue')
 
@@ -26,6 +26,8 @@ const menuList = computed(() => [
     key: 'space-model',
     icon: 'i-carbon:machine-learning',
     name: t('space.menu.model'),
+    description: t('space.menu.model_description'),
+    component: shallowRef(SpaceModelSettingPanel),
   },
   {
     key: 'space-member',

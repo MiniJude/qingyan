@@ -67,6 +67,9 @@ export default defineConfig({
       overlay: 'var(--el-bg-color-overlay)',
       board: 'var(--app-board-bg-color)',
       cut: 'var(--app-bg-cut-color)',
+
+      // 分割线/边框颜色
+      divider: 'var(--app-border-regular)',
     },
   },
 })

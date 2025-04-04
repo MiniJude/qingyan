@@ -52,16 +52,14 @@ function handleUpgrade(data: { plan: { title: string }, type: string }) {
 <template>
   <div class="panel-container" flex flex-col p-20px>
     <!-- 当前版本信息 -->
-    <div class="mb-20px">
-      <div class="flex items-center justify-between">
-        <div>{{ $t('space.upgrade.current_version') }}：{{ spaceInfo.currentVersion }}</div>
-        <div class="text-gray-500">
-          {{ $t('space.upgrade.valid_period') }}：{{ spaceInfo.validPeriod }}
-        </div>
+    <div class="flex items-center justify-between">
+      <div>{{ $t('space.upgrade.current_version') }}：{{ spaceInfo.currentVersion }}</div>
+      <div class="text-gray-500">
+        {{ $t('space.upgrade.valid_period') }}：{{ spaceInfo.validPeriod }}
       </div>
     </div>
 
-    <el-divider class="!my-20px" />
+    <el-divider border-style="dashed" class="!my-20px" />
 
     <!-- 存储空间使用情况 -->
     <div class="section-title">
@@ -81,7 +79,7 @@ function handleUpgrade(data: { plan: { title: string }, type: string }) {
       <div class="buy-btn i-twemoji:money-bag" @click="openUpgradeDialog('storage')" />
     </div>
 
-    <el-divider class="!my-20px" />
+    <el-divider border-style="dashed" class="!my-20px" />
 
     <!-- AI问答次数使用情况 -->
     <div class="section-title">
@@ -101,7 +99,7 @@ function handleUpgrade(data: { plan: { title: string }, type: string }) {
       <div class="buy-btn i-twemoji:money-bag" @click="openUpgradeDialog('ai')" />
     </div>
 
-    <el-divider class="!my-20px" />
+    <el-divider border-style="dashed" class="!my-20px" />
 
     <!-- 代码质量评估次数使用情况 -->
     <div class="section-title">

@@ -84,7 +84,7 @@ function handleLogoUpdate(newLogo: string) {
             :content="$t('space.settings.public.description')"
             placement="right"
           >
-            <el-icon :size="20">
+            <el-icon :size="18">
               <InfoFilled />
             </el-icon>
           </el-tooltip>
@@ -105,7 +105,7 @@ function handleLogoUpdate(newLogo: string) {
             :content="$t('space.settings.public_apply.description')"
             placement="right"
           >
-            <el-icon :size="20">
+            <el-icon :size="18">
               <InfoFilled />
             </el-icon>
           </el-tooltip>
