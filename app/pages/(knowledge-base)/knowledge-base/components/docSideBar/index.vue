@@ -115,7 +115,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
     <!-- 文档树 -->
     <div flex="~ col 1">
       <DocTree ref="docTreeRef" />
-      <NuxtLink to="/knowledge-base/trush">
+      <NuxtLink :to="localePath('/knowledge-base/trush' as I18nRoutePath)">
         <div mt-40px flex cursor-pointer items-center gap-10px>
           <SvgoTrash />
           <span text-tprimary>{{ $t('knowledge_base.trash') }}</span>

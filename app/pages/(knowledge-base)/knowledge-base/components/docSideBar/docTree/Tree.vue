@@ -79,7 +79,7 @@ onUpdated(() => {
   >
     <template #default="{ node, data }">
       <div class="custom-tree-node" flex items-center justify-between>
-        <Folder v-if="data.type === 'folder'" color-tregular mr-7px h-12px w-12px />
+        <Folder v-if="data.type === 'folder'" mr-7px h-12px w-12px color-tregular />
         <template v-else-if="data.type === 'file'">
           <FileIcon :file-type="data.fileType" mr-7px :size="12" />
         </template>

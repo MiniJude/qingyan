@@ -4,7 +4,7 @@ import { localData, wechatData } from '~/mock/knowledge-base'
 import { addUidToNodes } from '~/utils'
 import Tree from './Tree.vue'
 
-const router = useRouter()
+const localePath = useLocalePath()
 
 // 为树节点添加唯一ID
 const treeData1WithUid = addUidToNodes(localData)
@@ -42,9 +42,7 @@ function cancelCheck(index: number) {
 
 function handleNodeClick(data: FileTreeType, fileRoute: string[]) {
   if (data.type === 'file') {
-    router.push({
-      path: `/knowledge-base/${data.fileType}/${data.id}`,
-    })
+    navigateTo(localePath(`/knowledge-base/${data.fileType}/${data.id}` as I18nRoutePath))
 
     // 存储当前文件路径
     useFileStore().setFileRoute(fileRoute)
