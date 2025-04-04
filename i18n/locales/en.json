@@ -328,5 +328,73 @@
     "previous": "Previous",
     "next": "Next",
     "complete": "Complete"
+  },
+  "space": {
+    "title": "Space Management",
+    "menu": {
+      "upgrade": "Space Upgrade",
+      "settings": "Space Settings",
+      "model": "Model Settings",
+      "member": "Member Management"
+    },
+    "upgrade": {
+      "title": "Space Upgrade",
+      "description": "View current space version and resource usage, upgrade space to get more resources.",
+      "current_version": "Current Version",
+      "storage_usage": "Storage Usage",
+      "ai_quota_usage": "AI Query Usage",
+      "quality_quota_usage": "Code Quality Assessment Usage",
+      "upgrade_button": "Upgrade Now"
+    },
+    "settings": {
+      "title": "Space Settings",
+      "description": "Manage basic information and visibility settings of the space.",
+      "name": "Space Name",
+      "name_placeholder": "Please enter space name",
+      "name_length": "Space name should be between 2-20 characters",
+      "description_placeholder": "Please enter space description",
+      "description_length": "Space description cannot exceed 200 characters",
+      "visibility": {
+        "label": "Visibility",
+        "private": "Private",
+        "public": "Public"
+      }
+    },
+    "model": {
+      "title": "Model Settings",
+      "description": "Configure AI model parameters for better conversation results.",
+      "default_model": "Default Model",
+      "temperature": "Temperature",
+      "temperature_tip": "Higher values make the output more random, while lower values make it more focused and deterministic.",
+      "temperature_range": "Temperature must be between 0-1",
+      "max_tokens": "Max Tokens",
+      "max_tokens_tip": "Maximum length limit for generated text.",
+      "max_tokens_range": "Max tokens must be between 1-4096",
+      "top_p": "Top P",
+      "top_p_tip": "Affects the diversity of output text, lower values make the output more focused.",
+      "top_p_range": "Top P must be between 0-1",
+      "frequency_penalty": "Frequency Penalty",
+      "frequency_penalty_tip": "Reduces the model's tendency to repeat the same words.",
+      "presence_penalty": "Presence Penalty",
+      "presence_penalty_tip": "Increases the likelihood of the model talking about new topics."
+    },
+    "member": {
+      "title": "Member Management",
+      "description": "Manage space members, set member roles and permissions.",
+      "username": "Username",
+      "email": "Email",
+      "email_placeholder": "Please enter email address",
+      "role": {
+        "label": "Role",
+        "admin": "Administrator",
+        "member": "Member"
+      },
+      "join_time": "Join Time",
+      "add_member": "Add Member",
+      "add_success": "Member added successfully",
+      "role_change_success": "Role changed successfully",
+      "remove_confirm": "Are you sure to remove member {name}?",
+      "remove_success": "Member removed successfully"
+    }
   }
 }

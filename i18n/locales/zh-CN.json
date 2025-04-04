@@ -328,5 +328,73 @@
     "previous": "上一步",
     "next": "下一步",
     "complete": "完成"
+  },
+  "space": {
+    "title": "空间管理",
+    "menu": {
+      "upgrade": "空间升级",
+      "settings": "空间设置",
+      "model": "模型设置",
+      "member": "成员管理"
+    },
+    "upgrade": {
+      "title": "空间升级",
+      "description": "查看当前空间版本和资源使用情况，升级空间以获取更多资源。",
+      "current_version": "当前版本",
+      "storage_usage": "存储空间使用情况",
+      "ai_quota_usage": "AI问答次数使用情况",
+      "quality_quota_usage": "代码质量评估次数使用情况",
+      "upgrade_button": "立即升级"
+    },
+    "settings": {
+      "title": "空间设置",
+      "description": "管理空间的基本信息和可见性设置。",
+      "name": "空间名称",
+      "name_placeholder": "请输入空间名称",
+      "name_length": "空间名称长度应在2-20个字符之间",
+      "description_placeholder": "请输入空间描述",
+      "description_length": "空间描述不能超过200个字符",
+      "visibility": {
+        "label": "可见性",
+        "private": "私有",
+        "public": "公开"
+      }
+    },
+    "model": {
+      "title": "模型设置",
+      "description": "配置AI模型的参数，以获得更好的对话效果。",
+      "default_model": "默认模型",
+      "temperature": "温度",
+      "temperature_tip": "较高的值会使输出更加随机，较低的值会使输出更加集中和确定。",
+      "temperature_range": "温度值必须在0-1之间",
+      "max_tokens": "最大令牌数",
+      "max_tokens_tip": "生成文本的最大长度限制。",
+      "max_tokens_range": "最大令牌数必须在1-4096之间",
+      "top_p": "采样阈值",
+      "top_p_tip": "影响输出文本的多样性，较低的值会使输出更加集中。",
+      "top_p_range": "采样阈值必须在0-1之间",
+      "frequency_penalty": "频率惩罚",
+      "frequency_penalty_tip": "减少模型重复使用相同词语的倾向。",
+      "presence_penalty": "存在惩罚",
+      "presence_penalty_tip": "增加模型谈论新主题的可能性。"
+    },
+    "member": {
+      "title": "成员管理",
+      "description": "管理空间成员，设置成员角色和权限。",
+      "username": "用户名",
+      "email": "邮箱",
+      "email_placeholder": "请输入邮箱地址",
+      "role": {
+        "label": "角色",
+        "admin": "管理员",
+        "member": "普通成员"
+      },
+      "join_time": "加入时间",
+      "add_member": "添加成员",
+      "add_success": "添加成员成功",
+      "role_change_success": "修改角色成功",
+      "remove_confirm": "确定要移除成员 {name} 吗？",
+      "remove_success": "移除成员成功"
+    }
   }
 }

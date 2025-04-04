@@ -11,6 +11,11 @@ const props = withDefaults(defineProps<Props>(), {
 
 const usedStorage = '4.5G'
 const totalStorage = '10G'
+
+const spaceSettingDialogVisible = ref(false)
+function showSpaceSettingDialog() {
+  spaceSettingDialogVisible.value = true
+}
 </script>
 
 <template>
@@ -23,7 +28,7 @@ const totalStorage = '10G'
     >
       <div flex justify-between>
         <span whitespace-nowrap>{{ $t('storage.capacity') }}</span>
-        <span text="14px primary" flex cursor-pointer items-center gap-8px>
+        <span text="14px primary" flex cursor-pointer items-center gap-8px @click="showSpaceSettingDialog">
           <SvgoSetting text="20px" />
           {{ $t('storage.settings') }}
         </span>
@@ -41,9 +46,11 @@ const totalStorage = '10G'
       class="setting-icon-only flex justify-center"
       :class="{ visible: props.isCollapsed }"
     >
-      <div i-carbon:settings h-20px w-20px cursor-pointer text-primary />
+      <SvgoSetting class="cursor-pointer text-20px text-primary" @click="showSpaceSettingDialog" />
     </div>
   </div>
+  <!-- <SpaceDialog v-model="spaceSettingDialogVisible" /> -->
+  <SpaceSetting v-model="spaceSettingDialogVisible" />
 </template>
 
 <style lang="scss" scoped>
