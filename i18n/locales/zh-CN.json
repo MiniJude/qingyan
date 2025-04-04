@@ -220,7 +220,8 @@
       "edit": "修改",
       "remove": "移除",
       "operations": "操作",
-      "warning": "警告"
+      "warning": "警告",
+      "copy": "复制"
     },
     "validation": {
       "required": "请输入{field}",
@@ -267,7 +268,9 @@
       "description": "描述",
       "name": "名称",
       "name_placeholder": "请输入名称",
-      "save_success": "设置保存成功"
+      "save_success": "设置保存成功",
+      "password": "加入密码",
+      "password_placeholder": "请输入加入密码"
     }
   },
   "agents": {
@@ -461,7 +464,21 @@
     },
     "member": {
       "title": "成员管理",
-      "description": "管理空间成员，设置成员角色和权限。"
+      "description": "管理空间成员，设置成员角色和权限。",
+      "invite_title": "邀请空间成员",
+      "invite_description": "通过此链接接受邀请的人都可以进入当前空间",
+      "enable_confirm": "开启空间邀请确认",
+      "enable_confirm_description": "开启后，新成员申请加入空间需要创建者或者管理员确认",
+      "set_password": "设置\"加入密码\"",
+      "set_password_description": "设置后，新成员加入空间时需要输入密码验证",
+      "members_count": "成员 ({count}/不限)",
+      "member_label": "空间成员",
+      "nickname": "空间昵称",
+      "set_nickname_title": "设置空间昵称（仅对当前空间生效）",
+      "set_nickname_description": "空间中任何出现用户名的地方都将显示为昵称",
+      "nickname_set_success": "空间昵称设置成功！",
+      "nickname_placeholder": "请输入空间昵称",
+      "search_placeholder": "搜索成员"
     }
   }
 }

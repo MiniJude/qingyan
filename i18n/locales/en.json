@@ -220,7 +220,8 @@
       "edit": "Edit",
       "remove": "Remove",
       "operations": "Operations",
-      "warning": "Warning"
+      "warning": "Warning",
+      "copy": "Copy"
     },
     "validation": {
       "required": "Please enter {field}",
@@ -267,7 +268,9 @@
       "description": "Description",
       "name": "Name",
       "name_placeholder": "Please enter name",
-      "save_success": "Settings saved successfully"
+      "save_success": "Settings saved successfully",
+      "password": "Join Password",
+      "password_placeholder": "Please enter join password"
     }
   },
   "agents": {
@@ -376,10 +379,10 @@
   "space": {
     "title": "Space Management",
     "menu": {
-      "upgrade": "Space Upgrade",
-      "settings": "Space Settings",
-      "model": "Model Settings",
-      "member": "Member Management",
+      "upgrade": "Upgrade",
+      "settings": "Space",
+      "model": "Model",
+      "member": "Member",
       "model_description": "These configurations only apply to the current space, using OpenAI API format"
     },
     "upgrade": {
@@ -461,7 +464,21 @@
     },
     "member": {
       "title": "Member Management",
-      "description": "Manage space members, set member roles and permissions."
+      "description": "Manage space members, set member roles and permissions.",
+      "invite_title": "Invite Space Members",
+      "invite_description": "Anyone who accepts this invitation link can enter the current space",
+      "enable_confirm": "Enable Space Invitation Confirmation",
+      "enable_confirm_description": "When enabled, new member applications require creator or admin confirmation",
+      "set_password": "Set \"Join Password\"",
+      "set_password_description": "When set, new members need to enter password verification to join the space",
+      "members_count": "Members ({count}/Unlimited)",
+      "member_label": "Space Member",
+      "nickname": "Space Nickname",
+      "set_nickname_title": "Set Space Nickname (Only effective in current space)",
+      "set_nickname_description": "Your nickname will be displayed instead of username anywhere in the space",
+      "nickname_set_success": "Space nickname set successfully!",
+      "nickname_placeholder": "Please enter space nickname",
+      "search_placeholder": "Search members"
     }
   }
 }
