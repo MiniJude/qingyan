@@ -1,5 +1,6 @@
 @use './costom/scrollbar';
 @use './costom/transition';
+@use './costom/animation';
 
 :root {
   --el-text-color-primary: var(--app-text-emphasis);

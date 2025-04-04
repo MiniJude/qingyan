@@ -73,6 +73,12 @@ const currentActiveMenu = computed(() => {
 
     <!-- 右侧内容 -->
     <div class="flex-1 overflow-y-auto">
+      <!-- 头部标题和描述 -->
+      <div class="ml-20px">
+        <div class="text-20px font-bold">
+          {{ currentActiveMenu?.name }}
+        </div>
+      </div>
       <slot :active-menu="activeMenu">
         <component
           :is="currentActiveMenu?.component?.value"

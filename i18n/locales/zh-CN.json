@@ -224,6 +224,14 @@
       "required": "请输入{field}",
       "format_error": "{field}格式错误",
       "password_not_match": "两次输入的密码不一致"
+    },
+    "time": {
+      "year": "年",
+      "month": "月",
+      "day": "日",
+      "hour": "时",
+      "minute": "分",
+      "second": "秒"
     }
   },
   "agents": {
@@ -338,13 +346,34 @@
       "member": "成员管理"
     },
     "upgrade": {
-      "title": "空间升级",
-      "description": "查看当前空间版本和资源使用情况，升级空间以获取更多资源。",
       "current_version": "当前版本",
-      "storage_usage": "存储空间使用情况",
-      "ai_quota_usage": "AI问答次数使用情况",
-      "quality_quota_usage": "代码质量评估次数使用情况",
-      "upgrade_button": "立即升级"
+      "valid_period": "有效期",
+      "storage_capacity": "空间存储容量",
+      "ai_query_capacity": "空间AI问答量",
+      "code_quality_capacity": "空间代码质量评估数量",
+      "total_capacity": "总容量",
+      "used": "已使用",
+      "remaining": "剩余",
+      "times": "次",
+      "basic_version": "基础版",
+      "long_term": "长期",
+      "plans_dialog": {
+        "storage_title": "存储空间扩容套餐",
+        "ai_title": "AI问答次数扩容套餐",
+        "quality_title": "代码质量评估次数扩容套餐",
+        "free_plan": "免费扩容",
+        "standard_plan": "尝鲜扩容",
+        "premium_plan": "无限扩容",
+        "complete_task": "完成任务",
+        "unlimited": "不限容量",
+        "valid_period": "有效期",
+        "storage_size": "存储容量",
+        "fee": "费用",
+        "day": "天",
+        "go_to_task": "去做任务",
+        "upgrade": "扩容",
+        "get_reward": "完成任务，获取奖励"
+      }
     },
     "settings": {
       "title": "空间设置",

@@ -1,101 +1,167 @@
 <script setup lang="ts">
+import UpgradePlans from './UpgradePlans.vue'
+
 const { t } = useI18n()
+
+// 控制升级套餐弹框的显示
+const showUpgradeDialog = ref(false)
+// 当前升级类型：storage, ai, quality
+const currentUpgradeType = ref('storage')
 
 // 空间信息
 const spaceInfo = reactive({
-  currentVersion: '基础版',
-  storageUsed: '1.1',
-  storageTotal: '2.0',
+  currentVersion: t('space.upgrade.basic_version'),
+  validPeriod: t('space.upgrade.long_term'),
+  storageUsed: '1.1 M',
+  storageTotal: '2.0 G',
+  storageRemaining: '99.9%',
   aiQuotaUsed: 1,
   aiQuotaTotal: 200,
+  aiQuotaRemaining: '99.5%',
   qualityQuotaUsed: 0,
   qualityQuotaTotal: 20,
+  qualityQuotaRemaining: '100.0%',
 })
 
 // 计算存储空间使用百分比
 const storagePercentage = computed(() => {
-  return ((Number(spaceInfo.storageUsed) / Number(spaceInfo.storageTotal)) * 100).toFixed(1)
+  return 0.5 // 实际上应该根据使用量计算，这里为了示例简化
 })
 
 // 计算AI问答使用百分比
 const aiQuotaPercentage = computed(() => {
-  return ((spaceInfo.aiQuotaUsed / spaceInfo.aiQuotaTotal) * 100).toFixed(1)
+  return (spaceInfo.aiQuotaUsed / spaceInfo.aiQuotaTotal) * 100
 })
 
 // 计算代码质量评估使用百分比
 const qualityQuotaPercentage = computed(() => {
-  return ((spaceInfo.qualityQuotaUsed / spaceInfo.qualityQuotaTotal) * 100).toFixed(1)
+  return (spaceInfo.qualityQuotaUsed / spaceInfo.qualityQuotaTotal) * 100
 })
+
+// 打开升级套餐弹框
+function openUpgradeDialog(type: string) {
+  currentUpgradeType.value = type
+  showUpgradeDialog.value = true
+}
+
+// 处理升级操作
+function handleUpgrade(data: { plan: { title: string }, type: string }) {
+  // 根据不同类型和选择的套餐执行相应的升级操作
+  ElMessage.success(`已选择${data.plan.title}套餐，即将为您开通服务`)
+}
 </script>
 
 <template>
-  <div class="space-upgrade-panel">
-    <!-- 头部标题和描述 -->
-    <div class="mb-20px p-20px">
-      <h2 class="mb-10px text-24px font-bold">
-        {{ $t('space.upgrade.title') }}
-      </h2>
-      <p class="text-gray-500">
-        {{ $t('space.upgrade.description') }}
-      </p>
-    </div>
-
+  <div class="panel-container" flex flex-col p-20px>
     <!-- 当前版本信息 -->
-    <div class="mb-20px p-20px">
-      <div class="mb-10px text-16px font-bold">
-        {{ $t('space.upgrade.current_version') }}：{{ spaceInfo.currentVersion }}
-      </div>
-
-      <!-- 存储空间使用情况 -->
-      <div class="mb-15px">
-        <div class="mb-5px flex items-center justify-between">
-          <span>{{ $t('space.upgrade.storage_usage') }}</span>
-          <span>{{ spaceInfo.storageUsed }} / {{ spaceInfo.storageTotal }} GB</span>
+    <div class="mb-20px">
+      <div class="flex items-center justify-between">
+        <div>{{ $t('space.upgrade.current_version') }}：{{ spaceInfo.currentVersion }}</div>
+        <div class="text-gray-500">
+          {{ $t('space.upgrade.valid_period') }}：{{ spaceInfo.validPeriod }}
         </div>
-        <el-progress
-          :percentage="Number(storagePercentage)"
-          :format="() => `${storagePercentage}%`"
-        />
-      </div>
-
-      <!-- AI问答次数使用情况 -->
-      <div class="mb-15px">
-        <div class="mb-5px flex items-center justify-between">
-          <span>{{ $t('space.upgrade.ai_quota_usage') }}</span>
-          <span>{{ spaceInfo.aiQuotaUsed }} / {{ spaceInfo.aiQuotaTotal }}</span>
-        </div>
-        <el-progress
-          :percentage="Number(aiQuotaPercentage)"
-          :format="() => `${aiQuotaPercentage}%`"
-        />
-      </div>
-
-      <!-- 代码质量评估次数使用情况 -->
-      <div class="mb-15px">
-        <div class="mb-5px flex items-center justify-between">
-          <span>{{ $t('space.upgrade.quality_quota_usage') }}</span>
-          <span>{{ spaceInfo.qualityQuotaUsed }} / {{ spaceInfo.qualityQuotaTotal }}</span>
-        </div>
-        <el-progress
-          :percentage="Number(qualityQuotaPercentage)"
-          :format="() => `${qualityQuotaPercentage}%`"
-        />
       </div>
     </div>
 
-    <!-- 升级按钮 -->
-    <div class="flex justify-center p-20px">
-      <el-button type="primary" size="large">
-        {{ $t('space.upgrade.upgrade_button') }}
-      </el-button>
+    <el-divider class="!my-20px" />
+
+    <!-- 存储空间使用情况 -->
+    <div class="section-title">
+      <span>{{ $t('space.upgrade.storage_capacity') }}</span>
     </div>
+    <div class="section-content">
+      <div class="section-content-left">
+        <div class="mb-12px flex items-center justify-between">
+          <span>{{ $t('space.upgrade.total_capacity') }} {{ spaceInfo.storageTotal }}，{{ $t('space.upgrade.used') }} {{ spaceInfo.storageUsed }}</span>
+          <span class="text-primary">{{ $t('space.upgrade.remaining') }} {{ spaceInfo.storageRemaining }}</span>
+        </div>
+        <el-progress
+          :percentage="storagePercentage"
+          :show-text="false"
+        />
+      </div>
+      <div class="buy-btn i-twemoji:money-bag" @click="openUpgradeDialog('storage')" />
+    </div>
+
+    <el-divider class="!my-20px" />
+
+    <!-- AI问答次数使用情况 -->
+    <div class="section-title">
+      <span>{{ $t('space.upgrade.ai_query_capacity') }}</span>
+    </div>
+    <div class="section-content">
+      <div class="section-content-left">
+        <div class="mb-12px flex items-center justify-between">
+          <span>{{ $t('space.upgrade.total_capacity') }} {{ spaceInfo.aiQuotaTotal }} {{ $t('space.upgrade.times') }}，{{ $t('space.upgrade.used') }} {{ spaceInfo.aiQuotaUsed }} {{ $t('space.upgrade.times') }}</span>
+          <span class="text-primary">{{ $t('space.upgrade.remaining') }} {{ spaceInfo.aiQuotaRemaining }}</span>
+        </div>
+        <el-progress
+          :percentage="aiQuotaPercentage"
+          :show-text="false"
+        />
+      </div>
+      <div class="buy-btn i-twemoji:money-bag" @click="openUpgradeDialog('ai')" />
+    </div>
+
+    <el-divider class="!my-20px" />
+
+    <!-- 代码质量评估次数使用情况 -->
+    <div class="section-title">
+      <span>{{ $t('space.upgrade.code_quality_capacity') }}</span>
+    </div>
+    <div class="section-content">
+      <div class="section-content-left">
+        <div class="mb-12px flex items-center justify-between">
+          <span>{{ $t('space.upgrade.total_capacity') }} {{ spaceInfo.qualityQuotaTotal }} {{ $t('space.upgrade.times') }}，{{ $t('space.upgrade.used') }} {{ spaceInfo.qualityQuotaUsed }} {{ $t('space.upgrade.times') }}</span>
+          <span class="text-primary">{{ $t('space.upgrade.remaining') }} {{ spaceInfo.qualityQuotaRemaining }}</span>
+        </div>
+        <el-progress
+          :percentage="qualityQuotaPercentage"
+          :show-text="false"
+        />
+      </div>
+      <div class="buy-btn i-twemoji:money-bag" @click="openUpgradeDialog('quality')" />
+    </div>
+
+    <!-- 升级套餐弹框 -->
+    <UpgradePlans
+      v-model:visible="showUpgradeDialog"
+      :upgrade-type="currentUpgradeType"
+      @upgrade="handleUpgrade"
+    />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.space-upgrade-panel {
-  :deep(.el-progress-bar__inner) {
-    background-color: var(--el-color-primary);
+.panel-container {
+  .section-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--el-text-color-primary);
+    margin-bottom: 12px;
+  }
+
+  .section-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 80px;
+
+    .section-content-left {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .buy-btn {
+      font-size: 24px;
+      cursor: pointer;
+
+      &:hover {
+        animation: shake 1s ease-in-out;
+      }
+    }
   }
 }
 </style>

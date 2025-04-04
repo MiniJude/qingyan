@@ -224,6 +224,14 @@
       "required": "Please enter {field}",
       "format_error": "Invalid {field} format",
       "password_not_match": "Passwords do not match"
+    },
+    "time": {
+      "year": "Year",
+      "month": "Month",
+      "day": "Day",
+      "hour": "Hour",
+      "minute": "Minute",
+      "second": "Second"
     }
   },
   "agents": {
@@ -338,13 +346,34 @@
       "member": "Member Management"
     },
     "upgrade": {
-      "title": "Space Upgrade",
-      "description": "View current space version and resource usage, upgrade space to get more resources.",
       "current_version": "Current Version",
-      "storage_usage": "Storage Usage",
-      "ai_quota_usage": "AI Query Usage",
-      "quality_quota_usage": "Code Quality Assessment Usage",
-      "upgrade_button": "Upgrade Now"
+      "valid_period": "Valid Period",
+      "storage_capacity": "Storage Capacity",
+      "ai_query_capacity": "AI Query Capacity",
+      "code_quality_capacity": "Code Quality Assessment Capacity",
+      "total_capacity": "Total Capacity",
+      "used": "Used",
+      "remaining": "Remaining",
+      "times": "Times",
+      "basic_version": "Basic Version",
+      "long_term": "Long Term",
+      "plans_dialog": {
+        "storage_title": "Storage Upgrade Plans",
+        "ai_title": "AI Query Upgrade Plans",
+        "quality_title": "Code Quality Assessment Upgrade Plans",
+        "free_plan": "Free Upgrade",
+        "standard_plan": "Standard Plan",
+        "premium_plan": "Premium Plan",
+        "complete_task": "Complete Tasks",
+        "unlimited": "Unlimited",
+        "valid_period": "Valid Period",
+        "storage_size": "Storage Size",
+        "fee": "Fee",
+        "day": "Days",
+        "go_to_task": "Go to Tasks",
+        "upgrade": "Upgrade",
+        "get_reward": "Complete tasks to get rewards"
+      }
     },
     "settings": {
       "title": "Space Settings",

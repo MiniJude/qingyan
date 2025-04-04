@@ -110,12 +110,6 @@ const avatar = computed({
     label-width="80px"
     class="personal-info-form"
   >
-    <!-- 头部标题和描述 -->
-    <div class="mb-20px">
-      <h2 class="mb-10px text-24px font-bold">
-        {{ $t('header.user_profile.personal_info') }}
-      </h2>
-    </div>
     <!-- 头像 -->
     <el-form-item>
       <div class="flex items-center">

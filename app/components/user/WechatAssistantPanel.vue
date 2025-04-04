@@ -15,19 +15,6 @@ const spaces = [
 
 <template>
   <div class="p-20px">
-    <!-- 头部标题和描述 -->
-    <div class="mb-20px">
-      <h2 class="mb-10px text-24px font-bold">
-        {{ $t('wechat_assistant.title') }}
-      </h2>
-      <p class="flex items-center text-gray-500">
-        <i class="i-twemoji:backhand-index-pointing-right mr-2 text-warning" />
-        {{ $t('wechat_assistant.description') }}
-      </p>
-    </div>
-
-    <div class="my-20px h-1px bg-gray-200" />
-
     <!-- 第一步：绑定微信 -->
     <div class="mb-20px">
       <h3 class="mb-16px text-18px font-bold">

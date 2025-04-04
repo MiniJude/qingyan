@@ -1,11 +1,6 @@
 ---
 description: 
 globs: 
-alwaysApply: false
----
----
-description: 
-globs: 
 alwaysApply: true
 ---
 
@@ -73,6 +68,7 @@ alwaysApply: true
 新增html代码时，优先使用项目的组件库Element-plus来实现。比如：
 - 要用el-button，而不要用button
 - 上传相关优先使用el-upload，而不是手写拖拽等实现上传
+- 要用<el-divider />,而不要用自己写<div class="divider" />
 
 
 ### 8. **业务组件职责分离**
