@@ -217,12 +217,37 @@
       "complete": "Complete",
       "undo": "Undo",
       "redo": "Redo",
-      "edit": "Edit"
+      "edit": "Edit",
+      "remove": "Remove",
+      "operations": "Operations",
+      "warning": "Warning"
     },
     "validation": {
       "required": "Please enter {field}",
       "format_error": "Invalid {field} format",
-      "password_not_match": "Passwords do not match"
+      "password_not_match": "Passwords do not match",
+      "length_limit": "{field} should be between {min}-{max} characters",
+      "max_length": "{field} cannot exceed {max} characters"
+    },
+    "user": {
+      "username": "Username",
+      "email": "Email",
+      "email_placeholder": "Please enter email address",
+      "phone": "Phone",
+      "password": "Password",
+      "bio": "Bio",
+      "avatar": "Avatar",
+      "new_phone": "New Phone Number",
+      "new_email": "New Email",
+      "current_password": "Current Password",
+      "new_password": "New Password",
+      "confirm_password": "Confirm Password",
+      "join_time": "Join Time",
+      "add_member": "Add Member",
+      "add_success": "Member added successfully",
+      "role_change_success": "Role changed successfully",
+      "remove_confirm": "Are you sure to remove member {name}?",
+      "remove_success": "Member removed successfully"
     },
     "time": {
       "year": "Year",
@@ -231,6 +256,18 @@
       "hour": "Hour",
       "minute": "Minute",
       "second": "Second"
+    },
+    "roles": {
+      "label": "Role",
+      "admin": "Administrator",
+      "member": "Member"
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Description",
+      "name": "Name",
+      "name_placeholder": "Please enter name",
+      "save_success": "Settings saved successfully"
     }
   },
   "agents": {
@@ -425,21 +462,7 @@
     },
     "member": {
       "title": "Member Management",
-      "description": "Manage space members, set member roles and permissions.",
-      "username": "Username",
-      "email": "Email",
-      "email_placeholder": "Please enter email address",
-      "role": {
-        "label": "Role",
-        "admin": "Administrator",
-        "member": "Member"
-      },
-      "join_time": "Join Time",
-      "add_member": "Add Member",
-      "add_success": "Member added successfully",
-      "role_change_success": "Role changed successfully",
-      "remove_confirm": "Are you sure to remove member {name}?",
-      "remove_success": "Member removed successfully"
+      "description": "Manage space members, set member roles and permissions."
     }
   }
 }

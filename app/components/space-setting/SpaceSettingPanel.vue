@@ -22,7 +22,7 @@ const formRef = ref<FormInstance>()
 // 表单验证规则
 const rules = reactive<FormRules>({
   name: [
-    { required: true, message: t('common.validation.required', { field: t('space.settings.name') }), trigger: 'blur' },
+    { required: true, message: t('common.validation.required', { field: t('common.settings.name') }), trigger: 'blur' },
     { min: 2, max: 20, message: t('space.settings.name_length'), trigger: 'blur' },
   ],
   description: [
@@ -38,7 +38,7 @@ async function saveSettings() {
   try {
     await formRef.value.validate()
     // TODO: 调用API保存设置
-    ElMessage.success(t('space.settings.save_success'))
+    ElMessage.success(t('common.settings.save_success'))
   }
   catch (error) {
     console.error('表单验证失败:', error)

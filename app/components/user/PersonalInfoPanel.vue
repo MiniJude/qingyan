@@ -51,7 +51,7 @@ const avatarChanged = computed(() =>
 // 表单校验规则
 const rules = ref<FormRules>({
   username: [
-    { required: true, message: t('common.validation.required', { field: t('header.user_profile.username') }), trigger: 'blur' },
+    { required: true, message: t('common.validation.required', { field: t('common.user.username') }), trigger: 'blur' },
     { min: 2, max: 20, message: t('header.user_profile.username_length'), trigger: 'blur' },
   ],
 })
@@ -123,12 +123,12 @@ const avatar = computed({
     </el-form-item>
 
     <!-- 用户名 -->
-    <el-form-item :label="$t('header.user_profile.username')" prop="username">
-      <el-input v-model="formData.username" :placeholder="$t('header.user_profile.username')" />
+    <el-form-item :label="$t('common.user.username')" prop="username">
+      <el-input v-model="formData.username" :placeholder="$t('common.user.username')" />
     </el-form-item>
 
     <!-- 个人简介 -->
-    <el-form-item :label="$t('header.user_profile.bio')" prop="bio">
+    <el-form-item :label="$t('common.user.bio')" prop="bio">
       <el-input
         v-model="formData.bio"
         type="textarea"

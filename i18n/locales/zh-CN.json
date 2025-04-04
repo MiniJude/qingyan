@@ -217,12 +217,37 @@
       "complete": "完成",
       "undo": "撤销",
       "redo": "重做",
-      "edit": "修改"
+      "edit": "修改",
+      "remove": "移除",
+      "operations": "操作",
+      "warning": "警告"
     },
     "validation": {
       "required": "请输入{field}",
       "format_error": "{field}格式错误",
-      "password_not_match": "两次输入的密码不一致"
+      "password_not_match": "两次输入的密码不一致",
+      "length_limit": "{field}长度应在{min}-{max}个字符之间",
+      "max_length": "{field}不能超过{max}个字符"
+    },
+    "user": {
+      "username": "用户名",
+      "email": "邮箱",
+      "email_placeholder": "请输入邮箱地址",
+      "phone": "手机号",
+      "password": "密码",
+      "bio": "个人简介",
+      "avatar": "头像",
+      "new_phone": "新手机号",
+      "new_email": "新邮箱",
+      "current_password": "当前密码",
+      "new_password": "新密码",
+      "confirm_password": "确认密码",
+      "join_time": "加入时间",
+      "add_member": "添加成员",
+      "add_success": "添加成员成功",
+      "role_change_success": "修改角色成功",
+      "remove_confirm": "确定要移除成员 {name} 吗？",
+      "remove_success": "移除成员成功"
     },
     "time": {
       "year": "年",
@@ -231,6 +256,18 @@
       "hour": "时",
       "minute": "分",
       "second": "秒"
+    },
+    "roles": {
+      "label": "角色",
+      "admin": "管理员",
+      "member": "普通成员"
+    },
+    "settings": {
+      "title": "设置",
+      "description": "描述",
+      "name": "名称",
+      "name_placeholder": "请输入名称",
+      "save_success": "设置保存成功"
     }
   },
   "agents": {
@@ -425,21 +462,7 @@
     },
     "member": {
       "title": "成员管理",
-      "description": "管理空间成员，设置成员角色和权限。",
-      "username": "用户名",
-      "email": "邮箱",
-      "email_placeholder": "请输入邮箱地址",
-      "role": {
-        "label": "角色",
-        "admin": "管理员",
-        "member": "普通成员"
-      },
-      "join_time": "加入时间",
-      "add_member": "添加成员",
-      "add_success": "添加成员成功",
-      "role_change_success": "修改角色成功",
-      "remove_confirm": "确定要移除成员 {name} 吗？",
-      "remove_success": "移除成员成功"
+      "description": "管理空间成员，设置成员角色和权限。"
     }
   }
 }

@@ -26,11 +26,11 @@ const members = ref([
 // 角色选项
 const roleOptions = [
   {
-    label: t('space.member.role.admin'),
+    label: t('common.roles.admin'),
     value: 'admin',
   },
   {
-    label: t('space.member.role.member'),
+    label: t('common.roles.member'),
     value: 'member',
   },
 ]
@@ -46,11 +46,11 @@ const addMemberForm = ref({
 // 添加成员表单验证规则
 const addMemberRules = reactive<FormRules>({
   email: [
-    { required: true, message: t('common.validation.required', { field: t('space.member.email') }), trigger: 'blur' },
-    { type: 'email', message: t('common.validation.format_error', { field: t('space.member.email') }), trigger: 'blur' },
+    { required: true, message: t('common.validation.required', { field: t('common.user.email') }), trigger: 'blur' },
+    { type: 'email', message: t('common.validation.format_error', { field: t('common.user.email') }), trigger: 'blur' },
   ],
   role: [
-    { required: true, message: t('common.validation.required', { field: t('space.member.role.label') }), trigger: 'change' },
+    { required: true, message: t('common.validation.required', { field: t('common.roles.label') }), trigger: 'change' },
   ],
 })
 
@@ -62,7 +62,7 @@ async function submitAddMember() {
   try {
     await addMemberFormRef.value.validate()
     // TODO: 调用API添加成员
-    ElMessage.success(t('space.member.add_success'))
+    ElMessage.success(t('common.user.add_success'))
     addMemberDialogVisible.value = false
   }
   catch (error) {
@@ -75,7 +75,7 @@ async function changeRole(member: any, role: string) {
   try {
     // TODO: 调用API更改角色
     member.role = role
-    ElMessage.success(t('space.member.role_change_success'))
+    ElMessage.success(t('common.user.role_change_success'))
   }
   catch (error) {
     console.error('Change role failed:', error)
@@ -86,7 +86,7 @@ async function changeRole(member: any, role: string) {
 async function removeMember(member: any) {
   try {
     await ElMessageBox.confirm(
-      t('space.member.remove_confirm', { name: member.username }),
+      t('common.user.remove_confirm', { name: member.username }),
       t('common.actions.warning'),
       {
         confirmButtonText: t('common.actions.confirm'),
@@ -98,7 +98,7 @@ async function removeMember(member: any) {
     const index = members.value.findIndex(m => m.id === member.id)
     if (index !== -1)
       members.value.splice(index, 1)
-    ElMessage.success(t('space.member.remove_success'))
+    ElMessage.success(t('common.user.remove_success'))
   }
   catch (error) {
     if (error !== 'cancel')
@@ -125,15 +125,15 @@ async function removeMember(member: any) {
       <div class="mb-20px">
         <el-button type="primary" @click="addMemberDialogVisible = true">
           <div class="i-carbon:user-follow mr-5px" />
-          {{ $t('space.member.add_member') }}
+          {{ $t('common.user.add_member') }}
         </el-button>
       </div>
 
       <!-- 成员表格 -->
       <el-table :data="members" style="width: 100%">
-        <el-table-column prop="username" :label="$t('space.member.username')" />
-        <el-table-column prop="email" :label="$t('space.member.email')" />
-        <el-table-column :label="$t('space.member.role.label')" width="200">
+        <el-table-column prop="username" :label="$t('common.user.username')" />
+        <el-table-column prop="email" :label="$t('common.user.email')" />
+        <el-table-column :label="$t('common.roles.label')" width="200">
           <template #default="{ row }">
             <el-select
               v-model="row.role"
@@ -149,7 +149,7 @@ async function removeMember(member: any) {
             </el-select>
           </template>
         </el-table-column>
-        <el-table-column prop="joinTime" :label="$t('space.member.join_time')" width="180" />
+        <el-table-column prop="joinTime" :label="$t('common.user.join_time')" width="180" />
         <el-table-column :label="$t('common.actions.operations')" width="120" fixed="right">
           <template #default="{ row }">
             <el-button
@@ -168,7 +168,7 @@ async function removeMember(member: any) {
     <!-- 添加成员对话框 -->
     <el-dialog
       v-model="addMemberDialogVisible"
-      :title="$t('space.member.add_member')"
+      :title="$t('common.user.add_member')"
       width="500px"
     >
       <el-form
@@ -177,13 +177,13 @@ async function removeMember(member: any) {
         :rules="addMemberRules"
         label-width="100px"
       >
-        <el-form-item :label="$t('space.member.email')" prop="email">
+        <el-form-item :label="$t('common.user.email')" prop="email">
           <el-input
             v-model="addMemberForm.email"
-            :placeholder="$t('space.member.email_placeholder')"
+            :placeholder="$t('common.user.email_placeholder')"
           />
         </el-form-item>
-        <el-form-item :label="$t('space.member.role.label')" prop="role">
+        <el-form-item :label="$t('common.roles.label')" prop="role">
           <el-select v-model="addMemberForm.role">
             <el-option
               v-for="option in roleOptions"
