@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import SearchBar from './SearchBar.vue'
+
 const searchValue = ref('')
 
 const { currentMenu } = useMenu()
@@ -26,6 +28,11 @@ async function handleLogout() {
   const path = localePath('/' as I18nRoutePath)
   await navigateTo(path)
 }
+
+// 处理搜索
+function handleSearch(_value: string) {
+  // TODO: 实现搜索逻辑
+}
 </script>
 
 <template>
@@ -34,11 +41,9 @@ async function handleLogout() {
       <component :is="currentMenu?.iconUrl" h-30px w-30px text-primary />
       <span ml-8px>{{ currentMenu?.name }}</span>
     </div>
-    <el-input v-model="searchValue" class="search-input ml-auto mr-100px h-36px !w-260px !rounded-50px">
-      <template #prefix>
-        <SvgoSearch text="20px primary" />
-      </template>
-    </el-input>
+
+    <SearchBar v-model="searchValue" @search="handleSearch" />
+
     <div flex items-center gap-12px>
       <el-button link w-32px @click="toggleLanguage">
         {{ locale === 'en' ? '中' : 'EN' }}
@@ -79,12 +84,8 @@ async function handleLogout() {
 <style lang="scss" scoped>
 .header {
   border-bottom: 1px solid var(--app-border-regular);
-
-  :deep(.search-input) {
-    .el-input__wrapper {
-      border-radius: 20px;
-    }
-  }
+  position: relative;
+  z-index: 100;
 
   .icon-notice {
     color: #4e5969;

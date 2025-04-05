@@ -188,6 +188,10 @@
       "description": "敬请期待~",
       "back_home": "返回首页"
     },
+    "search": {
+      "placeholder": "搜索",
+      "button": "搜索"
+    },
     "forbidden_page": {
       "title": "403 Forbidden",
       "description": "抱歉，您没有权限访问此页面。",

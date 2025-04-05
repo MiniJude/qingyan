@@ -155,6 +155,9 @@ export default defineNuxtConfig({
     ],
     lazy: true,
     defaultLocale: 'zh-CN',
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
 
   svgo: {

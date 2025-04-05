@@ -188,6 +188,10 @@
       "description": "Coming soon!",
       "back_home": "Back to Home"
     },
+    "search": {
+      "placeholder": "Search",
+      "button": "Search"
+    },
     "forbidden_page": {
       "title": "403 Forbidden",
       "description": "Sorry, you don't have permission to access this page.",
