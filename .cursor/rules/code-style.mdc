@@ -49,7 +49,7 @@ alwaysApply: true
   ```ts
   const localePath = useLocalePath()
 
-  router.push(localePath('/xxx'))
+  navigate.to(localePath('/xxx'))
   ```
 
   如果使用`NuxtLink`实现跳转，示例如下：

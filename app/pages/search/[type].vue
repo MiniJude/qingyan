@@ -6,7 +6,6 @@ definePageMeta({
   layout: false,
 })
 
-const router = useRouter()
 const route = useRoute() as any
 const { type } = route.params
 const queryParam = route.query.q as string || ''
@@ -32,7 +31,7 @@ function handleChangeSearchType(typeValue: string) {
   if (typeValue !== type) {
     // 保留查询参数
     const query = route.query.q ? { q: route.query.q } : {}
-    router.push({
+    navigateTo({
       path: localePath(`/search/${typeValue}` as any),
       query,
     })
@@ -64,6 +63,12 @@ interface ResData {
   extra: any
 }
 
+// 排序选项
+const sortOptions = [
+  { value: 'match_desc', label: '按关键词匹配程度' },
+  { value: 'date_desc', label: '按创建日期' },
+]
+
 const searchValue = ref(queryParam)
 const isSearchFocused = ref(false)
 const loading = ref(false)
@@ -72,6 +77,23 @@ const total = ref(0)
 const currentPage = ref(1)
 const pageSize = ref(10)
 const langTopList = ref<{ name: string, rank: number }[]>([])
+const orderBy = ref('match_desc') // 默认排序方式
+const currentLang = ref('') // 当前选中的语言标签，空字符串表示"全部"
+
+// 处理排序方式变更
+function handleSortChange(sortValue: string) {
+  if (orderBy.value !== sortValue) {
+    orderBy.value = sortValue
+    currentPage.value = 1 // 切换排序时重置为第一页
+    searchData()
+  }
+}
+
+// 获取当前选中的排序选项
+const currentSortOption = computed(() => {
+  const option = sortOptions.find(option => option.value === orderBy.value)
+  return option || sortOptions[0]
+})
 
 // 日期格式化
 function formatDate(dateStr: string): string {
@@ -79,12 +101,26 @@ function formatDate(dateStr: string): string {
   return date.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })
 }
 
+// 处理语言标签点击
+function handleLangChange(lang: string) {
+  if (currentLang.value !== lang) {
+    currentLang.value = lang
+    currentPage.value = 1 // 切换语言时重置为第一页
+    searchData()
+  }
+}
+
+// 监听type变化，重置当前语言
+watch(() => type, () => {
+  currentLang.value = ''
+})
+
 // 根据type获取接口URL
 function getApiUrl() {
   const hasQuery = searchValue.value.trim() !== ''
 
   if (type === 'group') {
-    let url = `/api/search/group/?search_type=group&order_by=match_desc`
+    let url = `/api/search/group/?search_type=group&order_by=${orderBy.value}`
     if (hasQuery) {
       url += `&q=${encodeURIComponent(searchValue.value)}`
     }
@@ -92,16 +128,20 @@ function getApiUrl() {
     return url
   }
   else if (type === 'code') {
-    let url = `/api/search/code/?search_type=code&order_by=match_desc`
+    let url = `/api/search/code/?search_type=code&order_by=${orderBy.value}`
     if (hasQuery) {
       url += `&q=${encodeURIComponent(searchValue.value)}`
+    }
+    // 添加语言标签参数
+    if (currentLang.value) {
+      url += `&tag=${encodeURIComponent(currentLang.value)}`
     }
     url += `&pageNo=${currentPage.value}&pageSize=${pageSize.value}`
     return url
   }
 
   // 默认返回group接口
-  let url = `/api/search/group/?search_type=group&order_by=match_desc`
+  let url = `/api/search/group/?search_type=group&order_by=${orderBy.value}`
   if (hasQuery) {
     url += `&q=${encodeURIComponent(searchValue.value)}`
   }
@@ -124,14 +164,14 @@ async function searchData() {
 
     // 更新URL查询参数
     if (searchValue.value.trim()) {
-      router.push({
+      await navigateTo({
         path: route.path,
         query: { q: searchValue.value },
       })
     }
     else if (route.query.q) {
       // 如果搜索框为空但URL有q参数，则移除q参数
-      router.push({
+      await navigateTo({
         path: route.path,
       })
     }
@@ -175,6 +215,21 @@ function focusSearchInput() {
 onMounted(() => {
   searchData()
 })
+
+// 监听路由查询参数变化
+watch(() => route.query, (newQuery, oldQuery) => {
+  // 如果q参数发生变化
+  if (newQuery.q !== oldQuery.q) {
+    // 更新搜索输入框的值
+    if (newQuery.q !== searchValue.value) {
+      searchValue.value = newQuery.q as string || ''
+    }
+    // 重置分页到第一页
+    currentPage.value = 1
+  }
+  // 重新执行搜索
+  searchData()
+}, { deep: true })
 </script>
 
 <template>
@@ -241,19 +296,43 @@ onMounted(() => {
 
       <!-- 语言选择标签栏 -->
       <div v-if="type === 'code'" class="language-tabs">
-        <div class="active tab">
+        <div
+          class="tab"
+          :class="{ active: currentLang === '' }"
+          @click="handleLangChange('')"
+        >
           全部
         </div>
-        <div v-for="lang in langTopList" :key="lang.name" class="tab">
+        <div
+          v-for="lang in langTopList"
+          :key="lang.name"
+          class="tab"
+          :class="{ active: currentLang === lang.name }"
+          @click="handleLangChange(lang.name)"
+        >
           {{ lang.name }}
         </div>
       </div>
 
       <div class="filter-right">
-        <div class="filter-dropdown">
-          <span>按关键词匹配程度</span>
-          <el-icon><ArrowDown /></el-icon>
-        </div>
+        <el-dropdown trigger="click" @command="handleSortChange">
+          <div class="filter-dropdown">
+            <span>{{ currentSortOption.label }}</span>
+            <el-icon><ArrowDown /></el-icon>
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item
+                v-for="option in sortOptions"
+                :key="option.value"
+                :command="option.value"
+                :class="{ 'active-dropdown-item': option.value === orderBy }"
+              >
+                {{ option.label }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
     </div>
 
