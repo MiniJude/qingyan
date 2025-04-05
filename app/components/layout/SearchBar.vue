@@ -70,28 +70,26 @@ function handleFocus() {
 </script>
 
 <template>
-  <ClientOnly>
-    <div
-      :class="searchBarClass"
-      @mouseenter="handleMouseEnter"
-      @mouseleave="handleMouseLeave"
+  <div
+    :class="searchBarClass"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+  >
+    <el-input
+      ref="searchRef"
+      v-model="searchValue"
+      class="search-input"
+      :placeholder="$t('common.search.placeholder')"
+      @focus="handleFocus"
+      @keyup="handleKeyUp"
     >
-      <el-input
-        ref="searchRef"
-        v-model="searchValue"
-        class="search-input"
-        :placeholder="$t('common.search.placeholder')"
-        @focus="handleFocus"
-        @keyup="handleKeyUp"
-      >
-        <template #prefix>
-          <el-icon :size="isSearchFocused ? 24 : 20" color="var(--el-color-primary)">
-            <Search />
-          </el-icon>
-        </template>
-      </el-input>
-    </div>
-  </ClientOnly>
+      <template #prefix>
+        <el-icon :size="isSearchFocused ? 24 : 20" color="var(--el-color-primary)">
+          <Search />
+        </el-icon>
+      </template>
+    </el-input>
+  </div>
 </template>
 
 <style lang="scss" scoped>

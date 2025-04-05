@@ -261,23 +261,6 @@ function handleResultPanelClick(event: MouseEvent) {
               共{{ searchResults.kanban.total }}条结果
             </div>
           </div>
-
-          <!-- 用户结果 -->
-          <div v-if="searchResults.user && searchResults.user.total > 0" class="search-result-item">
-            <div class="item-icon">
-              <div class="icon-user">
-                人
-              </div>
-            </div>
-            <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.user.title }}
-              </div>
-            </div>
-            <div class="item-link">
-              共{{ searchResults.user.total }}条结果
-            </div>
-          </div>
         </div>
 
         <!-- 无搜索结果时显示提示 -->
