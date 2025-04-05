@@ -117,8 +117,8 @@ async function fetchSearchResults(query: string) {
     return
 
   try {
-    // 使用项目封装的API工具发起请求，并在URL前拼接'/copy/?url='
-    const data = await $api<SearchResult>(`/copy/?url=https://www.writebug.com/api/v3/search/hot/?q=${encodeURIComponent(query)}&search_type=1&domain=`)
+    // 使用项目封装的API工具发起请求，使用新的代理路径
+    const data = await $api<SearchResult>(`/api/search/hot/?q=${encodeURIComponent(query)}&search_type=1&domain=`)
     searchResults.value = data
   }
   catch (error) {

@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n'
  * @returns 验证结果
  */
 async function checkPhone(phone: string, type: 'register' | 'changePassword') {
-  const url = `/copy/?url=https://www.writebug.com/api/v3/member/${type === 'register' ? 'register' : 'changePassword'}/checkPhone/`
+  const url = `/api/member/${type === 'register' ? 'register' : 'changePassword'}/checkPhone/`
   await $api(url, {
     method: 'POST',
     body: { phone },

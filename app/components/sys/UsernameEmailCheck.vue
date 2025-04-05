@@ -39,7 +39,7 @@ async function submit() {
   await registerFormRef.value?.validate()
 
   // 这里添加注册逻辑（实际项目中应调用API）
-  await $api(`/copy/?url=https://www.writebug.com/api/v3/member/register/checkAccount/`, {
+  await $api(`/api/member/register/checkAccount/`, {
     method: 'POST',
     body: {
       username: form.value.username,

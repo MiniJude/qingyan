@@ -1,6 +1,5 @@
 #目录文件说明
 
-
 ## app
 
 ### plugins
@@ -26,18 +25,6 @@ useFetch 和 $fetch 两者使用场景有区别，可以看[Nuxt3文档](https:/
 
 ### routes
 
-#### copy.ts
-
-转发以 `/copy` 开头的请求，解决跨域问题
-
-开发阶段没有接口，要从 https://www.writebug.com/ 获取数据
-
-
-
-
 ### utils
 
 ### middleware
-
-
-

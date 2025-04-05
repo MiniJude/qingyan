@@ -114,10 +114,10 @@ export default defineNuxtConfig({
     },
     server: {
       proxy: {
-        '/external-api': {
+        '/api': {
           target: 'https://www.writebug.com',
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/external-api/, '/api/v3'),
+          rewrite: path => path.replace(/^\/api/, '/api/v3'),
         },
       },
     },

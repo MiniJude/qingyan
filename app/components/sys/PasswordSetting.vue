@@ -31,7 +31,7 @@ const registerFormRef = ref<FormInstance>()
 async function submit() {
   // 验证表单
   await registerFormRef.value?.validate()
-  const url = `/copy/?url=https://www.writebug.com/api/v3/member/${props.type === 'set' ? 'register' : 'changePassword'}/`
+  const url = `/api/member/${props.type === 'set' ? 'register' : 'changePassword'}/`
   await $api(url, {
     method: 'POST',
     body: form.value,

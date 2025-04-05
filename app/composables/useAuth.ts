@@ -13,7 +13,7 @@ interface UserInfo {
 export const useUser = () => useState<UserInfo | null>('user', () => null)
 
 export async function useLogin(phone: string, password: string) {
-  const response = await $api<LoginResponse>('/copy/?url=https://www.writebug.com/api/v3/member/login/', {
+  const response = await $api<LoginResponse>('/api/member/login/', {
     method: 'POST',
     body: { phone, password },
   })
@@ -38,7 +38,7 @@ export async function useLogin(phone: string, password: string) {
 
 export async function useLogout() {
   // 可选：调用登出API
-  // await $api('/copy/?url=https://www.writebug.com/api/v3/member/logout')
+  // await $api('/api/member/logout')
   const user = useUser()
   user.value = null
   const token = useCookie('token')

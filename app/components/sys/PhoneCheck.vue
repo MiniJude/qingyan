@@ -62,7 +62,7 @@ async function getVerificationCode() {
 
     try {
       // 发送验证码请求
-      await $api(`/copy/?url=https://www.writebug.com/api/v3/member/vcode/?phone=${encodeURIComponent(phoneWithPrefix)}`)
+      await $api(`/api/member/vcode/?phone=${encodeURIComponent(phoneWithPrefix)}`)
       // 手机号验证通过后发送验证码
       ElMessage.success(t('login.phone.vcode_sent'))
       // 设置验证码已发送状态
@@ -86,7 +86,7 @@ async function submit() {
 
   try {
     // 校验成功，这里添加注册逻辑
-    await $api(`/copy/?url=https://www.writebug.com/api/v3/member/vcode/`, {
+    await $api(`/api/member/vcode/`, {
       method: 'POST',
       body: {
         phone: form.value.phone,

@@ -57,7 +57,7 @@ interface SearchResultItem {
   [key: string]: any
 }
 
-interface ApiResponse {
+interface ResData {
   items: SearchResultItem[]
   total: number
   langTopList?: { name: string, rank: number }[]
@@ -81,11 +81,10 @@ function formatDate(dateStr: string): string {
 
 // 根据type获取接口URL
 function getApiUrl() {
-  const baseUrl = '/copy/?url=https://www.writebug.com/api/v3/search/'
   const hasQuery = searchValue.value.trim() !== ''
 
   if (type === 'group') {
-    let url = `${baseUrl}group/?search_type=group&order_by=match_desc`
+    let url = `/api/search/group/?search_type=group&order_by=match_desc`
     if (hasQuery) {
       url += `&q=${encodeURIComponent(searchValue.value)}`
     }
@@ -93,7 +92,7 @@ function getApiUrl() {
     return url
   }
   else if (type === 'code') {
-    let url = `${baseUrl}code/?search_type=code&order_by=match_desc`
+    let url = `/api/search/code/?search_type=code&order_by=match_desc`
     if (hasQuery) {
       url += `&q=${encodeURIComponent(searchValue.value)}`
     }
@@ -102,7 +101,7 @@ function getApiUrl() {
   }
 
   // 默认返回group接口
-  let url = `${baseUrl}group/?search_type=group&order_by=match_desc`
+  let url = `/api/search/group/?search_type=group&order_by=match_desc`
   if (hasQuery) {
     url += `&q=${encodeURIComponent(searchValue.value)}`
   }
@@ -116,7 +115,7 @@ async function searchData() {
   try {
     const apiUrl = getApiUrl()
     // $api 直接返回 response.data
-    const data = await $api<ApiResponse>(apiUrl)
+    const data = await $api<ResData>(apiUrl)
     searchResults.value = data.items || []
     total.value = data.total || 0
 
