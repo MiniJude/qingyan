@@ -500,6 +500,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
   flex: 1;
   min-height: 0;
   padding: 20px;
+  overflow-y: auto;
 }
 
 .no-result {
@@ -510,18 +511,18 @@ watch(() => route.query, (newQuery, oldQuery) => {
 }
 
 .result-list {
-  height: 100%;
-  overflow-y: auto;
   padding-right: 10px; /* 为滚动条预留空间 */
   padding-bottom: 12px;
   padding-top: 12px;
-}
-
-.code-result-list,
-.group-result-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   gap: 16px;
+
+  &.group-result-list {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  &.code-result-list {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
 }
 
 .pagination {
