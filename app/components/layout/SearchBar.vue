@@ -1,26 +1,25 @@
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue'
-import { onClickOutside, useDebounce } from '@vueuse/core'
-import { computed, nextTick, ref, watchEffect } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
   (e: 'search', value: string): void
+  (e: 'focusChange', isFocused: boolean): void
 }>()
 
-const searchValue = ref('')
+const searchValue = defineModel<string>({ required: false, default: '' })
 const isSearchFocused = ref(false)
 const isSearchHovered = ref(false)
 const searchRef = ref<HTMLElement | null>(null)
 
-// 使用VueUse的useDebounce实现防抖搜索
-const debouncedSearchValue = useDebounce(searchValue, 500)
+// 当搜索值变化时触发搜索事件
+watch(searchValue, (newValue) => {
+  emit('search', newValue)
+})
 
-// 监听debouncedSearchValue变化并发出search事件
-watchEffect(() => {
-  if (debouncedSearchValue.value) {
-    emit('search', debouncedSearchValue.value)
-  }
+// 监听聚焦状态变化并发出focusChange事件
+watch(isSearchFocused, (newValue) => {
+  emit('focusChange', newValue)
 })
 
 // 处理回车键搜索
@@ -31,14 +30,16 @@ function handleKeyUp(event: KeyboardEvent) {
 }
 
 // 使用VueUse的onClickOutside监听点击外部事件
-onClickOutside(searchRef, () => {
-  isSearchFocused.value = false
-})
+onClickOutside(searchRef, (event) => {
+  // 检查点击的元素是否在搜索结果面板内
+  const clickedElement = event.target as HTMLElement
+  const isClickInSearchResult = clickedElement.closest('.search-result-panel') !== null
 
-// 处理失焦事件
-function handleBlur() {
-  isSearchFocused.value = false
-}
+  // 如果点击的不是搜索结果面板，才设置失焦
+  if (!isClickInSearchResult) {
+    isSearchFocused.value = false
+  }
+})
 
 // 处理鼠标移入事件
 function handleMouseEnter() {
@@ -65,10 +66,6 @@ const searchBarClass = computed(() => {
 function handleFocus() {
   isSearchFocused.value = true
   isSearchHovered.value = false
-  nextTick(() => {
-    // 确保搜索框处于焦点状态
-    searchRef.value?.querySelector('input')?.focus()
-  })
 }
 </script>
 
@@ -85,7 +82,6 @@ function handleFocus() {
         class="search-input"
         :placeholder="$t('common.search.placeholder')"
         @focus="handleFocus"
-        @blur="handleBlur"
         @keyup="handleKeyUp"
       >
         <template #prefix>
@@ -142,7 +138,7 @@ function handleFocus() {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 600px;
+    width: 700px;
     z-index: 100;
     margin-right: 0;
 
