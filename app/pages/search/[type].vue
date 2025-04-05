@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ArrowDown, Search } from '@element-plus/icons-vue'
-import CodeCard from '~/components/cards/CodeCard.vue'
-import GroupCard from '~/components/cards/GroupCard.vue'
 import SearchResult from '~/components/layout/SearchResult.vue'
 
 definePageMeta({
@@ -115,35 +113,20 @@ watch(() => type, () => {
 // 根据type获取接口URL
 function getApiUrl() {
   const hasQuery = searchValue.value.trim() !== ''
+  const baseParams = `&pageNo=${currentPage.value}&pageSize=${pageSize.value}`
 
-  if (type === 'group') {
-    let url = `/api/search/group/?search_type=group&order_by=${orderBy.value}`
-    if (hasQuery) {
-      url += `&q=${encodeURIComponent(searchValue.value)}`
-    }
-    url += `&pageNo=${currentPage.value}&pageSize=${pageSize.value}`
-    return url
-  }
-  else if (type === 'code') {
-    let url = `/api/search/code/?search_type=code&order_by=${orderBy.value}`
-    if (hasQuery) {
-      url += `&q=${encodeURIComponent(searchValue.value)}`
-    }
-    // 添加语言标签参数
-    if (currentLang.value) {
-      url += `&tag=${encodeURIComponent(currentLang.value)}`
-    }
-    url += `&pageNo=${currentPage.value}&pageSize=${pageSize.value}`
-    return url
+  // 构建共用的查询参数
+  const queryParams = hasQuery ? `&q=${encodeURIComponent(searchValue.value)}` : ''
+
+  // 根据不同类型构建URL
+  const urlMap = {
+    group: `/api/search/group/?search_type=group&order_by=${orderBy.value}${queryParams}${baseParams}`,
+    code: `/api/search/code/?search_type=code&order_by=${orderBy.value}${queryParams}${currentLang.value ? `&tag=${encodeURIComponent(currentLang.value)}` : ''}${baseParams}`,
+    article: `/api/search/article/?search_type=article&order_by=${orderBy.value}${queryParams}${baseParams}`,
   }
 
-  // 默认返回group接口
-  let url = `/api/search/group/?search_type=group&order_by=${orderBy.value}`
-  if (hasQuery) {
-    url += `&q=${encodeURIComponent(searchValue.value)}`
-  }
-  url += `&pageNo=${currentPage.value}&pageSize=${pageSize.value}`
-  return url
+  // 返回对应类型的URL，如果类型不存在则返回group的URL
+  return urlMap[type as keyof typeof urlMap] || urlMap.group
 }
 
 // 搜索方法 - 只在点击搜索按钮时调用
@@ -340,6 +323,15 @@ watch(() => route.query, (newQuery, oldQuery) => {
           未找到相关结果
         </div>
 
+        <!-- 数字空间搜索结果 -->
+        <div v-else-if="type === 'group'" class="result-list group-result-list">
+          <GroupCard
+            v-for="item in searchResults"
+            :key="item.id"
+            :data="item"
+          />
+        </div>
+
         <!-- Git代码搜索结果 -->
         <div v-else-if="type === 'code'" class="result-list code-result-list">
           <CodeCard
@@ -349,9 +341,9 @@ watch(() => route.query, (newQuery, oldQuery) => {
           />
         </div>
 
-        <!-- 数字空间搜索结果 -->
-        <div v-else-if="type === 'group'" class="result-list group-result-list">
-          <GroupCard
+        <!-- 文章搜索结果 -->
+        <div v-else-if="type === 'article'" class="result-list article-result-list">
+          <ArticleCard
             v-for="item in searchResults"
             :key="item.id"
             :data="item"
@@ -500,6 +492,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
   flex: 1;
   min-height: 0;
   padding: 20px;
+  padding-bottom: 0;
   overflow-y: auto;
 }
 
@@ -523,11 +516,15 @@ watch(() => route.query, (newQuery, oldQuery) => {
   &.code-result-list {
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   }
+  &.article-result-list {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
 }
 
 .pagination {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 
 /* 选择器修复 */
