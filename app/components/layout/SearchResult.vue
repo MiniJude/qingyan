@@ -42,6 +42,52 @@ interface SearchResult {
   extra: any
 }
 
+// 定义搜索结果类型配置
+const resultTypeConfig = [
+  {
+    key: 'group',
+    type: 'group',
+    iconClass: 'icon-space',
+    iconText: '空',
+    iconComponent: 'i-carbon:collaborate',
+  },
+  {
+    key: 'code',
+    type: 'code',
+    iconClass: 'icon-git',
+    iconText: '码',
+    iconComponent: 'i-carbon:code',
+  },
+  {
+    key: 'article',
+    type: 'article',
+    iconClass: 'icon-doc',
+    iconText: '文',
+    iconComponent: 'i-carbon:document',
+  },
+  {
+    key: 'document',
+    type: 'cloud',
+    iconClass: 'icon-file',
+    iconText: '档',
+    iconComponent: 'i-carbon:document-pdf',
+  },
+  {
+    key: 'question',
+    type: 'discussion',
+    iconClass: 'icon-question',
+    iconText: '讨',
+    iconComponent: 'i-carbon:chat',
+  },
+  {
+    key: 'kanban',
+    type: 'ai',
+    iconClass: 'icon-kanban',
+    iconText: '任',
+    iconComponent: 'i-carbon:task',
+  },
+]
+
 const searchResults = ref<SearchResult>({
   q: '',
   total: 0,
@@ -54,6 +100,14 @@ const searchResults = ref<SearchResult>({
   kanban: { title: '', total: 0, score: 0 },
   items: [],
   extra: null,
+})
+
+// 获取有结果的项目
+const resultItems = computed(() => {
+  return resultTypeConfig.filter((config) => {
+    const item = searchResults.value[config.key as keyof SearchResult] as SearchResultItem
+    return item && item.total > 0
+  })
 })
 
 const isLoading = ref(false)
@@ -137,6 +191,17 @@ async function fetchSearchResults(query: string) {
   }
 }
 
+// 处理搜索结果项点击
+function handleResultItemClick(type: string) {
+  if (props.searchValue) {
+    // 跳转到对应类型的搜索页面，并传递查询参数
+    navigateTo({
+      path: `/search/${type}`,
+      query: { q: props.searchValue },
+    })
+  }
+}
+
 // 防止点击搜索结果面板时触发外部点击事件
 function handleResultPanelClick(event: MouseEvent) {
   // 阻止事件冒泡，防止触发onClickOutside
@@ -168,105 +233,25 @@ function handleResultPanelClick(event: MouseEvent) {
             共找到 {{ searchResults.total }} 条结果
           </div>
 
-          <!-- 数字空间结果 -->
-          <div v-if="searchResults.group && searchResults.group.total > 0" class="search-result-item">
+          <!-- 使用循环渲染搜索结果项 -->
+          <div
+            v-for="item in resultItems"
+            :key="item.key"
+            class="search-result-item"
+            @click="handleResultItemClick(item.type)"
+          >
             <div class="item-icon">
-              <div class="icon-space">
-                空
+              <div :class="item.iconClass">
+                {{ item.iconText }}
               </div>
             </div>
             <div class="item-content">
               <div class="item-title">
-                {{ searchResults.group.title }}
+                {{ searchResults[item.key as keyof SearchResult].title }}
               </div>
             </div>
             <div class="item-link">
-              共{{ searchResults.group.total }}条结果
-            </div>
-          </div>
-
-          <!-- 代码结果 -->
-          <div v-if="searchResults.code && searchResults.code.total > 0" class="search-result-item">
-            <div class="item-icon">
-              <div class="icon-git">
-                码
-              </div>
-            </div>
-            <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.code.title }}
-              </div>
-            </div>
-            <div class="item-link">
-              共{{ searchResults.code.total }}条结果
-            </div>
-          </div>
-
-          <!-- 文章结果 -->
-          <div v-if="searchResults.article && searchResults.article.total > 0" class="search-result-item">
-            <div class="item-icon">
-              <div class="icon-doc">
-                文
-              </div>
-            </div>
-            <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.article.title }}
-              </div>
-            </div>
-            <div class="item-link">
-              共{{ searchResults.article.total }}条结果
-            </div>
-          </div>
-
-          <!-- 文档结果 -->
-          <div v-if="searchResults.document && searchResults.document.total > 0" class="search-result-item">
-            <div class="item-icon">
-              <div class="icon-file">
-                档
-              </div>
-            </div>
-            <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.document.title }}
-              </div>
-            </div>
-            <div class="item-link">
-              共{{ searchResults.document.total }}条结果
-            </div>
-          </div>
-
-          <!-- 讨论结果 -->
-          <div v-if="searchResults.question && searchResults.question.total > 0" class="search-result-item">
-            <div class="item-icon">
-              <div class="icon-question">
-                讨
-              </div>
-            </div>
-            <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.question.title }}
-              </div>
-            </div>
-            <div class="item-link">
-              共{{ searchResults.question.total }}条结果
-            </div>
-          </div>
-
-          <!-- 任务看板结果 -->
-          <div v-if="searchResults.kanban && searchResults.kanban.total > 0" class="search-result-item">
-            <div class="item-icon">
-              <div class="icon-kanban">
-                任
-              </div>
-            </div>
-            <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.kanban.title }}
-              </div>
-            </div>
-            <div class="item-link">
-              共{{ searchResults.kanban.total }}条结果
+              共{{ searchResults[item.key as keyof SearchResult].total }}条结果
             </div>
           </div>
         </div>

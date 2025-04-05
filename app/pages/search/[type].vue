@@ -163,10 +163,11 @@ function handleBlur() {
   isSearchFocused.value = false
 }
 
-// 键盘事件处理
-function handleKeyUp(event: KeyboardEvent) {
-  if (event.key === 'Enter') {
-    searchData()
+// 让搜索框获得焦点
+function focusSearchInput() {
+  const inputEl = document.querySelector('.search-input input')
+  if (inputEl) {
+    (inputEl as HTMLElement).focus()
   }
 }
 
@@ -186,7 +187,6 @@ onMounted(() => {
           :placeholder="$t('common.search.placeholder')"
           @focus="handleFocus"
           @blur="handleBlur"
-          @keyup="handleKeyUp"
         >
           <template #prefix>
             <el-icon color="#606266" class="!ml-2" size="24px">
@@ -194,7 +194,7 @@ onMounted(() => {
             </el-icon>
           </template>
           <template #suffix>
-            <el-button class="search-btn" @click="searchData">
+            <el-button round type="primary" class="w-70px !h-36px" @click="focusSearchInput">
               搜索
             </el-button>
           </template>
@@ -361,31 +361,14 @@ onMounted(() => {
 .search-input :deep(.el-input__wrapper) {
   border-radius: 25px;
   padding-left: 5px;
-  background-color: #f5f7fa;
+  padding-right: 6px;
   box-shadow: none;
-  border: 1px solid #e4e7ed;
+  border: 1px solid var(--app-border-regular);
 }
 
 .search-input :deep(.el-input__inner) {
-  height: 50px;
+  height: 48px;
   font-size: 18px;
-}
-
-.search-btn {
-  margin-left: 15px;
-  border-radius: 20px;
-  background-color: var(--el-color-primary);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  height: 36px;
-  line-height: 20px;
-}
-
-.search-btn:hover,
-.search-btn:focus {
-  background-color: #6b47c5;
-  color: white;
 }
 
 .search-filter {
