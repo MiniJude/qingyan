@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ArrowDown, Search } from '@element-plus/icons-vue'
+import CodeCard from '~/components/cards/CodeCard.vue'
+import GroupCard from '~/components/cards/GroupCard.vue'
 import SearchResult from '~/components/layout/SearchResult.vue'
 
 definePageMeta({
@@ -13,13 +15,13 @@ const localePath = useLocalePath()
 
 // 搜索类型选项
 const searchTypes = [
-  { value: 'group', label: '数字空间', icon: 'i-carbon:collaborate' },
-  { value: 'code', label: 'Git', icon: 'i-carbon:code' },
-  { value: 'article', label: '文章', icon: 'i-carbon:document' },
-  { value: 'cloud', label: '云文档', icon: 'i-carbon:document' },
-  { value: 'ai', label: 'AI文档', icon: 'i-carbon:machine-learning' },
-  { value: 'discussion', label: '讨论', icon: 'i-carbon:chat' },
-  { value: 'meeting', label: '会议室', icon: 'i-carbon:video-chat' },
+  { value: 'group', label: '数字空间' },
+  { value: 'code', label: 'Git' },
+  { value: 'article', label: '文章' },
+  { value: 'cloud', label: '云文档' },
+  { value: 'ai', label: 'AI文档' },
+  { value: 'discussion', label: '讨论' },
+  { value: 'meeting', label: '会议室' },
 ]
 
 const currentTypeItem = computed(() => {
@@ -92,14 +94,9 @@ function handleSortChange(sortValue: string) {
 // 获取当前选中的排序选项
 const currentSortOption = computed(() => {
   const option = sortOptions.find(option => option.value === orderBy.value)
+  // 确保不返回undefined
   return option || sortOptions[0]
 })
-
-// 日期格式化
-function formatDate(dateStr: string): string {
-  const date = new Date(dateStr)
-  return date.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })
-}
 
 // 处理语言标签点击
 function handleLangChange(lang: string) {
@@ -270,7 +267,6 @@ watch(() => route.query, (newQuery, oldQuery) => {
       <div class="filter-left">
         <el-dropdown trigger="click" @command="handleChangeSearchType">
           <div class="type-selector">
-            <div :class="currentTypeItem.icon" />
             <span>{{ currentTypeItem.label }}</span>
             <el-icon class="el-icon--right">
               <ArrowDown />
@@ -285,7 +281,6 @@ watch(() => route.query, (newQuery, oldQuery) => {
                 :class="{ 'active-dropdown-item': item.value === type }"
               >
                 <div class="flex items-center">
-                  <div :class="item.icon" />
                   <span class="ml-2">{{ item.label }}</span>
                 </div>
               </el-dropdown-item>
@@ -297,6 +292,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
       <!-- 语言选择标签栏 -->
       <div v-if="type === 'code'" class="language-tabs">
         <div
+          v-if="langTopList.length > 0"
           class="tab"
           :class="{ active: currentLang === '' }"
           @click="handleLangChange('')"
@@ -317,7 +313,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
       <div class="filter-right">
         <el-dropdown trigger="click" @command="handleSortChange">
           <div class="filter-dropdown">
-            <span>{{ currentSortOption.label }}</span>
+            <span>{{ currentSortOption?.label || '按关键词匹配程度' }}</span>
             <el-icon><ArrowDown /></el-icon>
           </div>
           <template #dropdown>
@@ -336,85 +332,56 @@ watch(() => route.query, (newQuery, oldQuery) => {
       </div>
     </div>
 
-    <div class="search-results">
-      <el-skeleton v-if="loading" :rows="5" animated />
+    <div class="search-content">
+      <div class="search-results">
+        <el-skeleton v-if="loading" :rows="5" animated />
 
-      <div v-else-if="searchResults.length === 0" class="no-result">
-        未找到相关结果
-      </div>
+        <div v-else-if="searchResults.length === 0" class="no-result">
+          未找到相关结果
+        </div>
 
-      <!-- Git代码搜索结果 -->
-      <div v-else-if="type === 'code'" class="code-result-list">
-        <div v-for="item in searchResults" :key="item.id" class="code-item">
-          <div class="code-icon">
-            <div class="i-carbon:code" />
-          </div>
-          <div class="code-content">
-            <h3 class="code-title">
-              {{ item.title }}
-            </h3>
-            <p class="code-desc">
-              {{ item.content }}
-            </p>
-            <div class="code-meta">
-              <div class="meta-left">
-                <div class="meta-item">
-                  <div class="i-carbon:view" />
-                  <span>{{ item.like }}</span>
-                </div>
-                <div class="meta-item">
-                  <div class="i-carbon:star" />
-                  <span>{{ item.favor }}</span>
-                </div>
-              </div>
-              <div class="meta-user">
-                <img :src="item.avatar || '/static/images/default-avatar.png'" class="user-avatar">
-                <span>{{ item.username }}</span>
-                <span class="date">{{ formatDate(item.create_datetime) }}</span>
-              </div>
-            </div>
-          </div>
-          <div v-if="item.score > 0" class="code-score">
-            {{ item.score }}
-          </div>
+        <!-- Git代码搜索结果 -->
+        <div v-else-if="type === 'code'" class="result-list code-result-list">
+          <CodeCard
+            v-for="item in searchResults"
+            :key="item.id"
+            :data="item"
+          />
+        </div>
+
+        <!-- 数字空间搜索结果 -->
+        <div v-else-if="type === 'group'" class="result-list group-result-list">
+          <GroupCard
+            v-for="item in searchResults"
+            :key="item.id"
+            :data="item"
+          />
         </div>
       </div>
+    </div>
 
-      <!-- 数字空间搜索结果 -->
-      <div v-else-if="type === 'group'" class="group-result-list">
-        <div v-for="item in searchResults" :key="item.id" class="group-item">
-          <div class="group-content">
-            <h3 class="group-title">
-              {{ item.title }}
-            </h3>
-            <p class="group-desc">
-              {{ item.content }}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 分页 -->
-      <div v-if="!loading && total > 0" class="pagination">
-        <el-pagination
-          v-model:current-page="currentPage"
-          background
-          :page-size="pageSize"
-          :total="total"
-          layout="prev, pager, next"
-          @current-change="handlePageChange"
-        />
-      </div>
+    <!-- 分页 - 移到搜索内容外部 -->
+    <div v-if="!loading && total > 0" class="pagination">
+      <el-pagination
+        v-model:current-page="currentPage"
+        background
+        :page-size="pageSize"
+        :total="total"
+        layout="prev, pager, next"
+        @current-change="handlePageChange"
+      />
     </div>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .search-page {
-  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 30px 0;
   max-width: 1200px;
   margin: 0 auto;
-  min-height: 100vh;
   background-color: var(--el-bg-color);
 }
 
@@ -423,7 +390,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
   align-items: center;
   flex-direction: column;
   margin-bottom: 24px;
-  position: relative; /* 添加相对定位，使SearchResult可以相对于它定位 */
+  position: relative;
 }
 
 .search-container {
@@ -435,27 +402,27 @@ watch(() => route.query, (newQuery, oldQuery) => {
 
 .search-input {
   flex: 1;
-}
 
-.search-input :deep(.el-input__wrapper) {
-  border-radius: 25px;
-  padding-left: 5px;
-  padding-right: 6px;
-  box-shadow: none;
-  border: 1px solid var(--app-border-regular);
-}
+  :deep(.el-input__wrapper) {
+    border-radius: 25px;
+    padding-left: 5px;
+    padding-right: 6px;
+    box-shadow: none;
+    border: 1px solid var(--app-border-regular);
+  }
 
-.search-input :deep(.el-input__inner) {
-  height: 48px;
-  font-size: 18px;
+  :deep(.el-input__inner) {
+    height: 48px;
+    font-size: 18px;
+  }
 }
 
 .search-filter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
   flex-wrap: wrap;
+  padding: 0 20px;
 }
 
 .filter-left {
@@ -472,21 +439,19 @@ watch(() => route.query, (newQuery, oldQuery) => {
   cursor: pointer;
   min-width: 100px;
   justify-content: space-between;
-}
 
-.type-selector i {
-  margin-right: 5px;
-}
+  i {
+    margin-right: 5px;
+  }
 
-.type-selector span {
-  margin: 0 5px;
-  flex: 1;
+  span {
+    margin: 0 5px;
+    flex: 1;
+  }
 }
 
 .language-tabs {
   display: flex;
-  margin-top: 15px;
-  margin-bottom: 10px;
   overflow-x: auto;
   white-space: nowrap;
 }
@@ -497,11 +462,11 @@ watch(() => route.query, (newQuery, oldQuery) => {
   margin-right: 10px;
   cursor: pointer;
   font-size: 14px;
-}
 
-.tab.active {
-  background-color: var(--el-color-primary-light-9);
-  color: var(--el-color-primary);
+  &.active {
+    background-color: var(--el-color-primary-light-9);
+    color: var(--el-color-primary);
+  }
 }
 
 .filter-right {
@@ -517,14 +482,24 @@ watch(() => route.query, (newQuery, oldQuery) => {
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+
+  i {
+    margin-left: 5px;
+  }
 }
 
-.filter-dropdown i {
-  margin-left: 5px;
+.search-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* 确保flex子元素不会超出父元素 */
 }
 
 .search-results {
-  min-height: 300px;
+  flex: 1;
+  min-height: 0;
+  padding: 20px;
 }
 
 .no-result {
@@ -534,125 +509,33 @@ watch(() => route.query, (newQuery, oldQuery) => {
   font-size: 16px;
 }
 
+.result-list {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px; /* 为滚动条预留空间 */
+  padding-bottom: 12px;
+  padding-top: 12px;
+}
+
 .code-result-list,
 .group-result-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   gap: 16px;
-}
-
-.code-item,
-.group-item {
-  display: flex;
-  padding: 16px;
-  border-radius: 8px;
-  background-color: var(--el-bg-color-overlay);
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s;
-}
-
-.code-item:hover,
-.group-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.1);
-}
-
-.code-icon {
-  margin-right: 16px;
-  font-size: 24px;
-  color: var(--el-color-primary);
-}
-
-.code-content,
-.group-content {
-  flex: 1;
-}
-
-.code-title,
-.group-title {
-  margin: 0 0 10px;
-  font-size: 18px;
-  color: var(--el-color-primary);
-}
-
-.code-desc,
-.group-desc {
-  margin: 0 0 16px;
-  color: var(--el-text-color-primary);
-  line-height: 1.6;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.code-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-}
-
-.meta-left {
-  display: flex;
-  gap: 16px;
-}
-
-.meta-item {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.meta-user {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.user-avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.date {
-  margin-left: 8px;
-  color: var(--el-text-color-secondary);
-}
-
-.code-score {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--el-color-success-light-9);
-  color: var(--el-color-success);
-  font-weight: bold;
-  margin-left: 16px;
 }
 
 .pagination {
-  margin-top: 30px;
   display: flex;
   justify-content: center;
 }
 
+/* 选择器修复 */
 :deep(.active-dropdown-item) {
   color: var(--el-color-primary);
   background-color: var(--el-color-primary-light-9);
 }
 
-:deep(.el-dropdown-menu__item i) {
-  margin-right: 5px;
-  font-size: 16px;
-}
-
+/* 拆分嵌套选择器，避免在:deep后使用&符号 */
 :deep(.el-dropdown-menu) {
   border-radius: 8px;
   padding: 4px 0;
@@ -664,46 +547,23 @@ watch(() => route.query, (newQuery, oldQuery) => {
   line-height: 36px;
   font-size: 14px;
   padding: 0 16px;
+
+  &:hover {
+    background-color: var(--el-color-primary-light-9);
+  }
+
+  &.active-dropdown-item:hover {
+    background-color: var(--el-color-primary-light-8);
+  }
+}
+
+:deep(.el-dropdown-menu__item i) {
+  margin-right: 5px;
+  font-size: 16px;
 }
 
 :deep(.el-dropdown-menu__item .flex) {
   display: flex;
   align-items: center;
-}
-
-:deep(.el-dropdown-menu__item:hover) {
-  background-color: var(--el-color-primary-light-9);
-}
-
-:deep(.el-dropdown-menu__item.active-dropdown-item:hover) {
-  background-color: var(--el-color-primary-light-8);
-}
-
-:deep(.el-dropdown-menu__item i.i-carbon\\:collaborate) {
-  color: #7954e2;
-}
-
-:deep(.el-dropdown-menu__item i.i-carbon\\:code) {
-  color: #fa8c16;
-}
-
-:deep(.el-dropdown-menu__item i.i-carbon\\:document) {
-  color: #52c41a;
-}
-
-:deep(.el-dropdown-menu__item i.i-carbon\\:cloud-document) {
-  color: #1890ff;
-}
-
-:deep(.el-dropdown-menu__item i.i-carbon\\:machine-learning) {
-  color: #722ed1;
-}
-
-:deep(.el-dropdown-menu__item i.i-carbon\\:chat) {
-  color: #13c2c2;
-}
-
-:deep(.el-dropdown-menu__item i.i-carbon\\:video-chat) {
-  color: #eb2f96;
 }
 </style>

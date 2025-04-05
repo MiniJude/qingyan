@@ -15,6 +15,7 @@ alwaysApply: true
 ### 2. **样式书写规范**
 - 在编写新的HTML代码时，尽可能使用Unocss来完成样式的设置。
 - 对于第三方组件的非根节点样式，建议使用SCSS进行处理。
+- 在写`<style scoped>`标签内的样式代码时，请加上lang=scss，使用scss语法编写。
 
 ### 3. **遵循DRY原则**
 - 在编写业务代码（HTML、JS等）时，务必遵循**DRY（Don't Repeat Yourself）原则**，尽可能复用代码，减少重复部分。
