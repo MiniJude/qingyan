@@ -189,18 +189,25 @@ onMounted(() => {
           @keyup="handleKeyUp"
         >
           <template #prefix>
-            <el-icon color="#606266" class="!ml-2">
+            <el-icon color="#606266" class="!ml-2" size="24px">
               <Search />
             </el-icon>
           </template>
+          <template #suffix>
+            <el-button class="search-btn" @click="searchData">
+              搜索
+            </el-button>
+          </template>
         </el-input>
-        <el-button class="search-btn" @click="searchData">
-          搜索
-        </el-button>
       </div>
 
       <!-- 搜索下拉结果面板，放在search-header内部以便正确定位 -->
-      <SearchResult class="!left-50% !translate-x-[-50%]" :visible="isSearchFocused" :search-value="searchValue" />
+      <SearchResult
+        :visible="isSearchFocused"
+        :search-value="searchValue"
+        width="600px"
+        class="mt-2"
+      />
     </div>
 
     <!-- 搜索类型选择 -->
@@ -352,7 +359,7 @@ onMounted(() => {
 }
 
 .search-input :deep(.el-input__wrapper) {
-  border-radius: 20px;
+  border-radius: 25px;
   padding-left: 5px;
   background-color: #f5f7fa;
   box-shadow: none;
@@ -360,13 +367,14 @@ onMounted(() => {
 }
 
 .search-input :deep(.el-input__inner) {
-  height: 36px;
+  height: 50px;
+  font-size: 18px;
 }
 
 .search-btn {
   margin-left: 15px;
   border-radius: 20px;
-  background-color: #7954e2;
+  background-color: var(--el-color-primary);
   color: white;
   border: none;
   padding: 8px 16px;

@@ -45,6 +45,7 @@ const menuList = computed(() => [
     :title="$t('space.title')"
     :append-to-body="true"
     :close-on-click-modal="false"
+    align-center
   >
     <MenuSplitContent
       v-model="currentMenu"
