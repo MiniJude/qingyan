@@ -74,6 +74,7 @@ alwaysApply: true
 - 要用el-button，而不要用button
 - 上传相关优先使用el-upload，而不是手写拖拽等实现上传
 - 要用<el-divider />,而不要用自己写<div class="divider" />
+- Element Plus图标使用具名导入方式，比如 import { ArrowDown } from '@element-plus/icons-vue'
 
 
 ### 8. **业务组件职责分离**

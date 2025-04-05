@@ -155,22 +155,13 @@ function handleResultPanelClick(event: MouseEvent) {
 
         <!-- 有搜索结果时显示内容 -->
         <div v-if="searchResults.total > 0" class="search-result-content">
-          <!-- 总搜索结果提示 -->
-          <div class="search-total">
-            共找到 {{ searchResults.total }} 条结果
-          </div>
-
           <!-- 数字空间结果 -->
           <div v-if="searchResults.group && searchResults.group.total > 0" class="search-result-item">
             <div class="item-icon">
-              <div class="icon-space">
-                空
-              </div>
+              <div class="i-carbon:collaborate" />
             </div>
             <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.group.title }}
-              </div>
+              {{ searchResults.group.title }}
             </div>
             <div class="item-link">
               共{{ searchResults.group.total }}条结果
@@ -180,14 +171,10 @@ function handleResultPanelClick(event: MouseEvent) {
           <!-- 代码结果 -->
           <div v-if="searchResults.code && searchResults.code.total > 0" class="search-result-item">
             <div class="item-icon">
-              <div class="icon-git">
-                码
-              </div>
+              <div class="i-carbon:code" />
             </div>
             <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.code.title }}
-              </div>
+              {{ searchResults.code.title }}
             </div>
             <div class="item-link">
               共{{ searchResults.code.total }}条结果
@@ -197,14 +184,10 @@ function handleResultPanelClick(event: MouseEvent) {
           <!-- 文章结果 -->
           <div v-if="searchResults.article && searchResults.article.total > 0" class="search-result-item">
             <div class="item-icon">
-              <div class="icon-doc">
-                文
-              </div>
+              <div class="i-carbon:document" />
             </div>
             <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.article.title }}
-              </div>
+              {{ searchResults.article.title }}
             </div>
             <div class="item-link">
               共{{ searchResults.article.total }}条结果
@@ -214,14 +197,10 @@ function handleResultPanelClick(event: MouseEvent) {
           <!-- 文档结果 -->
           <div v-if="searchResults.document && searchResults.document.total > 0" class="search-result-item">
             <div class="item-icon">
-              <div class="icon-file">
-                档
-              </div>
+              <div class="i-carbon:document-pdf" />
             </div>
             <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.document.title }}
-              </div>
+              {{ searchResults.document.title }}
             </div>
             <div class="item-link">
               共{{ searchResults.document.total }}条结果
@@ -231,14 +210,10 @@ function handleResultPanelClick(event: MouseEvent) {
           <!-- 讨论结果 -->
           <div v-if="searchResults.question && searchResults.question.total > 0" class="search-result-item">
             <div class="item-icon">
-              <div class="icon-question">
-                讨
-              </div>
+              <div class="i-carbon:chat" />
             </div>
             <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.question.title }}
-              </div>
+              {{ searchResults.question.title }}
             </div>
             <div class="item-link">
               共{{ searchResults.question.total }}条结果
@@ -248,14 +223,10 @@ function handleResultPanelClick(event: MouseEvent) {
           <!-- 任务看板结果 -->
           <div v-if="searchResults.kanban && searchResults.kanban.total > 0" class="search-result-item">
             <div class="item-icon">
-              <div class="icon-kanban">
-                任
-              </div>
+              <div class="i-carbon:task" />
             </div>
             <div class="item-content">
-              <div class="item-title">
-                {{ searchResults.kanban.title }}
-              </div>
+              {{ searchResults.kanban.title }}
             </div>
             <div class="item-link">
               共{{ searchResults.kanban.total }}条结果
@@ -290,35 +261,35 @@ function handleResultPanelClick(event: MouseEvent) {
 .search-result-panel {
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  right: auto;
-  max-height: 500px;
+  left: 0;
+  right: 0;
+  max-height: 400px;
   min-height: 100px;
   height: auto;
-  width: 700px;
+  width: 100%;
+  max-width: 600px;
   background-color: white;
   z-index: 99;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
+  border-radius: 8px;
   overflow: hidden;
   transform-origin: top center;
+  margin-top: 8px;
 }
 
 .search-result-container {
-  padding: 16px;
+  padding: 0;
   height: 100%;
   display: flex;
   flex-direction: column;
-  max-height: calc(500px - 32px);
+  max-height: 400px;
 }
 
 .search-tabs {
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
+  padding: 8px 12px;
+  margin-bottom: 0;
   border-bottom: 1px solid #eee;
-  padding-bottom: 8px;
   overflow-x: auto;
 
   &::-webkit-scrollbar {
@@ -329,38 +300,28 @@ function handleResultPanelClick(event: MouseEvent) {
 .search-tab {
   background: none;
   border: none;
-  padding: 8px 16px;
+  padding: 4px 8px;
   font-size: 14px;
   cursor: pointer;
-  color: #999;
+  color: #606266;
 
   &.active {
     color: var(--el-color-primary);
     font-weight: 500;
     position: relative;
-
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: -9px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background-color: var(--el-color-primary);
-    }
   }
 }
 
 .search-result-content {
   flex: 1;
   overflow-y: auto;
-  max-height: 400px;
+  max-height: 350px;
 }
 
 .search-result-item {
   display: flex;
   align-items: center;
-  padding: 12px 8px;
+  padding: 10px 12px;
   border-bottom: 1px solid #f5f5f5;
   cursor: pointer;
   position: relative;
@@ -370,137 +331,106 @@ function handleResultPanelClick(event: MouseEvent) {
   }
 
   .item-icon {
-    width: 32px;
-    height: 32px;
-    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    .icon-space,
-    .icon-git,
-    .icon-doc,
-    .icon-file,
-    .icon-question,
-    .icon-kanban,
+    .icon-space {
+      color: #1890ff;
+    }
+
+    .icon-git {
+      color: #fa8c16;
+    }
+
+    .icon-doc {
+      color: #52c41a;
+    }
+
+    .icon-file {
+      color: #13c2c2;
+    }
+
+    .icon-question {
+      color: #722ed1;
+    }
+
+    .icon-kanban {
+      color: #eb2f96;
+    }
+
     .icon-user {
-      width: 24px;
-      height: 24px;
-      background-color: #f0f0f0;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: #666;
+      color: #2f54eb;
     }
   }
 
   .item-content {
     flex: 1;
-
-    .item-title {
-      font-size: 14px;
-      color: #333;
-    }
+    font-size: 14px;
+    color: #303133;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .item-link {
     font-size: 12px;
-    color: #999;
+    color: #909399;
     margin-left: 10px;
     white-space: nowrap;
-
-    &::after {
-      content: '>';
-      margin-left: 4px;
-    }
+    display: flex;
+    align-items: center;
   }
 }
 
 // 过渡效果
 .search-result-enter-active {
-  animation: search-result-in 0.5s ease-out;
+  animation: search-result-in 0.2s ease-out;
 }
 
 .search-result-leave-active {
-  animation: search-result-out 0.5s ease-in;
+  animation: search-result-out 0.2s ease-in;
 }
 
 @keyframes search-result-in {
   0% {
     opacity: 0;
-    clip-path: inset(0 0 100% 0);
+    transform: translateY(-10px);
   }
   100% {
     opacity: 1;
-    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
   }
 }
 
 @keyframes search-result-out {
   0% {
     opacity: 1;
-    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
   }
   100% {
     opacity: 0;
-    clip-path: inset(0 0 100% 0);
+    transform: translateY(-10px);
   }
 }
 
-// 添加新的样式
-.search-total {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 16px;
-  padding-left: 4px;
-}
-
 .search-loading {
-  padding: 20px 0;
+  padding: 20px 12px;
 }
 
 .no-results {
   text-align: center;
-  color: #999;
-  padding: 40px 0;
+  color: #909399;
+  padding: 20px 0;
   font-size: 14px;
 }
 
 // 加载面板样式
 .loading-panel {
-  min-height: 200px;
-  height: auto;
-}
-
-// 调整图标样式
-.icon-space {
-  background-color: #e6f7ff;
-  color: #1890ff;
-}
-.icon-git {
-  background-color: #fff2e8;
-  color: #fa8c16;
-}
-.icon-doc {
-  background-color: #f6ffed;
-  color: #52c41a;
-}
-.icon-file {
-  background-color: #e6fffb;
-  color: #13c2c2;
-}
-.icon-question {
-  background-color: #f9f0ff;
-  color: #722ed1;
-}
-.icon-kanban {
-  background-color: #fcf4f6;
-  color: #eb2f96;
-}
-.icon-user {
-  background-color: #f0f5ff;
-  color: #2f54eb;
+  min-height: 100px;
+  max-height: 200px;
 }
 </style>
