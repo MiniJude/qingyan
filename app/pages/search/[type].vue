@@ -16,8 +16,8 @@ const searchTypes = [
   { value: 'code', label: 'Git' },
   { value: 'article', label: '文章' },
   { value: 'document', label: '云文档' },
-  { value: 'ai', label: 'AI文档' },
-  { value: 'discussion', label: '讨论' },
+  { value: 'ai-doc', label: 'AI文档' },
+  { value: 'question', label: '讨论' },
   { value: 'meeting', label: '会议室' },
 ]
 
@@ -119,10 +119,12 @@ function getApiUrl() {
 
   // 根据不同类型构建URL
   const urlMap = {
-    group: `/api/search/group/?search_type=group&order_by=${orderBy.value}${queryParams}${baseParams}`,
-    code: `/api/search/code/?search_type=code&order_by=${orderBy.value}${queryParams}${currentLang.value ? `&tag=${encodeURIComponent(currentLang.value)}` : ''}${baseParams}`,
-    article: `/api/search/article/?search_type=article&order_by=${orderBy.value}${queryParams}${baseParams}`,
-    document: `/api/search/document/?search_type=document&order_by=${orderBy.value}${queryParams}${baseParams}`,
+    'group': `/api/search/group/?search_type=group&order_by=${orderBy.value}${queryParams}${baseParams}`,
+    'code': `/api/search/code/?search_type=code&order_by=${orderBy.value}${queryParams}${currentLang.value ? `&tag=${encodeURIComponent(currentLang.value)}` : ''}${baseParams}`,
+    'article': `/api/search/article/?search_type=article&order_by=${orderBy.value}${queryParams}${baseParams}`,
+    'document': `/api/search/document/?search_type=document&order_by=${orderBy.value}${queryParams}${baseParams}`,
+    'ai-doc': `/api/search/ai_doc/?search_type=ai-doc&order_by=${orderBy.value}${queryParams}${baseParams}`,
+    'question': `/api/search/question/?search_type=question&order_by=${orderBy.value}${queryParams}${baseParams}`,
   }
 
   // 返回对应类型的URL，如果类型不存在则返回group的URL
@@ -358,6 +360,15 @@ watch(() => route.query, (newQuery, oldQuery) => {
             :data="item"
           />
         </div>
+
+        <!-- 讨论搜索结果 -->
+        <div v-else-if="type === 'question'" class="result-list question-result-list">
+          <QuestionCard
+            v-for="item in searchResults"
+            :key="item.id"
+            :data="item"
+          />
+        </div>
       </div>
     </div>
 
@@ -529,6 +540,9 @@ watch(() => route.query, (newQuery, oldQuery) => {
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   }
   &.document-result-list {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
+  &.question-result-list {
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   }
 }
