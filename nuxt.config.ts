@@ -57,18 +57,13 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBase: 'http://localhost:4001',
+      apiBase: '',
     },
   },
 
   routeRules: {
-    '/api/proxy/**': {
-      cors: true,
-      headers: {
-        'access-control-allow-origin': '*',
-        'access-control-allow-methods': 'GET,POST,PUT,DELETE',
-        'access-control-allow-headers': '*',
-      },
+    '/api/**': {
+      proxy: 'https://www.writebug.com/api/v3/**',
     },
   },
 
@@ -112,15 +107,15 @@ export default defineNuxtConfig({
         },
       },
     },
-    server: {
-      proxy: {
-        '/api': {
-          target: 'https://www.writebug.com',
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, '/api/v3'),
-        },
-      },
-    },
+    // server: {
+    //   proxy: {
+    //     '/api': {
+    //       target: 'https://www.writebug.com',
+    //       changeOrigin: true,
+    //       rewrite: path => path.replace(/^\/api/, '/api/v3'),
+    //     },
+    //   },
+    // },
   },
 
   echarts: {

@@ -13,16 +13,25 @@ function ResponseHandler<T>(response: ApiResponse<T>): Promise<T> {
 }
 
 export default defineNuxtPlugin((_nuxtApp) => {
+  // 注意：我们这里不需要直接使用config，因为使用服务器端代理
   // const config = useRuntimeConfig()
-  //   const { session } = useUserSession()
+  // const { session } = useUserSession()
 
   const api = $fetch.create({
+    // 不设置baseURL，让服务器端API代理处理
     // baseURL: config.public.apiBase,
-    onRequest({ request: _request, options: _options, error: _error }) {
+    onRequest({ request: _request, options, error: _error }) {
     //   if (session.value?.token) {
     //     // note that this relies on ofetch >= 1.4.0 - you may need to refresh your lockfile
     //     options.headers.set('Authorization', `Bearer ${session.value?.token}`)
     //   }
+
+      // 确保headers存在
+      if (!options.headers) {
+        options.headers = new Headers()
+      }
+
+      // 添加CSRF防护等其他必要请求头
     },
     // onResponse钩子不应返回值，只应执行副作用
     onResponse({ response: _response }) {
