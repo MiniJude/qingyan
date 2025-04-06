@@ -19,6 +19,7 @@ const searchTypes = [
   { value: 'ai-doc', label: 'AI文档' },
   { value: 'question', label: '讨论' },
   { value: 'meeting', label: '会议室' },
+  { value: 'kanban', label: '任务看板' },
 ]
 
 const currentTypeItem = computed(() => {
@@ -125,6 +126,8 @@ function getApiUrl() {
     'document': `/api/search/document/?search_type=document&order_by=${orderBy.value}${queryParams}${baseParams}`,
     'ai-doc': `/api/search/ai_doc/?search_type=ai-doc&order_by=${orderBy.value}${queryParams}${baseParams}`,
     'question': `/api/search/question/?search_type=question&order_by=${orderBy.value}${queryParams}${baseParams}`,
+    'meeting': `/api/search/meeting/?search_type=meeting&order_by=${orderBy.value}${queryParams}${baseParams}`,
+    'kanban': `/api/search/kanban/?search_type=kanban&order_by=${orderBy.value}${queryParams}${baseParams}`,
   }
 
   // 返回对应类型的URL，如果类型不存在则返回group的URL
@@ -369,6 +372,15 @@ watch(() => route.query, (newQuery, oldQuery) => {
             :data="item"
           />
         </div>
+
+        <!-- 任务看板搜索结果 -->
+        <div v-else-if="type === 'kanban'" class="result-list kanban-result-list">
+          <KanbanCard
+            v-for="item in searchResults"
+            :key="item.id"
+            :data="item"
+          />
+        </div>
       </div>
     </div>
 
@@ -529,6 +541,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
   padding-top: 12px;
   display: grid;
   gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
 
   &.group-result-list {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -544,6 +557,9 @@ watch(() => route.query, (newQuery, oldQuery) => {
   }
   &.question-result-list {
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
+  &.kanban-result-list {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
 }
 
