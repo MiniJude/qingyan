@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ArrowDown, Search } from '@element-plus/icons-vue'
-import SearchResult from '~/components/layout/SearchResult.vue'
 
 definePageMeta({
   layout: false,
@@ -16,7 +15,7 @@ const searchTypes = [
   { value: 'group', label: '数字空间' },
   { value: 'code', label: 'Git' },
   { value: 'article', label: '文章' },
-  { value: 'cloud', label: '云文档' },
+  { value: 'document', label: '云文档' },
   { value: 'ai', label: 'AI文档' },
   { value: 'discussion', label: '讨论' },
   { value: 'meeting', label: '会议室' },
@@ -123,6 +122,7 @@ function getApiUrl() {
     group: `/api/search/group/?search_type=group&order_by=${orderBy.value}${queryParams}${baseParams}`,
     code: `/api/search/code/?search_type=code&order_by=${orderBy.value}${queryParams}${currentLang.value ? `&tag=${encodeURIComponent(currentLang.value)}` : ''}${baseParams}`,
     article: `/api/search/article/?search_type=article&order_by=${orderBy.value}${queryParams}${baseParams}`,
+    document: `/api/search/document/?search_type=document&order_by=${orderBy.value}${queryParams}${baseParams}`,
   }
 
   // 返回对应类型的URL，如果类型不存在则返回group的URL
@@ -349,6 +349,15 @@ watch(() => route.query, (newQuery, oldQuery) => {
             :data="item"
           />
         </div>
+
+        <!-- 文档搜索结果 -->
+        <div v-else-if="type === 'document'" class="result-list document-result-list">
+          <DocumentCard
+            v-for="item in searchResults"
+            :key="item.id"
+            :data="item"
+          />
+        </div>
       </div>
     </div>
 
@@ -517,6 +526,9 @@ watch(() => route.query, (newQuery, oldQuery) => {
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   }
   &.article-result-list {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
+  &.document-result-list {
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   }
 }

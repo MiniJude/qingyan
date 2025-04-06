@@ -67,7 +67,7 @@ const resultTypeConfig = [
   },
   {
     key: 'document',
-    type: 'cloud',
+    type: 'document',
     iconClass: 'icon-file',
     iconText: '档',
     iconComponent: 'i-carbon:document-pdf',

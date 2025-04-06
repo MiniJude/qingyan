@@ -1,6 +1,11 @@
 ---
 description: 
 globs: 
+alwaysApply: false
+---
+---
+description: 
+globs: 
 alwaysApply: true
 ---
 ---
@@ -150,4 +155,13 @@ const data = await response.json()
   // don't
   const emit = defineEmits(['update:currentStep', 'update:modelValue'])
   ```
+
+### 13. **以下模块的内容无需显示导入**
+
+- `app\utils`下的方法
+
+- `app\components`下的组件
+
+
+
 

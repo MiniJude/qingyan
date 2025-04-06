@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Download, Star } from '@element-plus/icons-vue'
+
 defineProps<{
   data: any
 }>()
@@ -8,29 +10,54 @@ function formatDate(dateStr: string): string {
   const date = new Date(dateStr)
   return date.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })
 }
+
+// 获取文件图标
+function getFileIcon(fileType: string): string {
+  switch (fileType) {
+    case 'image':
+      return 'i-carbon:image'
+    case 'pdf':
+      return 'i-carbon:document-pdf'
+    case 'doc':
+    case 'docx':
+      return 'i-carbon:document'
+    case 'xls':
+    case 'xlsx':
+      return 'i-carbon:spreadsheet'
+    case 'ppt':
+    case 'pptx':
+      return 'i-carbon:presentation-file'
+    default:
+      return 'i-carbon:document'
+  }
+}
 </script>
 
 <template>
-  <NuxtLink :to="data.preview_url" class="article-item">
-    <div class="article-image">
-      <img
-        :src="`https://www.writebug.com${data.image}`"
-        :alt="data.title"
-        loading="lazy"
-      >
+  <NuxtLink :to="data.preview_url" class="document-item">
+    <div class="document-icon">
+      <div :class="getFileIcon(data.file_type)" />
     </div>
-    <div class="article-content">
-      <h3 class="article-title">
+    <div class="document-content">
+      <h3 class="document-title">
         {{ data.title }}
       </h3>
-      <p class="article-desc">
-        {{ processContent(data.content) }}
+      <p v-if="data.file_content" class="document-desc">
+        {{ processContent(data.file_content) }}
       </p>
-      <div class="article-meta">
+      <div class="document-meta">
         <div class="meta-left">
-          <div class="meta-item like">
-            <div class="heart-icon" />
-            <span>{{ data.like }}</span>
+          <div class="meta-item favor">
+            <el-icon class="meta-icon">
+              <Star />
+            </el-icon>
+            <span>{{ data.favor }}</span>
+          </div>
+          <div class="meta-item download">
+            <el-icon class="meta-icon">
+              <Download />
+            </el-icon>
+            <span>{{ data.download }}</span>
           </div>
           <div class="group-tag">
             <span>{{ data.group }}</span>
@@ -38,7 +65,7 @@ function formatDate(dateStr: string): string {
         </div>
         <div class="meta-user">
           <img
-            :src="`https://www.writebug.com${data.avatar}`"
+            :src="`https://www.writebug.com/${data.avatar}`"
             class="user-avatar"
             loading="lazy"
             alt=""
@@ -52,7 +79,7 @@ function formatDate(dateStr: string): string {
 </template>
 
 <style lang="scss" scoped>
-.article-item {
+.document-item {
   display: flex;
   padding: 16px;
   border-radius: 8px;
@@ -70,34 +97,27 @@ function formatDate(dateStr: string): string {
   }
 }
 
-.article-image {
-  width: 120px;
-  height: 100px;
-  border-radius: 4px;
-  overflow: hidden;
+.document-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(64, 158, 255, 0.1);
   flex-shrink: 0;
-  background-color: #f0f0f0; // 图片加载前的背景色
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-
-    &:hover {
-      transform: scale(1.05);
-    }
-  }
+  color: #409eff;
+  font-size: 28px;
 }
 
-.article-content {
+.document-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 
-.article-title {
+.document-title {
   font-size: 16px;
   font-weight: 600;
   color: #303133;
@@ -108,7 +128,7 @@ function formatDate(dateStr: string): string {
   white-space: nowrap;
 }
 
-.article-desc {
+.document-desc {
   font-size: 14px;
   color: #606266;
   margin: 0 0 8px;
@@ -121,7 +141,7 @@ function formatDate(dateStr: string): string {
   -webkit-box-orient: vertical;
 }
 
-.article-meta {
+.document-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -140,15 +160,10 @@ function formatDate(dateStr: string): string {
   align-items: center;
 }
 
-.heart-icon {
-  width: 14px;
-  height: 14px;
-  background-color: #909399;
+.meta-icon {
+  font-size: 14px;
+  color: #909399;
   margin-right: 4px;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E")
-    no-repeat center;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E")
-    no-repeat center;
 }
 
 .group-tag {
