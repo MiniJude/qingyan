@@ -1,5 +1,5 @@
 // composables/useAuth.ts
-import { useState } from '#imports'
+import { useUserStore } from '~/stores/user'
 
 interface LoginResponse {
   token: string
@@ -8,9 +8,11 @@ interface LoginResponse {
 
 interface UserInfo {
   avatar: string
+  username?: string
+  bio?: string
+  phone?: string
+  email?: string
 }
-
-export const useUser = () => useState<UserInfo | null>('user', () => null)
 
 export async function useLogin(phone: string, password: string) {
   const response = await $api<LoginResponse>('/api/member/login/', {
@@ -18,34 +20,43 @@ export async function useLogin(phone: string, password: string) {
     body: { phone, password },
   })
 
+  // 获取用户store
+  const userStore = useUserStore()
+
   // 假设服务器返回 token 和 userInfo
   const { token: receivedToken, userinfo } = response
-  // 存储 token 和 userInfo
+
+  // 存储 token
   if (receivedToken) {
-    // 正确使用 useCookie：先创建引用，再赋值
+    // 使用 Pinia 存储 token
+    userStore.setToken(receivedToken)
+
+    // 同时也设置到 cookie 中以便服务端访问
     const token = useCookie('token')
     token.value = receivedToken
   }
 
   if (userinfo) {
     userinfo.avatar = `https://www.writebug.com${userinfo.avatar}`
-    const user = useUser()
-    user.value = userinfo
-    // 可以将 userInfo 存储在 localStorage 或 sessionStorage 中
-    localStorage.setItem('userInfo', JSON.stringify(userinfo))
+    // 使用 Pinia 存储用户信息
+    userStore.setUserInfo(userinfo)
   }
 }
 
 export async function useLogout() {
+  // 获取用户store
+  const userStore = useUserStore()
+
   // 可选：调用登出API
   // await $api('/api/member/logout')
-  const user = useUser()
-  user.value = null
+
+  // 使用 Pinia 清除用户信息
+  userStore.clearUserInfo()
+
+  // 清除 cookie 中的 token
   const token = useCookie('token')
   token.value = null
 
-  // 清除localStorage
-  localStorage.removeItem('userInfo')
   // 回到首页
   const localePath = useLocalePath()
   navigateTo(localePath('/' as I18nRoutePath), { replace: true })

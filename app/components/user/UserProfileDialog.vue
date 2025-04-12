@@ -1,21 +1,35 @@
 <script setup lang="ts">
 import Avatar from '@/assets/img/avatar.png?url'
+import { useUserStore } from '~/stores/user'
 import AccountSettingsPanel from './AccountSettingsPanel.vue'
 import PersonalInfoPanel from './PersonalInfoPanel.vue'
 import WechatAssistantPanel from './WechatAssistantPanel.vue'
 
 const dialogVisible = defineModel<boolean>('modelValue')
-
 const { t } = useI18n()
+const userStore = useUserStore()
 
-// 用户信息
-const userInfo = reactive({
-  avatar: Avatar,
-  username: 'Jude',
-  bio: '',
-  phone: '15366061979',
-  email: '1546985690@qq.com',
-  password: '********',
+// 从Pinia store获取用户信息
+const userInfo = computed(() => {
+  if (userStore.userInfo) {
+    return {
+      avatar: userStore.userInfo.avatar,
+      username: userStore.userInfo.username || 'User',
+      bio: userStore.userInfo.bio || '',
+      phone: userStore.userInfo.phone || '',
+      email: userStore.userInfo.email || '',
+      password: '********', // 密码始终显示为掩码
+    }
+  }
+  // 如果没有用户信息，使用默认值
+  return {
+    avatar: Avatar,
+    username: 'User',
+    bio: '',
+    phone: '',
+    email: '',
+    password: '********',
+  }
 })
 
 // 当前选中的左侧菜单
@@ -36,7 +50,7 @@ const menuList = computed<MenuItem[]>(() => [
     name: t('header.user_profile.personal_info'),
     component: shallowRef(PersonalInfoPanel),
     props: {
-      userInfo,
+      userInfo: userInfo.value,
     },
   },
   {
@@ -46,9 +60,9 @@ const menuList = computed<MenuItem[]>(() => [
     component: shallowRef(AccountSettingsPanel),
     props: {
       accountInfo: {
-        phone: userInfo.phone,
-        email: userInfo.email,
-        password: userInfo.password,
+        phone: userInfo.value.phone,
+        email: userInfo.value.email,
+        password: userInfo.value.password,
       },
     },
   },

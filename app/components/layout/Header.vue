@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useUserStore } from '~/stores/user'
 import SearchBar from './SearchBar.vue'
 import SearchResult from './SearchResult.vue'
 
@@ -8,7 +9,7 @@ const isSearchFocused = ref(false)
 const { currentMenu } = useMenu()
 const { t, locale, setLocale } = useI18n()
 const localePath = useLocalePath()
-const user = useUser()
+const userStore = useUserStore()
 
 // 个人中心弹框可见性
 const userProfileDialogVisible = ref(false)
@@ -65,7 +66,7 @@ function handleSearchFocusChange(isFocused: boolean) {
         <el-dropdown trigger="click">
           <div>
             <ClientOnly>
-              <img v-if="user?.avatar" :src="user?.avatar" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
+              <img v-if="userStore.userInfo?.avatar" :src="userStore.userInfo.avatar" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
               <img v-else src="@/assets/img/avatar.png" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
             </ClientOnly>
           </div>

@@ -163,6 +163,11 @@ export default defineNuxtConfig({
     },
   },
 
+  piniaPluginPersistedstate: {
+    storage: 'localStorage',
+    debug: true,
+  },
+
   svgo: {
     autoImportPath: './assets/svg/',
     // defaultImport: 'component',
