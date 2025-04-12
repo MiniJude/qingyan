@@ -166,6 +166,7 @@ export default defineNuxtConfig({
   piniaPluginPersistedstate: {
     storage: 'localStorage',
     debug: true,
+    key: 'qingyan-%id',
   },
 
   svgo: {

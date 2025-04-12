@@ -205,6 +205,7 @@
       "saved": "Saved",
       "deleted": "Deleted",
       "operation_success": "{operation} successful",
+      "operation_failed": "{operation} failed",
       "update_success": "{item} updated successfully",
       "format_error": "Format error",
       "upload_success": "{item} uploaded successfully",

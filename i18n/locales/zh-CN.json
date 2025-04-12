@@ -205,6 +205,7 @@
       "saved": "已保存",
       "deleted": "已删除",
       "operation_success": "{operation}成功",
+      "operation_failed": "{operation}失败",
       "update_success": "{item}已更新",
       "format_error": "格式错误",
       "upload_success": "{item}上传成功",

@@ -17,7 +17,7 @@ interface UserState {
 }
 
 // 使用defineStore创建用户store
-export const useUserStore = defineStore('qingyan-user', {
+export const useUserStore = defineStore('user', {
   // 初始状态
   state: (): UserState => ({
     userInfo: null,

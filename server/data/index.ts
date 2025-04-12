@@ -69,15 +69,50 @@ const users: User[] = [
 
 // 获取所有空间列表
 export function getAllSpaces() {
+  // 确保始终返回至少包含默认空间的数组
+  if (spaces.length === 0) {
+    // 如果spaces为空，添加一些默认的空间
+    spaces.push({
+      id: '1',
+      name: '个人空间',
+      type: 'personal',
+      description: '这是我的个人工作空间',
+      owner: 'user1',
+      publicSpace: false,
+      publicApply: false,
+      createdAt: new Date('2023-01-01'),
+      updatedAt: new Date('2023-01-01'),
+    })
+  }
   return [...spaces]
 }
 
 // 获取特定用户的空间列表
 export function getUserSpaces(userId: string) {
-  return spaces.filter(space =>
+  // 获取用户的空间，如果没有则返回空数组
+  const userSpaces = spaces.filter(space =>
     space.owner === userId
     || (space.members && space.members.includes(userId)),
   )
+
+  // 如果用户没有空间，为其创建一个默认的个人空间
+  if (userSpaces.length === 0 && userId) {
+    const defaultSpace: Space = {
+      id: `space_${Date.now()}`,
+      name: '个人空间',
+      type: 'personal',
+      description: '这是我的个人工作空间',
+      owner: userId,
+      publicSpace: false,
+      publicApply: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
+    spaces.push(defaultSpace)
+    return [defaultSpace]
+  }
+
+  return userSpaces
 }
 
 // 根据ID获取空间
