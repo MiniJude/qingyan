@@ -65,6 +65,14 @@ export default defineNuxtConfig({
     '/api/**': {
       proxy: 'https://www.writebug.com/api/v3/**',
     },
+    '/mock-api/**': {
+      cache: false,
+      ssr: false,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    },
   },
 
   devServer: {

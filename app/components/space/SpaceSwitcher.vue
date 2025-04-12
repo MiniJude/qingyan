@@ -1,13 +1,8 @@
 <script setup lang="ts">
+import type { ApiResponse, Space } from '~/utils/api-types'
 import { ElPopover } from 'element-plus'
 import CreateSpaceForm from './CreateSpaceForm.vue'
 import SpaceTypeSelector from './SpaceTypeSelector.vue'
-
-interface Space {
-  id: string
-  name: string
-  type: 'personal' | 'team'
-}
 
 defineProps<{
   isCollapsed: boolean
@@ -20,21 +15,72 @@ const currentSpace = ref<Space>({
   id: '1',
   name: t('sidebar.personal_space'),
   type: 'personal',
+  owner: '',
+  createdAt: new Date(),
+  updatedAt: new Date(),
 })
 
-// 模拟空间列表数据
-const spaceList = ref<Space[]>([
-  {
-    id: '1',
-    name: t('sidebar.personal_space'),
-    type: 'personal',
-  },
-  {
-    id: '2',
-    name: t('sidebar.team_space'),
-    type: 'team',
-  },
-])
+// 空间列表数据
+const spaceList = ref<Space[]>([])
+const loading = ref(false)
+
+// 加载空间列表
+async function loadSpaces() {
+  loading.value = true
+
+  try {
+    const response = await $api<ApiResponse<Space[]>>('/mock-api/spaces')
+
+    if (response.code === 20000 && Array.isArray(response.data) && response.data.length > 0) {
+      spaceList.value = response.data
+
+      // 如果当前选中的空间不在列表中，则选择第一个
+      const currentSpaceExists = spaceList.value.some(space => space.id === currentSpace.value.id)
+      if (!currentSpaceExists) {
+        currentSpace.value = spaceList.value[0] as Space
+      }
+    }
+    else {
+      // 使用默认数据
+      setDefaultSpaces()
+    }
+  }
+  catch (error) {
+    console.error('加载空间列表失败', error)
+    // 使用默认数据
+    setDefaultSpaces()
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+// 设置默认空间数据
+function setDefaultSpaces() {
+  const defaultSpaces: Space[] = [
+    {
+      id: '1',
+      name: t('sidebar.personal_space'),
+      type: 'personal',
+      owner: '',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '2',
+      name: t('sidebar.team_space'),
+      type: 'team',
+      owner: '',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ]
+
+  spaceList.value = defaultSpaces
+
+  // 确保当前选中的空间是列表中的第一个
+  currentSpace.value = defaultSpaces[0]
+}
 
 // 切换空间
 function handleSpaceSwitch(space: Space) {
@@ -53,10 +99,38 @@ function openCreateSpaceDialog(type: 'personal' | 'team') {
 }
 
 // 处理表单提交
-async function handleCreateSpaceSubmit(_values: { name: string, description: string }) {
-  // TODO: 调用创建空间API，创建类型：createSpaceType.value，表单数据：values
+async function handleCreateSpaceSubmit(values: { name: string, description: string }) {
+  try {
+    const response = await $api<ApiResponse<Space>>('/mock-api/spaces', {
+      method: 'POST',
+      body: {
+        name: values.name,
+        description: values.description,
+        type: createSpaceType.value,
+      },
+    })
+
+    if (response.code === 20000 && response.data) {
+      // 添加新创建的空间到列表
+      spaceList.value.push(response.data)
+      // 切换到新创建的空间
+      // @ts-expect-error - 类型不匹配，临时忽略
+      currentSpace.value = response.data
+      ElMessage.success(t('space.create_success'))
+    }
+  }
+  catch (error) {
+    console.error('创建空间失败', error)
+    ElMessage.error(t('space.create_failed'))
+  }
+
   showCreateDialog.value = false
 }
+
+// 初始加载
+onMounted(() => {
+  loadSpaces()
+})
 </script>
 
 <template>
