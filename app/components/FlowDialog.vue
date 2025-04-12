@@ -97,6 +97,7 @@ defineExpose({
 <template>
   <el-dialog
     ref="dialogRef"
+    width="auto"
     v-bind="$attrs"
     class="!bg-board !p-0 !dark:bg-black"
     destroy-on-close
@@ -107,7 +108,7 @@ defineExpose({
     :close-on-press-escape="false"
     @close="handleClose"
   >
-    <div relative m-auto h-850px flex-center rounded-10px>
+    <div relative m-auto flex-center rounded-10px px-100px pb-100px pt-160px>
       <img src="@/assets/img/logo.png" alt="logo" absolute left-25px top-26px h-64px w-134px>
       <CircleCloseFilled color="primary" absolute right-35px top-38px h-40px w-40px cursor-pointer @click="handleClose" />
 

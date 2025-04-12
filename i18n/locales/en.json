@@ -79,8 +79,9 @@
   "sidebar": {
     "knowledge_base": "Knowledge Base",
     "ai_assistant": "AI Assistant",
+    "digital_space": "Digital Space",
     "personal_space": "Personal Space",
-    "digital_space": "Digital Space"
+    "team_space": "Team Space"
   },
   "storage": {
     "capacity": "Capacity",
@@ -225,7 +226,8 @@
       "remove": "Remove",
       "operations": "Operations",
       "warning": "Warning",
-      "copy": "Copy"
+      "copy": "Copy",
+      "create": "Create"
     },
     "validation": {
       "required": "Please enter {field}",
@@ -483,6 +485,29 @@
       "nickname_set_success": "Space nickname set successfully!",
       "nickname_placeholder": "Please enter space nickname",
       "search_placeholder": "Search members"
+    },
+    "switch_space": "Switch Space",
+    "create_dialog": {
+      "title": "Create Space",
+      "personal": "Personal Space",
+      "team": "Team Space",
+      "personal_desc": "Store and manage personal files, notes and materials, can be used for personal knowledge base",
+      "team_desc": "Store and manage team materials, team data, team permission management, can be used for team knowledge base"
+    },
+    "type": {
+      "personal": "Personal Space",
+      "team": "Team Space",
+      "personal_desc": "[Personal Space] Suitable for personal knowledge management, personal database, personal knowledge base construction, and structured personal data processing",
+      "team_desc": "[Team Space] Suitable for team knowledge management, team database, team knowledge base construction, structured team data processing, and team data permission management"
+    },
+    "form": {
+      "name": "Space Name",
+      "name_placeholder": "Please set space name",
+      "name_required": "Please set space name",
+      "name_length": "Length should be between 2 and 50 characters",
+      "description": "Space Purpose",
+      "description_placeholder": "Please describe space purpose",
+      "description_length": "Length should not exceed 50 characters"
     }
   }
 }

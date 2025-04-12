@@ -79,8 +79,9 @@
   "sidebar": {
     "knowledge_base": "知识库",
     "ai_assistant": "AI 助手",
+    "digital_space": "数字空间",
     "personal_space": "个人空间",
-    "digital_space": "数智空间"
+    "team_space": "团队空间"
   },
   "storage": {
     "capacity": "空间容量",
@@ -225,7 +226,8 @@
       "remove": "移除",
       "operations": "操作",
       "warning": "警告",
-      "copy": "复制"
+      "copy": "复制",
+      "create": "创建"
     },
     "validation": {
       "required": "请输入{field}",
@@ -483,6 +485,29 @@
       "nickname_set_success": "空间昵称设置成功！",
       "nickname_placeholder": "请输入空间昵称",
       "search_placeholder": "搜索成员"
+    },
+    "switch_space": "切换空间",
+    "create_dialog": {
+      "title": "创建空间",
+      "personal": "个人空间",
+      "team": "团队空间",
+      "personal_desc": "存储管理个人文件，笔记和资料，可作用于个人知识库",
+      "team_desc": "存储管理团队资料，团队数据，团队权限管理，可用做于团队知识库"
+    },
+    "type": {
+      "personal": "个人空间",
+      "team": "团队空间",
+      "personal_desc": "【个人空间】适用于个人知识管理，个人数据库，个人知识库搭建，结构化处理个人数据",
+      "team_desc": "【团队空间】适用于团队知识管理，团队数据库，团队知识库搭建，结构化处理团队数据，团队数据权限管理"
+    },
+    "form": {
+      "name": "空间名称",
+      "name_placeholder": "请设置空间名称",
+      "name_required": "请设置空间名称",
+      "name_length": "长度在 2 到 50 个字符",
+      "description": "空间用途",
+      "description_placeholder": "请描述空间用途",
+      "description_length": "长度不能超过 50 个字符"
     }
   }
 }

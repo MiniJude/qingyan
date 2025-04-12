@@ -68,21 +68,7 @@ const activeMenu = computed(() => {
 
     <div flex flex-1 flex-col p="t-13px r-16px b-13px l-15px">
       <!-- 空间切换 -->
-      <div
-        m="l-4px b-12px t-10px"
-        h-35px
-        flex
-        cursor-pointer
-        items-center
-      >
-        <div text="white 10px" h-36px w-36px flex-center flex-shrink-0 rounded-5px bg-primary px-4px text-center>
-          {{ $t('sidebar.digital_space') }}
-        </div>
-        <template v-if="!isCollapsed">
-          <span m="l-21px" flex-1 whitespace-nowrap>{{ $t('sidebar.personal_space') }}</span>
-          <div i-carbon:chevron-right h-20px w-20px />
-        </template>
-      </div>
+      <SpaceSwitcher :is-collapsed="isCollapsed" />
 
       <el-menu
         class="flex-1 pt-19px !b-0"
