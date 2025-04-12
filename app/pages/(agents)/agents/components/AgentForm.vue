@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PureDocTree from '@/pages/(knowledge-base)/knowledge-base/components/docSideBar/docTree/Tree.vue'
-import { localData } from '~/mock/knowledge-base'
+import { personalData } from '~/mock/knowledge-base'
 
 // 创建副本
 const visible = ref(false)
@@ -98,7 +98,7 @@ defineExpose({
           </div>
           <!-- 使用ClientOnly包裹，解决勾选后，Tree组件被重新渲染的问题 -->
           <ClientOnly>
-            <PureDocTree :data="addUidToNodes(localData)" :checkable="true" :checkbox-visible="true" @check-change="handleCheckChange" />
+            <PureDocTree :data="addUidToNodes(personalData)" :checkable="true" :checkbox-visible="true" @check-change="handleCheckChange" />
           </ClientOnly>
         </div>
       </div>

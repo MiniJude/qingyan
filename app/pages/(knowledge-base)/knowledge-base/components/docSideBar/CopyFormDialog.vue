@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { localData } from '~/mock/knowledge-base'
+import { personalData } from '~/mock/knowledge-base'
 import PureDocTree from './docTree/Tree.vue'
 
 const { t } = useI18n()
@@ -41,7 +41,7 @@ defineExpose({
     </el-form>
 
     <div class="pure-doc-tree-container" p="t-18px r-44px b-24px l-25px" mt-36px h-410px w-full overflow-y-auto rounded-4px>
-      <PureDocTree :data="addUidToNodes(localData)" :show-checkbox="false" />
+      <PureDocTree :data="addUidToNodes(personalData)" :show-checkbox="false" />
     </div>
   </el-dialog>
 </template>
