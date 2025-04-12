@@ -1,9 +1,27 @@
 <script setup lang="ts">
 import _ from 'lodash'
 
+// 设置组件名称
+defineOptions({
+  name: 'JSwitch',
+})
+
+const props = withDefaults(defineProps<Props>(), {
+  activeIndex: 0,
+  modelValue: undefined,
+})
+
+// 定义emit事件
+const emit = defineEmits<{
+  (e: 'change', item: ColumnItem): void
+  (e: 'update:activeIndex', index: number): void
+  (e: 'update:modelValue', value: any): void
+}>()
+
 // 定义列项的接口
 interface ColumnItem {
   label: string
+  value?: any
   [key: string]: any
 }
 
@@ -13,17 +31,8 @@ interface Props {
   activeIndex?: number
   /** switch_item的固定宽度，不传则自适应各自的宽度 */
   itemWidth?: number
+  modelValue?: any
 }
-
-const props = withDefaults(defineProps<Props>(), {
-  activeIndex: 0,
-})
-
-// 定义emit事件
-const emit = defineEmits<{
-  (e: 'change', item: ColumnItem): void
-  (e: 'update:activeIndex', index: number): void
-}>()
 
 const PADDING = 2
 
@@ -32,19 +41,34 @@ const sliderWidth = ref(0)
 const sliderLeft = ref(0)
 const switchItemRefs = ref<{ [key: string]: HTMLElement[] }>({})
 
+// 根据modelValue计算当前活跃索引
+const currentActiveIndex = computed(() => {
+  if (props.modelValue !== undefined) {
+    const index = props.columns.findIndex(item => item.value === props.modelValue)
+    return index >= 0 ? index : 0
+  }
+  return props.activeIndex
+})
+
 // 点击切换处理函数
 function handleClick(e: MouseEvent, item: ColumnItem, index: number) {
   const target = e.target as HTMLElement
   sliderWidth.value = target.offsetWidth
   sliderLeft.value = target.offsetLeft + PADDING
-  emit('change', item)
   emit('update:activeIndex', index)
+
+  // 如果有value属性，也更新modelValue
+  if (item.value !== undefined) {
+    emit('update:modelValue', item.value)
+  }
+
+  emit('change', item)
 }
 
 // 计算滑块位置和宽度
 async function render() {
   await nextTick()
-  const refKey = `switchItem${props.activeIndex}`
+  const refKey = `switchItem${currentActiveIndex.value}`
   if (switchItemRefs.value[refKey]?.[0]) {
     const { offsetWidth, offsetLeft } = switchItemRefs.value[refKey][0]
     sliderWidth.value = offsetWidth
@@ -53,7 +77,7 @@ async function render() {
 }
 
 // 监听activeIndex变化重新计算滑块位置
-watch(() => props.activeIndex, () => {
+watch(() => currentActiveIndex.value, () => {
   render()
 })
 

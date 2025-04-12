@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
-import { localData, wechatData } from '~/mock/knowledge-base'
+import { localData, toBeArchivedData, wechatData } from '~/mock/knowledge-base'
 import { addUidToNodes } from '~/utils'
 import Tree from './Tree.vue'
 
@@ -9,6 +8,7 @@ const localePath = useLocalePath()
 // 为树节点添加唯一ID
 const treeData1WithUid = addUidToNodes(localData)
 const treeData2WithUid = addUidToNodes(wechatData)
+const treeData3WithUid = addUidToNodes(toBeArchivedData)
 
 const data = reactive<{
   treeData: FileTreeType[]
@@ -17,6 +17,11 @@ const data = reactive<{
 }[]>([
   {
     treeData: treeData1WithUid,
+    checkboxVisible: false,
+    checkedKeys: [],
+  },
+  {
+    treeData: treeData3WithUid,
     checkboxVisible: false,
     checkedKeys: [],
   },

@@ -6,3 +6,26 @@ export const PHONE_ENCRYPT_PREFIX = 'wbc'
 
 /** 首页路由 */
 export const HOME_ROUTE = '/knowledge-base'
+
+// 定义文件类型枚举
+export enum FileType {
+  PPT = 'ppt',
+  DOC = 'doc',
+  EXCEL = 'excel',
+  PICTURE = 'picture',
+  // 可以根据需要添加更多类型
+}
+
+// 定义文件过滤选项枚举
+export enum FileFilterType {
+  PERSONAL = 'personal',
+  TEAM = 'team',
+  SHARED = 'shared',
+}
+
+// AI文档类型枚举
+export enum AiDocType {
+  PPT = 'ppt',
+  WORD = 'word',
+  EXCEL = 'excel',
+}

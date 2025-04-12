@@ -107,3 +107,55 @@ export const wechatData: FileTreeTypeWithOptionalId[] = [
     ],
   },
 ]
+
+// 待归档
+export const toBeArchivedData: FileTreeTypeWithOptionalId[] = [
+  {
+    label: '待归档',
+    level: 1,
+    children: [
+      {
+        label: '大一学期',
+        level: 2,
+        type: 'folder',
+        children: [
+          {
+            label: '四六级报名通知',
+            level: 3,
+            type: 'file',
+            fileType: 'wechat-article',
+          },
+          {
+            label: '问题解答',
+            level: 3,
+            type: 'file',
+            fileType: 'wechat-records',
+          },
+          {
+            label: '学习通',
+            level: 3,
+            type: 'file',
+            fileType: 'url',
+          },
+          {
+            label: '高数MOOC',
+            level: 3,
+            type: 'file',
+            fileType: 'link',
+          },
+          {
+            label: '实验数据',
+            level: 3,
+            type: 'file',
+            fileType: 'picture',
+          },
+        ],
+      },
+      {
+        label: '大二学期',
+        level: 2,
+        type: 'folder',
+      },
+    ],
+  },
+]

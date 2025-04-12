@@ -1,4 +1,31 @@
 <script setup lang="ts">
+import TemplateLibraryDialog from '@/components/TemplateLibraryDialog.vue'
+import { useFileFilter } from '@/composables/useFileFilter'
+import { AiDocType } from '@/constants'
+import { useSpaceStore } from '@/stores/space'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+// 使用文件过滤hook
+const { currentFileFilterType, switchColumns } = useFileFilter()
+
+// 模板库对话框
+const templateLibraryDialog = ref(false)
+const templateLibraryType = ref('all')
+
+// 打开上传文档对话框
+function openUploadDialog() {
+  templateLibraryDialog.value = true
+  templateLibraryType.value = 'upload'
+}
+
+// 创建文档对应的值
+const docTypes = [
+  { label: t('agents.doc.formats.ppt'), value: AiDocType.PPT },
+  { label: t('agents.doc.formats.word'), value: AiDocType.WORD },
+  { label: t('agents.doc.formats.excel'), value: AiDocType.EXCEL },
+]
 </script>
 
 <template>
@@ -13,27 +40,51 @@
       </div>
     </div>
     <div min-h-0 flex flex-1 flex-col p-20px>
-      <el-dropdown class="self-end">
-        <el-button type="primary" size="large">
-          {{ $t('agents.doc.create_new_doc') }}
-          <div ml-8px h-16px w-16px flex-center>
-            <SvgoArrowBottomFilled text-6px />
-          </div>
+      <div class="flex self-end gap-12px">
+        <el-button plain size="large" @click="openUploadDialog">
+          <template #icon>
+            <SvgoUpload />
+          </template>
+          {{ $t('knowledge_base.index.upload') }}
         </el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>{{ $t('agents.doc.formats.ppt') }}</el-dropdown-item>
-            <el-dropdown-item>{{ $t('agents.doc.formats.word') }}</el-dropdown-item>
-            <el-dropdown-item>{{ $t('agents.doc.formats.excel') }}</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+        <el-dropdown>
+          <el-button type="primary" size="large">
+            {{ $t('agents.doc.create_new_doc') }}
+            <div ml-8px h-16px w-16px flex-center>
+              <SvgoArrowBottomFilled text-6px />
+            </div>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item
+                v-for="item in docTypes"
+                :key="item.value"
+              >
+                {{ item.label }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
       <div mb-16px mt-34px text-16px text-tprimary font-bold>
         {{ $t('agents.doc.ai_documents') }}
       </div>
-      <Switch h-36px :columns="[{ label: $t('knowledge_base.index.my_personal') }, { label: $t('knowledge_base.index.shared_with_me') }]" :item-width="83" />
-      <FolderTable class="mt-16px min-h-0 flex-1" />
+      <Switch
+        v-model="currentFileFilterType"
+        h-36px
+        :columns="switchColumns"
+        :item-width="83"
+      />
+      <FolderTable
+        class="mt-16px min-h-0 flex-1"
+        :type="currentFileFilterType"
+      />
     </div>
+
+    <TemplateLibraryDialog
+      v-model="templateLibraryDialog"
+      :default-type="templateLibraryType"
+    />
   </div>
 </template>
 

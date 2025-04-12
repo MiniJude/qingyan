@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Plus, Upload } from '@element-plus/icons-vue'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import FileUploadPanel from './FileUploadPanel.vue'
 
@@ -8,9 +8,13 @@ import FileUploadPanel from './FileUploadPanel.vue'
 interface Props {
   /** 弹框是否可见 */
   modelValue: boolean
+  /** 默认选中的类型 */
+  defaultType?: string
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  defaultType: 'all',
+})
 const emit = defineEmits(['update:modelValue', 'selectTemplate'])
 
 const { t } = useI18n()
@@ -81,7 +85,21 @@ const typeMenus = [
 ]
 
 // 当前选中的类型
-const activeType = ref('all')
+const activeType = ref(props.defaultType)
+
+// 监听默认类型变化
+watch(() => props.defaultType, (newType) => {
+  if (newType && dialogVisible.value) {
+    activeType.value = newType
+  }
+})
+
+// 监听弹窗打开，设置默认类型
+watch(() => dialogVisible.value, (isOpen) => {
+  if (isOpen && props.defaultType) {
+    activeType.value = props.defaultType
+  }
+})
 
 // 切换类型
 function switchType(fileType: string) {

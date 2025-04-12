@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SvgoAiDoc, SvgoAiGenerate, SvgoAiMindmap, SvgoAiMore, SvgoAiQa, SvgoAiRewrite, SvgoAiTalk } from '#components'
+import { SvgoAiDoc, SvgoAiGenerate, SvgoAiMore, SvgoAiQa, SvgoAiTalk } from '#components'
 
 const features = [
   {
@@ -13,24 +13,14 @@ const features = [
     icon: SvgoAiDoc,
   },
   {
-    title: useNuxtApp().$i18n.t('agents.index.features.mindmap.title'),
-    description: useNuxtApp().$i18n.t('agents.index.features.mindmap.description'),
-    icon: SvgoAiMindmap,
-  },
-  {
-    title: useNuxtApp().$i18n.t('agents.index.features.rewrite.title'),
-    description: useNuxtApp().$i18n.t('agents.index.features.rewrite.description'),
-    icon: SvgoAiRewrite,
-  },
-  {
-    title: useNuxtApp().$i18n.t('agents.index.features.generate.title'),
-    description: useNuxtApp().$i18n.t('agents.index.features.generate.description'),
-    icon: SvgoAiGenerate,
-  },
-  {
-    title: useNuxtApp().$i18n.t('agents.index.features.qa.title'),
-    description: useNuxtApp().$i18n.t('agents.index.features.qa.description'),
+    title: useNuxtApp().$i18n.t('agents.index.features.git_review.title'),
+    description: useNuxtApp().$i18n.t('agents.index.features.git_review.description'),
     icon: SvgoAiQa,
+  },
+  {
+    title: useNuxtApp().$i18n.t('agents.index.features.video_summary.title'),
+    description: useNuxtApp().$i18n.t('agents.index.features.video_summary.description'),
+    icon: SvgoAiGenerate,
   },
   {
     title: useNuxtApp().$i18n.t('agents.index.features.more.title'),

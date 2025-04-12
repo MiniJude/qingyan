@@ -119,8 +119,12 @@
       "folders": "Folders",
       "knowledge_space": "Knowledge Space",
       "my_personal": "Personal",
+      "my_team": "Team",
       "shared_with_me": "Shared",
-      "uncategorized": "Uncategorized"
+      "uncategorized": "Uncategorized",
+      "viewing_personal_files": "Currently Viewing: Personal Files",
+      "viewing_shared_files": "Currently Viewing: Shared Files",
+      "viewing_team_files": "Currently Viewing: Team Files"
     },
     "dashboard": {
       "knowledge_radar": "Knowledge Radar",
@@ -137,7 +141,13 @@
       "last_update": "Last Updated",
       "edit": "Edit",
       "download": "Download",
-      "delete": "Delete"
+      "delete": "Delete",
+      "data_source": {
+        "personal": "Personal",
+        "team": "Team",
+        "shared": "Shared",
+        "files_count": "{count} Files"
+      }
     },
     "doc_view": {
       "last_modified": "Last modified: {date}",
@@ -193,6 +203,7 @@
       "placeholder": "Search",
       "button": "Search"
     },
+    "no_data": "No Data",
     "forbidden_page": {
       "title": "403 Forbidden",
       "description": "Sorry, you don't have permission to access this page.",
@@ -320,27 +331,19 @@
       "features": {
         "chat": {
           "title": "Intelligent Chat",
-          "description": "Smart conversation understanding, efficient information delivery"
+          "description": "Smart understanding of responses, efficient information delivery"
         },
         "doc": {
           "title": "AI Documents",
           "description": "Efficiently organize content, precisely match needs"
         },
-        "mindmap": {
-          "title": "Mind Mapping",
-          "description": "Clear logical organization, efficient thought presentation"
+        "git_review": {
+          "title": "Git Code Review",
+          "description": "Upload code, get precise answers"
         },
-        "rewrite": {
-          "title": "Paper Rewriting",
-          "description": "Professional personalized transformation of articles"
-        },
-        "generate": {
-          "title": "Content Generator",
-          "description": "One-click efficient content generation with media standards"
-        },
-        "qa": {
-          "title": "Problem Solving",
-          "description": "Image analysis, precise answering"
+        "video_summary": {
+          "title": "Video Content Summary",
+          "description": "One-click video content summarization, efficient work time"
         },
         "more": {
           "title": "More Features",
@@ -509,6 +512,10 @@
       "description": "Space Purpose",
       "description_placeholder": "Please describe space purpose",
       "description_length": "Length should not exceed 50 characters"
+    },
+    "abbr": {
+      "team": "Team",
+      "personal": "Per"
     }
   }
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import FolderIcon from '@/assets/svg/folder.svg?component'
 import TemplateLibraryDialog from '@/components/TemplateLibraryDialog.vue'
+import { useFileFilter } from '@/composables/useFileFilter'
 import Dashboard from './components/Dashboard.vue'
 
 const folderList = ref([
@@ -19,13 +20,29 @@ const folderList = ref([
   {
     name: '未分类',
   },
+  {
+    name: '待归档',
+  },
 ])
 
 // 模板库对话框
 const templateLibraryDialog = ref(false)
+const templateLibraryType = ref('all')
+
+// 打开模板库对话框
 function openTemplateLibrary() {
   templateLibraryDialog.value = true
+  templateLibraryType.value = 'all'
 }
+
+// 打开上传文档对话框
+function openUploadDialog() {
+  templateLibraryDialog.value = true
+  templateLibraryType.value = 'upload'
+}
+
+// 使用文件过滤hook
+const { currentFileFilterType, viewingText, switchColumns } = useFileFilter()
 </script>
 
 <template>
@@ -37,27 +54,18 @@ function openTemplateLibrary() {
         </template>
         {{ $t('knowledge_base.index.template_library') }}
       </el-button>
-      <el-button plain size="large">
+      <!-- <el-button plain size="large">
         <template #icon>
           <SvgoFolder2 />
         </template>
         {{ $t('knowledge_base.index.auto_classify') }}
-      </el-button>
-      <el-dropdown>
-        <el-button plain size="large">
-          {{ $t('knowledge_base.index.upload') }}
-          <div ml-8px h-16px w-16px flex-center>
-            <SvgoArrowBottomFilled text-6px />
-          </div>
-        </el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>{{ $t('knowledge_base.index.document') }}</el-dropdown-item>
-            <el-dropdown-item>{{ $t('knowledge_base.index.spreadsheet') }}</el-dropdown-item>
-            <el-dropdown-item>{{ $t('knowledge_base.index.image') }}</el-dropdown-item>
-          </el-dropdown-menu>
+      </el-button> -->
+      <el-button plain size="large" @click="openUploadDialog">
+        <template #icon>
+          <div class="i-carbon:upload" />
         </template>
-      </el-dropdown>
+        {{ $t('knowledge_base.index.upload') }}
+      </el-button>
       <el-dropdown>
         <el-button type="primary" size="large">
           {{ $t('knowledge_base.index.create_new') }}
@@ -73,7 +81,7 @@ function openTemplateLibrary() {
         </template>
       </el-dropdown>
     </div>
-    <Dashboard />
+    <!-- <Dashboard /> -->
     <!-- 文件夹 -->
     <div pl-37px pr-53px>
       <div mb-8px text-16px text-tprimary font-bold>
@@ -93,19 +101,30 @@ function openTemplateLibrary() {
     </div>
     <!-- 知识空间 -->
     <div mt-16px min-h-0 flex flex-1 flex-col pl-37px pr-53px>
-      <div mb-16px text-16px text-tprimary font-bold>
-        {{ $t('knowledge_base.index.knowledge_space') }}
+      <div mb-16px flex items-center justify-between>
+        <span text-16px text-tprimary font-bold>
+          {{ $t('knowledge_base.index.knowledge_space') }}
+        </span>
+        <span text-12px text-tregular>
+          {{ viewingText }}
+        </span>
       </div>
       <Switch
-        h-36px :columns="[
-          { label: $t('knowledge_base.index.my_personal') },
-          { label: $t('knowledge_base.index.shared_with_me') },
-        ]" :item-width="83"
+        v-model="currentFileFilterType"
+        h-36px
+        :columns="switchColumns"
+        :item-width="83"
       />
-      <FolderTable class="mt-16px min-h-0 flex-1" />
+      <FolderTable
+        class="mt-16px min-h-0 flex-1"
+        :type="currentFileFilterType"
+      />
     </div>
 
-    <TemplateLibraryDialog v-model="templateLibraryDialog" />
+    <TemplateLibraryDialog
+      v-model="templateLibraryDialog"
+      :default-type="templateLibraryType"
+    />
   </div>
 </template>
 

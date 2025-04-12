@@ -54,6 +54,20 @@ function handleSpaceSwitch(space: Space) {
   popoverVisible.value = false
 }
 
+// 获取空间的缩略显示文本
+function getSpaceAbbr(space?: Space | null): string {
+  if (!space)
+    return ''
+
+  // 根据空间类型返回对应的国际化文本
+  if (space.type === 'team') {
+    return t('space.abbr.team')
+  }
+  else {
+    return t('space.abbr.personal')
+  }
+}
+
 // 使用useAsyncData进行服务端数据预加载
 const { data: _spaces } = await useAsyncData('spaces', async () => {
   try {
@@ -93,7 +107,7 @@ onMounted(() => {
         items-center
       >
         <div text="white 10px" h-36px w-36px flex-center flex-shrink-0 rounded-5px bg-primary px-4px text-center>
-          {{ spaceStore.currentSpace?.name?.slice(0, 2) || '' }}
+          {{ getSpaceAbbr(spaceStore.currentSpace) }}
         </div>
         <template v-if="!isCollapsed">
           <span m="l-21px" flex-1 whitespace-nowrap>{{ spaceStore.currentSpace?.name || '' }}</span>
@@ -118,7 +132,7 @@ onMounted(() => {
           @click="handleSpaceSwitch(space)"
         >
           <div text="10px white" h-36px w-36px flex-center flex-shrink-0 rounded-5px bg-primary px-4px text-center>
-            {{ space.name.slice(0, 2) }}
+            {{ getSpaceAbbr(space) }}
           </div>
           <span ml-12px flex-1>{{ space.name }}</span>
           <div

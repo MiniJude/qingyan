@@ -119,8 +119,12 @@
       "folders": "文件夹",
       "knowledge_space": "知识空间",
       "my_personal": "我个人的",
+      "my_team": "团队的",
       "shared_with_me": "邀请协作的",
-      "uncategorized": "未分类"
+      "uncategorized": "未分类",
+      "viewing_personal_files": "当前查看: 个人文件",
+      "viewing_shared_files": "当前查看: 协作文件",
+      "viewing_team_files": "当前查看: 团队文件"
     },
     "dashboard": {
       "knowledge_radar": "知识雷达",
@@ -137,7 +141,13 @@
       "last_update": "最近更新",
       "edit": "编辑",
       "download": "下载",
-      "delete": "删除"
+      "delete": "删除",
+      "data_source": {
+        "personal": "个人",
+        "team": "团队",
+        "shared": "协作",
+        "files_count": "{count}个文件"
+      }
     },
     "doc_view": {
       "last_modified": "最近修改：{date}",
@@ -193,6 +203,7 @@
       "placeholder": "搜索",
       "button": "搜索"
     },
+    "no_data": "暂无数据",
     "forbidden_page": {
       "title": "403 Forbidden",
       "description": "抱歉，您没有权限访问此页面。",
@@ -320,27 +331,19 @@
       "features": {
         "chat": {
           "title": "智能对话",
-          "description": "智能理解对话，高效提供信息"
+          "description": "智能理解回答，高效提供信息"
         },
         "doc": {
           "title": "AI文档",
-          "description": "高效梳理内容，精准匹配需求"
+          "description": "高效组织内容，精准匹配需求"
         },
-        "mindmap": {
-          "title": "思维导图",
-          "description": "清晰梳理逻辑，高效呈现思维"
+        "git_review": {
+          "title": "Git代码评估",
+          "description": "上传代码，精准答疑"
         },
-        "rewrite": {
-          "title": "论文改写",
-          "description": "专业致力于文章的个性化重塑"
-        },
-        "generate": {
-          "title": "文案生成器",
-          "description": "一键生成高效文案，拥有自媒体素涵"
-        },
-        "qa": {
-          "title": "解题答疑",
-          "description": "传图解析，精准答疑"
+        "video_summary": {
+          "title": "视频内容总结",
+          "description": "一键总结视频内容，高效节约办公时间"
         },
         "more": {
           "title": "更多功能",
@@ -509,6 +512,10 @@
       "description": "空间用途",
       "description_placeholder": "请描述空间用途",
       "description_length": "长度不能超过 50 个字符"
+    },
+    "abbr": {
+      "team": "团队",
+      "personal": "个人"
     }
   }
 }

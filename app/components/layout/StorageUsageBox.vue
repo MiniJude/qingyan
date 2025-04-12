@@ -12,8 +12,19 @@ const props = withDefaults(defineProps<Props>(), {
 const usedStorage = '4.5G'
 const totalStorage = '10G'
 
+// 空间设置相关
 const spaceSettingDialogVisible = ref(false)
+const spaceSettingActiveTab = ref<'space-upgrade' | 'space-setting'>('space-setting')
+
+// 显示空间设置对话框，默认选中"空间设置"选项卡
 function showSpaceSettingDialog() {
+  spaceSettingActiveTab.value = 'space-setting'
+  spaceSettingDialogVisible.value = true
+}
+
+// 显示空间扩容对话框，选中"空间升级"选项卡
+function showSpaceUpgradeDialog() {
+  spaceSettingActiveTab.value = 'space-upgrade'
   spaceSettingDialogVisible.value = true
 }
 </script>
@@ -36,7 +47,7 @@ function showSpaceSettingDialog() {
       <el-progress mb-8px mt-15px :text-inside="true" :stroke-width="10" :show-text="false" :percentage="45" />
       <div text="14px">
         <span class="storage-usage-text">{{ usedStorage }}/{{ totalStorage }}</span>
-        <span ml-12px cursor-pointer text-primary>{{ $t('storage.expand') }}</span>
+        <span ml-12px cursor-pointer text-primary @click="showSpaceUpgradeDialog">{{ $t('storage.expand') }}</span>
       </div>
     </div>
 
@@ -49,8 +60,12 @@ function showSpaceSettingDialog() {
       <SvgoSetting class="cursor-pointer text-20px text-primary" @click="showSpaceSettingDialog" />
     </div>
   </div>
-  <!-- <SpaceDialog v-model="spaceSettingDialogVisible" /> -->
-  <SpaceSetting v-model="spaceSettingDialogVisible" />
+
+  <!-- 空间设置对话框：根据不同入口传递不同的activeTab -->
+  <SpaceSetting
+    v-model="spaceSettingDialogVisible"
+    :active-tab="spaceSettingActiveTab"
+  />
 </template>
 
 <style lang="scss" scoped>

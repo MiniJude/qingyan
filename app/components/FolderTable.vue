@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { FileFilterType, FileType } from '@/constants'
 import { Delete, Download, Edit, MoreFilled } from '@element-plus/icons-vue'
 import { useElementSize } from '@vueuse/core'
 
@@ -11,17 +12,50 @@ interface FileItem {
   fileType: FileType
 }
 
-// 模拟数据
-const fileList = ref<FileItem[]>([
-  { id: '1', fileName: '信息学一本通第五版', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: 'ppt' },
-  { id: '2', fileName: '算法设计与分析-朱大铭', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: 'ppt' },
-  { id: '3', fileName: '平衡树与题序音', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: 'doc' },
-  { id: '4', fileName: '算法艺术与信息学竞赛', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: 'picture' },
-  { id: '4', fileName: '算法艺术与信息学竞赛', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: 'picture' },
-  { id: '4', fileName: '算法艺术与信息学竞赛', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: 'picture' },
-  { id: '4', fileName: '算法艺术与信息学竞赛', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: 'picture' },
-  { id: '4', fileName: '算法艺术与信息学竞赛', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: 'picture' },
+// 定义组件的props
+interface Props {
+  type?: FileFilterType
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  type: FileFilterType.PERSONAL,
+})
+
+// 个人文件模拟数据
+const personalFiles = ref<FileItem[]>([
+  { id: '1', fileName: '信息学一本通第五版', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: FileType.PPT },
+  { id: '2', fileName: '算法设计与分析-朱大铭', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: FileType.PPT },
+  { id: '3', fileName: '平衡树与题序音', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: FileType.DOC },
+  { id: '4', fileName: '算法艺术与信息学竞赛', owner: 'VelvetStorm56', updateTime: '2024年11月1日', fileType: FileType.PICTURE },
 ])
+
+// 团队文件模拟数据
+const teamFiles = ref<FileItem[]>([
+  { id: '5', fileName: '团队项目计划书', owner: 'TeamLead', updateTime: '2024年11月5日', fileType: FileType.DOC },
+  { id: '6', fileName: '团队周报汇总', owner: 'Manager', updateTime: '2024年11月4日', fileType: FileType.DOC },
+  { id: '7', fileName: '产品设计规范', owner: 'Designer', updateTime: '2024年11月3日', fileType: FileType.PPT },
+])
+
+// 共享文件模拟数据
+const sharedFiles = ref<FileItem[]>([
+  { id: '8', fileName: '项目协作文档', owner: 'Collaborator1', updateTime: '2024年11月2日', fileType: FileType.DOC },
+  { id: '9', fileName: '外部资源分享', owner: 'External', updateTime: '2024年10月30日', fileType: FileType.PICTURE },
+  { id: '10', fileName: '合作伙伴提案', owner: 'Partner', updateTime: '2024年10月28日', fileType: FileType.PPT },
+])
+
+// 根据类型计算显示的文件列表
+const fileList = computed(() => {
+  switch (props.type) {
+    case FileFilterType.PERSONAL:
+      return personalFiles.value
+    case FileFilterType.TEAM:
+      return teamFiles.value
+    case FileFilterType.SHARED:
+      return sharedFiles.value
+    default:
+      return personalFiles.value
+  }
+})
 
 // 处理文件操作
 function handleFileAction(action: string, file: FileItem) {
@@ -47,12 +81,40 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
 
 <template>
   <div ref="folderTableRef" class="folder-table">
+    <!-- 数据源标识 -->
+    <div v-if="fileList.length > 0" class="data-source mb-8px" text-12px text-tregular>
+      <span v-if="props.type === FileFilterType.PERSONAL" class="text-primary">
+        <span class="mr-4px rounded-2px bg-blue-50 px-4px py-2px text-blue-500">
+          {{ $t('knowledge_base.folder_table.data_source.personal') }}
+        </span>
+        {{ $t('knowledge_base.folder_table.data_source.files_count', { count: fileList.length }) }}
+      </span>
+      <span v-else-if="props.type === FileFilterType.TEAM" class="text-primary">
+        <span class="mr-4px rounded-2px bg-green-50 px-4px py-2px text-green-500">
+          {{ $t('knowledge_base.folder_table.data_source.team') }}
+        </span>
+        {{ $t('knowledge_base.folder_table.data_source.files_count', { count: fileList.length }) }}
+      </span>
+      <span v-else class="text-primary">
+        <span class="mr-4px rounded-2px bg-orange-50 px-4px py-2px text-orange-500">
+          {{ $t('knowledge_base.folder_table.data_source.shared') }}
+        </span>
+        {{ $t('knowledge_base.folder_table.data_source.files_count', { count: fileList.length }) }}
+      </span>
+    </div>
     <!-- 文件列表 -->
     <el-table
+      class-name="flex-1 min-h-0"
       :data="fileList"
       style="width: 100%"
       :height="folderTableHeight > 0 ? folderTableHeight : undefined"
     >
+      <template #empty>
+        <div class="flex flex-col items-center justify-center py-24px empty-block">
+          <el-empty :description="$t('common.no_data')" />
+        </div>
+      </template>
+
       <el-table-column prop="fileName" :label="$t('knowledge_base.folder_table.file_name')" label-class-name="text-tregular !font-normal">
         <template #default="{ row }">
           <div class="file-name-cell">
@@ -108,6 +170,8 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
   height: 100%;
   width: 100%;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 
   .file-name-cell {
     display: flex;
