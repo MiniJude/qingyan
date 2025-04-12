@@ -56,10 +56,6 @@ function setCheckedKeys(keys: string[]) {
 defineExpose({
   setCheckedKeys,
 })
-
-onUpdated(() => {
-  console.log('treeRef.value 被更新了')
-})
 </script>
 
 <template>

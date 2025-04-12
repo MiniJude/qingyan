@@ -359,7 +359,15 @@
       "busy_message": "Server is busy, please try again later!",
       "date": "2025-01-10",
       "input_placeholder": "Enter your message",
-      "send": "Send"
+      "send": "Send",
+      "upload_dialog": {
+        "title": "Select Source",
+        "from_knowledge_base": "From Knowledge Base",
+        "from_local": "From Local Upload",
+        "select_space": "Select Space",
+        "select_files": "Select Files",
+        "drag_tip": "Or drag files here"
+      }
     }
   },
   "wechat_assistant": {

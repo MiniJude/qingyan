@@ -2,12 +2,13 @@
 import type { ElInput } from 'element-plus'
 import type { FileInfo } from '~/types/file'
 import { ArrowDown } from '@element-plus/icons-vue'
+import UploadSourceDialog from '~/components/UploadSourceDialog.vue'
 import { useFileUpload } from '~/composables/useFileUpload'
 
 const { t } = useI18n()
 
 const input = ref('')
-const { handleFileSelect, setupPasteListener } = useFileUpload()
+const { setupPasteListener } = useFileUpload()
 
 // 输入框中的文件
 const attachedFiles = ref<FileInfo[]>([])
@@ -79,18 +80,69 @@ function handleAgentAnswer() {
   })
 }
 
-// 处理文件上传
-async function handleUploadFile() {
-  try {
-    const files = await handleFileSelect()
-    if (files.length > 0) {
-      attachedFiles.value.push(...files)
+// 文件点击处理
+function handleFileClick(file: FileInfo) {
+  if (file.url) {
+    // 对于txt文件，使用特殊处理以解决编码问题
+    if (file.name.toLowerCase().endsWith('.txt')) {
+      handleTextFile(file)
+      return
     }
+    // 其他文件类型直接打开
+    window.open(file.url, '_blank')
+  }
+}
+
+// 处理文本文件，解决编码问题
+async function handleTextFile(file: FileInfo) {
+  if (!file.url)
+    return
+
+  try {
+    // 获取文本内容
+    const response = await fetch(file.url)
+    const blob = await response.blob()
+
+    // 使用FileReader正确处理编码
+    const reader = new FileReader()
+    reader.onload = function (e) {
+      if (e.target?.result) {
+        // 创建一个新的blob，明确指定为utf-8编码
+        const textContent = e.target.result as string
+        const utf8Blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' })
+        const url = URL.createObjectURL(utf8Blob)
+
+        // 新窗口打开
+        window.open(url, '_blank')
+      }
+    }
+    // 以文本形式读取文件
+    reader.readAsText(blob, 'utf-8')
   }
   catch (error) {
-    console.error('文件上传失败:', error)
-    ElMessage.error('文件上传失败')
+    console.error('打开文本文件出错:', error)
+    ElMessage.error('无法打开文本文件')
   }
+}
+
+// 上传选择对话框
+const uploadDialogRef = ref<InstanceType<typeof UploadSourceDialog> | null>(null)
+
+// 打开上传对话框
+function openUploadDialog() {
+  uploadDialogRef.value?.open()
+}
+
+// 处理上传选择
+function handleUploadSelect(selection: { source: string, files: any[] }) {
+  if (selection.files && selection.files.length > 0) {
+    attachedFiles.value.push(...selection.files)
+  }
+}
+
+// 处理上传取消
+function handleUploadCancel() {
+  // 处理取消逻辑
 }
 
 // 移除已上传文件
@@ -98,13 +150,6 @@ function removeFile(fileId: string) {
   const index = attachedFiles.value.findIndex(f => f.id === fileId)
   if (index !== -1) {
     attachedFiles.value.splice(index, 1)
-  }
-}
-
-// 文件点击处理
-function handleFileClick(file: FileInfo) {
-  if (file.url) {
-    window.open(file.url, '_blank')
   }
 }
 
@@ -186,7 +231,7 @@ function handlePastedFiles(files: FileInfo[]) {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="h-full w-full flex flex-col">
     <div class="agent-header" h-80px flex items-center justify-between pl-37px pr-53px>
       <div class="flex items-center gap-8px">
         <img width="48" src="@/assets/img/logo-icon.png" alt="">
@@ -199,90 +244,105 @@ function handlePastedFiles(files: FileInfo[]) {
       </div>
     </div>
 
-    <div class="agent-content min-h-0 flex flex-1 flex-col items-center">
-      <div class="mt-43px flex items-center justify-center gap-17px text-14px" style="color: #86909C;">
+    <div class="agent-content min-h-0 flex flex-1 flex-col">
+      <div class="date-display mb-4 mt-43px flex items-center justify-center gap-17px text-14px" style="color: #86909C;">
         <span>{{ $t('agents.qa.date') }}</span>
         <el-icon class="cursor-pointer">
           <ArrowDown />
         </el-icon>
       </div>
-      <div class="min-h-0 w-1060px flex flex-1 flex-col gap-24px overflow-y-auto">
-        <!-- 这里是对话记录 -->
-        <div class="min-h-0 flex flex-1 flex-col gap-16px overflow-y-auto pt-23px">
-          <template v-for="(msg, index) in messages" :key="index">
-            <!-- 用户对话框 -->
-            <div v-if="msg.role === 'user'" class="w-full flex flex-row-reverse items-start gap-20px">
-              <img width="40" src="@/assets/img/avatar.png" alt="">
-              <div class="msg-box bg-white text-right dark:bg-black">
-                <!-- 用户发送文件 -->
-                <div v-if="msg.files && msg.files.length > 0" class="files-container">
-                  <FileCard
-                    v-for="file in msg.files"
-                    :key="file.id"
-                    :file="file"
-                    clickable
-                    @click="handleFileClick(file)"
-                  />
-                </div>
-                <!-- 用户文字内容 -->
-                <div v-if="msg.content" class="mt-2" style="white-space: pre-wrap;">
-                  {{ msg.content }}
-                </div>
-              </div>
-            </div>
-            <!-- 智能体对话框 -->
-            <div v-else class="w-full flex items-start gap-20px">
-              <img width="40" src="@/assets/img/logo-icon.png" alt="">
-              <div class="msg-box bg-white dark:bg-black">
-                <!-- 智能体文字内容 -->
-                <div style="white-space: pre-wrap;">
-                  {{ msg.content }}
-                </div>
-                <!-- 智能体发送文件 -->
-                <div v-if="msg.files && msg.files.length > 0" class="files-container mt-2">
-                  <FileCard
-                    v-for="file in msg.files"
-                    :key="file.id"
-                    :file="file"
-                    clickable
-                    @click="handleFileClick(file)"
-                  />
+
+      <!-- 内容容器 -->
+      <div class="chat-container">
+        <!-- 可滚动的对话区域，保持内容居中而滚动条靠右 -->
+        <div class="chat-messages-wrapper">
+          <div class="chat-messages">
+            <template v-for="(msg, index) in messages" :key="index">
+              <!-- 用户对话框 -->
+              <div v-if="msg.role === 'user'" class="message-row user-message-row">
+                <img width="40" src="@/assets/img/avatar.png" alt="" class="avatar">
+                <div class="message-container user-message">
+                  <!-- 用户发送文件 -->
+                  <div v-if="msg.files && msg.files.length > 0" class="files-container mb-2">
+                    <FileCard
+                      v-for="file in msg.files"
+                      :key="file.id"
+                      :file="file"
+                      clickable
+                      @click="handleFileClick(file)"
+                    />
+                  </div>
+                  <!-- 用户文字内容 -->
+                  <div v-if="msg.content" class="msg-bubble">
+                    {{ msg.content }}
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
+              <!-- 智能体对话框 -->
+              <div v-else class="message-row agent-message-row">
+                <img width="40" src="@/assets/img/logo-icon.png" alt="" class="avatar">
+                <div class="message-container agent-message">
+                  <!-- 智能体文字内容 -->
+                  <div v-if="msg.content" class="msg-bubble">
+                    {{ msg.content }}
+                  </div>
+                  <!-- 智能体发送文件 -->
+                  <div v-if="msg.files && msg.files.length > 0" class="files-container mt-2">
+                    <FileCard
+                      v-for="file in msg.files"
+                      :key="file.id"
+                      :file="file"
+                      clickable
+                      @click="handleFileClick(file)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
         </div>
 
         <!-- 在这里输入 -->
-        <div class="input-container">
-          <!-- 显示已上传文件 -->
-          <div v-if="attachedFiles.length > 0" class="attached-files mb-2">
-            <FileCard
-              v-for="file in attachedFiles"
-              :key="file.id"
-              :file="file"
-              :removable="true"
-              @remove="removeFile"
-            />
-          </div>
-          <!-- 文本输入区域 -->
-          <div ref="containerRef" class="h-54px flex items-center">
-            <div class="upload-btn" @click="handleUploadFile">
-              <div class="i-carbon:add" />
+        <div class="input-container-wrapper">
+          <div class="input-container">
+            <!-- 显示已上传文件 -->
+            <div v-if="attachedFiles.length > 0" class="attached-files mb-2">
+              <FileCard
+                v-for="file in attachedFiles"
+                :key="file.id"
+                :file="file"
+                :removable="true"
+                @remove="removeFile"
+              />
             </div>
-            <el-input
-              ref="inputRef"
-              v-model="input"
-              class="h-full flex-1"
-              :placeholder="$t('agents.qa.input_placeholder')"
-            />
-            <el-button type="primary" size="large" class="w-192px !h-full" @click="handleSend">
-              {{ $t('agents.qa.send') }}
-            </el-button>
+            <!-- 文本输入区域 -->
+            <div ref="containerRef" class="input-area-wrapper h-54px">
+              <div class="upload-btn-wrapper">
+                <div class="upload-btn" @click="openUploadDialog">
+                  <div class="i-carbon:add" />
+                </div>
+              </div>
+              <el-input
+                ref="inputRef"
+                v-model="input"
+                class="h-full flex-1"
+                :placeholder="$t('agents.qa.input_placeholder')"
+              />
+              <el-button type="primary" size="large" class="send-btn" @click="handleSend">
+                {{ $t('agents.qa.send') }}
+              </el-button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- 上传选择对话框 -->
+    <UploadSourceDialog
+      ref="uploadDialogRef"
+      @select="handleUploadSelect"
+      @cancel="handleUploadCancel"
+    />
   </div>
 </template>
 
@@ -292,20 +352,111 @@ function handlePastedFiles(files: FileInfo[]) {
 }
 
 .agent-content {
-  padding: 13px 141px 46px 154px;
+  height: calc(100vh - 80px); // 减去头部高度
+  overflow: hidden; // 避免整体出现滚动条
 }
 
-.msg-box {
-  border-radius: 4px;
-  box-shadow: 14px 27px 45px 4px rgba(102, 81, 240, 0.08);
-  padding: 20px;
-  width: 940px;
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 80px); // 减去日期显示区域高度
+  position: relative;
+}
+
+.chat-messages-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+  padding: 0 40px; // 左右留出空间
+  scrollbar-width: thin; // Firefox支持
+
+  // 自定义滚动条样式
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+}
+
+.chat-messages {
+  max-width: 980px; // 控制最大宽度
+  margin: 0 auto; // 居中显示
+  padding: 23px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.message-row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+
+  .avatar {
+    align-self: flex-start;
+  }
+}
+
+.user-message-row {
+  flex-direction: row-reverse;
+}
+
+.agent-message-row {
+  flex-direction: row;
+}
+
+.message-container {
+  max-width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-message {
+  align-items: flex-end;
+}
+
+.agent-message {
+  align-items: flex-start;
+}
+
+.msg-bubble {
+  display: inline-block;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  word-break: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
+
+  .dark & {
+    background-color: #1a1a1a;
+  }
 }
 
 .files-container {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-width: 100%;
+}
+
+.input-container-wrapper {
+  padding: 0 40px 40px;
+  margin-top: 16px;
+}
+
+.input-container {
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .attached-files {
@@ -314,20 +465,33 @@ function handlePastedFiles(files: FileInfo[]) {
   gap: 8px;
 }
 
+.input-area-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  margin-right: 10px;
+}
+
 .upload-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 54px;
-  height: 54px;
+  width: 44px;
+  height: 44px;
   background-color: white;
-  border-radius: 4px 0 0 4px;
+  border-radius: 50%;
   border: 1px solid #dcdfe6;
-  border-right: none;
   cursor: pointer;
+  transition: all 0.3s;
 
   &:hover {
     background-color: #f5f7fa;
+    transform: scale(1.05);
   }
 
   .dark & {
@@ -338,9 +502,15 @@ function handlePastedFiles(files: FileInfo[]) {
       background-color: #18181a;
     }
   }
+
+  .i-carbon\\:add {
+    font-size: 24px;
+    color: var(--el-color-primary);
+  }
 }
 
-.input-container {
-  width: 100%;
+.send-btn {
+  width: 192px;
+  height: 54px;
 }
 </style>

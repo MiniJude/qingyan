@@ -2,7 +2,6 @@
 import { useFileStore } from '~/stores/file'
 import { useSpaceStore } from '~/stores/space'
 import { addUidToNodes } from '~/utils'
-import Tree from './Tree.vue'
 
 const localePath = useLocalePath()
 const spaceStore = useSpaceStore()
@@ -97,7 +96,7 @@ function handleCheckChange(checkedKeys: string[], index: number) {
   data[index]!.checkedKeys = checkedKeys
 }
 
-const treeRef = useTemplateRef<InstanceType<typeof Tree>[]>('treeRef')
+const treeRef = useTemplateRef<HTMLElement[]>('treeRef')
 
 // 处理节点点击
 function handleNodeClick(data: FileTreeType, fileRoute: string[]) {
@@ -121,7 +120,7 @@ defineExpose({
     </div>
     <div v-else>
       <div v-for="(item, index) in data" :key="index">
-        <Tree
+        <DocTree
           v-if="item.treeData.length > 0"
           ref="treeRef"
           :data="item.treeData"
