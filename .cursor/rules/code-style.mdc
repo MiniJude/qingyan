@@ -185,3 +185,36 @@ const data = await response.json()
   - 若删除或修改的代码中包含国际化内容，且确认该国际化配置未被其他代码引用，应及时从国际化文件中移除，避免冗余。
 
 
+#### 使用Element-plus的Message时，要加上下文appContext（通过getCurrentInstance()获取）
+
+在nuxt3中使用Dialog和Message时，Message会被Dialog遮罩层覆盖，Message是无法获取应用上下文引起的。
+
+相关issue：https://github.com/element-plus/element-plus-nuxt/issues/146
+
+代码示例：
+```ts
+<script setup lang="ts">
+import { getCurrentInstance } from 'vue'
+
+const { appContext } = getCurrentInstance()!
+
+const hello = () => {
+  show.value = true;
+  // ElMessage.info("hello world")
+};
+const show = ref(false);
+const onClick = ()=>{
+  ElMessage.success({ message: "hello world", duration: 0 }, appContext)
+
+  // or
+  // ElMessageBox.confirm({}, appContext)
+}
+
+</script>
+```
+请注意无论是ElMessage.success还是ElMessageBox.confirm**等等**，都要加appContext参数。
+
+
+
+
+

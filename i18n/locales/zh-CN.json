@@ -204,7 +204,8 @@
     },
     "search": {
       "placeholder": "搜索",
-      "button": "搜索"
+      "button": "搜索",
+      "no_results": "没有搜索结果"
     },
     "no_data": "暂无数据",
     "forbidden_page": {
@@ -242,7 +243,8 @@
       "operations": "操作",
       "warning": "警告",
       "copy": "复制",
-      "create": "创建"
+      "create": "创建",
+      "exit": "退出"
     },
     "validation": {
       "required": "请输入{field}",
@@ -294,7 +296,10 @@
       "password_placeholder": "请输入加入密码"
     },
     "file_not_found": "未找到文件或文件不可访问",
-    "empty_content": "文件内容为空"
+    "empty_content": "文件内容为空",
+    "departments": {
+      "department": "部门"
+    }
   },
   "agents": {
     "create_new": "新建",
@@ -406,6 +411,8 @@
       "settings": "空间设置",
       "model": "模型设置",
       "member": "成员管理",
+      "permission": "权限设置",
+      "team": "团队管理",
       "model_description": "以下配置仅对当前空间生效，使用 OpenAI API 格式"
     },
     "upgrade": {
@@ -496,12 +503,86 @@
       "set_password_description": "设置后，新成员加入空间时需要输入密码验证",
       "members_count": "成员 ({count}/不限)",
       "member_label": "空间成员",
-      "nickname": "空间昵称",
-      "set_nickname_title": "设置空间昵称（仅对当前空间生效）",
-      "set_nickname_description": "空间中任何出现用户名的地方都将显示为昵称",
-      "nickname_set_success": "空间昵称设置成功！",
-      "nickname_placeholder": "请输入空间昵称",
       "search_placeholder": "搜索成员"
+    },
+    "team": {
+      "title": "团队管理",
+      "description": "管理团队空间和团队成员",
+      "create_team": "新建团队",
+      "search_placeholder": "搜索团队",
+      "team_name": "名称",
+      "created_time": "创建时间",
+      "operations": "操作",
+      "view_team": "查看团队",
+      "team_settings": "团队设置",
+      "delete_team": "删除团队",
+      "today": "今天",
+      "delete_confirm": "确定要删除团队 {name} 吗？",
+      "team_info": "团队信息",
+      "team_info_description": "团队的基本信息",
+      "team_avatar": "头像",
+      "team_description": "简介",
+      "description_placeholder": "请输入团队简介（最多200字）",
+      "permission": "权限",
+      "permission_description": "设置团队成员权限",
+      "admin": "管理员",
+      "admin_description": "拥有知识库管理权限",
+      "read_only": "只读",
+      "read_only_description": "仅有阅读权限",
+      "role_settings": "设置角色权限",
+      "more_settings": "更多设置",
+      "more_settings_description": "设置团队其他功能",
+      "activity": "动态",
+      "activity_description": "开启后可展示本团队内文档、任务、话题等的更新动态，方便成员获取重要信息，提高协同效率。",
+      "topic": "话题知识库",
+      "topic_description": "开启后成员可聚焦话题展开讨论，在线异步交流。",
+      "delete_team_title": "删除团队",
+      "delete_team_description": "删除权限仅有团队管理员拥有。注意！删除团队后，你将失去该团队中的所有数据。",
+      "members": "成员",
+      "add_member": "添加成员",
+      "owner": "创建者",
+      "name": "姓名",
+      "role": "角色",
+      "operation": "操作",
+      "remove": "移除",
+      "manageable": "可管理",
+      "manageable_description": "拥有知识库管理权限",
+      "read_only_permission": "仅阅读",
+      "read_only_permission_description": "仅有阅读权限",
+      "set_permission": "设置权限",
+      "add_member_coming_soon": "添加成员功能即将上线",
+      "member": "成员",
+      "batch_add": {
+        "title": "批量添加成员",
+        "quick_add": "快速添加",
+        "from_organization": "从组织架构",
+        "from_org_structure": "从组织架构选择",
+        "search_placeholder": "输入成员名称或邮箱搜索",
+        "search_tip": "请输入关键词搜索成员",
+        "no_members_selected": "请至少选择一名成员",
+        "selected_count": "已选择 {count} 名成员",
+        "add_as": "添加为",
+        "current_page_members": "当前页成员",
+        "select_all": "全选{text}",
+        "members_added": "已添加{count}名成员",
+        "member_count": "{count} 位成员",
+        "please_select_one": "请至少选择一名成员"
+      },
+      "create": {
+        "title": "新建团队",
+        "subtitle": "和成员一起进行项目协作和知识管理",
+        "basic_info": "基本信息",
+        "team_name": "团队名称",
+        "team_name_placeholder": "请输入团队名称",
+        "description": "团队简介",
+        "description_placeholder": "请输入团队简介",
+        "add_member": "添加成员",
+        "search_member_placeholder": "输入成员名字搜索添加",
+        "batch_add": "批量添加",
+        "visibility": "公开性",
+        "public_to_space": "公开给空间所有成员",
+        "create_button": "新建"
+      }
     },
     "switch_space": "切换空间",
     "create_dialog": {

@@ -204,7 +204,8 @@
     },
     "search": {
       "placeholder": "Search",
-      "button": "Search"
+      "button": "Search",
+      "no_results": "No search results"
     },
     "no_data": "No Data",
     "forbidden_page": {
@@ -242,7 +243,8 @@
       "operations": "Operations",
       "warning": "Warning",
       "copy": "Copy",
-      "create": "Create"
+      "create": "Create",
+      "exit": "Exit"
     },
     "validation": {
       "required": "Please enter {field}",
@@ -294,7 +296,10 @@
       "password_placeholder": "Please enter join password"
     },
     "file_not_found": "File not found or not accessible",
-    "empty_content": "File content is empty"
+    "empty_content": "File content is empty",
+    "departments": {
+      "department": "Department"
+    }
   },
   "agents": {
     "create_new": "Create New",
@@ -406,6 +411,8 @@
       "settings": "Space",
       "model": "Model",
       "member": "Member",
+      "permission": "Permission",
+      "team": "Team",
       "model_description": "These configurations only apply to the current space, using OpenAI API format"
     },
     "upgrade": {
@@ -496,12 +503,86 @@
       "set_password_description": "When set, new members need to enter password verification to join the space",
       "members_count": "Members ({count}/Unlimited)",
       "member_label": "Space Member",
-      "nickname": "Space Nickname",
-      "set_nickname_title": "Set Space Nickname (Only effective in current space)",
-      "set_nickname_description": "Your nickname will be displayed instead of username anywhere in the space",
-      "nickname_set_success": "Space nickname set successfully!",
-      "nickname_placeholder": "Please enter space nickname",
       "search_placeholder": "Search members"
+    },
+    "team": {
+      "title": "Team Management",
+      "description": "Manage team spaces and team members",
+      "create_team": "Create Team",
+      "search_placeholder": "Search teams",
+      "team_name": "Name",
+      "created_time": "Created Time",
+      "operations": "Operations",
+      "view_team": "View Team",
+      "team_settings": "Team Settings",
+      "delete_team": "Delete Team",
+      "today": "Today",
+      "delete_confirm": "Are you sure to delete team {name}?",
+      "team_info": "Team Information",
+      "team_info_description": "Basic information of the team",
+      "team_avatar": "Avatar",
+      "team_description": "Description",
+      "description_placeholder": "Please enter team description (max 200 characters)",
+      "permission": "Permission",
+      "permission_description": "Set team member permissions",
+      "admin": "Administrator",
+      "admin_description": "Has knowledge base management permissions",
+      "read_only": "Read Only",
+      "read_only_description": "Only has reading permissions",
+      "role_settings": "Set Role Permissions",
+      "more_settings": "More Settings",
+      "more_settings_description": "Configure other team features",
+      "activity": "Activity",
+      "activity_description": "When enabled, shows updates of documents, tasks, topics within the team, facilitating information sharing and collaboration efficiency.",
+      "topic": "Topic Knowledge Base",
+      "topic_description": "When enabled, members can focus on topics for discussion and online asynchronous communication.",
+      "delete_team_title": "Delete Team",
+      "delete_team_description": "Only team administrators have deletion rights. Caution! After deleting the team, you will lose all data in the team.",
+      "members": "Members",
+      "add_member": "Add Member",
+      "owner": "Owner",
+      "name": "Name",
+      "role": "Role",
+      "operation": "Operation",
+      "remove": "Remove",
+      "manageable": "Manageable",
+      "manageable_description": "Has knowledge base management permissions",
+      "read_only_permission": "Read Only",
+      "read_only_permission_description": "Only has reading permissions",
+      "set_permission": "Set Permission",
+      "add_member_coming_soon": "Add member feature coming soon",
+      "member": "Member",
+      "batch_add": {
+        "title": "Batch Add Members",
+        "quick_add": "Quick Add",
+        "from_organization": "From Organization",
+        "from_org_structure": "Select from Organization",
+        "search_placeholder": "Search by name or email",
+        "search_tip": "Please enter keywords to search members",
+        "no_members_selected": "Please select at least one member",
+        "selected_count": "Selected {count} members",
+        "add_as": "Add as",
+        "current_page_members": "Current page members",
+        "select_all": "Select all {text}",
+        "members_added": "Added {count} members",
+        "member_count": "{count} Members",
+        "please_select_one": "Please select at least one member"
+      },
+      "create": {
+        "title": "Create Team",
+        "subtitle": "Collaborate on projects and manage knowledge with team members",
+        "basic_info": "Basic Information",
+        "team_name": "Team Name",
+        "team_name_placeholder": "Please enter team name",
+        "description": "Team Description",
+        "description_placeholder": "Please enter team description",
+        "add_member": "Add Members",
+        "search_member_placeholder": "Search members by name",
+        "batch_add": "Batch Add",
+        "visibility": "Visibility",
+        "public_to_space": "Public to all space members",
+        "create_button": "Create"
+      }
     },
     "switch_space": "Switch Space",
     "create_dialog": {

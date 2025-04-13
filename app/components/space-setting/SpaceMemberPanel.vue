@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
-import { Edit, Search } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
+import { getCurrentInstance } from 'vue'
+
+const { appContext } = getCurrentInstance()!
 
 const { t } = useI18n()
 
@@ -28,6 +31,13 @@ const members = ref<Member[]>([
     role: 'admin',
     status: 'active',
   },
+  {
+    id: 2,
+    username: 'TestUser',
+    nickname: '',
+    role: 'member',
+    status: 'active',
+  },
 ])
 
 // 成员搜索相关
@@ -42,11 +52,6 @@ const filteredMembers = computed(() => {
     || (member.nickname && member.nickname.toLowerCase().includes(query)),
   )
 })
-
-// 昵称编辑相关
-const editingNickname = ref('')
-const isEditingNickname = ref(false)
-const maxNicknameLength = 50
 
 // 角色选项
 const roleOptions = [
@@ -106,18 +111,6 @@ async function submitAddMember() {
   }
 }
 
-// 更改成员角色
-async function changeRole(member: Member, role: string) {
-  try {
-    // TODO: 调用API更改角色
-    member.role = role
-    ElMessage.success(t('common.user.role_change_success'))
-  }
-  catch (error) {
-    console.error('Change role failed:', error)
-  }
-}
-
 // 移除成员
 async function removeMember(member: Member) {
   try {
@@ -129,6 +122,7 @@ async function removeMember(member: Member) {
         cancelButtonText: t('common.actions.cancel'),
         type: 'warning',
       },
+      appContext,
     )
     // TODO: 调用API移除成员
     const index = members.value.findIndex(m => m.id === member.id)
@@ -146,26 +140,6 @@ async function removeMember(member: Member) {
 function setJoinPassword() {
   // TODO: 调用API设置加入密码
   ElMessage.success(t('common.messages.operation_success', { operation: t('common.actions.save') }))
-}
-
-// 开始编辑昵称
-function startEditNickname(member: Member) {
-  isEditingNickname.value = true
-  editingNickname.value = member.nickname || ''
-}
-
-// 保存昵称
-function saveNickname(member: Member) {
-  // TODO: 调用API保存昵称
-  member.nickname = editingNickname.value
-  isEditingNickname.value = false
-
-  // 显示成功提示
-  ElMessage({
-    message: t('space.member.nickname_set_success'),
-    type: 'success',
-    customClass: 'nickname-success-message',
-  })
 }
 </script>
 
@@ -218,15 +192,7 @@ function saveNickname(member: Member) {
       </transition>
     </div>
 
-    <!-- 设置空间昵称 -->
-    <div class="border-b border-gray-200 p-20px">
-      <h3 class="mb-12px text-16px font-normal">
-        {{ $t('space.member.set_nickname_title') }}
-      </h3>
-      <div class="mb-10px text-sm text-gray-400">
-        {{ $t('space.member.set_nickname_description') }}
-      </div>
-    </div>
+    <!-- 移除空间昵称设置区域 -->
 
     <!-- 成员(1/不限) -->
     <div class="flex items-center justify-between bg-gray-50 px-20px py-12px">
@@ -243,13 +209,10 @@ function saveNickname(member: Member) {
       </div>
     </div>
 
-    <!-- 成员列表表头 -->
-    <div class="grid grid-cols-4 border-b border-gray-200 px-20px py-12px font-medium">
+    <!-- 成员列表表头 - 改为3列 -->
+    <div class="grid grid-cols-3 border-b border-gray-200 px-20px py-12px font-medium">
       <div class="pl-20px">
         {{ $t('space.member.member_label') }}
-      </div>
-      <div class="pl-20px">
-        {{ $t('space.member.nickname') }}
       </div>
       <div class="pl-20px">
         {{ $t('common.roles.label') }}
@@ -259,8 +222,8 @@ function saveNickname(member: Member) {
       </div>
     </div>
 
-    <!-- 成员列表内容 -->
-    <div v-for="member in filteredMembers" :key="member.id" class="grid grid-cols-4 border-b border-gray-200 px-20px py-16px">
+    <!-- 成员列表内容 - 改为3列 -->
+    <div v-for="member in filteredMembers" :key="member.id" class="grid grid-cols-3 border-b border-gray-200 px-20px py-16px">
       <div class="flex items-center">
         <el-avatar :size="28" class="mr-8px">
           {{ member.username.charAt(0).toUpperCase() }}
@@ -268,40 +231,12 @@ function saveNickname(member: Member) {
         <span>{{ member.username }}</span>
       </div>
       <div class="flex items-center px-20px">
-        <div v-if="isEditingNickname && member.id === members[0]?.id" class="flex items-center">
-          <el-input
-            v-model="editingNickname"
-            class="mr-10px"
-            :maxlength="maxNicknameLength"
-            show-word-limit
-            :placeholder="$t('space.member.nickname_placeholder')"
-          />
-          <el-button type="primary" size="small" @click="saveNickname(member)">
-            {{ $t('common.actions.save') }}
-          </el-button>
-        </div>
-        <div v-else class="flex cursor-pointer items-center" @click="startEditNickname(member)">
-          <span class="mr-8px">{{ member.nickname || '-' }}</span>
-          <el-icon class="edit-icon">
-            <Edit />
-          </el-icon>
-        </div>
+        <!-- 直接显示角色名称，不支持修改 -->
+        <span>
+          {{ roleOptions.find(option => option.value === member.role)?.label || member.role }}
+        </span>
       </div>
-      <div>
-        <el-select
-          v-model="member.role"
-          :disabled="member.role === 'admin'"
-          @change="changeRole(member, $event)"
-        >
-          <el-option
-            v-for="option in roleOptions"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-      </div>
-      <div>
+      <div class="flex items-center px-20px">
         <el-button
           v-if="member.role !== 'admin'"
           type="danger"
@@ -358,29 +293,6 @@ function saveNickname(member: Member) {
 .space-member-panel {
   :deep(.el-avatar) {
     background-color: var(--el-color-primary);
-  }
-
-  .edit-icon {
-    color: var(--el-color-primary);
-    opacity: 0.6;
-    transition: opacity 0.2s;
-    font-size: 14px;
-  }
-
-  .cursor-pointer:hover {
-    .edit-icon {
-      opacity: 1;
-    }
-  }
-}
-
-:deep(.nickname-success-message) {
-  background-color: #f0f9eb;
-  padding: 10px 20px;
-  border-radius: 4px;
-
-  .el-message__content {
-    color: #67c23a;
   }
 }
 </style>

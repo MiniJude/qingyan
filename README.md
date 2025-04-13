@@ -32,3 +32,10 @@ pnpm build
 ```
 
 构建后的文件将位于 `.output/public` 目录中。
+
+
+
+## 相关issue
+
+https://github.com/element-plus/element-plus/issues/10979
+https://github.com/element-plus/element-plus-nuxt/issues/146

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MenuSplitContent, SpaceMemberPanel, SpaceModelSettingPanel, SpaceSettingPanel, SpaceUpgradePanel } from '#components'
+import { MenuSplitContent, SpaceMemberPanel, SpaceModelSettingPanel, SpacePermissionPanel, SpaceSettingPanel, SpaceTeamPanel, SpaceUpgradePanel } from '#components'
 
 const props = withDefaults(defineProps<Props>(), {
   activeTab: 'space-upgrade', // 默认是升级选项卡
@@ -9,7 +9,7 @@ const dialogVisible = defineModel<boolean>('modelValue')
 
 // 添加props来接收初始选中的tab
 interface Props {
-  activeTab?: 'space-upgrade' | 'space-setting' | 'space-model' | 'space-member'
+  activeTab?: 'space-upgrade' | 'space-setting' | 'space-model' | 'space-member' | 'space-permission' | 'space-team'
 }
 
 const { t } = useI18n()
@@ -43,6 +43,18 @@ const menuList = computed(() => [
     icon: 'i-carbon:group',
     name: t('space.menu.member'),
     component: shallowRef(SpaceMemberPanel),
+  },
+  {
+    key: 'space-permission',
+    icon: 'i-carbon:security',
+    name: t('space.menu.permission'),
+    component: shallowRef(SpacePermissionPanel),
+  },
+  {
+    key: 'space-team',
+    icon: 'i-carbon:partnership',
+    name: t('space.menu.team'),
+    component: shallowRef(SpaceTeamPanel),
   },
 ])
 
