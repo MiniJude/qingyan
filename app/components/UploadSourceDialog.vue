@@ -3,7 +3,6 @@ import type { FileInfo } from '~/types/file'
 import DocTree from '~/components/DocTree.vue'
 import { useFileUpload } from '~/composables/useFileUpload'
 import { useSpaceStore } from '~/stores/space'
-import { addUidToNodes } from '~/utils'
 
 // 定义事件
 const emits = defineEmits<{
@@ -53,7 +52,7 @@ const mockKnowledgeData = ref([
 ])
 
 // 知识库数据
-const treeData = ref(addUidToNodes(mockKnowledgeData.value as FileTreeTypeWithOptionalId[]))
+const treeData = ref<any>(mockKnowledgeData.value)
 
 // 当前空间
 const spaceStore = useSpaceStore()

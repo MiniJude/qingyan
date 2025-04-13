@@ -17,7 +17,6 @@ const route = useRoute()
 const fileId = route.params.id
 const isMaskShow = ref(false)
 const jsonData = ref({})
-const fileInfo = ref(null)
 
 // 根据文件ID查找文件信息
 async function fetchFileInfo() {
@@ -26,26 +25,7 @@ async function fetchFileInfo() {
   try {
     isMaskShow.value = true
     // 获取知识库数据
-    const spaceId = spaceStore.currentSpace.id
-    const data = await $api(`/mock-api/knowledge-base?spaceId=${spaceId}`)
-
-    // 递归查找指定ID的文件
-    function findFileById(items) {
-      for (const item of items) {
-        if (item.id === fileId) {
-          return item
-        }
-        if (item.children && item.children.length > 0) {
-          const found = findFileById(item.children)
-          if (found)
-            return found
-        }
-      }
-      return null
-    }
-
-    const file = findFileById(data)
-    fileInfo.value = file
+    const file = await $api(`/mock-api/knowledge-base/${fileId}`)
     if (file && file.fileUrl) {
       loadExcel(file.fileUrl, file.label)
     }

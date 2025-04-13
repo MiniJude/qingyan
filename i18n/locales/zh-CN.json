@@ -163,6 +163,9 @@
       "outline_placeholder": "这是内容大纲",
       "notes_placeholder": "这是批注笔记"
     },
+    "video_view": {
+      "browser_not_support": "您的浏览器不支持视频播放"
+    },
     "template": {
       "all": "全部",
       "markdown": "Markdown文档",
@@ -289,7 +292,9 @@
       "save_success": "设置保存成功",
       "password": "加入密码",
       "password_placeholder": "请输入加入密码"
-    }
+    },
+    "file_not_found": "未找到文件或文件不可访问",
+    "empty_content": "文件内容为空"
   },
   "agents": {
     "create_new": "新建",

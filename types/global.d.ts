@@ -1,4 +1,4 @@
-type FileType = 'doc' | 'pdf' | 'ppt' | 'wechat-article' | 'wechat-records' | 'url' | 'picture' | 'link' | 'excel'
+type FileType = 'doc' | 'pdf' | 'ppt' | 'wechat-article' | 'wechat-records' | 'url' | 'picture' | 'link' | 'excel' | 'video' | 'txt'
 
 interface FileTreeType {
   label: string

@@ -97,7 +97,7 @@ defineExpose({
           </div>
           <!-- 使用ClientOnly包裹，解决勾选后，Tree组件被重新渲染的问题 -->
           <ClientOnly>
-            <DocTree :data="addUidToNodes(personalData)" :checkable="true" :checkbox-visible="true" @check-change="handleCheckChange" />
+            <DocTree :data="personalData" :checkable="true" :checkbox-visible="true" @check-change="handleCheckChange" />
           </ClientOnly>
         </div>
       </div>

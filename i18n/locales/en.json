@@ -163,6 +163,9 @@
       "outline_placeholder": "This is the outline",
       "notes_placeholder": "These are the notes"
     },
+    "video_view": {
+      "browser_not_support": "Your browser does not support video playback"
+    },
     "template": {
       "all": "All",
       "markdown": "Markdown",
@@ -289,7 +292,9 @@
       "save_success": "Settings saved successfully",
       "password": "Join Password",
       "password_placeholder": "Please enter join password"
-    }
+    },
+    "file_not_found": "File not found or not accessible",
+    "empty_content": "File content is empty"
   },
   "agents": {
     "create_new": "Create New",

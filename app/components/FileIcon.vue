@@ -25,5 +25,7 @@ const props = withDefaults(defineProps<{
     <UrlIcon v-else-if="props.fileType === 'url'" />
     <PictureIcon v-else-if="props.fileType === 'picture'" />
     <LinkIcon v-else-if="props.fileType === 'link'" />
+    <div v-else-if="props.fileType === 'video'" class="i-carbon:video-player" />
+    <div v-else-if="props.fileType === 'txt'" class="i-carbon:txt" />
   </div>
 </template>
