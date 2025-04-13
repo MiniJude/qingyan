@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ArrowRight } from '@element-plus/icons-vue'
 
-const fileRoute = useFileStore().fileRoute
+const fileRoute = useFileStore().currentFileRoute
 </script>
 
 <template>

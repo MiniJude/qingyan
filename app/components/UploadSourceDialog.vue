@@ -53,7 +53,7 @@ const mockKnowledgeData = ref([
 ])
 
 // 知识库数据
-const treeData = ref(addUidToNodes(mockKnowledgeData.value))
+const treeData = ref(addUidToNodes(mockKnowledgeData.value as FileTreeTypeWithOptionalId[]))
 
 // 当前空间
 const spaceStore = useSpaceStore()
@@ -68,7 +68,7 @@ const spaceList = computed(() => {
 })
 
 // 监听空间变化
-watch(selectedSpaceId, (newId) => {
+watch(selectedSpaceId, (_newId) => {
   // 实际项目中应该从服务器获取对应空间的知识库数据
   // 这里使用模拟数据
 })
@@ -189,9 +189,6 @@ defineExpose({
             <el-button type="primary" @click="handleLocalUpload">
               {{ $t('agents.qa.upload_dialog.select_files') }}
             </el-button>
-            <div class="mt-2 text-gray-400">
-              {{ $t('agents.qa.upload_dialog.drag_tip') }}
-            </div>
           </div>
         </div>
       </el-tab-pane>
