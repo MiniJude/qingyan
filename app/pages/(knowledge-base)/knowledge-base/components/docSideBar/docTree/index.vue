@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useFileStore } from '~/stores/file'
 import { useSpaceStore } from '~/stores/space'
-import { addUidToNodes } from '~/utils'
 
 const localePath = useLocalePath()
 const spaceStore = useSpaceStore()
@@ -36,15 +35,14 @@ const loading = ref(false)
 async function loadKnowledgeBaseData() {
   if (!spaceStore.currentSpace)
     return
-
   loading.value = true
   try {
     const spaceId = spaceStore.currentSpace.id
-    const knowledgeBaseData = await $api<FileTreeTypeWithOptionalId[]>(`/mock-api/knowledge-base?spaceId=${spaceId}`)
+    const knowledgeBaseData = await $api<FileTreeType[]>(`/mock-api/knowledge-base?spaceId=${spaceId}`)
 
     if (Array.isArray(knowledgeBaseData)) {
       // 将API返回的数据转换成有ID的树结构
-      const treeDataWithUid = knowledgeBaseData.map(item => addUidToNodes([item])).flat()
+      const treeDataWithUid = knowledgeBaseData.flat()
 
       // 根据数据类型分配到不同的树中
       data.forEach((item, index) => {
@@ -99,9 +97,9 @@ function handleCheckChange(checkedKeys: string[], index: number) {
 const treeRef = useTemplateRef<HTMLElement[]>('treeRef')
 
 // 处理节点点击
-function handleNodeClick(data: FileTreeType, fileRoute: string[]) {
-  if (data.type === 'file') {
-    navigateTo(localePath(`/knowledge-base/${data.fileType}/${data.id}` as I18nRoutePath))
+function handleNodeClick(file: FileTreeType, fileRoute: string[]) {
+  if (file.type === 'file') {
+    navigateTo(localePath(`/knowledge-base/${file.fileType}/${file.id}` as I18nRoutePath))
 
     // 存储当前文件路径
     useFileStore().setFileRoute(fileRoute)
@@ -115,23 +113,25 @@ defineExpose({
 
 <template>
   <div class="kb-tree-container">
-    <div v-if="loading" class="h-full w-full flex items-center justify-center">
-      <el-skeleton :rows="8" animated />
-    </div>
-    <div v-else>
-      <div v-for="(item, index) in data" :key="index">
-        <DocTree
-          v-if="item.treeData.length > 0"
-          ref="treeRef"
-          :data="item.treeData"
-          :checkbox-visible="item.checkboxVisible"
-          editable
-          @update:checkbox-visible="item.checkboxVisible = $event"
-          @check-change="keys => handleCheckChange(keys, index)"
-          @node-click="handleNodeClick"
-        />
+    <ClientOnly>
+      <div v-if="loading" class="h-full w-full flex items-center justify-center">
+        <el-skeleton :rows="8" animated />
       </div>
-    </div>
+      <div v-else>
+        <div v-for="(item, index) in data" :key="index">
+          <DocTree
+            v-if="item.treeData.length > 0"
+            ref="treeRef"
+            :data="item.treeData"
+            :checkbox-visible="item.checkboxVisible"
+            editable
+            @update:checkbox-visible="item.checkboxVisible = $event"
+            @check-change="keys => handleCheckChange(keys, index)"
+            @node-click="handleNodeClick"
+          />
+        </div>
+      </div>
+    </ClientOnly>
   </div>
 </template>
 

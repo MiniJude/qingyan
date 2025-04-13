@@ -5,11 +5,13 @@ const fileRoute = useFileStore().currentFileRoute
 </script>
 
 <template>
-  <el-breadcrumb :separator-icon="ArrowRight">
-    <el-breadcrumb-item v-for="route in fileRoute" :key="route">
-      {{ route }}
-    </el-breadcrumb-item>
-  </el-breadcrumb>
+  <ClientOnly>
+    <el-breadcrumb :separator-icon="ArrowRight">
+      <el-breadcrumb-item v-for="route in fileRoute" :key="route">
+        {{ route }}
+      </el-breadcrumb-item>
+    </el-breadcrumb>
+  </ClientOnly>
 </template>
 
 <style lang="scss" scoped>

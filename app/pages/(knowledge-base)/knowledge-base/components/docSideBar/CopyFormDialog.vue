@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import DocTree from '~/components/DocTree.vue'
 import { personalData } from '~/mock/knowledge-base'
-import { addUidToNodes } from '~/utils'
 
 const { t } = useI18n()
 
@@ -42,7 +41,7 @@ defineExpose({
     </el-form>
 
     <div class="pure-doc-tree-container" p="t-18px r-44px b-24px l-25px" mt-36px h-410px w-full overflow-y-auto rounded-4px>
-      <DocTree :data="addUidToNodes(personalData)" :show-checkbox="false" />
+      <DocTree :data="personalData" :show-checkbox="false" />
     </div>
   </el-dialog>
 </template>

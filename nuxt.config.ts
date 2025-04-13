@@ -32,6 +32,10 @@ export default defineNuxtConfig({
         { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
         { rel: 'icon', type: 'image/svg+xml', href: '/logo-icon.svg' },
         { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+        { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' },
+        { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' },
+        { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' },
+        { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/luckysheet/dist/assets/iconfont/iconfont.css' },
       ],
 
       meta: [
@@ -40,6 +44,11 @@ export default defineNuxtConfig({
         { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
         { name: 'theme-color', media: '(prefers-color-scheme: light)', content: 'white' },
         { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#222222' },
+      ],
+      script: [
+        { src: 'https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js', defer: true },
+        { src: 'https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js', defer: true },
+        { src: 'https://cdn.jsdelivr.net/npm/luckyexcel@1.0.1/dist/luckyexcel.umd.js', defer: true },
       ],
     },
   },

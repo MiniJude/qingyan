@@ -1,4 +1,4 @@
-type FileType = 'doc' | 'pdf' | 'ppt' | 'wechat-article' | 'wechat-records' | 'url' | 'picture' | 'link'
+type FileType = 'doc' | 'pdf' | 'ppt' | 'wechat-article' | 'wechat-records' | 'url' | 'picture' | 'link' | 'excel'
 
 interface FileTreeType {
   label: string
@@ -7,6 +7,7 @@ interface FileTreeType {
   level?: number
   type?: 'folder' | 'file'
   fileType?: FileType
+  fileUrl?: string
 }
 
 type OptionalIdTree<T extends { children?: T[] }> = Omit<T, 'id' | 'children'> & {

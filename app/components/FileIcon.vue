@@ -19,6 +19,7 @@ const props = withDefaults(defineProps<{
   <div :style="{ width: `${props.size}px`, height: `${props.size}px` }">
     <DocIcon v-if="props.fileType === 'doc'" />
     <PptIcon v-else-if="props.fileType === 'ppt'" />
+    <DocIcon v-else-if="props.fileType === 'excel'" />
     <WechatArticleIcon v-else-if="props.fileType === 'wechat-article'" />
     <WechatRecordsIcon v-else-if="props.fileType === 'wechat-records'" />
     <UrlIcon v-else-if="props.fileType === 'url'" />
