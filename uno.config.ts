@@ -50,6 +50,11 @@ export default defineConfig({
     transformerVariantGroup(),
   ],
   theme: {
+    screens: {
+      sm: '480px', // 这里定义了小屏幕的断点
+      md: '768px',
+      lg: '1024px',
+    },
     colors: {
       primary: 'var(--el-color-primary)',
       success: 'var(--el-color-success)',

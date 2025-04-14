@@ -99,7 +99,7 @@ defineExpose({
     ref="dialogRef"
     width="auto"
     v-bind="$attrs"
-    class="!bg-board !p-0 !dark:bg-black"
+    class="!bg-board !p-0 lt-md:!w-95vw !dark:bg-black"
     destroy-on-close
     :show-close="false"
     align-center
@@ -125,7 +125,7 @@ defineExpose({
           <!-- 步骤内容区域，使用Transition实现动画效果 -->
           <div class="steps-container flex">
             <Transition :name="animationDirection === 'right' ? 'slide-left' : 'slide-right'" mode="out-in">
-              <component :is="currentFlowStepItem?.component" ref="currentStepComponentRef" :key="currentIndex" v-bind="currentFlowStepItem?.props">
+              <component :is="currentFlowStepItem?.component" ref="currentStepComponentRef" :key="currentIndex" class="lt-md:w-90vw" v-bind="currentFlowStepItem?.props">
                 <template v-if="currentFlowStepItem?.showFooter" #footer>
                   <!-- 步骤导航按钮 -->
                   <div flex justify-center gap-4 py-8>

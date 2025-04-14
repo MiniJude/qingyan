@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxi build && mkdir .output/server/node_modules/@popperjs && move .output/server/node_modules/@sxzz/popperjs-es .output/server/node_modules/@popperjs/core",
     "dev:pwa": "VITE_PLUGIN_PWA=true nuxi dev",
-    "dev": "nuxi dev",
+    "dev": "nuxi dev --host",
     "generate": "nuxi generate",
     "prepare": "nuxi prepare",
     "start": "node .output/server/index.mjs",

@@ -51,8 +51,8 @@ defineExpose({
 
 <template>
   <div>
-    <div p="r-60px" flex="~ gap-5px" w-650px items-center>
-      <div flex="~ col items-center" mb-10px w-265px self-end>
+    <div p="r-60px" flex="~ gap-5px" items-center md:w-650px lt-md:flex-col lt-md:pr-0>
+      <div flex="~ col items-center" mb-10px w-265px self-end lt-md:hidden>
         <img src="@/assets/img/qrcode.png" alt="wechat" w-145px>
         <div mt-15px w-145px flex items-center pl-7px>
           <img src="@/assets/img/wechat.png" alt="wechat" w-21px>
@@ -63,7 +63,7 @@ defineExpose({
         </p>
       </div>
       <el-form
-        ref="formRef" class="w-320px pb-20px pt-83px" :model="form" :rules="rules" label-width="100px"
+        ref="formRef" class="w-320px pb-20px pt-83px lt-md:w-auto lt-md:px-10px" :model="form" :rules="rules" label-width="100px"
         label-position="top"
       >
         <el-form-item :label="`${$t('login.phone.phone')}/${$t('header.user_profile.username')}`" prop="phone">
