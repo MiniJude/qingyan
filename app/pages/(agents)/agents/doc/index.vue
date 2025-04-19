@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import TemplateLibraryDialog from '@/components/TemplateLibraryDialog.vue'
-import { useFileFilter } from '@/composables/useFileFilter'
 import { AiDocType } from '@/constants'
-import { useSpaceStore } from '@/stores/space'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
@@ -43,7 +39,7 @@ const docTypes = [
       <div class="flex self-end gap-12px">
         <el-button plain size="large" @click="openUploadDialog">
           <template #icon>
-            <SvgoUpload />
+            <div class="i-carbon:upload" />
           </template>
           {{ $t('knowledge_base.index.upload') }}
         </el-button>
