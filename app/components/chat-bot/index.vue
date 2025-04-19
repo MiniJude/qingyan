@@ -390,12 +390,6 @@ function handleDislike(messageId: string) {
     ElMessage.success(`${message.isDisliked ? '反馈已提交' : '取消反馈'}成功`)
   }
 }
-
-// 处理复制
-function handleCopy(message: string) {
-  // 复制逻辑在组件中已处理，这里只需要处理额外的业务逻辑
-  // 例如：记录用户复制行为、发送分析数据等
-}
 </script>
 
 <template>
@@ -447,7 +441,6 @@ function handleCopy(message: string) {
               @file-click="handleFileClick"
               @like="handleLike"
               @dislike="handleDislike"
-              @copy="handleCopy"
             />
           </div>
         </div>
@@ -530,7 +523,6 @@ function handleCopy(message: string) {
   flex: 1;
   overflow-y: auto;
   width: 100%;
-  padding: 0 40px; // 左右留出空间
   scrollbar-width: thin; // Firefox支持
 
   // 自定义滚动条样式

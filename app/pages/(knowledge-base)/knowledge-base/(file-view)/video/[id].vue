@@ -4,9 +4,6 @@ const route = useRoute()
 const fileId = (route.params as any).id
 const videoUrl = ref('')
 
-// 批注组件相关
-const activeIndex = ref(0)
-
 async function getVideoUrl() {
   const fileObj = await $api<FileTreeType>(`/mock-api/knowledge-base/${fileId}`)
   if (fileObj && fileObj.fileUrl) {
@@ -64,12 +61,6 @@ getVideoUrl()
           <video class="video-player" :src="videoUrl" controls />
         </div>
       </div>
-
-      <!-- 使用封装的批注组件 -->
-      <DocumentAnnotation
-        v-model:active-index="activeIndex"
-        @ai-assist="handleAiAssist"
-      />
     </div>
   </div>
 </template>

@@ -52,11 +52,11 @@ function copyMessage() {
 
 <template>
   <div class="message-actions">
-    <div class="action-btn" @click="handleLike">
-      <div class="i-carbon:thumbs-up" text-12px />
+    <div v-if="!disliked" class="action-btn" @click="handleLike">
+      <div :class="liked ? 'i-carbon:thumbs-up-filled text-primary' : 'i-carbon:thumbs-up'" text-12px />
     </div>
-    <div class="action-btn" @click="handleDislike">
-      <div class="i-carbon:thumbs-down" text-12px />
+    <div v-if="!liked" class="action-btn" @click="handleDislike">
+      <div :class="disliked ? 'i-carbon:thumbs-down-filled text-primary' : 'i-carbon:thumbs-down'" text-12px />
     </div>
     <div class="action-btn copy-btn" @click="copyMessage">
       <div class="i-carbon:copy" text-12px />

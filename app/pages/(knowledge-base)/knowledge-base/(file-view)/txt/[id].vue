@@ -92,7 +92,6 @@ onMounted(() => {
       <!-- 使用封装的批注组件 -->
       <DocumentAnnotation
         v-model:active-index="activeIndex"
-        @ai-assist="handleAiAssist"
       />
     </div>
   </div>

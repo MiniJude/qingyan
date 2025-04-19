@@ -16,7 +16,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   (e: 'update:activeIndex', value: number): void
-  (e: 'aiAssist'): void
 }>()
 
 // 引入国际化
@@ -33,27 +32,10 @@ const switchColumns = computed(() => [
   { label: t('knowledge_base.doc_view.content_outline') },
   { label: t('knowledge_base.doc_view.notes') },
 ])
-
-// 处理AI助手按钮点击
-function handleAiAssistClick() {
-  emit('aiAssist')
-}
 </script>
 
 <template>
   <div h-full w-331px flex flex-col gap-24px overflow-y-auto>
-    <!-- AI助手按钮 -->
-    <el-button
-      type="primary"
-      size="large"
-      class="w-145px !rounded-lb-50px !rounded-lt-50px !rounded-rb-0 !rounded-rt-0"
-      self-end
-      @click="handleAiAssistClick"
-    >
-      <SvgoAi class="text-24px" />
-      <span ml-22px>{{ t('knowledge_base.doc_view.document_assistant') }}</span>
-    </el-button>
-
     <!-- 内容切换开关 -->
     <Switch
       v-model:active-index="localActiveIndex"

@@ -1,15 +1,20 @@
 <script setup lang="ts">
-const activeIndex = ref(0)
+import ChatBot from '~/components/chat-bot/index.vue'
 
-// 处理AI助手点击
-function handleAiAssist() {
-  // 这里可以添加AI助手的逻辑
-  // 实际实现中应替换为真实功能
+// 引入国际化
+const { t } = useI18n()
+
+const activeIndex = ref(0)
+const showChatDrawer = ref(false)
+
+// 处理AI助手按钮点击
+function handleAiAssistClick() {
+  showChatDrawer.value = true
 }
 </script>
 
 <template>
-  <div p="t-29px r-53px b-27px l-19px" h-full flex flex-col gap-58px>
+  <div p="t-29px r-53px b-27px l-19px" relative h-full flex flex-col gap-58px>
     <!-- 顶部区域 -->
     <div flex items-center justify-between>
       <div flex flex-col gap-4px>
@@ -59,9 +64,35 @@ function handleAiAssist() {
       <!-- 使用封装的批注组件 -->
       <DocumentAnnotation
         v-model:active-index="activeIndex"
-        @ai-assist="handleAiAssist"
       />
     </div>
+
+    <!-- AI助手按钮 -->
+    <el-button
+      type="primary"
+      size="large"
+      class="ai-assistant-btn absolute right-0 top-100px !rounded-lb-50px !rounded-lt-50px !rounded-rb-0 !rounded-rt-0"
+      self-end
+      @click="handleAiAssistClick"
+    >
+      <SvgoAi class="ai-icon text-24px" />
+      <span ml-22px>{{ t('knowledge_base.doc_view.document_assistant') }}</span>
+    </el-button>
+
+    <!-- 聊天抽屉 -->
+    <el-drawer
+      v-model="showChatDrawer"
+      direction="rtl"
+      size="530px"
+      :with-header="false"
+      :before-close="() => showChatDrawer = false"
+      custom-class="chat-drawer"
+    >
+      <div class="chat-drawer-container">
+        <!-- 使用聊天机器人组件 -->
+        <ChatBot />
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -73,6 +104,76 @@ function handleAiAssist() {
 .btn-group {
   .el-button {
     margin-left: 0;
+  }
+}
+
+.ai-assistant-btn {
+  width: 145px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 100px;
+
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(103, 88, 246, 0.8) 0%, rgba(56, 119, 238, 0) 70%);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition:
+      transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      opacity 0.6s;
+    z-index: -1;
+  }
+
+  &:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 0 15px rgba(81, 102, 235, 0.5);
+
+    &::before {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+  }
+
+  .ai-icon {
+    animation: pulse 1.5s infinite alternate;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+.chat-drawer-container {
+  height: 100%;
+
+  :deep(.el-drawer__body) {
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+:deep(.chat-drawer) {
+  .el-drawer__body {
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
   }
 }
 </style>

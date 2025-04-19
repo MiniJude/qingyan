@@ -6,9 +6,6 @@ const fileId = (route.params as any).id
 // 图片文件URL
 const imageUrl = ref('')
 
-// 批注组件相关
-const activeIndex = ref(0)
-
 async function getImageUrl() {
   const file = await $api<FileTreeType>(`/mock-api/knowledge-base/${fileId}`)
   if (file && file.fileUrl) {
@@ -72,12 +69,6 @@ onMounted(() => {
           <el-empty description="未找到图片或正在加载中" />
         </div>
       </div>
-
-      <!-- 使用封装的批注组件 -->
-      <DocumentAnnotation
-        v-model:active-index="activeIndex"
-        @ai-assist="handleAiAssist"
-      />
     </div>
   </div>
 </template>
