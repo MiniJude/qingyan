@@ -12,6 +12,9 @@ const fileUrl = ref('')
 const loading = ref(false)
 const error = ref(false)
 
+// 批注组件相关
+const activeIndex = ref(0)
+
 async function getTxtFileUrl() {
   try {
     const file = await $api<FileTreeType>(`/mock-api/knowledge-base/${fileId}`)
@@ -47,6 +50,12 @@ async function loadTextContent(url: string) {
   }
 }
 
+// 处理AI助手点击
+function handleAiAssist() {
+  // 这里可以添加AI助手的逻辑
+  // 实际实现中应替换为真实功能
+}
+
 onMounted(() => {
   getTxtFileUrl()
 })
@@ -62,20 +71,29 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- 文本预览区域 -->
-    <div min-h-0 flex flex-1 flex-col items-center overflow-auto>
-      <div v-if="loading" class="flex flex-col items-center justify-center">
-        <el-skeleton :rows="15" style="width: 80%" animated />
+    <!-- 内容区域 -->
+    <div min-h-0 flex flex-1 flex-gap-67px pl-81px>
+      <!-- 左侧内容区域 -->
+      <div h-full min-w-895px flex-1 overflow-y-auto>
+        <div v-if="loading" class="flex flex-col items-center justify-center">
+          <el-skeleton :rows="15" style="width: 100%" animated />
+        </div>
+        <div v-else-if="error" class="flex flex-col items-center justify-center">
+          <el-empty :description="$t('common.file_not_found')" />
+        </div>
+        <div v-else-if="textContent" class="text-container">
+          <pre class="text-content">{{ textContent }}</pre>
+        </div>
+        <div v-else class="flex flex-col items-center justify-center">
+          <el-empty :description="$t('common.empty_content')" />
+        </div>
       </div>
-      <div v-else-if="error" class="flex flex-col items-center justify-center">
-        <el-empty :description="$t('common.file_not_found')" />
-      </div>
-      <div v-else-if="textContent" class="text-container">
-        <pre class="text-content">{{ textContent }}</pre>
-      </div>
-      <div v-else class="flex flex-col items-center justify-center">
-        <el-empty :description="$t('common.empty_content')" />
-      </div>
+
+      <!-- 使用封装的批注组件 -->
+      <DocumentAnnotation
+        v-model:active-index="activeIndex"
+        @ai-assist="handleAiAssist"
+      />
     </div>
   </div>
 </template>
@@ -90,6 +108,7 @@ onMounted(() => {
   background: #fff;
   border-radius: 8px;
   padding: 24px;
+  width: 100%;
 }
 
 .text-content {

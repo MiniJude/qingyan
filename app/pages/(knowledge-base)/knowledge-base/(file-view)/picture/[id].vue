@@ -6,11 +6,20 @@ const fileId = (route.params as any).id
 // 图片文件URL
 const imageUrl = ref('')
 
+// 批注组件相关
+const activeIndex = ref(0)
+
 async function getImageUrl() {
   const file = await $api<FileTreeType>(`/mock-api/knowledge-base/${fileId}`)
   if (file && file.fileUrl) {
     imageUrl.value = file.fileUrl
   }
+}
+
+// 处理AI助手点击
+function handleAiAssist() {
+  // 这里可以添加AI助手的逻辑
+  // 实际实现中应替换为真实功能
 }
 
 onMounted(() => {
@@ -51,15 +60,24 @@ onMounted(() => {
       </div> -->
     </div>
 
-    <!-- 图片预览区域 -->
-    <div min-h-0 flex flex-1 flex-col items-center justify-center overflow-auto>
-      <div v-if="imageUrl" class="image-container">
-        <!-- 图片预览区 -->
-        <img :src="imageUrl" class="preview-image">
+    <!-- 内容区域 -->
+    <div min-h-0 flex flex-1 flex-gap-67px pl-81px>
+      <!-- 左侧内容区域 -->
+      <div h-full min-w-895px flex flex-1 flex-col items-center justify-center overflow-y-auto>
+        <div v-if="imageUrl" class="image-container">
+          <!-- 图片预览区 -->
+          <img :src="imageUrl" class="preview-image">
+        </div>
+        <div v-else class="flex flex-col items-center justify-center">
+          <el-empty description="未找到图片或正在加载中" />
+        </div>
       </div>
-      <div v-else class="flex flex-col items-center justify-center">
-        <el-empty description="未找到图片或正在加载中" />
-      </div>
+
+      <!-- 使用封装的批注组件 -->
+      <DocumentAnnotation
+        v-model:active-index="activeIndex"
+        @ai-assist="handleAiAssist"
+      />
     </div>
   </div>
 </template>

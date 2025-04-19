@@ -50,7 +50,8 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
-      "esbuild"
+      "esbuild",
+      "vue-demi"
     ]
   },
   "resolutions": {

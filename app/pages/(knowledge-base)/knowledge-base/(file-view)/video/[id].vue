@@ -3,11 +3,21 @@
 const route = useRoute()
 const fileId = (route.params as any).id
 const videoUrl = ref('')
+
+// 批注组件相关
+const activeIndex = ref(0)
+
 async function getVideoUrl() {
   const fileObj = await $api<FileTreeType>(`/mock-api/knowledge-base/${fileId}`)
   if (fileObj && fileObj.fileUrl) {
     videoUrl.value = fileObj.fileUrl
   }
+}
+
+// 处理AI助手点击
+function handleAiAssist() {
+  // 这里可以添加AI助手的逻辑
+  // 实际实现中应替换为真实功能
 }
 
 getVideoUrl()
@@ -46,11 +56,20 @@ getVideoUrl()
       </div> -->
     </div>
 
-    <!-- 视频预览区域 -->
-    <div min-h-0 flex flex-1 flex-col items-center justify-center overflow-hidden>
-      <div class="video-container">
-        <video class="video-player" :src="videoUrl" controls />
+    <!-- 内容区域 -->
+    <div min-h-0 flex flex-1 flex-gap-67px pl-81px>
+      <!-- 左侧内容区域 -->
+      <div h-full min-w-895px flex flex-1 flex-col items-center justify-center overflow-y-auto>
+        <div class="video-container">
+          <video class="video-player" :src="videoUrl" controls />
+        </div>
       </div>
+
+      <!-- 使用封装的批注组件 -->
+      <DocumentAnnotation
+        v-model:active-index="activeIndex"
+        @ai-assist="handleAiAssist"
+      />
     </div>
   </div>
 </template>

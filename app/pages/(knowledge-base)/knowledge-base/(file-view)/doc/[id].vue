@@ -1,5 +1,11 @@
 <script setup lang="ts">
 const activeIndex = ref(0)
+
+// 处理AI助手点击
+function handleAiAssist() {
+  // 这里可以添加AI助手的逻辑
+  // 实际实现中应替换为真实功能
+}
 </script>
 
 <template>
@@ -50,18 +56,11 @@ const activeIndex = ref(0)
         </div>
       </div>
 
-      <!-- 右侧批注区域 -->
-      <div h-full w-331px flex flex-col gap-24px overflow-y-auto>
-        <el-button type="primary" size="large" class="w-145px !rounded-lb-50px !rounded-lt-50px !rounded-rb-0 !rounded-rt-0" self-end>
-          <SvgoAi class="text-24px" />
-          <span ml-22px>{{ $t('knowledge_base.doc_view.document_assistant') }}</span>
-        </el-button>
-        <Switch v-model:active-index="activeIndex" :columns="[{ label: $t('knowledge_base.doc_view.content_outline') }, { label: $t('knowledge_base.doc_view.notes') }]" h-36px :item-width="83" />
-        <div class="note-container bg-board dark:bg-black">
-          <span v-if="activeIndex === 0">{{ $t('knowledge_base.doc_view.outline_placeholder') }}</span>
-          <span v-else>{{ $t('knowledge_base.doc_view.notes_placeholder') }}</span>
-        </div>
-      </div>
+      <!-- 使用封装的批注组件 -->
+      <DocumentAnnotation
+        v-model:active-index="activeIndex"
+        @ai-assist="handleAiAssist"
+      />
     </div>
   </div>
 </template>
@@ -75,12 +74,5 @@ const activeIndex = ref(0)
   .el-button {
     margin-left: 0;
   }
-}
-
-.note-container {
-  height: 459px;
-  border-radius: 10px;
-  padding: 16px;
-  font-size: 14px;
 }
 </style>
