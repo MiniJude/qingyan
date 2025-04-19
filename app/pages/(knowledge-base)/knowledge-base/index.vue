@@ -18,9 +18,6 @@ const folderList = ref([
     name: '文件夹4',
   },
   {
-    name: '未分类',
-  },
-  {
     name: '待归档',
   },
 ])

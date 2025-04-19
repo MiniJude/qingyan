@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
+import { useClipboard } from '@vueuse/core'
 import { getCurrentInstance } from 'vue'
 
 const { appContext } = getCurrentInstance()!
@@ -12,6 +13,9 @@ const inviteUrl = ref('https://www.writebug.com/group/TceEXYRqBC/join/?share-use
 const enableSpaceConfirm = ref(true)
 const showPassword = ref(false)
 const invitePassword = ref('')
+
+// 使用VueUse的剪贴板功能
+const { copy, copied, isSupported } = useClipboard()
 
 // 成员类型定义
 interface Member {
@@ -86,12 +90,19 @@ const addMemberRules = reactive<FormRules>({
 
 // 复制邀请链接
 async function copyInviteLink() {
-  try {
-    await navigator.clipboard.writeText(inviteUrl.value)
-    ElMessage.success(t('common.messages.operation_success', { operation: t('common.actions.copy') }))
+  await copy(inviteUrl.value)
+
+  if (copied.value) {
+    ElMessage.success({
+      message: t('common.messages.operation_success', { operation: t('common.actions.copy') }),
+      duration: 2000,
+    }, appContext)
   }
-  catch (error) {
-    console.error('Copy failed:', error)
+  else if (!isSupported.value) {
+    ElMessage.error({
+      message: t('common.messages.operation_failed', { operation: t('common.actions.copy') }),
+      duration: 2000,
+    }, appContext)
   }
 }
 

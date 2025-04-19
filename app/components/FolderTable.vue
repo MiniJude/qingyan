@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { FileFilterType, FileType } from '@/constants'
-import { Delete, Download, Edit, MoreFilled } from '@element-plus/icons-vue'
+import { Delete, Download, Edit, MoreFilled, Share } from '@element-plus/icons-vue'
 import { useElementSize } from '@vueuse/core'
 
 // 定义文件类型
@@ -57,6 +57,10 @@ const fileList = computed(() => {
   }
 })
 
+// 分享弹窗相关
+const shareDialogVisible = ref(false)
+const currentFile = ref<FileItem | null>(null)
+
 // 处理文件操作
 function handleFileAction(action: string, file: FileItem) {
   switch (action) {
@@ -68,6 +72,10 @@ function handleFileAction(action: string, file: FileItem) {
       break
     case 'download':
       console.warn('下载文件:', file.fileName)
+      break
+    case 'share':
+      currentFile.value = file
+      shareDialogVisible.value = true
       break
     default:
       break
@@ -147,6 +155,10 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
                     <el-icon><Edit /></el-icon>
                     <span>{{ $t('knowledge_base.folder_table.edit') }}</span>
                   </el-dropdown-item>
+                  <el-dropdown-item @click="handleFileAction('share', row)">
+                    <el-icon><Share /></el-icon>
+                    <span>{{ $t('knowledge_base.folder_table.share') }}</span>
+                  </el-dropdown-item>
                   <el-dropdown-item @click="handleFileAction('download', row)">
                     <el-icon><Download /></el-icon>
                     <span>{{ $t('knowledge_base.folder_table.download') }}</span>
@@ -162,6 +174,12 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分享弹窗 -->
+    <ShareDialog
+      v-if="currentFile"
+      v-model="shareDialogVisible"
+      :file-name="currentFile.fileName"
+    />
   </div>
 </template>
 

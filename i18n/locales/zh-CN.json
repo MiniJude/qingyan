@@ -142,6 +142,7 @@
       "edit": "编辑",
       "download": "下载",
       "delete": "删除",
+      "share": "分享",
       "data_source": {
         "personal": "个人",
         "team": "团队",
@@ -194,6 +195,52 @@
       "project_report": "项目汇报",
       "budget": "预算表",
       "project_tracking": "项目跟踪表"
+    },
+    "share_dialog": {
+      "invite_tab": "邀请协作",
+      "sync_tab": "内容同步",
+      "download_tab": "下载权限",
+      "invite": {
+        "share_link": "分享链接",
+        "copy_link": "复制链接",
+        "link_copied": "链接已复制到剪贴板",
+        "link_settings": "链接设置",
+        "share_range": "链接分享范围",
+        "range_updated": "分享范围更新成功",
+        "collaborators_only": "仅指定协作者可见",
+        "space_read": "空间成员可阅读",
+        "space_edit": "空间成员可编辑",
+        "internet_read": "互联网上获得链接的人可阅读",
+        "internet_edit": "互联网上获得链接的人可编辑",
+        "add_collaborator": "添加协作者",
+        "email_placeholder": "输入用户邮箱添加协作者",
+        "add": "添加",
+        "invitation_note": "添加的协作者将收到邀请消息"
+      },
+      "sync": {
+        "sync_desc": "内容同步：可将当前内容同步到其他空间，之后内容更新也会实时同步",
+        "cancel_sync_desc": "取消同步：不删除内容，只取消同步关联，之后内容更新不再同步内容",
+        "synced_spaces": "已同步空间",
+        "no_synced_spaces": "暂无同步空间",
+        "synced": "已同步",
+        "not_synced": "未同步",
+        "sync_enabled": "已开启同步",
+        "sync_disabled": "已取消同步",
+        "space_added": "已添加同步空间",
+        "select_space": "选择/搜索已加入的数字空间",
+        "space_selection": "选择数字空间",
+        "search_space": "搜索空间名称",
+        "cancel": "取消"
+      },
+      "download": {
+        "download_desc": "设置哪些用户可以下载此文件",
+        "download_permission": "下载权限",
+        "who_can_download": "谁可以下载",
+        "permission_updated": "下载权限更新成功",
+        "space_download": "空间成员可下载",
+        "only_self_download": "仅自己可下载",
+        "permission_note": "设置下载权限后，不具备下载权限的用户将无法下载此文件，但仍可在线查看和编辑（如有权限）"
+      }
     }
   },
   "common": {

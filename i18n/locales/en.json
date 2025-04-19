@@ -142,6 +142,7 @@
       "edit": "Edit",
       "download": "Download",
       "delete": "Delete",
+      "share": "Share",
       "data_source": {
         "personal": "Personal",
         "team": "Team",
@@ -194,6 +195,52 @@
       "project_report": "Project Report",
       "budget": "Budget Table",
       "project_tracking": "Project Tracking"
+    },
+    "share_dialog": {
+      "invite_tab": "Invite Collaboration",
+      "sync_tab": "Content Sync",
+      "download_tab": "Download Permission",
+      "invite": {
+        "share_link": "Share Link",
+        "copy_link": "Copy Link",
+        "link_copied": "Link copied to clipboard",
+        "link_settings": "Link Settings",
+        "share_range": "Link Share Range",
+        "range_updated": "Share range updated successfully",
+        "collaborators_only": "Only specified collaborators can view",
+        "space_read": "Space members can read",
+        "space_edit": "Space members can edit",
+        "internet_read": "People with the link on the internet can read",
+        "internet_edit": "People with the link on the internet can edit",
+        "add_collaborator": "Add Collaborator",
+        "email_placeholder": "Enter user email to add collaborator",
+        "add": "Add",
+        "invitation_note": "Added collaborators will receive invitation messages"
+      },
+      "sync": {
+        "sync_desc": "Content sync: Sync current content to other spaces, future updates will be synced in real-time",
+        "cancel_sync_desc": "Cancel sync: Does not delete content, only cancels the sync association, future updates will not sync content",
+        "synced_spaces": "Synced Spaces",
+        "no_synced_spaces": "No synced spaces",
+        "synced": "Synced",
+        "not_synced": "Not Synced",
+        "sync_enabled": "Sync enabled",
+        "sync_disabled": "Sync disabled",
+        "space_added": "Sync space added",
+        "select_space": "Select/Search joined digital spaces",
+        "space_selection": "Select Digital Space",
+        "search_space": "Search space name",
+        "cancel": "Cancel"
+      },
+      "download": {
+        "download_desc": "Set which users can download this file",
+        "download_permission": "Download Permission",
+        "who_can_download": "Who can download",
+        "permission_updated": "Download permission updated successfully",
+        "space_download": "Space members can download",
+        "only_self_download": "Only you can download",
+        "permission_note": "After setting download permissions, users without download permissions will not be able to download this file, but can still view and edit it online (if they have permission)"
+      }
     }
   },
   "common": {
