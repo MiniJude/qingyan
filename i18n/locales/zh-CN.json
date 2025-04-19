@@ -204,8 +204,8 @@
         "share_link": "分享链接",
         "copy_link": "复制链接",
         "link_copied": "链接已复制到剪贴板",
-        "link_settings": "链接设置",
         "share_range": "链接分享范围",
+        "access_level": "访问权限",
         "range_updated": "分享范围更新成功",
         "collaborators_only": "仅指定协作者可见",
         "space_read": "空间成员可阅读",
@@ -214,8 +214,7 @@
         "internet_edit": "互联网上获得链接的人可编辑",
         "add_collaborator": "添加协作者",
         "email_placeholder": "输入用户邮箱添加协作者",
-        "add": "添加",
-        "invitation_note": "添加的协作者将收到邀请消息"
+        "password_tip": "空间外用户需要密码访问，空间内用户无需密码可直接访问"
       },
       "sync": {
         "sync_desc": "内容同步：可将当前内容同步到其他空间，之后内容更新也会实时同步",
@@ -291,7 +290,8 @@
       "warning": "警告",
       "copy": "复制",
       "create": "创建",
-      "exit": "退出"
+      "exit": "退出",
+      "add": "添加"
     },
     "validation": {
       "required": "请输入{field}",

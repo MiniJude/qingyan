@@ -204,18 +204,17 @@
         "share_link": "Share Link",
         "copy_link": "Copy Link",
         "link_copied": "Link copied to clipboard",
-        "link_settings": "Link Settings",
-        "share_range": "Link Share Range",
-        "range_updated": "Share range updated successfully",
+        "share_range": "Link Sharing Range",
+        "access_level": "Access Level",
+        "range_updated": "Sharing range updated successfully",
         "collaborators_only": "Only specified collaborators can view",
         "space_read": "Space members can read",
         "space_edit": "Space members can edit",
-        "internet_read": "People with the link on the internet can read",
-        "internet_edit": "People with the link on the internet can edit",
+        "internet_read": "Anyone with the link on the internet can read",
+        "internet_edit": "Anyone with the link on the internet can edit",
         "add_collaborator": "Add Collaborator",
         "email_placeholder": "Enter user email to add collaborator",
-        "add": "Add",
-        "invitation_note": "Added collaborators will receive invitation messages"
+        "password_tip": "External users need password to access, space members can access directly without password"
       },
       "sync": {
         "sync_desc": "Content sync: Sync current content to other spaces, future updates will be synced in real-time",
@@ -291,7 +290,8 @@
       "warning": "Warning",
       "copy": "Copy",
       "create": "Create",
-      "exit": "Exit"
+      "exit": "Exit",
+      "add": "Add"
     },
     "validation": {
       "required": "Please enter {field}",
