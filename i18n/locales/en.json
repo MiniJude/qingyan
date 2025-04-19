@@ -416,7 +416,6 @@
       "busy_message": "Server is busy, please try again later!",
       "date": "2025-01-10",
       "input_placeholder": "Enter your message",
-      "send": "Send",
       "upload_dialog": {
         "title": "Select Source",
         "from_knowledge_base": "From Knowledge Base",

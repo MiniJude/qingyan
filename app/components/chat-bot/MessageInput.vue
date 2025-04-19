@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import type { ElInput } from 'element-plus'
 import type { FileInfo } from '~/types/file'
-import { nextTick, onBeforeUnmount, onMounted, onUpdated, ref } from 'vue'
 
 interface Props {
   placeholder?: string
-  sendButtonText?: string
   replyToMessage?: string
   attachedFiles: FileInfo[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
   placeholder: '请输入消息...',
-  sendButtonText: '发送',
   replyToMessage: '',
 })
 
@@ -89,7 +86,7 @@ defineExpose({
     </div>
 
     <!-- 文本输入区域 -->
-    <div ref="containerRef" class="input-area-wrapper h-54px">
+    <div ref="containerRef" class="input-area-wrapper h-48px">
       <div class="upload-btn-wrapper">
         <div class="upload-btn" @click="$emit('openUpload')">
           <div class="i-carbon:add" />
@@ -101,10 +98,13 @@ defineExpose({
         class="h-full flex-1"
         :placeholder="replyToMessage ? '请输入回复内容...' : placeholder"
         @keyup.enter="handleSend"
-      />
-      <el-button type="primary" size="large" class="send-btn" @click="handleSend">
-        {{ sendButtonText }}
-      </el-button>
+      >
+        <template #suffix>
+          <div class="h-32px w-32px flex-center cursor-pointer rounded-full bg-primary">
+            <div class="i-carbon:send-filled rotate--90 text-white" @click="handleSend" />
+          </div>
+        </template>
+      </el-input>
     </div>
   </div>
 </template>

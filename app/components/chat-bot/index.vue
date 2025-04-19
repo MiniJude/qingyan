@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { FileInfo } from '~/types/file'
-import { ArrowDown } from '@element-plus/icons-vue'
 import UploadSourceDialog from '~/components/UploadSourceDialog.vue'
 import { useFileUpload } from '~/composables/useFileUpload'
 import MessageBubble from './MessageBubble.vue'
@@ -393,106 +392,81 @@ function handleDislike(messageId: string) {
 </script>
 
 <template>
-  <div class="h-full w-full flex flex-col">
-    <div class="agent-header" h-80px flex items-center justify-between pl-37px pr-53px>
-      <div class="flex items-center gap-8px">
-        <img width="48" src="@/assets/img/logo-icon.png" alt="">
-        <span class="text-20px text-tprimary">{{ $t('agents.kb_qa_assistant.name') }}</span>
-      </div>
-      <div class="flex items-center gap-20px text-20px" style="color: #4E5969;">
-        <SvgoNotice class="cursor-pointer" />
-        <SvgoClear class="cursor-pointer" />
-        <SvgoInfo class="cursor-pointer" />
-      </div>
-    </div>
-
-    <div class="agent-content min-h-0 flex flex-1 flex-col">
-      <div class="date-display mb-4 mt-43px flex items-center justify-center gap-17px text-14px" style="color: #86909C;">
-        <span>{{ $t('agents.qa.date') }}</span>
-        <el-icon class="cursor-pointer">
-          <ArrowDown />
-        </el-icon>
-      </div>
-
-      <!-- 内容容器 -->
-      <div class="chat-container">
-        <!-- 可滚动的对话区域，保持内容居中而滚动条靠右 -->
-        <div class="chat-messages-wrapper">
-          <div class="chat-messages">
-            <MessageBubble
-              v-for="(msg, index) in messages"
-              :key="index"
-              :role="msg.role"
-              :content="msg.content"
-              :date-time="msg.dateTime"
-              :message-id="msg.id"
-              :files="msg.files"
-              :comments="msg.comments"
-              :reactions="msg.reactions"
-              :is-deleted="msg.isDeleted"
-              :reply-to-content="msg.replyTo !== undefined ? messages[msg.replyTo]?.content : undefined"
-              :recent-emojis="recentEmojis"
-              :is-liked="msg.isLiked"
-              :is-disliked="msg.isDisliked"
-              @reaction="(emoji) => addReaction(index, emoji)"
-              @reply="showReplyInput(index)"
-              @delete="showDeleteConfirm(index)"
-              @recall="showRecallConfirm(index)"
-              @file-click="handleFileClick"
-              @like="handleLike"
-              @dislike="handleDislike"
-            />
-          </div>
-        </div>
-
-        <!-- 删除确认对话框 -->
-        <el-dialog
-          v-model="showDeleteDialog"
-          title="确定要移除发言吗?"
-          width="380px"
-        >
-          <span>移除后所有人都不能看到此发言的内容了</span>
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button @click="showDeleteDialog = false">取消</el-button>
-              <el-button type="primary" @click="confirmDelete">确定</el-button>
-            </span>
-          </template>
-        </el-dialog>
-
-        <!-- 撤回确认对话框 -->
-        <el-dialog
-          v-model="showRecallDialog"
-          title="确定要撤回发言吗?"
-          width="380px"
-        >
-          <span>撤回后所有人都不能看到此发言的内容了</span>
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button @click="showRecallDialog = false">取消</el-button>
-              <el-button type="primary" @click="confirmRecall">确定</el-button>
-            </span>
-          </template>
-        </el-dialog>
-
-        <!-- 在这里输入 -->
-        <div class="input-container-wrapper">
-          <div ref="containerRef" class="input-container">
-            <MessageInput
-              :reply-to-message="replyToMessageIndex !== null ? messages[replyToMessageIndex]?.content : ''"
-              :attached-files="attachedFiles"
-              :placeholder="$t('agents.qa.input_placeholder')"
-              :send-button-text="$t('agents.qa.send')"
-              @send="handleSendMessage"
-              @cancel-reply="replyToMessageIndex = null"
-              @open-upload="openUploadDialog"
-              @remove-file="removeFile"
-            />
-          </div>
-        </div>
+  <!-- 内容容器 -->
+  <div class="chat-container">
+    <!-- 可滚动的对话区域，保持内容居中而滚动条靠右 -->
+    <div class="chat-messages-wrapper">
+      <div class="chat-messages">
+        <MessageBubble
+          v-for="(msg, index) in messages"
+          :key="index"
+          :role="msg.role"
+          :content="msg.content"
+          :date-time="msg.dateTime"
+          :message-id="msg.id"
+          :files="msg.files"
+          :comments="msg.comments"
+          :reactions="msg.reactions"
+          :is-deleted="msg.isDeleted"
+          :reply-to-content="msg.replyTo !== undefined ? messages[msg.replyTo]?.content : undefined"
+          :recent-emojis="recentEmojis"
+          :is-liked="msg.isLiked"
+          :is-disliked="msg.isDisliked"
+          @reaction="(emoji) => addReaction(index, emoji)"
+          @reply="showReplyInput(index)"
+          @delete="showDeleteConfirm(index)"
+          @recall="showRecallConfirm(index)"
+          @file-click="handleFileClick"
+          @like="handleLike"
+          @dislike="handleDislike"
+        />
       </div>
     </div>
 
+    <!-- 删除确认对话框 -->
+    <el-dialog
+      v-model="showDeleteDialog"
+      title="确定要移除发言吗?"
+      width="380px"
+    >
+      <span>移除后所有人都不能看到此发言的内容了</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="showDeleteDialog = false">取消</el-button>
+          <el-button type="primary" @click="confirmDelete">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
+
+    <!-- 撤回确认对话框 -->
+    <el-dialog
+      v-model="showRecallDialog"
+      title="确定要撤回发言吗?"
+      width="380px"
+    >
+      <span>撤回后所有人都不能看到此发言的内容了</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="showRecallDialog = false">取消</el-button>
+          <el-button type="primary" @click="confirmRecall">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
+
+    <!-- 在这里输入 -->
+    <div class="input-container-wrapper">
+      <div ref="containerRef" class="input-container">
+        <MessageInput
+          :reply-to-message="replyToMessageIndex !== null ? messages[replyToMessageIndex]?.content : ''"
+          :attached-files="attachedFiles"
+          :placeholder="$t('agents.qa.input_placeholder')"
+          @send="handleSendMessage"
+          @cancel-reply="replyToMessageIndex = null"
+          @open-upload="openUploadDialog"
+          @remove-file="removeFile"
+        />
+      </div>
+    </div>
     <!-- 上传选择对话框 -->
     <UploadSourceDialog
       ref="uploadDialogRef"
@@ -515,7 +489,7 @@ function handleDislike(messageId: string) {
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 80px); // 减去日期显示区域高度
+  height: 100%;
   position: relative;
 }
 

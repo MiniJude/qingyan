@@ -426,7 +426,6 @@
       "busy_message": "服务器繁忙，请稍后再试！",
       "date": "2025-01-10",
       "input_placeholder": "请输入内容",
-      "send": "发送",
       "upload_dialog": {
         "title": "选择来源",
         "from_knowledge_base": "从知识库选择",
