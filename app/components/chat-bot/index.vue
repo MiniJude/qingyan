@@ -18,7 +18,18 @@ interface Message {
   role: 'agent' | 'user'
   content: string
   time: string
+  dateTime: string
   files?: FileInfo[]
+  comments?: Comment[]
+  reactions?: { emoji: string, count: number }[]
+  isDeleted?: boolean
+}
+
+interface Comment {
+  id: string
+  content: string
+  time: string
+  dateTime: string
 }
 
 const messages = ref<Message[]>([
@@ -26,23 +37,41 @@ const messages = ref<Message[]>([
     role: 'agent',
     content: 'hi~ 我是你的知识库问答助手，有关知识库的问题都可以问我哦~',
     time: '09:00',
+    dateTime: '2025-03-31 09:00',
+    reactions: [],
+    comments: [],
   },
   {
     role: 'user',
     content: '请介绍一下人工智能的优势',
     time: '09:01',
+    dateTime: '2025-03-31 09:01',
+    reactions: [],
+    comments: [],
   },
   {
     role: 'agent',
     content: '人工智能(AI)具有许多优势:\n1. 自动化处理:可以处理大量数据和执行重复任务,节省时间和人力\n2. 决策支持:能分析大量数据识别模式,做出准确决策\n3. 提高准确性:在图像识别、自然语言处理等任务中表现出高精度\n4. 24/7工作:不知疲倦地持续工作,适合制造、监控等场景',
     time: '09:02',
+    dateTime: '2025-03-31 09:02',
+    reactions: [],
+    comments: [],
   },
 ])
 
 // 获取当前时间字符串
 function getCurrentTime() {
   const now = new Date()
-  return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`
+  const hours = now.getHours().toString().padStart(2, '0')
+  const minutes = now.getMinutes().toString().padStart(2, '0')
+  const year = now.getFullYear()
+  const month = (now.getMonth() + 1).toString().padStart(2, '0')
+  const day = now.getDate().toString().padStart(2, '0')
+
+  return {
+    time: `${hours}:${minutes}`,
+    dateTime: `${year}-${month}-${day} ${hours}:${minutes}`,
+  }
 }
 
 // 处理发送消息
@@ -53,12 +82,17 @@ function handleSend() {
     return
   }
 
+  const { time, dateTime } = getCurrentTime()
+
   // 发送消息
   messages.value.push({
     role: 'user',
     content: input.value,
-    time: getCurrentTime(),
+    time,
+    dateTime,
     files: attachedFiles.value.length > 0 ? [...attachedFiles.value] : undefined,
+    reactions: [],
+    comments: [],
   })
 
   // 清空输入和附件
@@ -73,10 +107,15 @@ function handleSend() {
 
 // agent的回答
 function handleAgentAnswer() {
+  const { time, dateTime } = getCurrentTime()
+
   messages.value.push({
     role: 'agent',
     content: '服务器繁忙，请稍后再试！',
-    time: getCurrentTime(),
+    time,
+    dateTime,
+    reactions: [],
+    comments: [],
   })
 }
 
@@ -228,6 +267,163 @@ function handlePastedFiles(files: FileInfo[]) {
     ElMessage.success(`成功粘贴${files.length}个文件`)
   }
 }
+
+// 最近使用的表情
+const recentEmojis = ref(['👌', '✌️'])
+
+// 表情相关
+const emojis = [
+  '👌',
+  '✌️',
+  '👍',
+  '🔥',
+  '👏',
+  '👋',
+  '🤝',
+  '😀',
+  '😄',
+  '😝',
+  '😂',
+  '🤔',
+  '😎',
+  '🎁',
+  '👀',
+  '😮',
+  '😍',
+  '🤯',
+  '🤡',
+  '🤬',
+  '😢',
+  '🤩',
+  '😱',
+  '😵',
+  '😰',
+  '🤒',
+  '🤕',
+  '😭',
+  '😇',
+  '💩',
+  '✅',
+  '🎉',
+  '🎂',
+  '❤️',
+  '💯',
+  '+1',
+  '❌',
+  '👎',
+  '🐷',
+  '🙈',
+]
+
+// 当前处理的消息
+const commentInput = ref('')
+const replyToMessageIndex = ref<number | null>(null)
+
+// 添加表情反应
+function addReaction(index: number, emoji: string) {
+  const message = messages.value[index]
+  if (!message)
+    return
+
+  if (!message.reactions) {
+    message.reactions = []
+  }
+
+  const existingReaction = message.reactions.find(r => r.emoji === emoji)
+
+  if (existingReaction) {
+    existingReaction.count++
+  }
+  else {
+    message.reactions.push({ emoji, count: 1 })
+  }
+
+  // 更新最近使用的表情
+  if (!recentEmojis.value.includes(emoji)) {
+    recentEmojis.value.unshift(emoji)
+    if (recentEmojis.value.length > 4) {
+      recentEmojis.value = recentEmojis.value.slice(0, 4)
+    }
+  }
+}
+
+// 发送评论
+function sendComment() {
+  if (replyToMessageIndex.value === null || !commentInput.value.trim())
+    return
+
+  const { time, dateTime } = getCurrentTime()
+  const message = messages.value[replyToMessageIndex.value]
+  if (!message)
+    return
+
+  if (!message.comments) {
+    message.comments = []
+  }
+
+  message.comments.push({
+    id: Date.now().toString(),
+    content: commentInput.value,
+    time,
+    dateTime,
+  })
+
+  commentInput.value = ''
+  replyToMessageIndex.value = null
+}
+
+// 显示回复输入框
+function showReplyInput(index: number) {
+  replyToMessageIndex.value = index
+}
+
+// 关闭回复输入框
+function closeReplyInput() {
+  replyToMessageIndex.value = null
+  commentInput.value = ''
+}
+
+// 确认对话框相关
+const showDeleteDialog = ref(false)
+const showRecallDialog = ref(false)
+const messageToDeleteIndex = ref<number | null>(null)
+const messageToRecallIndex = ref<number | null>(null)
+
+// 显示删除确认对话框
+function showDeleteConfirm(index: number) {
+  messageToDeleteIndex.value = index
+  showDeleteDialog.value = true
+}
+
+// 确认删除消息
+function confirmDelete() {
+  if (messageToDeleteIndex.value !== null) {
+    const message = messages.value[messageToDeleteIndex.value]
+    if (message) {
+      message.isDeleted = true
+    }
+    messageToDeleteIndex.value = null
+  }
+  showDeleteDialog.value = false
+}
+
+// 显示撤回确认对话框
+function showRecallConfirm(index: number) {
+  messageToRecallIndex.value = index
+  showRecallDialog.value = true
+}
+
+// 确认撤回消息
+function confirmRecall() {
+  if (messageToRecallIndex.value !== null) {
+    const message = messages.value[messageToRecallIndex.value]
+    if (message) {
+      message.isDeleted = true
+    }
+    messageToRecallIndex.value = null
+  }
+  showRecallDialog.value = false
+}
 </script>
 
 <template>
@@ -262,6 +458,11 @@ function handlePastedFiles(files: FileInfo[]) {
               <div v-if="msg.role === 'user'" class="message-row user-message-row">
                 <img width="40" src="@/assets/img/avatar.png" alt="" class="avatar">
                 <div class="message-container user-message">
+                  <!-- 消息时间 -->
+                  <div class="message-time">
+                    {{ msg.dateTime }}
+                  </div>
+
                   <!-- 用户发送文件 -->
                   <div v-if="msg.files && msg.files.length > 0" class="files-container mb-2">
                     <FileCard
@@ -272,20 +473,188 @@ function handlePastedFiles(files: FileInfo[]) {
                       @click="handleFileClick(file)"
                     />
                   </div>
+
+                  <!-- 显示评论 -->
+                  <div v-if="msg.comments && msg.comments.length > 0" class="comments-container mb-2">
+                    <div v-for="comment in msg.comments" :key="comment.id" class="comment">
+                      <div class="comment-content">
+                        {{ comment.content }}
+                      </div>
+                      <div class="comment-time">
+                        {{ comment.time }}
+                      </div>
+                    </div>
+                  </div>
+
                   <!-- 用户文字内容 -->
-                  <div v-if="msg.content" class="msg-bubble">
-                    {{ msg.content }}
+                  <div v-if="msg.content && !msg.isDeleted" class="msg-bubble-container">
+                    <div class="msg-bubble user-bubble">
+                      {{ msg.content }}
+                    </div>
+                    <!-- 悬浮操作栏 -->
+                    <div class="msg-actions user-actions">
+                      <el-popover
+                        placement="bottom"
+                        :width="350"
+                        trigger="click"
+                        popper-class="emoji-popover"
+                      >
+                        <template #reference>
+                          <div class="action-btn">
+                            😀
+                          </div>
+                        </template>
+                        <!-- 表情选择内容 -->
+                        <div class="emoji-content">
+                          <div class="emoji-section">
+                            <div class="emoji-section-title">
+                              最近使用
+                            </div>
+                            <div class="emoji-grid">
+                              <div
+                                v-for="emoji in recentEmojis"
+                                :key="emoji"
+                                class="emoji-item"
+                                @click="addReaction(index, emoji)"
+                              >
+                                {{ emoji }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="emoji-section">
+                            <div class="emoji-section-title">
+                              默认表情
+                            </div>
+                            <div class="emoji-grid">
+                              <div
+                                v-for="emoji in emojis"
+                                :key="emoji"
+                                class="emoji-item"
+                                @click="addReaction(index, emoji)"
+                              >
+                                {{ emoji }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </el-popover>
+                      <div class="action-btn" @click="showReplyInput(index)">
+                        💬
+                      </div>
+                      <div class="action-btn" @click="showRecallConfirm(index)">
+                        ↩️
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 已撤回消息 -->
+                  <div v-if="msg.isDeleted" class="deleted-message">
+                    此消息已被撤回
+                  </div>
+
+                  <!-- 表情反应 -->
+                  <div v-if="msg.reactions && msg.reactions.length > 0" class="reactions-container">
+                    <div v-for="(reaction, rIndex) in msg.reactions" :key="rIndex" class="reaction">
+                      {{ reaction.emoji }} {{ reaction.count }}
+                    </div>
                   </div>
                 </div>
               </div>
+
               <!-- 智能体对话框 -->
               <div v-else class="message-row agent-message-row">
                 <img width="40" src="@/assets/img/logo-icon.png" alt="" class="avatar">
                 <div class="message-container agent-message">
-                  <!-- 智能体文字内容 -->
-                  <div v-if="msg.content" class="msg-bubble">
-                    {{ msg.content }}
+                  <!-- 消息时间 -->
+                  <div class="message-time">
+                    {{ msg.dateTime }}
                   </div>
+
+                  <!-- 显示评论 -->
+                  <div v-if="msg.comments && msg.comments.length > 0" class="comments-container mb-2">
+                    <div v-for="comment in msg.comments" :key="comment.id" class="comment">
+                      <div class="comment-content">
+                        {{ comment.content }}
+                      </div>
+                      <div class="comment-time">
+                        {{ comment.time }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 智能体文字内容 -->
+                  <div v-if="msg.content && !msg.isDeleted" class="msg-bubble-container">
+                    <div class="msg-bubble agent-bubble">
+                      {{ msg.content }}
+                    </div>
+                    <!-- 悬浮操作栏 -->
+                    <div class="msg-actions agent-actions">
+                      <el-popover
+                        placement="bottom"
+                        :width="350"
+                        trigger="click"
+                        popper-class="emoji-popover"
+                      >
+                        <template #reference>
+                          <div class="action-btn">
+                            😀
+                          </div>
+                        </template>
+                        <!-- 表情选择内容 -->
+                        <div class="emoji-content">
+                          <div class="emoji-section">
+                            <div class="emoji-section-title">
+                              最近使用
+                            </div>
+                            <div class="emoji-grid">
+                              <div
+                                v-for="emoji in recentEmojis"
+                                :key="emoji"
+                                class="emoji-item"
+                                @click="addReaction(index, emoji)"
+                              >
+                                {{ emoji }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="emoji-section">
+                            <div class="emoji-section-title">
+                              默认表情
+                            </div>
+                            <div class="emoji-grid">
+                              <div
+                                v-for="emoji in emojis"
+                                :key="emoji"
+                                class="emoji-item"
+                                @click="addReaction(index, emoji)"
+                              >
+                                {{ emoji }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </el-popover>
+                      <div class="action-btn" @click="showReplyInput(index)">
+                        💬
+                      </div>
+                      <div class="action-btn" @click="showDeleteConfirm(index)">
+                        🗑️
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 已删除消息 -->
+                  <div v-if="msg.isDeleted" class="deleted-message">
+                    此消息已被管理组移除
+                  </div>
+
+                  <!-- 表情反应 -->
+                  <div v-if="msg.reactions && msg.reactions.length > 0" class="reactions-container">
+                    <div v-for="(reaction, rIndex) in msg.reactions" :key="rIndex" class="reaction">
+                      {{ reaction.emoji }} {{ reaction.count }}
+                    </div>
+                  </div>
+
                   <!-- 智能体发送文件 -->
                   <div v-if="msg.files && msg.files.length > 0" class="files-container mt-2">
                     <FileCard
@@ -301,6 +670,52 @@ function handlePastedFiles(files: FileInfo[]) {
             </template>
           </div>
         </div>
+
+        <!-- 回复输入框 -->
+        <div v-if="replyToMessageIndex !== null" class="reply-container">
+          <div class="reply-header">
+            <span>正在回复消息</span>
+            <div class="close-btn" @click="closeReplyInput">
+              ×
+            </div>
+          </div>
+          <div class="reply-input-area">
+            <el-input v-model="commentInput" placeholder="请输入回复内容..." />
+            <el-button type="primary" @click="sendComment">
+              发送
+            </el-button>
+          </div>
+        </div>
+
+        <!-- 删除确认对话框 -->
+        <el-dialog
+          v-model="showDeleteDialog"
+          title="确定要移除发言吗?"
+          width="30%"
+        >
+          <span>移除后所有人都不能看到此发言的内容了</span>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="showDeleteDialog = false">取消</el-button>
+              <el-button type="primary" @click="confirmDelete">确定</el-button>
+            </span>
+          </template>
+        </el-dialog>
+
+        <!-- 撤回确认对话框 -->
+        <el-dialog
+          v-model="showRecallDialog"
+          title="确定要撤回发言吗?"
+          width="30%"
+        >
+          <span>撤回后所有人都不能看到此发言的内容了</span>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="showRecallDialog = false">取消</el-button>
+              <el-button type="primary" @click="confirmRecall">确定</el-button>
+            </span>
+          </template>
+        </el-dialog>
 
         <!-- 在这里输入 -->
         <div class="input-container-wrapper">
@@ -426,6 +841,27 @@ function handlePastedFiles(files: FileInfo[]) {
   align-items: flex-start;
 }
 
+// 消息时间样式
+.message-time {
+  font-size: 12px;
+  color: #86909c;
+  margin-bottom: 4px;
+}
+
+// 消息气泡容器
+.msg-bubble-container {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+
+  &:hover {
+    .msg-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 .msg-bubble {
   display: inline-block;
   padding: 12px 16px;
@@ -439,6 +875,151 @@ function handlePastedFiles(files: FileInfo[]) {
   .dark & {
     background-color: #1a1a1a;
   }
+}
+
+// 消息操作按钮
+.msg-actions {
+  position: absolute;
+  top: -40px;
+  display: flex;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 6px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 10;
+
+  .dark & {
+    background-color: #2a2a2a;
+  }
+}
+
+.user-actions {
+  right: 0;
+}
+
+.agent-actions {
+  left: 0;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .dark & {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+// 表情反应区域
+.reactions-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.reaction {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+
+  .dark & {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// 已删除/撤回消息
+.deleted-message {
+  padding: 10px 16px;
+  color: #86909c;
+  font-style: italic;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+
+  .dark & {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+// 评论区域
+.comments-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comment {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-left: 3px solid var(--el-color-primary);
+
+  .dark & {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.comment-content {
+  word-break: break-word;
+}
+
+.comment-time {
+  font-size: 12px;
+  color: #86909c;
+  margin-top: 4px;
+  text-align: right;
+}
+
+// 回复输入框
+.reply-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto 16px;
+  padding: 16px;
+
+  .dark & {
+    background-color: #1a1a1a;
+  }
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  color: #86909c;
+}
+
+.close-btn {
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.reply-input-area {
+  display: flex;
+  gap: 12px;
 }
 
 .files-container {
@@ -512,5 +1093,56 @@ function handlePastedFiles(files: FileInfo[]) {
 .send-btn {
   width: 192px;
   height: 54px;
+}
+
+// 表情选择样式
+.emoji-section {
+  margin-bottom: 16px;
+}
+
+.emoji-section-title {
+  font-size: 14px;
+  color: #86909c;
+  margin-bottom: 8px;
+}
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+}
+
+.emoji-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .dark & {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+.emoji-content {
+  padding: 12px;
+}
+</style>
+
+<style>
+/* 全局样式，让表情选择器样式正确渲染 */
+.emoji-popover .el-popover__title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 8px;
 }
 </style>
