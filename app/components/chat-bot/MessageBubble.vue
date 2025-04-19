@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FileInfo } from '~/types/file'
 import EmojiPicker from './EmojiPicker.vue'
+import MessageActions from './MessageActions.vue'
 
 interface Comment {
   id: string
@@ -13,15 +14,22 @@ interface Props {
   role: 'agent' | 'user'
   content: string
   dateTime: string
+  messageId?: string
   files?: FileInfo[]
   comments?: Comment[]
   reactions?: { emoji: string, count: number }[]
   isDeleted?: boolean
   replyToContent?: string
   recentEmojis?: string[]
+  isLiked?: boolean
+  isDisliked?: boolean
 }
 
-defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+  messageId: '',
+  isLiked: false,
+  isDisliked: false,
+})
 
 const emit = defineEmits<{
   (e: 'reaction', emoji: string): void
@@ -29,6 +37,9 @@ const emit = defineEmits<{
   (e: 'delete'): void
   (e: 'recall'): void
   (e: 'fileClick', file: FileInfo): void
+  (e: 'like', messageId: string): void
+  (e: 'dislike', messageId: string): void
+  (e: 'copy', message: string): void
 }>()
 
 function handleFileClick(file: FileInfo) {
@@ -101,6 +112,18 @@ function handleFileClick(file: FileInfo) {
           </div>
         </div>
       </div>
+
+      <!-- AI助手消息操作按钮（点赞、踩、复制） -->
+      <MessageActions
+        v-if="role === 'agent' && content && !isDeleted"
+        :message="content"
+        :message-id="messageId"
+        :liked="isLiked"
+        :disliked="isDisliked"
+        @like="$emit('like', $event)"
+        @dislike="$emit('dislike', $event)"
+        @copy="$emit('copy', $event)"
+      />
 
       <!-- 已删除/撤回消息 -->
       <div v-if="isDeleted" class="deleted-message">

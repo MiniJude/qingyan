@@ -2,6 +2,9 @@
 import type { FileInfo } from '~/types/file'
 import { ArrowDown } from '@element-plus/icons-vue'
 import UploadSourceDialog from '~/components/UploadSourceDialog.vue'
+import { useFileUpload } from '~/composables/useFileUpload'
+import MessageBubble from './MessageBubble.vue'
+import MessageInput from './MessageInput.vue'
 
 const { t: $t } = useI18n()
 
@@ -10,6 +13,7 @@ const attachedFiles = ref<FileInfo[]>([])
 
 // 对话记录列表
 interface Message {
+  id: string
   role: 'agent' | 'user'
   content: string
   time: string
@@ -19,6 +23,8 @@ interface Message {
   reactions?: { emoji: string, count: number }[]
   isDeleted?: boolean
   replyTo?: number
+  isLiked?: boolean
+  isDisliked?: boolean
 }
 
 interface Comment {
@@ -30,28 +36,37 @@ interface Comment {
 
 const messages = ref<Message[]>([
   {
+    id: '1',
     role: 'agent',
     content: 'hi~ 我是你的知识库问答助手，有关知识库的问题都可以问我哦~',
     time: '09:00',
     dateTime: '2025-03-31 09:00',
     reactions: [],
     comments: [],
+    isLiked: false,
+    isDisliked: false,
   },
   {
+    id: '2',
     role: 'user',
     content: '请介绍一下人工智能的优势',
     time: '09:01',
     dateTime: '2025-03-31 09:01',
     reactions: [],
     comments: [],
+    isLiked: false,
+    isDisliked: false,
   },
   {
+    id: '3',
     role: 'agent',
     content: '人工智能(AI)具有许多优势:\n1. 自动化处理:可以处理大量数据和执行重复任务,节省时间和人力\n2. 决策支持:能分析大量数据识别模式,做出准确决策\n3. 提高准确性:在图像识别、自然语言处理等任务中表现出高精度\n4. 24/7工作:不知疲倦地持续工作,适合制造、监控等场景',
     time: '09:02',
     dateTime: '2025-03-31 09:02',
     reactions: [],
     comments: [],
+    isLiked: false,
+    isDisliked: false,
   },
 ])
 
@@ -104,6 +119,11 @@ function addReaction(index: number, emoji: string) {
   }
 }
 
+// 生成唯一ID的函数
+function generateId(): string {
+  return Date.now().toString() + Math.floor(Math.random() * 10000).toString()
+}
+
 // 处理发送消息
 function handleSendMessage(text: string) {
   const { time, dateTime } = getCurrentTime()
@@ -111,6 +131,7 @@ function handleSendMessage(text: string) {
 
   // 发送消息
   messages.value.push({
+    id: generateId(),
     role: 'user',
     content: text,
     time,
@@ -119,6 +140,8 @@ function handleSendMessage(text: string) {
     reactions: [],
     comments: [],
     replyTo: replyToIndex, // 如果是回复，添加回复索引
+    isLiked: false,
+    isDisliked: false,
   })
 
   // 清空输入和附件
@@ -140,12 +163,15 @@ function handleAgentAnswer() {
   const { time, dateTime } = getCurrentTime()
 
   messages.value.push({
+    id: generateId(),
     role: 'agent',
     content: '服务器繁忙，请稍后再试！',
     time,
     dateTime,
     reactions: [],
     comments: [],
+    isLiked: false,
+    isDisliked: false,
   })
 }
 
@@ -322,6 +348,54 @@ function confirmRecall() {
   }
   showRecallDialog.value = false
 }
+
+// 处理点赞
+function handleLike(messageId: string) {
+  if (!messageId)
+    return
+
+  const msgIndex = messages.value.findIndex(msg => msg.id === messageId)
+  if (msgIndex !== -1) {
+    const message = messages.value[msgIndex]
+    if (!message)
+      return
+
+    // 设置反馈状态
+    if (message.isDisliked) {
+      message.isDisliked = false
+    }
+    message.isLiked = !message.isLiked
+
+    ElMessage.success(`${message.isLiked ? '点赞' : '取消点赞'}成功`)
+  }
+}
+
+// 处理踩
+function handleDislike(messageId: string) {
+  if (!messageId)
+    return
+
+  const msgIndex = messages.value.findIndex(msg => msg.id === messageId)
+  if (msgIndex !== -1) {
+    const message = messages.value[msgIndex]
+    if (!message)
+      return
+
+    // 设置反馈状态
+    if (message.isLiked) {
+      message.isLiked = false
+    }
+    message.isDisliked = !message.isDisliked
+
+    ElMessage.success(`${message.isDisliked ? '反馈已提交' : '取消反馈'}成功`)
+  }
+}
+
+// 处理复制
+function handleCopy(message: string) {
+  // 复制逻辑在组件中已处理，这里只需要处理额外的业务逻辑
+  // 例如：记录用户复制行为、发送分析数据等
+}
 </script>
 
 <template>
@@ -357,17 +431,23 @@ function confirmRecall() {
               :role="msg.role"
               :content="msg.content"
               :date-time="msg.dateTime"
+              :message-id="msg.id"
               :files="msg.files"
               :comments="msg.comments"
               :reactions="msg.reactions"
               :is-deleted="msg.isDeleted"
               :reply-to-content="msg.replyTo !== undefined ? messages[msg.replyTo]?.content : undefined"
               :recent-emojis="recentEmojis"
+              :is-liked="msg.isLiked"
+              :is-disliked="msg.isDisliked"
               @reaction="(emoji) => addReaction(index, emoji)"
               @reply="showReplyInput(index)"
               @delete="showDeleteConfirm(index)"
               @recall="showRecallConfirm(index)"
               @file-click="handleFileClick"
+              @like="handleLike"
+              @dislike="handleDislike"
+              @copy="handleCopy"
             />
           </div>
         </div>
@@ -376,7 +456,7 @@ function confirmRecall() {
         <el-dialog
           v-model="showDeleteDialog"
           title="确定要移除发言吗?"
-          width="30%"
+          width="380px"
         >
           <span>移除后所有人都不能看到此发言的内容了</span>
           <template #footer>
@@ -391,7 +471,7 @@ function confirmRecall() {
         <el-dialog
           v-model="showRecallDialog"
           title="确定要撤回发言吗?"
-          width="30%"
+          width="380px"
         >
           <span>撤回后所有人都不能看到此发言的内容了</span>
           <template #footer>
