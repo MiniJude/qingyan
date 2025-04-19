@@ -1,165 +1,112 @@
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
-import { computed, getCurrentInstance, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-
+import { InfoFilled } from '@element-plus/icons-vue'
 // 获取应用上下文（用于ElMessage）
 const { appContext } = getCurrentInstance()!
 const { t } = useI18n()
+const spaceStore = useSpaceStore()
 
-// 空间选择弹窗
-const spaceSelectVisible = ref(false)
+// 同步空间列表 - 存储已同步的空间ID
+const syncedSpaceIds = ref<string[]>([])
 
-// 同步空间列表
-const syncedSpaces = ref([
-  { id: '1', name: '测试团队空间', synced: true },
-  { id: '2', name: '个人空间', synced: true },
-])
+// 多选选择的空间ID列表
+const selectedSpaceIds = ref<string[]>([])
+const selectVisible = ref(false)
 
-// 可选择的空间列表
-const availableSpaces = [
-  { id: '1', name: '测试团队空间', avatar: '🤖' },
-  { id: '2', name: '个人空间', avatar: '👤' },
-  { id: '3', name: '测试个人空间', avatar: '👤' },
-  { id: '4', name: '设计团队空间', avatar: '🎨' },
-]
-
-// 空间搜索关键词
-const spaceSearchKeyword = ref('')
-
-// 过滤后的空间列表
-const filteredSpaces = computed(() => {
-  if (!spaceSearchKeyword.value)
-    return availableSpaces
-
-  return availableSpaces.filter(space =>
-    space.name.toLowerCase().includes(spaceSearchKeyword.value.toLowerCase()),
-  )
-})
-
-// 切换空间同步状态
-function toggleSync(spaceId: string) {
-  const space = syncedSpaces.value.find(s => s.id === spaceId)
-  if (space) {
-    space.synced = !space.synced
-    ElMessage.success({
-      message: space.synced
-        ? t('knowledge_base.share_dialog.sync.sync_enabled')
-        : t('knowledge_base.share_dialog.sync.sync_disabled'),
-      duration: 2000,
-    }, appContext)
-  }
-}
-
-// 选择空间
-function selectSpace(space: { id: string, name: string, avatar: string }) {
-  // 如果已经存在，则不重复添加
-  if (!syncedSpaces.value.some(s => s.id === space.id)) {
-    syncedSpaces.value.push({ id: space.id, name: space.name, synced: true })
+// 当选择面板关闭时处理添加空间
+function handleSelectClose() {
+  if (selectedSpaceIds.value.length > 0) {
+    // 添加新选择的空间到同步列表
+    syncedSpaceIds.value = [...selectedSpaceIds.value]
     ElMessage.success({
       message: t('knowledge_base.share_dialog.sync.space_added'),
       duration: 2000,
     }, appContext)
   }
-  spaceSelectVisible.value = false
 }
+
+// 初始化数据
+onMounted(async () => {
+  // 确保加载空间列表
+  if (!spaceStore.hasSpaces) {
+    await spaceStore.loadSpaces()
+  }
+})
 </script>
 
 <template>
   <div class="content-sync">
     <!-- 说明文字 -->
     <div class="mb-24px">
-      <p class="mb-8px text-14px text-gray-700">
-        {{ $t('knowledge_base.share_dialog.sync.sync_desc') }}
+      <p class="mb-8px flex items-center text-14px text-gray-700">
+        <el-icon class="mr-8px">
+          <InfoFilled />
+        </el-icon>
+        <span>
+          {{ $t('knowledge_base.share_dialog.sync.sync_desc') }}
+        </span>
       </p>
-      <p class="text-14px text-gray-700">
-        {{ $t('knowledge_base.share_dialog.sync.cancel_sync_desc') }}
+      <p class="flex items-center text-14px text-gray-700">
+        <el-icon class="mr-8px">
+          <InfoFilled />
+        </el-icon>
+        <span>
+          {{ $t('knowledge_base.share_dialog.sync.cancel_sync_desc') }}
+        </span>
       </p>
     </div>
 
-    <!-- 同步空间列表 -->
-    <div class="synced-spaces mb-24px">
+    <!-- 添加同步空间 - 使用el-select多选 -->
+    <div class="mb-24px">
       <h3 class="mb-16px text-16px font-medium">
-        {{ $t('knowledge_base.share_dialog.sync.synced_spaces') }}
+        {{ $t('knowledge_base.share_dialog.sync.select_space') }}
       </h3>
 
-      <div v-if="syncedSpaces.length > 0" class="space-list">
-        <div
-          v-for="space in syncedSpaces"
-          :key="space.id"
-          class="space-item mb-8px flex items-center justify-between rounded-4px bg-gray-50 p-12px"
-        >
-          <span class="text-14px">{{ space.name }}</span>
-          <el-switch
-            v-model="space.synced"
-            :active-text="$t('knowledge_base.share_dialog.sync.synced')"
-            :inactive-text="$t('knowledge_base.share_dialog.sync.not_synced')"
-            @change="toggleSync(space.id)"
-          />
-        </div>
-      </div>
-      <el-empty v-else :description="$t('knowledge_base.share_dialog.sync.no_synced_spaces')" />
-    </div>
-
-    <!-- 添加同步空间 -->
-    <div class="add-space">
-      <el-button
-        type="primary"
-        plain
-        @click="spaceSelectVisible = true"
-      >
-        {{ $t('knowledge_base.share_dialog.sync.select_space') }}
-      </el-button>
-    </div>
-
-    <!-- 空间选择弹窗 -->
-    <el-dialog
-      v-model="spaceSelectVisible"
-      :title="$t('knowledge_base.share_dialog.sync.space_selection')"
-      width="500px"
-    >
-      <!-- 搜索框 -->
-      <el-input
-        v-model="spaceSearchKeyword"
+      <!-- 多选下拉框选择空间 -->
+      <el-select
+        v-model="selectedSpaceIds"
+        v-model:visible="selectVisible"
+        multiple
+        filterable
+        collapse-tags
+        collapse-tags-tooltip
+        :max-collapse-tags="5"
+        class="w-full"
         :placeholder="$t('knowledge_base.share_dialog.sync.search_space')"
-        prefix-icon="el-icon-search"
-        clearable
-        class="mb-16px"
-      />
-
-      <!-- 空间列表 -->
-      <div class="space-selection">
-        <div
-          v-for="space in filteredSpaces"
+        @visible-change="visible => !visible && handleSelectClose()"
+      >
+        <el-option
+          v-for="space in spaceStore.spaceList"
           :key="space.id"
-          class="space-select-item mb-8px flex cursor-pointer items-center rounded-4px p-12px hover:bg-gray-50"
-          @click="selectSpace(space)"
+          :label="space.name"
+          :value="space.id"
         >
-          <div class="space-avatar mr-12px text-24px">
-            {{ space.avatar }}
+          <div class="flex items-center">
+            <div
+              class="mr-8px h-24px w-24px flex items-center justify-center rounded-4px bg-primary"
+            >
+              <span class="text-12px text-white font-light">
+                {{ space.type === 'team' ? t('space.abbr.team') : t('space.abbr.personal') }}
+              </span>
+            </div>
+            <span>{{ space.name }}</span>
           </div>
-          <span class="text-14px">{{ space.name }}</span>
-        </div>
-      </div>
-
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="spaceSelectVisible = false">
-            {{ $t('knowledge_base.share_dialog.sync.cancel') }}
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
+        </el-option>
+      </el-select>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .content-sync {
   padding: 16px 0;
-}
 
-.space-selection {
-  max-height: 300px;
-  overflow-y: auto;
+  :deep(.el-select) {
+    width: 100%;
+  }
+
+  :deep(.el-select-dropdown__item) {
+    height: 40px;
+    line-height: 40px;
+  }
 }
 </style>

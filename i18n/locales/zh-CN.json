@@ -232,13 +232,23 @@
         "cancel": "取消"
       },
       "download": {
-        "download_desc": "设置哪些用户可以下载此文件",
+        "download_desc": "设置当前文件的下载权限",
         "download_permission": "下载权限",
         "who_can_download": "谁可以下载",
         "permission_updated": "下载权限更新成功",
+        "anyone_can_download": "任何人可下载",
         "space_download": "空间成员可下载",
-        "only_self_download": "仅自己可下载",
-        "permission_note": "设置下载权限后，不具备下载权限的用户将无法下载此文件，但仍可在线查看和编辑（如有权限）"
+        "only_self_download": "任何人（除自己外）禁止下载"
+      },
+      "annotation_tab": "批注权限",
+      "permission_updated": "权限更新成功",
+      "annotation": {
+        "annotation_desc": "设置当前文件预览状态下的批注权限",
+        "annotation_permission": "批注权限设置",
+        "who_can_annotate": "谁可以批注",
+        "permission_updated": "批注权限更新成功",
+        "space_can_edit": "空间成员可编辑",
+        "space_can_view": "空间成员仅查看"
       }
     }
   },

@@ -5,50 +5,49 @@ import { InfoFilled } from '@element-plus/icons-vue'
 const { appContext } = getCurrentInstance()!
 const { t } = useI18n()
 
-// 下载权限
+// 批注权限
 const permissionSelectVisible = ref(false)
-const currentPermission = ref(t('knowledge_base.share_dialog.download.anyone_can_download'))
-const currentPermissionValue = ref('anyone_can_download')
+const currentPermission = ref(t('knowledge_base.share_dialog.annotation.space_can_edit'))
+const currentPermissionValue = ref('space_can_edit')
 
-// 下载权限选项
+// 批注权限选项
 const permissionOptions = [
-  { label: t('knowledge_base.share_dialog.download.anyone_can_download'), value: 'anyone_can_download' },
-  { label: t('knowledge_base.share_dialog.download.space_download'), value: 'space_download' },
-  { label: t('knowledge_base.share_dialog.download.only_self_download'), value: 'only_self_download' },
+  { label: t('knowledge_base.share_dialog.annotation.space_can_edit'), value: 'space_can_edit' },
+  { label: t('knowledge_base.share_dialog.annotation.space_can_view'), value: 'space_can_view' },
 ]
 
-// 更新下载权限
+// 更新批注权限
 function updatePermission(option: { label: string, value: string }) {
   currentPermission.value = option.label
   currentPermissionValue.value = option.value
   permissionSelectVisible.value = false
   ElMessage.success({
-    message: t('knowledge_base.share_dialog.download.permission_updated'),
+    message: t('knowledge_base.share_dialog.annotation.permission_updated'),
     duration: 2000,
   }, appContext)
 }
 </script>
 
 <template>
-  <div class="download-permission">
+  <div class="annotation-permission">
     <!-- 说明文字 -->
     <div class="mb-24px flex items-center">
       <el-icon class="mr-8px">
         <InfoFilled />
       </el-icon>
       <p class="text-14px text-gray-700">
-        {{ $t('knowledge_base.share_dialog.download.download_desc') }}
+        {{ $t('knowledge_base.share_dialog.annotation.annotation_desc') }}
       </p>
     </div>
 
-    <!-- 下载权限设置 -->
+    <!-- 批注权限设置 -->
     <div class="permission-settings mb-24px">
       <h3 class="mb-16px text-16px font-medium">
-        {{ $t('knowledge_base.share_dialog.download.download_permission') }}
+        {{ $t('knowledge_base.share_dialog.annotation.annotation_permission') }}
       </h3>
 
       <div class="permission-select flex items-center justify-between rounded-4px bg-gray-50 p-12px">
-        <span class="text-14px text-gray-700">{{ $t('knowledge_base.share_dialog.download.who_can_download') }}</span>
+        <span class="text-14px text-gray-700">{{ $t('knowledge_base.share_dialog.annotation.who_can_annotate') }}</span>
         <el-dropdown
           v-model:visible="permissionSelectVisible"
           trigger="click"
@@ -80,7 +79,7 @@ function updatePermission(option: { label: string, value: string }) {
 </template>
 
 <style lang="scss" scoped>
-.download-permission {
+.annotation-permission {
   padding: 16px 0;
 }
 </style>

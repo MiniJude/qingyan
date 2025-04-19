@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import { Connection, Download, Share } from '@element-plus/icons-vue'
-import { computed, ref } from 'vue'
-import ContentSync from './ContentSync.vue'
-import DownloadPermission from './DownloadPermission.vue'
-import InviteCollaboration from './InviteCollaboration.vue'
+import { Connection, Download, Edit, Share } from '@element-plus/icons-vue'
 
 // 定义props
 interface Props {
@@ -60,6 +56,15 @@ const activeTab = ref('invite')
           <span>{{ $t('knowledge_base.share_dialog.download_tab') }}</span>
         </template>
         <DownloadPermission />
+      </el-tab-pane>
+
+      <!-- 批注权限 -->
+      <el-tab-pane name="annotation">
+        <template #label>
+          <el-icon><Edit /></el-icon>
+          <span>{{ $t('knowledge_base.share_dialog.annotation_tab') }}</span>
+        </template>
+        <AnnotationPermission />
       </el-tab-pane>
     </el-tabs>
   </el-dialog>

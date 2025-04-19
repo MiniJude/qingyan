@@ -232,13 +232,13 @@
         "cancel": "Cancel"
       },
       "download": {
-        "download_desc": "Set which users can download this file",
-        "download_permission": "Download Permission",
+        "download_desc": "Set download permissions for the current file",
+        "download_permission": "Download Permissions",
         "who_can_download": "Who can download",
         "permission_updated": "Download permission updated successfully",
+        "anyone_can_download": "Anyone can download",
         "space_download": "Space members can download",
-        "only_self_download": "Only you can download",
-        "permission_note": "After setting download permissions, users without download permissions will not be able to download this file, but can still view and edit it online (if they have permission)"
+        "only_self_download": "Anyone (except myself) cannot download"
       }
     }
   },

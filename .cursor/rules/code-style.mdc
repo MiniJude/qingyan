@@ -156,11 +156,22 @@ const data = await response.json()
   const emit = defineEmits(['update:currentStep', 'update:modelValue'])
   ```
 
-### 13. **以下模块的内容无需显示导入**
+### 13. **以下模块的内容无需显式导入**
 
 - `app\utils`下的方法
 
 - `app\components`下的组件
+
+- `vue`、`element-plus`、`vue-i18n`
+
+比如以下是不需要的
+
+```ts
+// needless
+import { ElMessage } from 'element-plus'
+import { getCurrentInstance, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+```
 
 
 ### 14. **国际化时的注意事项**
