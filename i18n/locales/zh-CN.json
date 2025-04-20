@@ -506,6 +506,22 @@
       "team": "团队管理",
       "model_description": "以下配置仅对当前空间生效，使用 OpenAI API 格式"
     },
+    "permission": {
+      "title": "权限设置",
+      "role_settings": "成员角色权限设置",
+      "admin": {
+        "title": "管理员",
+        "description": "管理员拥有所有权限"
+      },
+      "member": {
+        "title": "成员",
+        "description": "成员可查看空间下公开、成员可见的内容，可编辑他所在的团队、知识库文档。无法进入空间管理页"
+      },
+      "options": {
+        "invite_link": "允许团队、知识库通过邀请链接快速添加空间外人员",
+        "create_team": "允许成员创建团队"
+      }
+    },
     "upgrade": {
       "current_version": "当前版本",
       "valid_period": "有效期",

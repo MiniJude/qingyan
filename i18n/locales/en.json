@@ -496,6 +496,22 @@
       "team": "Team",
       "model_description": "These configurations only apply to the current space, using OpenAI API format"
     },
+    "permission": {
+      "title": "Permission Settings",
+      "role_settings": "Member Role Permission Settings",
+      "admin": {
+        "title": "Administrator",
+        "description": "Administrators have all permissions"
+      },
+      "member": {
+        "title": "Member",
+        "description": "Members can view public and member-visible content in the space, and can edit teams and knowledge base documents they belong to. Cannot access the space management page"
+      },
+      "options": {
+        "invite_link": "Allow teams and knowledge bases to quickly add external members through invitation links",
+        "create_team": "Allow members to create teams"
+      }
+    },
     "upgrade": {
       "current_version": "Current Version",
       "valid_period": "Valid Period",

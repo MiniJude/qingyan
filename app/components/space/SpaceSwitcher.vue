@@ -61,7 +61,7 @@ async function handleCreateSpaceSubmit(values: { name: string, description: stri
 function generateSpaceRoute(space: Space): string {
   // 获取当前路由路径
   const currentPath = route.path
-  const currentSpaceId = typeof route.params.groupid === 'string' ? route.params.groupid : ''
+  const currentSpaceId = (route.params as any).groupid
 
   // 如果当前路径包含/group/，替换空间ID
   if (currentPath.includes('/group/')) {
