@@ -8,18 +8,23 @@ interface Props {
   checkboxVisible?: boolean
   editable?: boolean
   checkable?: boolean
+  isTeamSpace?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   editable: false,
   checkable: false,
   checkboxVisible: false,
+  isTeamSpace: false,
 })
 
 const emits = defineEmits<{
   (e: 'update:checkboxVisible', value: boolean): void
   (e: 'checkChange', data: string[]): void
   (e: 'nodeClick', data: FileTreeType, fileRoute: string[]): void
+  (e: 'addFolder', parentId: string, name: string): void
+  (e: 'addFile', parentId: string, templateId: string): void
+  (e: 'openTeamSetting', activeMenu: string, teamName: string): void
 }>()
 
 // 默认展开一级节点
@@ -43,6 +48,11 @@ function handleNodeClick(data: FileTreeType, node: any) {
   emits('nodeClick', data, fileRouteStr.split('/').filter(Boolean))
 }
 
+// 判断是否显示用户图标
+function showTeamIcon(nodeLabel: string): boolean {
+  return props.isTeamSpace && nodeLabel !== '个人' && nodeLabel !== '全体成员'
+}
+
 const treeRef = useTemplateRef<InstanceType<typeof ElTree>>('treeRef')
 // 选中的节点
 const checkedKeys = ref<string[]>([])
@@ -56,6 +66,46 @@ function setCheckedKeys(keys: string[]) {
 defineExpose({
   setCheckedKeys,
 })
+
+// 新增操作相关
+const currentNode = ref<FileTreeType | null>(null)
+const newFolderDialogVisible = ref(false)
+const templateLibraryVisible = ref(false)
+const newFolderName = ref('')
+
+// 处理添加菜单命令
+function handleAddCommand(command: string, node: FileTreeType) {
+  currentNode.value = node
+
+  if (command === 'folder') {
+    newFolderDialogVisible.value = true
+  }
+  else if (command === 'file' && node.level !== 1) {
+    // 只有非一级节点才能添加文件
+    templateLibraryVisible.value = true
+  }
+}
+
+// 确认新建文件夹
+function confirmAddFolder() {
+  if (newFolderName.value.trim() && currentNode.value) {
+    emits('addFolder', currentNode.value.id, newFolderName.value.trim())
+    newFolderName.value = ''
+    newFolderDialogVisible.value = false
+  }
+}
+
+// 处理模板选择
+function handleSelectTemplate(template: any) {
+  if (currentNode.value) {
+    emits('addFile', currentNode.value.id, template.id)
+  }
+}
+
+// 打开团队设置
+function openTeamSetting(activeMenu: string, teamName: string) {
+  emits('openTeamSetting', activeMenu, teamName)
+}
 </script>
 
 <template>
@@ -81,18 +131,81 @@ defineExpose({
         </template>
 
         <span flex-1>{{ node.label }}</span>
-        <template v-if="data.level === 1">
-          <div v-if="!props.checkboxVisible" flex gap-5px style="color: #C9CDD4;" @click.stop>
-            <SvgoPlus v-if="props.editable" />
-            <SvgoMultiSelect v-if="props.editable" @click="emits('update:checkboxVisible', true)" />
-          </div>
-          <div v-else flex gap-5px style="color: #C9CDD4;" @click.stop>
-            <div class="i-carbon:filter-reset" @click="emits('update:checkboxVisible', false)" />
+        <template v-if="props.editable">
+          <div flex gap-5px style="color: #C9CDD4;" @click.stop>
+            <div class="relative">
+              <el-dropdown trigger="click" @command="(command) => handleAddCommand(command, data)">
+                <div class="cursor-pointer">
+                  <SvgoPlus />
+                </div>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="folder">
+                      <div flex items-center>
+                        <div class="i-carbon:folder-add mr-8px" />
+                        {{ $t('knowledge_base.new_folder') }}
+                      </div>
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="data.level !== 1" command="file">
+                      <div flex items-center>
+                        <div class="i-carbon:document-add mr-8px" />
+                        {{ $t('knowledge_base.new_file') }}
+                      </div>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
+
+            <template v-if="data.level === 1">
+              <template v-if="showTeamIcon(node.label)">
+                <div class="i-carbon:user" @click="openTeamSetting('permission', node.label)" />
+                <div class="i-carbon:overflow-menu-horizontal" @click="openTeamSetting('more-settings', node.label)" />
+              </template>
+              <template v-if="!showTeamIcon(node.label)">
+                <SvgoMultiSelect v-if="!props.checkboxVisible" @click="emits('update:checkboxVisible', true)" />
+                <div v-else class="i-carbon:filter-reset" @click="emits('update:checkboxVisible', false)" />
+              </template>
+            </template>
           </div>
         </template>
       </div>
     </template>
   </el-tree>
+
+  <!-- 新建文件夹对话框 -->
+  <el-dialog
+    v-model="newFolderDialogVisible"
+    :title="$t('knowledge_base.create_folder')"
+    width="400px"
+    :close-on-click-modal="false"
+  >
+    <el-form @submit.prevent="confirmAddFolder">
+      <el-form-item :label="$t('knowledge_base.folder_name')" required>
+        <el-input
+          v-model="newFolderName"
+          :placeholder="$t('knowledge_base.please_input_folder_name')"
+          autofocus
+        />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div flex justify-end gap-10px>
+        <el-button @click="newFolderDialogVisible = false">
+          {{ $t('common.actions.cancel') }}
+        </el-button>
+        <el-button type="primary" :disabled="!newFolderName.trim()" @click="confirmAddFolder">
+          {{ $t('common.actions.confirm') }}
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
+
+  <!-- 模板库对话框 -->
+  <TemplateLibraryDialog
+    v-model="templateLibraryVisible"
+    @select-template="handleSelectTemplate"
+  />
 </template>
 
 <style lang="scss" scoped>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { Team } from '~/types/team'
 import { useFileStore } from '~/stores/file'
 import { useSpaceStore } from '~/stores/space'
 
@@ -9,23 +10,12 @@ const data = ref<{
   treeData: FileTreeType[]
   checkboxVisible: boolean
   checkedKeys: string[]
-}[]>([
-  // {
-  //   treeData: [], // 本地数据
-  //   checkboxVisible: false,
-  //   checkedKeys: [],
-  // },
-  // {
-  //   treeData: [], // 待归档数据
-  //   checkboxVisible: false,
-  //   checkedKeys: [],
-  // },
-  // {
-  //   treeData: [], // 微信数据
-  //   checkboxVisible: false,
-  //   checkedKeys: [],
-  // },
-])
+}[]>([])
+
+// 团队设置相关
+const teamSettingVisible = ref(false)
+const currentTeam = ref<Team | undefined>(undefined)
+const defaultActiveMenu = ref('team-info')
 
 // 加载状态
 const loading = ref(false)
@@ -87,6 +77,84 @@ function handleNodeClick(file: FileTreeType, fileRoute: string[]) {
   }
 }
 
+// 处理新增文件夹
+async function handleAddFolder(parentId: string, folderName: string) {
+  const { appContext } = getCurrentInstance()!
+  try {
+    // 实际项目中应该调用API创建文件夹
+    // 这里模拟创建成功
+    // const result = await $api.post('/api/folders', { parentId, name: folderName })
+
+    // 模拟创建成功后的逻辑
+    ElMessage.success({
+      message: `成功创建文件夹：${folderName}`,
+      appContext,
+    })
+
+    // 重新加载数据
+    await loadKnowledgeBaseData()
+  }
+  catch (error) {
+    console.error('创建文件夹失败', error)
+    ElMessage.error({
+      message: '创建文件夹失败',
+      appContext,
+    })
+  }
+}
+
+// 处理新增文件
+async function handleAddFile(_parentId: string, _templateId: string) {
+  const { appContext } = getCurrentInstance()!
+  try {
+    // 实际项目中应该调用API创建文件
+    // 这里模拟创建成功
+    // const result = await $api.post('/api/files', { parentId: _parentId, templateId: _templateId })
+
+    // 模拟创建成功后的逻辑
+    ElMessage.success({
+      message: '文件创建成功',
+      appContext,
+    })
+
+    // 重新加载数据
+    await loadKnowledgeBaseData()
+  }
+  catch (error) {
+    console.error('创建文件失败', error)
+    ElMessage.error({
+      message: '创建文件失败',
+      appContext,
+    })
+  }
+}
+
+// 处理打开团队设置
+function handleOpenTeamSetting(activeMenu: string, teamName: string) {
+  // 模拟获取团队信息
+  currentTeam.value = {
+    id: `team-${Date.now()}`,
+    name: teamName,
+    description: '这是一个团队描述',
+    avatar: '',
+    createdTime: new Date().toISOString(),
+    memberCount: 5,
+  } as Team
+
+  // 设置初始激活的标签页
+  defaultActiveMenu.value = activeMenu
+
+  // 打开团队设置弹框
+  teamSettingVisible.value = true
+}
+
+// 更新团队信息
+function updateTeamInfo(team: Team) {
+  currentTeam.value = team
+  // 实际项目中应该调用API更新团队信息
+  // 这里只是更新本地数据
+}
+
 defineExpose({
   data,
 })
@@ -94,25 +162,35 @@ defineExpose({
 
 <template>
   <div class="kb-tree-container">
-    <ClientOnly>
-      <div v-if="loading" class="h-full w-full flex items-center justify-center">
-        <el-skeleton :rows="8" animated />
+    <div v-if="loading" class="h-full w-full flex items-center justify-center">
+      <el-skeleton :rows="8" animated />
+    </div>
+    <div v-else>
+      <div v-for="(item, index) in data" :key="index">
+        <DocTree
+          v-if="item.treeData.length > 0"
+          ref="treeRef"
+          :data="item.treeData"
+          :checkbox-visible="item.checkboxVisible"
+          editable
+          :is-team-space="spaceStore.currentSpace?.type === 'team'"
+          @update:checkbox-visible="item.checkboxVisible = $event"
+          @check-change="keys => handleCheckChange(keys, index)"
+          @node-click="handleNodeClick"
+          @add-folder="handleAddFolder"
+          @add-file="handleAddFile"
+          @open-team-setting="handleOpenTeamSetting"
+        />
       </div>
-      <div v-else>
-        <div v-for="(item, index) in data" :key="index">
-          <DocTree
-            v-if="item.treeData.length > 0"
-            ref="treeRef"
-            :data="item.treeData"
-            :checkbox-visible="item.checkboxVisible"
-            editable
-            @update:checkbox-visible="item.checkboxVisible = $event"
-            @check-change="keys => handleCheckChange(keys, index)"
-            @node-click="handleNodeClick"
-          />
-        </div>
-      </div>
-    </ClientOnly>
+
+      <!-- 团队设置弹框 -->
+      <TeamSetting
+        v-model="teamSettingVisible"
+        :team="currentTeam"
+        :default-active-menu="defaultActiveMenu"
+        @update:team="updateTeamInfo"
+      />
+    </div>
   </div>
 </template>
 

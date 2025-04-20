@@ -251,7 +251,12 @@
         "space_can_edit": "空间成员可编辑",
         "space_can_view": "空间成员仅查看"
       }
-    }
+    },
+    "new_folder": "新建文件夹",
+    "new_file": "新建文件",
+    "create_folder": "创建文件夹",
+    "folder_name": "文件夹名称",
+    "please_input_folder_name": "请输入文件夹名称"
   },
   "common": {
     "coming_soon": {

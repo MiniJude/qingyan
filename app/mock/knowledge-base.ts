@@ -158,4 +158,34 @@ export const teamData: FileTreeTypeWithOptionalId[] = [
       },
     ],
   },
+  {
+    label: '产品团队',
+    level: 1,
+    children: [
+      {
+        label: '高等数学',
+        level: 2,
+        type: 'folder',
+        children: [
+          {
+            label: '信息学一本通第五版',
+            level: 3,
+            type: 'file',
+            fileType: 'ppt',
+          },
+          {
+            label: '算法设计与分析',
+            level: 3,
+            type: 'file',
+            fileType: 'ppt',
+          },
+        ],
+      },
+      {
+        label: '机械制图',
+        level: 2,
+        type: 'folder',
+      },
+    ],
+  },
 ]

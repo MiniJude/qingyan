@@ -12,6 +12,7 @@ const { t } = useI18n()
 interface Props {
   modelValue: boolean
   team?: Team
+  defaultActiveMenu?: string
 }
 
 interface Emits {
@@ -34,7 +35,7 @@ function closeDialog() {
 }
 
 // 当前激活的菜单
-const activeSideMenu = ref('team-info')
+const activeSideMenu = ref(props.defaultActiveMenu || 'team-info')
 
 // 侧边栏菜单
 const sideMenus = [
@@ -54,6 +55,13 @@ const sideMenus = [
     icon: 'i-carbon:settings',
   },
 ]
+
+// 监听defaultActiveMenu变化
+watch(() => props.defaultActiveMenu, (newVal) => {
+  if (newVal) {
+    activeSideMenu.value = newVal
+  }
+})
 
 // 处理团队信息更新
 function handleTeamInfoUpdate(updatedTeam: Team) {

@@ -241,7 +241,12 @@
         "space_download": "Space members can download",
         "only_self_download": "Anyone (except myself) cannot download"
       }
-    }
+    },
+    "new_folder": "New Folder",
+    "new_file": "New File",
+    "create_folder": "Create Folder",
+    "folder_name": "Folder Name",
+    "please_input_folder_name": "Please input folder name"
   },
   "common": {
     "coming_soon": {
