@@ -77,7 +77,7 @@ const menuList = computed<MenuItem[]>(() => [
 
 <template>
   <el-dialog
-    v-model="dialogVisible" width="800" class="user-profile-dialog" :close-on-click-modal="false"
+    v-model="dialogVisible" width="800" class="user-profile-dialog" :close-on-click-modal="false" append-to-body
     :title="$t('header.user_center')"
   >
     <MenuSplitContent
