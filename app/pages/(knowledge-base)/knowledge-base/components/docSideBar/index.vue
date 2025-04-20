@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import CircleDoc from '@/assets/svg/circle-doc.svg?skipsvgo'
+import CreateTeamDialog from '@/components/team-setting/CreateTeamDialog.vue'
 import CopyFormDialog from './CopyFormDialog.vue'
 import DocTree from './docTree/index.vue'
 
 const localePath = useLocalePath()
 
 const docTreeRef = useTemplateRef<InstanceType<typeof DocTree>>('docTreeRef')
+const createTeamDialogVisible = ref(false)
 
 // 当前路由是否是全部文档（/knowledge-base）
 const isAllDoc = computed(() => {
   return useRoute().path === localePath('/knowledge-base')
 })
+
+// 是否是团队空间
+const isTeamSpace = ref(true) // 这里需要根据实际情况判断是否为团队空间
 
 /** 是否显示底部按钮组 */
 const isBtnGroupShow = computed(() => {
@@ -99,6 +104,12 @@ const moveForm = ref({
   folderId: '',
 })
 
+// 团队创建回调
+function handleTeamCreated(_team: any) {
+  // 处理团队创建成功后的逻辑
+  // 这里可以添加团队创建后的业务逻辑
+}
+
 const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('copyFormDialogRef')
 </script>
 
@@ -115,8 +126,14 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
     <!-- 文档树 -->
     <div flex="~ col 1">
       <DocTree ref="docTreeRef" />
+      <!-- 新建团队按钮 -->
+      <div v-if="isTeamSpace" class="mb-24px mt-40px">
+        <div class="create-team-btn" @click="createTeamDialogVisible = true">
+          <span ml-12px text-16px>{{ $t('knowledge_base.create_team') }}</span>
+        </div>
+      </div>
       <NuxtLink :to="localePath('/knowledge-base/trush' as I18nRoutePath)">
-        <div mt-40px flex cursor-pointer items-center gap-10px>
+        <div flex cursor-pointer items-center gap-10px>
           <SvgoTrash />
           <span text-tprimary>{{ $t('knowledge_base.trash') }}</span>
         </div>
@@ -163,6 +180,11 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
     </el-dialog>
     <!-- 弹框：创建副本 -->
     <CopyFormDialog ref="copyFormDialogRef" />
+    <!-- 弹框：新建团队 -->
+    <CreateTeamDialog
+      v-model="createTeamDialogVisible"
+      @team-created="handleTeamCreated"
+    />
   </div>
 </template>
 
@@ -187,6 +209,20 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
       color: white;
       cursor: auto;
     }
+  }
+
+  .create-team-btn {
+    color: var(--el-color-primary);
+    border-radius: 4px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    font-size: 18px;
+    padding: 9px;
+    height: 44px;
+    justify-content: start;
+    border: 1px solid var(--el-color-primary);
+    cursor: pointer;
   }
 
   .btn-group {

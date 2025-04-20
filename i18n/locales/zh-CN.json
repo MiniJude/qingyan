@@ -98,6 +98,7 @@
     "please_select": "请选择",
     "cancel": "取消",
     "confirm": "确定",
+    "create_team": "新建团队",
     "copy_dialog": {
       "title": "创建副本",
       "select_kb": "选择知识库",
