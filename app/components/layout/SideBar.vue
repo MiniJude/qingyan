@@ -3,8 +3,7 @@ import { SvgoAiChat, SvgoFolder2 } from '#components'
 
 const route = useRoute()
 const { t } = useI18n()
-
-const localePath = useLocalePath()
+const spaceStore = useSpaceStore()
 
 // 侧边栏折叠状态
 const isCollapsed = ref(false)
@@ -18,24 +17,36 @@ function toggleSidebar() {
 const menuList = computed<{
   name: string
   icon: Component
-  path: any
+  path: string
 }[]>(() => [
   {
     name: t('sidebar.knowledge_base'),
     icon: SvgoFolder2,
-    path: '/knowledge-base',
+    path: 'knowledge-base',
   },
   {
     name: t('sidebar.ai_assistant'),
     icon: SvgoAiChat,
-    path: '/agents',
+    path: 'agents',
   },
 ])
 
 // 计算当前应该激活的菜单项
 const activeMenu = computed(() => {
-  return menuList.value.find(item => route.path.includes(item.path))?.path ?? ''
+  // 获取当前路径的最后一部分，例如从/group/1/knowledge-base中提取knowledge-base
+  const pathSegments = route.path.split('/')
+  const lastSegment = pathSegments[pathSegments.length - 1]
+
+  return menuList.value.find(item => item.path === lastSegment || route.path.includes(item.path))?.path ?? ''
 })
+
+// 生成带有当前空间ID的菜单路径
+function getMenuPath(path: string): string {
+  // 获取当前空间ID，如果不存在则使用默认值1
+  const currentSpaceId = spaceStore.currentSpace?.id || '1'
+  // 组合完整路径
+  return `/group/${currentSpaceId}/${path}`
+}
 </script>
 
 <template>
@@ -76,7 +87,11 @@ const activeMenu = computed(() => {
         :collapse="isCollapsed"
         :collapse-transition="false"
       >
-        <NuxtLink v-for="item in menuList" :key="item.path" :to="localePath(item.path)">
+        <NuxtLink
+          v-for="item in menuList"
+          :key="item.path"
+          :to="getMenuPath(item.path)"
+        >
           <el-menu-item :index="item.path">
             <component :is="item.icon" text="20px" />
             <template #title>
