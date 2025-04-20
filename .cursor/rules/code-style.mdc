@@ -207,7 +207,7 @@ import { useI18n } from 'vue-i18n'
   - 若删除或修改的代码中包含国际化内容，且确认该国际化配置未被其他代码引用，应及时从国际化文件中移除，避免冗余。
 
 
-#### 使用Element-plus的Message时，要加上下文appContext（通过getCurrentInstance()获取）
+#### 使用Element-plus的Message和ElMessageBox时，要加上下文appContext（通过getCurrentInstance()获取）
 
 在nuxt3中使用Dialog和Message时，Message会被Dialog遮罩层覆盖，Message是无法获取应用上下文引起的。
 

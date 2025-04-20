@@ -10,12 +10,22 @@ const spaceStore = useSpaceStore()
 const docTreeRef = useTemplateRef<InstanceType<typeof DocTree>>('docTreeRef')
 const createTeamDialogVisible = ref(false)
 
+// 空间设置对话框相关
+const spaceSettingVisible = ref(false)
+const spaceSettingActiveTab = ref<'space-upgrade' | 'space-setting' | 'space-model' | 'space-member' | 'space-permission' | 'space-team' | 'space-trash'>('space-trash')
+
 // 获取当前空间ID
 const currentSpaceId = computed(() => spaceStore.currentSpace?.id || '1')
 
 // 生成完整的路径
 function getFullPath(path: string): string {
   return `/group/${currentSpaceId.value}${path}`
+}
+
+// 打开回收站
+function openTrash() {
+  spaceSettingActiveTab.value = 'space-trash'
+  spaceSettingVisible.value = true
 }
 
 // 当前路由是否是全部文档（/knowledge-base）
@@ -144,12 +154,12 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
           <span ml-12px text-16px>{{ $t('knowledge_base.create_team') }}</span>
         </div>
       </div>
-      <NuxtLink :to="getFullPath('/knowledge-base/trush')">
+      <div class="trash-link" @click="openTrash">
         <div flex cursor-pointer items-center gap-10px>
           <SvgoTrash />
           <span text-tprimary>{{ $t('knowledge_base.trash') }}</span>
         </div>
-      </NuxtLink>
+      </div>
     </div>
 
     <!-- 底部按钮组（移动到、创建副本、删除） -->
@@ -197,6 +207,11 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
       v-model="createTeamDialogVisible"
       @team-created="handleTeamCreated"
     />
+    <!-- 弹框：空间设置 -->
+    <SpaceSetting
+      v-model="spaceSettingVisible"
+      :active-tab="spaceSettingActiveTab"
+    />
   </div>
 </template>
 
@@ -235,6 +250,16 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
     justify-content: start;
     border: 1px solid var(--el-color-primary);
     cursor: pointer;
+  }
+
+  .trash-link {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--el-color-primary-light-9);
+    }
   }
 
   .btn-group {

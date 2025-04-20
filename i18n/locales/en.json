@@ -91,6 +91,23 @@
   "knowledge_base": {
     "all_documents": "All Documents",
     "trash": "Trash",
+    "trash_description": "Files and folders deleted within the last 30 days will be shown here",
+    "empty_trash": "Empty Trash",
+    "trash_confirm_restore": "Are you sure you want to restore this file?",
+    "trash_confirm_delete": "This file will be permanently deleted and cannot be recovered. Continue?",
+    "trash_confirm_empty": "All files in the trash will be permanently deleted and cannot be recovered. Continue?",
+    "trash_restore_success": "Restored successfully",
+    "trash_delete_success": "Deleted successfully",
+    "trash_empty_success": "Trash emptied successfully",
+    "trash_already_empty": "Trash is already empty",
+    "trash_empty": "Trash is empty",
+    "restore": "Restore",
+    "delete_permanently": "Delete Permanently",
+    "title": "Title",
+    "delete_time": "Deleted Time",
+    "operations": "Operations",
+    "last_30_days": "Last 30 days",
+    "empty_trash_btn": "Empty Trash",
     "create_copy": "Copy",
     "move_to": "Move",
     "delete": "Delete",
@@ -332,7 +349,10 @@
       "day": "Day",
       "hour": "Hour",
       "minute": "Minute",
-      "second": "Second"
+      "second": "Second",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "range_separator": "to"
     },
     "roles": {
       "label": "Role",
@@ -352,6 +372,12 @@
     "empty_content": "File content is empty",
     "departments": {
       "department": "Department"
+    },
+    "sort": {
+      "deleted_time_desc": "Newest Deleted First",
+      "deleted_time_asc": "Oldest Deleted First",
+      "name_asc": "Name (A-Z)",
+      "name_desc": "Name (Z-A)"
     }
   },
   "agents": {

@@ -91,6 +91,23 @@
   "knowledge_base": {
     "all_documents": "全部文档",
     "trash": "回收站",
+    "trash_description": "最近30天内删除的文件和文件夹将会显示在这里",
+    "empty_trash": "清空回收站",
+    "trash_confirm_restore": "确定要还原该文件吗？",
+    "trash_confirm_delete": "彻底删除后将无法恢复，确定要删除吗？",
+    "trash_confirm_empty": "清空回收站后将无法恢复所有文件，确定要清空吗？",
+    "trash_restore_success": "还原成功",
+    "trash_delete_success": "删除成功",
+    "trash_empty_success": "回收站已清空",
+    "trash_already_empty": "回收站已经是空的",
+    "trash_empty": "回收站是空的",
+    "restore": "还原",
+    "delete_permanently": "彻底删除",
+    "title": "标题",
+    "delete_time": "删除时间",
+    "operations": "操作",
+    "last_30_days": "最近30天",
+    "empty_trash_btn": "清空回收站",
     "create_copy": "创建副本",
     "move_to": "移动到",
     "delete": "删除",
@@ -342,7 +359,10 @@
       "day": "日",
       "hour": "时",
       "minute": "分",
-      "second": "秒"
+      "second": "秒",
+      "start_date": "开始日期",
+      "end_date": "结束日期",
+      "range_separator": "至"
     },
     "roles": {
       "label": "角色",
@@ -362,6 +382,12 @@
     "empty_content": "文件内容为空",
     "departments": {
       "department": "部门"
+    },
+    "sort": {
+      "deleted_time_desc": "按删除时间降序",
+      "deleted_time_asc": "按删除时间升序",
+      "name_asc": "按名称升序",
+      "name_desc": "按名称降序"
     }
   },
   "agents": {
