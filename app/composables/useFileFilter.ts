@@ -35,24 +35,53 @@ export function useFileFilter() {
     else if (currentFileFilterType.value === FileFilterType.TEAM) {
       return t('knowledge_base.index.viewing_team_files')
     }
+    else if (currentFileFilterType.value === FileFilterType.PERSONAL_SHARED) {
+      return t('knowledge_base.index.viewing_personal_shared_files')
+    }
+    else if (currentFileFilterType.value === FileFilterType.TEAM_SHARED) {
+      return t('knowledge_base.index.viewing_team_shared_files')
+    }
     else {
       return t('knowledge_base.index.viewing_shared_files')
     }
   })
 
   // 计算Switch组件的列配置
-  const switchColumns = computed(() => [
-    {
-      label: isTeamSpace.value
-        ? t('knowledge_base.index.my_team')
-        : t('knowledge_base.index.my_personal'),
-      value: isTeamSpace.value ? FileFilterType.TEAM : FileFilterType.PERSONAL,
-    },
-    {
-      label: t('knowledge_base.index.shared_with_me'),
-      value: FileFilterType.SHARED,
-    },
-  ])
+  const switchColumns = computed(() => {
+    // 如果是团队空间，显示4个选项
+    if (isTeamSpace.value) {
+      return [
+        {
+          label: t('knowledge_base.index.my_personal'),
+          value: FileFilterType.PERSONAL,
+        },
+        {
+          label: t('knowledge_base.index.personal_shared'),
+          value: FileFilterType.PERSONAL_SHARED,
+        },
+        {
+          label: t('knowledge_base.index.my_team'),
+          value: FileFilterType.TEAM,
+        },
+        {
+          label: t('knowledge_base.index.team_shared'),
+          value: FileFilterType.TEAM_SHARED,
+        },
+      ]
+    }
+
+    // 个人空间保持不变
+    return [
+      {
+        label: t('knowledge_base.index.my_personal'),
+        value: FileFilterType.PERSONAL,
+      },
+      {
+        label: t('knowledge_base.index.shared_with_me'),
+        value: FileFilterType.SHARED,
+      },
+    ]
+  })
 
   return {
     currentFileFilterType,

@@ -21,6 +21,8 @@ export enum FileFilterType {
   PERSONAL = 'personal',
   TEAM = 'team',
   SHARED = 'shared',
+  PERSONAL_SHARED = 'personal_shared',
+  TEAM_SHARED = 'team_shared',
 }
 
 // AI文档类型枚举

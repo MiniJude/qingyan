@@ -138,11 +138,15 @@
       "knowledge_space": "知识空间",
       "my_personal": "我个人的",
       "my_team": "团队的",
+      "personal_shared": "个人协作",
+      "team_shared": "团队协作",
       "shared_with_me": "邀请协作的",
       "uncategorized": "未分类",
       "viewing_personal_files": "当前查看: 个人文件",
       "viewing_shared_files": "当前查看: 协作文件",
-      "viewing_team_files": "当前查看: 团队文件"
+      "viewing_team_files": "当前查看: 团队文件",
+      "viewing_personal_shared_files": "当前查看: 个人协作文件",
+      "viewing_team_shared_files": "当前查看: 团队协作文件"
     },
     "dashboard": {
       "knowledge_radar": "知识雷达",

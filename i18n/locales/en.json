@@ -138,11 +138,15 @@
       "knowledge_space": "Knowledge Space",
       "my_personal": "Personal",
       "my_team": "Team",
+      "personal_shared": "Personal Shared",
+      "team_shared": "Team Shared",
       "shared_with_me": "Shared",
       "uncategorized": "Uncategorized",
       "viewing_personal_files": "Currently Viewing: Personal Files",
       "viewing_shared_files": "Currently Viewing: Shared Files",
-      "viewing_team_files": "Currently Viewing: Team Files"
+      "viewing_team_files": "Currently Viewing: Team Files",
+      "viewing_personal_shared_files": "Currently Viewing: Personal Shared Files",
+      "viewing_team_shared_files": "Currently Viewing: Team Shared Files"
     },
     "dashboard": {
       "knowledge_radar": "Knowledge Radar",
