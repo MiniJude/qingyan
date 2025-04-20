@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import AIAssistant from '~/components/chat-bot/AIAssistant.vue'
 
 // 获取当前路由参数
 const route = useRoute()
@@ -50,19 +51,13 @@ async function loadTextContent(url: string) {
   }
 }
 
-// 处理AI助手点击
-function handleAiAssist() {
-  // 这里可以添加AI助手的逻辑
-  // 实际实现中应替换为真实功能
-}
-
 onMounted(() => {
   getTxtFileUrl()
 })
 </script>
 
 <template>
-  <div p="t-29px r-53px b-27px l-19px" h-full flex flex-col gap-58px>
+  <div p="t-29px r-53px b-27px l-19px" relative h-full flex flex-col gap-58px>
     <!-- 顶部区域 -->
     <div flex items-center justify-between>
       <div flex flex-col gap-4px>
@@ -94,6 +89,9 @@ onMounted(() => {
         v-model:active-index="activeIndex"
       />
     </div>
+
+    <!-- AI助手组件 -->
+    <AIAssistant />
   </div>
 </template>
 

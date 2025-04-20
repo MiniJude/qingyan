@@ -13,6 +13,11 @@ description:
 globs: 
 alwaysApply: true
 ---
+---
+description: 
+globs: 
+alwaysApply: true
+---
 
 ### 1. **Unocss样式使用**
 - 在给组件应用Unocss样式时，务必使用`class=""`进行包裹，避免直接将样式作为属性使用。
@@ -81,6 +86,7 @@ alwaysApply: true
 - 上传相关优先使用el-upload，而不是手写拖拽等实现上传
 - 要用<el-divider />,而不要用自己写<div class="divider" />
 - Element Plus图标使用具名导入方式，比如 import { ArrowDown } from '@element-plus/icons-vue'
+- 手动隐藏popover的方法就是hide() 不是doClose()
 
 
 ### 8. **业务组件职责分离**

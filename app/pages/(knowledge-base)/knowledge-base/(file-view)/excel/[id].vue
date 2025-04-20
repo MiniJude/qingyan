@@ -2,6 +2,7 @@
 import { ElMessage } from 'element-plus'
 import LuckyExcel from 'luckyexcel'
 import { useRoute } from 'vue-router'
+import AIAssistant from '~/components/chat-bot/AIAssistant.vue'
 
 const spaceStore = useSpaceStore()
 
@@ -79,6 +80,9 @@ onMounted(() => {
     <div v-show="isMaskShow" id="tip">
       正在加载...
     </div>
+
+    <!-- AI助手组件 -->
+    <AIAssistant />
   </div>
 </template>
 

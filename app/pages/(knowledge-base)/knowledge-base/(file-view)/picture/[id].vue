@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div p="t-29px r-53px b-27px l-19px" h-full flex flex-col gap-58px>
+  <div p="t-29px r-53px b-27px l-19px" relative h-full flex flex-col gap-58px>
     <!-- 顶部区域 -->
     <div flex items-center justify-between>
       <div flex flex-col gap-4px>
@@ -70,6 +70,9 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+    <!-- AI助手组件 -->
+    <AIAssistant />
   </div>
 </template>
 
