@@ -477,10 +477,6 @@ function handleDislike(messageId: string) {
 </template>
 
 <style lang="scss" scoped>
-.agent-header {
-  border-bottom: 1px solid var(--app-border-regular);
-}
-
 .agent-content {
   height: calc(100vh - 80px); // 减去头部高度
   overflow: hidden; // 避免整体出现滚动条

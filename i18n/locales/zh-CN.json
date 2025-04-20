@@ -417,8 +417,7 @@
       },
       "knowledge_base": "知识库",
       "selected_items": "已选{count}项目",
-      "prev_step": "上一步",
-      "create": "创建"
+      "prev_step": "上一步"
     },
     "doc": {
       "create_new_doc": "新建AI文档",

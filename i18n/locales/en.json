@@ -407,8 +407,7 @@
       },
       "knowledge_base": "Knowledge Base",
       "selected_items": "{count} Items Selected",
-      "prev_step": "Previous",
-      "create": "Create"
+      "prev_step": "Previous"
     },
     "doc": {
       "create_new_doc": "Create AI Document",

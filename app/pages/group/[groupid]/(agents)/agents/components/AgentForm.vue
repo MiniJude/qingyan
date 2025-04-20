@@ -19,6 +19,13 @@ const dataSourceOptions = [
 
 // 处理步骤导航
 function nextStep() {
+  // 如果是选择大模型原生数据，点击"创建"按钮时不进入第二步，直接创建
+  if (form.value.dataSource === 1) {
+    createAssistant()
+    return
+  }
+
+  // 如果是基于当前空间数据，进入第二步选择知识库
   currentStep.value++
 }
 
@@ -111,7 +118,7 @@ defineExpose({
             {{ $t('knowledge_base.cancel') }}
           </el-button>
           <el-button type="primary" @click="nextStep">
-            {{ $t('login.next_step') }}
+            {{ form.dataSource === 1 ? $t('common.actions.create') : $t('login.next_step') }}
           </el-button>
         </template>
 
@@ -120,7 +127,7 @@ defineExpose({
             {{ $t('agents.form.prev_step') }}
           </el-button>
           <el-button type="primary" @click="createAssistant()">
-            {{ $t('agents.form.create') }}
+            {{ $t('common.actions.create') }}
           </el-button>
         </template>
       </div>

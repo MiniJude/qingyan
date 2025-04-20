@@ -9,11 +9,11 @@ import { ArrowDown } from '@element-plus/icons-vue'
         <img width="48" src="@/assets/img/logo-icon.png" alt="">
         <span class="text-20px text-tprimary">{{ $t('agents.kb_qa_assistant.name') }}</span>
       </div>
-      <div class="flex items-center gap-20px text-20px" style="color: #4E5969;">
+      <!-- <div class="flex items-center gap-20px text-20px" style="color: #4E5969;">
         <SvgoNotice class="cursor-pointer" />
         <SvgoClear class="cursor-pointer" />
         <SvgoInfo class="cursor-pointer" />
-      </div>
+      </div> -->
     </div>
 
     <div class="agent-content min-h-0 flex flex-1 flex-col">
@@ -29,3 +29,9 @@ import { ArrowDown } from '@element-plus/icons-vue'
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.agent-header {
+  border-bottom: 1px solid var(--app-border-regular);
+}
+</style>
