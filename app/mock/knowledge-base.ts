@@ -99,7 +99,7 @@ export const personalData: FileTreeType[] = [
 // 团队空间数据
 export const teamData: FileTreeTypeWithOptionalId[] = [
   {
-    label: '文件夹',
+    label: '个人',
     level: 1,
     children: [
       {
@@ -119,18 +119,6 @@ export const teamData: FileTreeTypeWithOptionalId[] = [
             type: 'file',
             fileType: 'ppt',
           },
-          {
-            label: '平衡树专题序言',
-            level: 3,
-            type: 'file',
-            fileType: 'ppt',
-          },
-          {
-            label: '毕业论文任务书',
-            level: 3,
-            type: 'file',
-            fileType: 'doc',
-          },
         ],
       },
       {
@@ -138,18 +126,33 @@ export const teamData: FileTreeTypeWithOptionalId[] = [
         level: 2,
         type: 'folder',
       },
+    ],
+  },
+  {
+    label: '全体成员',
+    level: 1,
+    children: [
       {
-        label: '大学物理',
+        label: '高等数学',
         level: 2,
         type: 'folder',
+        children: [
+          {
+            label: '信息学一本通第五版',
+            level: 3,
+            type: 'file',
+            fileType: 'ppt',
+          },
+          {
+            label: '算法设计与分析',
+            level: 3,
+            type: 'file',
+            fileType: 'ppt',
+          },
+        ],
       },
       {
-        label: '形势与政策',
-        level: 2,
-        type: 'folder',
-      },
-      {
-        label: '流体力学',
+        label: '机械制图',
         level: 2,
         type: 'folder',
       },

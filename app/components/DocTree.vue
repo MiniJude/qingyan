@@ -81,10 +81,15 @@ defineExpose({
         </template>
 
         <span flex-1>{{ node.label }}</span>
-        <div v-if="data.level === 1 && !props.checkboxVisible" flex gap-5px style="color: #C9CDD4;" @click.stop>
-          <SvgoPlus v-if="props.editable" />
-          <SvgoMultiSelect v-if="props.editable" @click="emits('update:checkboxVisible', true)" />
-        </div>
+        <template v-if="data.level === 1">
+          <div v-if="!props.checkboxVisible" flex gap-5px style="color: #C9CDD4;" @click.stop>
+            <SvgoPlus v-if="props.editable" />
+            <SvgoMultiSelect v-if="props.editable" @click="emits('update:checkboxVisible', true)" />
+          </div>
+          <div v-else flex gap-5px style="color: #C9CDD4;" @click.stop>
+            <div class="i-carbon:filter-reset" @click="emits('update:checkboxVisible', false)" />
+          </div>
+        </template>
       </div>
     </template>
   </el-tree>

@@ -6,26 +6,26 @@ const localePath = useLocalePath()
 const spaceStore = useSpaceStore()
 
 // 响应式数据结构
-const data = reactive<{
+const data = ref<{
   treeData: FileTreeType[]
   checkboxVisible: boolean
   checkedKeys: string[]
 }[]>([
-  {
-    treeData: [], // 本地数据
-    checkboxVisible: false,
-    checkedKeys: [],
-  },
-  {
-    treeData: [], // 待归档数据
-    checkboxVisible: false,
-    checkedKeys: [],
-  },
-  {
-    treeData: [], // 微信数据
-    checkboxVisible: false,
-    checkedKeys: [],
-  },
+  // {
+  //   treeData: [], // 本地数据
+  //   checkboxVisible: false,
+  //   checkedKeys: [],
+  // },
+  // {
+  //   treeData: [], // 待归档数据
+  //   checkboxVisible: false,
+  //   checkedKeys: [],
+  // },
+  // {
+  //   treeData: [], // 微信数据
+  //   checkboxVisible: false,
+  //   checkedKeys: [],
+  // },
 ])
 
 // 加载状态
@@ -41,34 +41,11 @@ async function loadKnowledgeBaseData() {
     const knowledgeBaseData = await $api<FileTreeType[]>(`/mock-api/knowledge-base?spaceId=${spaceId}`)
 
     if (Array.isArray(knowledgeBaseData)) {
-      // 将API返回的数据转换成有ID的树结构
-      const treeDataWithUid = knowledgeBaseData.flat()
-
-      // 根据数据类型分配到不同的树中
-      data.forEach((item, index) => {
-        // 简单区分不同类型的数据（可根据实际需求调整）
-        if (index === 0) {
-          // 本地数据 - 查找文件夹类型
-          item.treeData = treeDataWithUid.filter(node =>
-            node.label === '文件夹'
-            || node.label.includes('文档'),
-          )
-        }
-        else if (index === 1) {
-          // 待归档数据
-          item.treeData = treeDataWithUid.filter(node =>
-            node.label === '待归档'
-            || node.label.includes('归档'),
-          )
-        }
-        else if (index === 2) {
-          // 微信数据
-          item.treeData = treeDataWithUid.filter(node =>
-            node.label === '微信输入'
-            || node.label.includes('微信'),
-          )
-        }
-      })
+      data.value = knowledgeBaseData.map(item => ({
+        treeData: [item],
+        checkboxVisible: false,
+        checkedKeys: [],
+      }))
     }
     else {
       console.error('获取知识库数据格式错误')
@@ -91,7 +68,7 @@ watch(() => spaceStore.currentSpace?.id, (newSpaceId, oldSpaceId) => {
 
 // 处理节点选中状态变更
 function handleCheckChange(checkedKeys: string[], index: number) {
-  data[index]!.checkedKeys = checkedKeys
+  data.value[index]!.checkedKeys = checkedKeys
 }
 
 const treeRef = useTemplateRef<HTMLElement[]>('treeRef')

@@ -240,20 +240,26 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
         <span text-16px text-tprimary font-bold>
           {{ $t('knowledge_base.index.knowledge_space') }}
         </span>
-        <span text-12px text-tregular>
-          {{ viewingText }}
-        </span>
+        <ClientOnly>
+          <span text-12px text-tregular>
+            {{ viewingText }}
+          </span>
+        </ClientOnly>
       </div>
-      <Switch
-        v-model="currentFileFilterType"
-        h-36px
-        :columns="switchColumns"
-        :item-width="83"
-      />
-      <FolderTable
-        class="mt-16px min-h-0 flex-1"
-        :type="currentFileFilterType"
-      />
+      <ClientOnly>
+        <Switch
+          v-model="currentFileFilterType"
+          h-36px
+          :columns="switchColumns"
+          :item-width="83"
+        />
+      </ClientOnly>
+      <ClientOnly>
+        <FolderTable
+          class="mt-16px min-h-0 flex-1"
+          :type="currentFileFilterType"
+        />
+      </ClientOnly>
     </div>
 
     <TemplateLibraryDialog
