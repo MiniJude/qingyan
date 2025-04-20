@@ -19,7 +19,7 @@ const props = defineProps({
   },
   upgradeType: {
     type: String,
-    default: 'storage', // storage, ai, quality
+    default: 'storage', // storage, ai, quality, members, team_storage
   },
 })
 
@@ -39,8 +39,17 @@ function getDialogTitle() {
   else if (props.upgradeType === 'ai') {
     return t('space.upgrade.plans_dialog.ai_title')
   }
-  else {
+  else if (props.upgradeType === 'quality') {
     return t('space.upgrade.plans_dialog.quality_title')
+  }
+  else if (props.upgradeType === 'members') {
+    return t('space.upgrade.plans_dialog.members_title')
+  }
+  else if (props.upgradeType === 'team_storage') {
+    return t('space.upgrade.plans_dialog.team_storage_title')
+  }
+  else {
+    return t('space.upgrade.plans_dialog.storage_title')
   }
 }
 
