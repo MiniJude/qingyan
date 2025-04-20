@@ -267,7 +267,13 @@
     "new_file": "New File",
     "create_folder": "Create Folder",
     "folder_name": "Folder Name",
-    "please_input_folder_name": "Please input folder name"
+    "please_input_folder_name": "Please input folder name",
+    "delete_confirm": {
+      "title": "Delete File?",
+      "message": "The file will be moved to trash and can be restored manually within 30 days!",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    }
   },
   "common": {
     "coming_soon": {

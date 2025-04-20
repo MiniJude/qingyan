@@ -277,7 +277,13 @@
     "new_file": "新建文件",
     "create_folder": "创建文件夹",
     "folder_name": "文件夹名称",
-    "please_input_folder_name": "请输入文件夹名称"
+    "please_input_folder_name": "请输入文件夹名称",
+    "delete_confirm": {
+      "title": "确定要删除文件吗?",
+      "message": "文件将移除至回收站，30 天内可以手动恢复！",
+      "cancel": "取消",
+      "confirm": "确定"
+    }
   },
   "common": {
     "coming_soon": {

@@ -61,6 +61,10 @@ const fileList = computed(() => {
 const shareDialogVisible = ref(false)
 const currentFile = ref<FileItem | null>(null)
 
+// 删除确认对话框相关
+const deleteDialogVisible = ref(false)
+const fileToDelete = ref<FileItem | null>(null)
+
 // 处理文件操作
 function handleFileAction(action: string, file: FileItem) {
   switch (action) {
@@ -68,7 +72,8 @@ function handleFileAction(action: string, file: FileItem) {
       console.warn('编辑文件:', file.fileName)
       break
     case 'delete':
-      console.warn('删除文件:', file.fileName)
+      fileToDelete.value = file
+      deleteDialogVisible.value = true
       break
     case 'download':
       console.warn('下载文件:', file.fileName)
@@ -80,6 +85,31 @@ function handleFileAction(action: string, file: FileItem) {
     default:
       break
   }
+}
+
+// 确认删除文件
+function confirmDelete() {
+  if (fileToDelete.value) {
+    console.warn('确认删除文件:', fileToDelete.value.fileName)
+    // 实际删除操作
+    if (props.type === FileFilterType.PERSONAL) {
+      personalFiles.value = personalFiles.value.filter(file => file.id !== fileToDelete.value?.id)
+    }
+    else if (props.type === FileFilterType.TEAM) {
+      teamFiles.value = teamFiles.value.filter(file => file.id !== fileToDelete.value?.id)
+    }
+    else if (props.type === FileFilterType.SHARED) {
+      sharedFiles.value = sharedFiles.value.filter(file => file.id !== fileToDelete.value?.id)
+    }
+    deleteDialogVisible.value = false
+    fileToDelete.value = null
+  }
+}
+
+// 取消删除
+function cancelDelete() {
+  deleteDialogVisible.value = false
+  fileToDelete.value = null
 }
 
 // 使用VueUse获取元素引用和尺寸
@@ -180,6 +210,24 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
       v-model="shareDialogVisible"
       :file-name="currentFile.fileName"
     />
+
+    <!-- 删除确认对话框 -->
+    <el-dialog
+      v-model="deleteDialogVisible"
+      :title="$t('knowledge_base.delete_confirm.title')"
+      width="30%"
+      align-center
+    >
+      <span>{{ $t('knowledge_base.delete_confirm.message') }}</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancelDelete">{{ $t('knowledge_base.delete_confirm.cancel') }}</el-button>
+          <el-button type="primary" @click="confirmDelete">
+            {{ $t('knowledge_base.delete_confirm.confirm') }}
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 

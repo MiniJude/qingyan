@@ -73,6 +73,7 @@ function selectEmoji(emoji: string) {
     :width="350"
     trigger="click"
     popper-class="emoji-popover"
+    :teleported="false"
   >
     <template #reference>
       <div class="action-btn">
