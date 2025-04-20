@@ -10,6 +10,8 @@ defineProps<{
 
 const { t } = useI18n()
 const spaceStore = useSpaceStore()
+const route = useRoute()
+const localePath = useLocalePath()
 
 // 控制Popover显示
 const popoverVisible = ref(false)
@@ -38,13 +40,36 @@ async function handleCreateSpaceSubmit(values: { name: string, description: stri
   if (newSpace) {
     // 使用通用的操作成功消息，组合"创建"+"成功"
     ElMessage.success(t('common.messages.operation_success', { operation: t('common.actions.create') }))
+
+    // 关闭对话框
+    showCreateDialog.value = false
+
+    // 延迟导航，等待对话框关闭动画完成
+    setTimeout(() => {
+      // 导航到新空间的URL
+      navigateTo(generateSpaceRoute(newSpace))
+    }, 300)
   }
   else {
     // 使用通用的操作失败消息，组合"创建"+"失败"
     ElMessage.error(t('common.messages.operation_failed', { operation: t('common.actions.create') }))
+    showCreateDialog.value = false
+  }
+}
+
+// 根据当前路由和空间ID生成目标路由
+function generateSpaceRoute(space: Space): string {
+  // 获取当前路由路径
+  const currentPath = route.path
+  const currentSpaceId = typeof route.params.groupid === 'string' ? route.params.groupid : ''
+
+  // 如果当前路径包含/group/，替换空间ID
+  if (currentPath.includes('/group/')) {
+    return currentPath.replace(`/group/${currentSpaceId}`, `/group/${space.id}`)
   }
 
-  showCreateDialog.value = false
+  // 否则，默认跳转到知识库页面
+  return `/group/${space.id}/knowledge-base`
 }
 
 // 切换空间
@@ -124,23 +149,33 @@ onMounted(() => {
 
       <!-- 空间列表 -->
       <div class="space-items">
-        <div
+        <NuxtLink
           v-for="space in spaceStore.spaceList"
           :key="space.id"
+          v-slot="{ navigate }"
+          :to="localePath(generateSpaceRoute(space) as I18nRoutePath)"
           class="space-item"
           :class="{ active: spaceStore.currentSpace?.id === space.id }"
-          @click="handleSpaceSwitch(space)"
+          custom
         >
-          <div text="10px white" h-36px w-36px flex-center flex-shrink-0 rounded-5px bg-primary px-4px text-center>
-            {{ getSpaceAbbr(space) }}
-          </div>
-          <span ml-12px flex-1>{{ space.name }}</span>
           <div
-            v-if="spaceStore.currentSpace?.id === space.id"
-            i-carbon:checkmark
-            text-primary
-          />
-        </div>
+            class="space-item-content"
+            @click="() => {
+              handleSpaceSwitch(space);
+              navigate();
+            }"
+          >
+            <div text="10px white" h-36px w-36px flex-center flex-shrink-0 rounded-5px bg-primary px-4px text-center>
+              {{ getSpaceAbbr(space) }}
+            </div>
+            <span ml-12px flex-1>{{ space.name }}</span>
+            <div
+              v-if="spaceStore.currentSpace?.id === space.id"
+              i-carbon:checkmark
+              text-primary
+            />
+          </div>
+        </NuxtLink>
       </div>
 
       <el-divider class="!my-8px" />
@@ -201,6 +236,12 @@ onMounted(() => {
 }
 
 .space-item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.space-item-content {
   display: flex;
   align-items: center;
   padding: 8px 16px;
@@ -208,11 +249,11 @@ onMounted(() => {
   transition: all 0.3s ease;
 }
 
-.space-item:hover {
+.space-item:hover .space-item-content {
   background-color: var(--el-color-primary-light-9);
 }
 
-.space-item.active {
+.space-item.active .space-item-content {
   background-color: var(--el-color-primary-light-9);
 }
 

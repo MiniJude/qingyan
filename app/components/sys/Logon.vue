@@ -12,7 +12,6 @@ const props = defineProps<{
 }>()
 
 const { t } = useI18n()
-
 const localePath = useLocalePath()
 
 const form = ref({
@@ -36,7 +35,13 @@ async function submit() {
   try {
     await useLogin(form.value.phone, form.value.password)
     ElMessage.success(t('login.success'))
-    navigateTo(localePath(HOME_ROUTE))
+
+    // 获取默认空间id
+    const defaultSpaceId = await Promise.resolve('1')
+
+    // 导航到首页，路径中包含空间ID
+    // 路由中间件会自动获取空间信息并存储到store中
+    navigateTo(localePath(`/group/${defaultSpaceId}${HOME_ROUTE}` as I18nRoutePath))
   }
   catch (error) {
     console.error(error)

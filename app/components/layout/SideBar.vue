@@ -68,9 +68,7 @@ const activeMenu = computed(() => {
 
     <div flex flex-1 flex-col p="t-13px r-16px b-13px l-15px">
       <!-- 空间切换 -->
-      <ClientOnly>
-        <SpaceSwitcher :is-collapsed="isCollapsed" />
-      </ClientOnly>
+      <SpaceSwitcher :is-collapsed="isCollapsed" />
 
       <el-menu
         class="flex-1 pt-19px !b-0"

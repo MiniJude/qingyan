@@ -2,7 +2,7 @@
 import DocSideBar from './knowledge-base/components/docSideBar/index.vue'
 
 definePageMeta({
-  middleware: 'auth',
+  middleware: ['auth', 'space-loader'],
 })
 </script>
 
