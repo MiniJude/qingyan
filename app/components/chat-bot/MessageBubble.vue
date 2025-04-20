@@ -23,6 +23,7 @@ interface Props {
   recentEmojis?: string[]
   isLiked?: boolean
   isDisliked?: boolean
+  examples?: string[]
 }
 
 withDefaults(defineProps<Props>(), {
@@ -40,10 +41,15 @@ const emit = defineEmits<{
   (e: 'like', messageId: string): void
   (e: 'dislike', messageId: string): void
   (e: 'copy', message: string): void
+  (e: 'exampleClick', question: string): void
 }>()
 
 function handleFileClick(file: FileInfo) {
   emit('fileClick', file)
+}
+
+function handleExampleClick(question: string) {
+  emit('exampleClick', question)
 }
 </script>
 
@@ -97,6 +103,18 @@ function handleFileClick(file: FileInfo) {
         </div>
         <div class="msg-bubble" :class="[role === 'user' ? 'user-bubble' : 'agent-bubble']">
           {{ content }}
+
+          <!-- 示例问题选项 -->
+          <div v-if="examples && examples.length > 0" class="example-questions">
+            <div
+              v-for="(question, qIndex) in examples"
+              :key="qIndex"
+              class="example-question"
+              @click="handleExampleClick(question)"
+            >
+              {{ question }}
+            </div>
+          </div>
         </div>
         <!-- 悬浮操作栏 -->
         <div class="msg-actions" :class="[role === 'user' ? 'user-actions' : 'agent-actions']">
@@ -355,5 +373,26 @@ function handleFileClick(file: FileInfo) {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.example-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.example-question {
+  background-color: #f0f2f5;
+  padding: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #333;
+  font-size: 14px;
+
+  &:hover {
+    background-color: #e8eaed;
+  }
 }
 </style>

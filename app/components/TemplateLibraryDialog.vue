@@ -5,10 +5,13 @@ interface Props {
   modelValue: boolean
   /** 默认选中的类型 */
   defaultType?: string
+  /** 是否隐藏左侧标签栏 */
+  hideLeftTabs?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   defaultType: 'all',
+  hideLeftTabs: false,
 })
 const emit = defineEmits(['update:modelValue', 'selectTemplate'])
 
@@ -172,7 +175,7 @@ const uploadFolders = [
     >
       <div class="h-650px flex">
         <!-- 左侧类型菜单 -->
-        <div class="w-200px flex flex-col gap-4px overflow-y-auto">
+        <div v-if="!hideLeftTabs" class="w-200px flex flex-col gap-4px overflow-y-auto">
           <div
             v-for="menu in typeMenus"
             :key="menu.file_type"

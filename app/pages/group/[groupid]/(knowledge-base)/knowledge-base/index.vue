@@ -41,6 +41,12 @@ function openUploadDialog() {
   templateLibraryType.value = 'upload'
 }
 
+// 打开创建对话框
+function openCreateDialog() {
+  templateLibraryDialog.value = true
+  templateLibraryType.value = 'rich'
+}
+
 // 使用文件过滤hook
 const { currentFileFilterType, viewingText, switchColumns } = useFileFilter()
 
@@ -178,20 +184,12 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
         </template>
         {{ $t('knowledge_base.index.upload') }}
       </el-button>
-      <el-dropdown>
-        <el-button type="primary" size="large">
-          {{ $t('knowledge_base.index.create_new') }}
-          <div ml-8px h-16px w-16px flex-center>
-            <SvgoArrowBottomFilled text-6px />
-          </div>
-        </el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>{{ $t('knowledge_base.index.folder') }}</el-dropdown-item>
-            <el-dropdown-item>{{ $t('knowledge_base.index.document') }}</el-dropdown-item>
-          </el-dropdown-menu>
+      <el-button type="primary" size="large" @click="openCreateDialog">
+        <template #icon>
+          <div class="i-carbon:add-large" />
         </template>
-      </el-dropdown>
+        {{ $t('knowledge_base.index.create_new') }}
+      </el-button>
     </div>
     <!-- <Dashboard /> -->
     <!-- 文件夹 -->

@@ -24,6 +24,7 @@ interface Message {
   replyTo?: number
   isLiked?: boolean
   isDisliked?: boolean
+  examples?: string[]
 }
 
 interface Comment {
@@ -37,37 +38,32 @@ const messages = ref<Message[]>([
   {
     id: '1',
     role: 'agent',
-    content: 'hi~ 我是你的知识库问答助手，有关知识库的问题都可以问我哦~',
+    content: '😀 hi~ 我是你的专属大模型智能问答助手DocumentBot，有关当前文档的主要内容、翻译、概念理解、概括分析等各类问题，都可以直接问我呀~\n\n🧐 我会基于当前的文档内容进行回答~\n\n👉 举几个例子:',
     time: '09:00',
     dateTime: '2025-03-31 09:00',
     reactions: [],
     comments: [],
     isLiked: false,
     isDisliked: false,
-  },
-  {
-    id: '2',
-    role: 'user',
-    content: '请介绍一下人工智能的优势',
-    time: '09:01',
-    dateTime: '2025-03-31 09:01',
-    reactions: [],
-    comments: [],
-    isLiked: false,
-    isDisliked: false,
-  },
-  {
-    id: '3',
-    role: 'agent',
-    content: '人工智能(AI)具有许多优势:\n1. 自动化处理:可以处理大量数据和执行重复任务,节省时间和人力\n2. 决策支持:能分析大量数据识别模式,做出准确决策\n3. 提高准确性:在图像识别、自然语言处理等任务中表现出高精度\n4. 24/7工作:不知疲倦地持续工作,适合制造、监控等场景',
-    time: '09:02',
-    dateTime: '2025-03-31 09:02',
-    reactions: [],
-    comments: [],
-    isLiked: false,
-    isDisliked: false,
+    examples: [
+      '这篇文档主要讲了什么内容?',
+      '帮我写一下关于这篇文档的读后感',
+      '用英语翻译下第一段落',
+    ],
   },
 ])
+
+// 示例问题选项
+const exampleQuestions = [
+  '这篇文档主要讲了什么内容?',
+  '帮我写一下关于这篇文档的读后感',
+  '用英语翻译下第一段落',
+]
+
+// 处理示例问题点击
+function handleExampleQuestionClick(question: string) {
+  handleSendMessage(question)
+}
 
 // 获取当前时间字符串
 function getCurrentTime() {
@@ -141,6 +137,7 @@ function handleSendMessage(text: string) {
     replyTo: replyToIndex, // 如果是回复，添加回复索引
     isLiked: false,
     isDisliked: false,
+    examples: exampleQuestions,
   })
 
   // 清空输入和附件
@@ -153,12 +150,12 @@ function handleSendMessage(text: string) {
 
   // 模拟延迟响应
   setTimeout(() => {
-    handleAgentAnswer()
+    handleAgentAnswer(text)
   }, 1000)
 }
 
 // agent的回答
-function handleAgentAnswer() {
+function handleAgentAnswer(_userQuery: string) {
   const { time, dateTime } = getCurrentTime()
 
   messages.value.push({
@@ -412,6 +409,7 @@ function handleDislike(messageId: string) {
           :recent-emojis="recentEmojis"
           :is-liked="msg.isLiked"
           :is-disliked="msg.isDisliked"
+          :examples="index === 0 && msg.role === 'agent' ? msg.examples : undefined"
           @reaction="(emoji) => addReaction(index, emoji)"
           @reply="showReplyInput(index)"
           @delete="showDeleteConfirm(index)"
@@ -419,6 +417,7 @@ function handleDislike(messageId: string) {
           @file-click="handleFileClick"
           @like="handleLike"
           @dislike="handleDislike"
+          @example-click="handleExampleQuestionClick"
         />
       </div>
     </div>

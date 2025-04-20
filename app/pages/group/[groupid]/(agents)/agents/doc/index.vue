@@ -9,15 +9,24 @@ const { currentFileFilterType, switchColumns } = useFileFilter()
 // 模板库对话框
 const templateLibraryDialog = ref(false)
 const templateLibraryType = ref('all')
+const hideTemplateLibraryTabs = ref(false)
 
 // 打开上传文档对话框
 function openUploadDialog() {
   templateLibraryDialog.value = true
   templateLibraryType.value = 'upload'
+  hideTemplateLibraryTabs.value = false
+}
+
+// 打开新建AI文档对话框
+function openNewDocDialog() {
+  templateLibraryDialog.value = true
+  templateLibraryType.value = 'ai-rich'
+  hideTemplateLibraryTabs.value = true
 }
 
 // 创建文档对应的值
-const docTypes = [
+const _docTypes = [
   { label: t('agents.doc.formats.ppt'), value: AiDocType.PPT },
   { label: t('agents.doc.formats.word'), value: AiDocType.WORD },
   { label: t('agents.doc.formats.excel'), value: AiDocType.EXCEL },
@@ -43,24 +52,12 @@ const docTypes = [
           </template>
           {{ $t('knowledge_base.index.upload') }}
         </el-button>
-        <el-dropdown>
-          <el-button type="primary" size="large">
-            {{ $t('agents.doc.create_new_doc') }}
-            <div ml-8px h-16px w-16px flex-center>
-              <SvgoArrowBottomFilled text-6px />
-            </div>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item
-                v-for="item in docTypes"
-                :key="item.value"
-              >
-                {{ item.label }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
+        <el-button type="primary" size="large" @click="openNewDocDialog">
+          <template #icon>
+            <div class="i-carbon:add-large" />
           </template>
-        </el-dropdown>
+          {{ $t('knowledge_base.index.create_new') }}
+        </el-button>
       </div>
       <div mb-16px mt-34px text-16px text-tprimary font-bold>
         {{ $t('agents.doc.ai_documents') }}
@@ -80,6 +77,7 @@ const docTypes = [
     <TemplateLibraryDialog
       v-model="templateLibraryDialog"
       :default-type="templateLibraryType"
+      :hide-left-tabs="hideTemplateLibraryTabs"
     />
   </div>
 </template>
