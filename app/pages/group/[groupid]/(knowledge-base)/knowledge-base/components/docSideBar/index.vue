@@ -210,7 +210,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
     <!-- 弹框：空间设置 -->
     <SpaceSetting
       v-model="spaceSettingVisible"
-      :active-tab="spaceSettingActiveTab"
+      v-model:active-tab="spaceSettingActiveTab"
     />
   </div>
 </template>

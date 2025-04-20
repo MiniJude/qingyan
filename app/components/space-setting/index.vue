@@ -1,21 +1,28 @@
 <script setup lang="ts">
 import { MenuSplitContent, SpaceMemberPanel, SpaceModelSettingPanel, SpacePermissionPanel, SpaceSettingPanel, SpaceTeamPanel, SpaceTrashPanel, SpaceUpgradePanel } from '#components'
 
+interface Props {
+  activeTab?: 'space-upgrade' | 'space-setting' | 'space-model' | 'space-member' | 'space-permission' | 'space-team' | 'space-trash'
+}
+
 const props = withDefaults(defineProps<Props>(), {
   activeTab: 'space-upgrade', // 默认是升级选项卡
 })
 
 const dialogVisible = defineModel<boolean>('modelValue')
-
-// 添加props来接收初始选中的tab
-interface Props {
-  activeTab?: 'space-upgrade' | 'space-setting' | 'space-model' | 'space-member' | 'space-permission' | 'space-team' | 'space-trash'
-}
+const activeTabModel = defineModel<Props['activeTab']>('activeTab', {
+  default: 'space-upgrade',
+})
 
 const { t } = useI18n()
 
-// 当前选中的左侧菜单，使用props中传入的初始值
-const currentMenu = ref(props.activeTab)
+// 当前选中的左侧菜单，使用activeTabModel
+const currentMenu = computed({
+  get: () => activeTabModel.value || props.activeTab,
+  set: (val) => {
+    activeTabModel.value = val as Props['activeTab']
+  },
+})
 
 // 菜单列表
 const menuList = computed(() => [
@@ -63,13 +70,6 @@ const menuList = computed(() => [
     component: shallowRef(SpaceTrashPanel),
   },
 ])
-
-// 监听props中activeTab的变化，更新currentMenu
-watch(() => props.activeTab, (newValue) => {
-  if (newValue) {
-    currentMenu.value = newValue
-  }
-})
 </script>
 
 <template>
