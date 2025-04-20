@@ -2,7 +2,7 @@
 import AgentList from './agents/components/AgentList.vue'
 
 definePageMeta({
-  middleware: 'auth',
+  middleware: ['auth', 'space-loader'],
 })
 </script>
 

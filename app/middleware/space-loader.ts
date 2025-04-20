@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
   }
 
   // 获取路由中的空间ID（从groupid参数获取）
-  const spaceId = typeof to.params.groupid === 'string' ? to.params.groupid : ''
+  const spaceId = (to.params as any).groupid
   if (!spaceId) {
     return
   }
