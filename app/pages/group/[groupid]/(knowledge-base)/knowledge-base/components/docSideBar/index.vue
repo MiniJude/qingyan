@@ -4,18 +4,30 @@ import CreateTeamDialog from '@/components/team-setting/CreateTeamDialog.vue'
 import CopyFormDialog from './CopyFormDialog.vue'
 import DocTree from './docTree/index.vue'
 
-const localePath = useLocalePath()
+const route = useRoute()
+const spaceStore = useSpaceStore()
 
 const docTreeRef = useTemplateRef<InstanceType<typeof DocTree>>('docTreeRef')
 const createTeamDialogVisible = ref(false)
 
+// 获取当前空间ID
+const currentSpaceId = computed(() => spaceStore.currentSpace?.id || '1')
+
+// 生成完整的路径
+function getFullPath(path: string): string {
+  return `/group/${currentSpaceId.value}${path}`
+}
+
 // 当前路由是否是全部文档（/knowledge-base）
 const isAllDoc = computed(() => {
-  return useRoute().path === localePath('/knowledge-base')
+  // 检查路由路径是否以知识库结尾
+  return route.path.endsWith('/knowledge-base')
 })
 
 // 是否是团队空间
-const isTeamSpace = ref(true) // 这里需要根据实际情况判断是否为团队空间
+const isTeamSpace = computed(() => {
+  return spaceStore.currentSpace?.type === 'team'
+})
 
 /** 是否显示底部按钮组 */
 const isBtnGroupShow = computed(() => {
@@ -116,7 +128,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
 <template>
   <div class="doc-side-bar" p="t-28px r-16px b-18px l-16px" h-full w-263px flex="~ col">
     <!-- 顶部按钮（全部文档） -->
-    <NuxtLink to="/knowledge-base" class="mb-24px">
+    <NuxtLink :to="getFullPath('/knowledge-base')" class="mb-24px">
       <div class="all-doc-btn" :class="{ active: isAllDoc }">
         <CircleDoc />
         <span ml-12px text-16px>{{ $t('knowledge_base.all_documents') }}</span>
@@ -132,7 +144,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
           <span ml-12px text-16px>{{ $t('knowledge_base.create_team') }}</span>
         </div>
       </div>
-      <NuxtLink :to="localePath('/knowledge-base/trush' as I18nRoutePath)">
+      <NuxtLink :to="getFullPath('/knowledge-base/trush')">
         <div flex cursor-pointer items-center gap-10px>
           <SvgoTrash />
           <span text-tprimary>{{ $t('knowledge_base.trash') }}</span>

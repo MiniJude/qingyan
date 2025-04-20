@@ -2,7 +2,6 @@
 import { useFileStore } from '~/stores/file'
 import { useSpaceStore } from '~/stores/space'
 
-const localePath = useLocalePath()
 const spaceStore = useSpaceStore()
 
 // 响应式数据结构
@@ -76,7 +75,12 @@ const treeRef = useTemplateRef<HTMLElement[]>('treeRef')
 // 处理节点点击
 function handleNodeClick(file: FileTreeType, fileRoute: string[]) {
   if (file.type === 'file') {
-    navigateTo(localePath(`/knowledge-base/${file.fileType}/${file.id}` as I18nRoutePath))
+    // 获取当前空间ID
+    const currentSpaceId = spaceStore.currentSpace?.id || '1'
+    // 生成符合新路由结构的路径
+    const fullPath = `/group/${currentSpaceId}/knowledge-base/${file.fileType}/${file.id}`
+
+    navigateTo(fullPath)
 
     // 存储当前文件路径
     useFileStore().setFileRoute(fileRoute)
