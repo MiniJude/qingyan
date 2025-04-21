@@ -16,6 +16,8 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
 
+const { isLtMd } = useBreakpoints()
+
 const dialogRef = ref()
 
 const currentIndex = ref(0)
@@ -99,18 +101,18 @@ defineExpose({
     ref="dialogRef"
     width="auto"
     v-bind="$attrs"
-    class="!bg-board !p-0 lt-md:!w-95vw !dark:bg-black"
+    class="!bg-board !p-0 lt-md:!w-95vw !dark:bg-black lt-md:!bg-transparent lt-md:!shadow-none"
     destroy-on-close
     :show-close="false"
     align-center
     header-class="hidden"
-    :close-on-click-modal="false"
+    :close-on-click-modal="isLtMd"
     :close-on-press-escape="false"
     @close="handleClose"
   >
-    <div relative m-auto flex-center rounded-10px px-100px pb-100px pt-160px>
-      <img src="@/assets/img/logo.png" alt="logo" absolute left-25px top-26px h-64px w-134px>
-      <CircleCloseFilled color="primary" absolute right-35px top-38px h-40px w-40px cursor-pointer @click="handleClose" />
+    <div relative m-auto flex-center rounded-10px px-100px pb-100px pt-160px lt-md:pb-0 lt-md:pt-0>
+      <img src="@/assets/img/logo.png" alt="logo" class="absolute left-25px top-26px h-64px w-134px lt-md:hidden">
+      <CircleCloseFilled color="primary" class="absolute right-35px top-38px h-40px w-40px cursor-pointer lt-md:hidden" @click="handleClose" />
 
       <div relative>
         <div class="dot" left--10px top-20px style="background: #6CB5EE;" />
