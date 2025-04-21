@@ -3,6 +3,9 @@ import { useUserStore } from '~/stores/user'
 import SearchBar from './SearchBar.vue'
 import SearchResult from './SearchResult.vue'
 
+const emit = defineEmits<{
+  (e: 'openDrawer'): void
+}>()
 const searchValue = ref('')
 const isSearchFocused = ref(false)
 
@@ -10,7 +13,7 @@ const { currentMenu } = useMenu()
 const { t, locale, setLocale } = useI18n()
 const localePath = useLocalePath()
 const userStore = useUserStore()
-
+const { isMobileDevice } = useDeviceDetection()
 // 个人中心弹框可见性
 const userProfileDialogVisible = ref(false)
 
@@ -41,14 +44,23 @@ function handleSearch(_value: string) {
 function handleSearchFocusChange(isFocused: boolean) {
   isSearchFocused.value = isFocused
 }
+
+// 打开移动端菜单抽屉
+function openMobileDrawer() {
+  emit('openDrawer')
+}
 </script>
 
 <template>
   <div class="header-wrapper">
-    <div class="header" p="l-24px r-53px" h-64px flex items-center justify-between>
+    <div class="header lt-md:pl-8px lt-md:pr-8px" p="l-24px r-53px" h-64px flex items-center justify-between>
       <div flex items-center>
-        <component :is="currentMenu?.iconUrl" h-30px w-30px text-primary />
-        <span ml-8px>{{ currentMenu?.name }}</span>
+        <!-- 移动端菜单图标 -->
+        <el-button v-if="isMobileDevice" link @click="openMobileDrawer">
+          <div i-carbon:menu h-24px w-24px text-primary />
+        </el-button>
+        <component :is="currentMenu?.iconUrl" class="h-30px w-30px text-primary lt-md:hidden" />
+        <span class="ml-8px shrink-0 lt-md:text-primary">{{ currentMenu?.name }}</span>
       </div>
 
       <SearchBar
@@ -62,9 +74,9 @@ function handleSearchFocusChange(isFocused: boolean) {
           {{ locale === 'en' ? '中' : 'EN' }}
         </el-button>
         <!-- <DarkToggle /> -->
-        <SvgoNotice class="icon-notice" text="24px" cursor-pointer />
+        <SvgoNotice class="icon-notice shrink-0" text="24px" cursor-pointer />
         <el-dropdown trigger="click">
-          <div>
+          <div class="shrink-0">
             <ClientOnly>
               <img v-if="userStore.userInfo?.avatar" :src="userStore.userInfo.avatar" alt="avatar" h-36px w-36px cursor-pointer rounded-full>
               <img v-else src="@/assets/img/avatar.png" alt="avatar" h-36px w-36px cursor-pointer rounded-full>

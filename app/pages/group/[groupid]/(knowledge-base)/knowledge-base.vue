@@ -7,7 +7,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div flex="~" h-full>
+  <div flex="~" h-full lt-md:overflow-auto>
     <DocSideBar />
     <div min-w-0 flex-1>
       <!-- 使用NuxtPage作为嵌套路由出口 -->

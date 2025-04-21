@@ -51,7 +51,7 @@ function getMenuPath(path: string): string {
 
 <template>
   <div
-    class="side-bar bg-board"
+    class="side-bar bg-board lt-md:h-full lt-md:w-full"
     :class="[isCollapsed ? 'w-80px' : 'w-242px']"
     relative flex flex-col dark:bg-black
   >
@@ -109,7 +109,7 @@ function getMenuPath(path: string): string {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .side-bar {
   transition: width 0.3s ease;
 }

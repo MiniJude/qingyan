@@ -97,8 +97,12 @@ function handleFocus() {
   transition: all 0.3s ease;
   position: relative;
   width: 260px;
-  margin-left: auto;
-  margin-right: 100px;
+  position: absolute;
+  right: 220px;
+  @media (max-width: 768px) {
+    right: 120px;
+    width: 50px;
+  }
 
   .search-input {
     :deep(.el-input__wrapper) {
@@ -106,6 +110,9 @@ function handleFocus() {
       height: 36px;
       transition: all 0.3s ease;
       box-shadow: 0 0 0 1px var(--el-border-color) inset;
+      @media (max-width: 768px) {
+        box-shadow: 0 0 0 1px transparent inset;
+      }
 
       &:hover,
       &:focus {
@@ -139,6 +146,10 @@ function handleFocus() {
     width: 700px;
     z-index: 100;
     margin-right: 0;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
 
     .search-input {
       :deep(.el-input__wrapper) {
