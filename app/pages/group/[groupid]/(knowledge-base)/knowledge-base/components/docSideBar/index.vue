@@ -1,14 +1,29 @@
 <script setup lang="ts">
 import CircleDoc from '@/assets/svg/circle-doc.svg?skipsvgo'
 import CreateTeamDialog from '@/components/team-setting/CreateTeamDialog.vue'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import CopyFormDialog from './CopyFormDialog.vue'
 import DocTree from './docTree/index.vue'
 
 const route = useRoute()
 const spaceStore = useSpaceStore()
+const { isMobileDevice } = useDeviceDetection()
 
 const docTreeRef = useTemplateRef<InstanceType<typeof DocTree>>('docTreeRef')
 const createTeamDialogVisible = ref(false)
+
+// 移动端抽屉状态
+const isCollapsed = ref(isMobileDevice.value)
+
+// 监听设备类型变化，自动调整抽屉状态
+watch(isMobileDevice, (newValue) => {
+  isCollapsed.value = newValue
+})
+
+// 切换抽屉显示/隐藏状态
+function toggleDrawer() {
+  isCollapsed.value = !isCollapsed.value
+}
 
 // 空间设置对话框相关
 const spaceSettingVisible = ref(false)
@@ -136,88 +151,158 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
 </script>
 
 <template>
-  <div class="doc-side-bar" p="t-28px r-16px b-18px l-16px" h-full w-263px flex="~ col">
-    <!-- 顶部按钮（全部文档） -->
-    <NuxtLink :to="getFullPath('/knowledge-base')" class="mb-24px">
-      <div class="all-doc-btn" :class="{ active: isAllDoc }">
-        <CircleDoc />
-        <span ml-12px text-16px>{{ $t('knowledge_base.all_documents') }}</span>
+  <div
+    class="doc-side-bar-wrapper"
+  >
+    <div
+      class="doc-side-bar"
+      :class="{ collapsed: isCollapsed }"
+      p="t-28px r-16px b-18px l-16px"
+      flex="~ col"
+    >
+      <!-- 移动端展开/收起按钮 -->
+      <div
+        v-if="isMobileDevice"
+        class="drawer-toggle-btn"
+        @click="toggleDrawer"
+      >
+        <el-icon size="20">
+          <component :is="isCollapsed ? ArrowRight : ArrowLeft" />
+        </el-icon>
       </div>
-    </NuxtLink>
 
-    <!-- 文档树 -->
-    <div flex="~ col 1">
-      <DocTree ref="docTreeRef" />
-      <!-- 新建团队按钮 -->
-      <div v-if="isTeamSpace" class="mb-24px mt-40px">
-        <div class="create-team-btn" @click="createTeamDialogVisible = true">
-          <span ml-12px text-16px>{{ $t('knowledge_base.create_team') }}</span>
+      <!-- 顶部按钮（全部文档） -->
+      <NuxtLink :to="getFullPath('/knowledge-base')" class="mb-24px">
+        <div class="all-doc-btn" :class="{ active: isAllDoc }">
+          <CircleDoc />
+          <span ml-12px text-16px>{{ $t('knowledge_base.all_documents') }}</span>
+        </div>
+      </NuxtLink>
+
+      <!-- 文档树 -->
+      <div flex="~ col 1">
+        <DocTree ref="docTreeRef" />
+        <!-- 新建团队按钮 -->
+        <div v-if="isTeamSpace" class="mb-24px mt-40px">
+          <div class="create-team-btn" @click="createTeamDialogVisible = true">
+            <span ml-12px text-16px>{{ $t('knowledge_base.create_team') }}</span>
+          </div>
+        </div>
+        <div class="trash-link" @click="openTrash">
+          <div flex cursor-pointer items-center gap-10px>
+            <SvgoTrash />
+            <span text-tprimary>{{ $t('knowledge_base.trash') }}</span>
+          </div>
         </div>
       </div>
-      <div class="trash-link" @click="openTrash">
-        <div flex cursor-pointer items-center gap-10px>
-          <SvgoTrash />
-          <span text-tprimary>{{ $t('knowledge_base.trash') }}</span>
-        </div>
+
+      <!-- 底部按钮组（移动到、创建副本、删除） -->
+      <div v-if="isBtnGroupShow" class="btn-group" mt-16px flex justify-between>
+        <el-button plain :disabled="!allCheckedKeys.length" @click="copyFormDialogRef?.open()">
+          {{ $t('knowledge_base.create_copy') }}
+        </el-button>
+        <el-button plain :disabled="!allCheckedKeys.length" @click="moveFormVisible = true">
+          {{ $t('knowledge_base.move_to') }}
+        </el-button>
+        <el-button plain :disabled="!allCheckedKeys.length">
+          {{ $t('knowledge_base.delete') }}
+        </el-button>
       </div>
+
+      <!-- 弹框：移动到 -->
+      <el-dialog v-model="moveFormVisible" :title="$t('knowledge_base.move_to')" width="600" :show-close="false" align-center>
+        <el-form :model="moveForm" size="large">
+          <el-form-item :label="$t('knowledge_base.select_folder')" label-width="140px" label-position="left">
+            <el-tree-select
+              v-model="moveForm.folderId"
+              :data="folderData"
+              :check-strictly="true"
+              :render-after-expand="false"
+              :placeholder="$t('knowledge_base.please_select')"
+              class="!w-322px"
+            />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button plain @click="moveFormVisible = false">
+              {{ $t('knowledge_base.cancel') }}
+            </el-button>
+            <el-button type="primary" @click="moveFormVisible = false">
+              {{ $t('knowledge_base.confirm') }}
+            </el-button>
+          </div>
+        </template>
+      </el-dialog>
+      <!-- 弹框：创建副本 -->
+      <CopyFormDialog ref="copyFormDialogRef" />
+      <!-- 弹框：新建团队 -->
+      <CreateTeamDialog
+        v-model="createTeamDialogVisible"
+        @team-created="handleTeamCreated"
+      />
+      <!-- 弹框：空间设置 -->
+      <SpaceSetting
+        v-model="spaceSettingVisible"
+        v-model:active-tab="spaceSettingActiveTab"
+      />
     </div>
 
-    <!-- 底部按钮组（移动到、创建副本、删除） -->
-    <div v-if="isBtnGroupShow" class="btn-group" mt-16px flex justify-between>
-      <el-button plain :disabled="!allCheckedKeys.length" @click="copyFormDialogRef?.open()">
-        {{ $t('knowledge_base.create_copy') }}
-      </el-button>
-      <el-button plain :disabled="!allCheckedKeys.length" @click="moveFormVisible = true">
-        {{ $t('knowledge_base.move_to') }}
-      </el-button>
-      <el-button plain :disabled="!allCheckedKeys.length">
-        {{ $t('knowledge_base.delete') }}
-      </el-button>
-    </div>
-
-    <!-- 弹框：移动到 -->
-    <el-dialog v-model="moveFormVisible" :title="$t('knowledge_base.move_to')" width="600" :show-close="false" align-center>
-      <el-form :model="moveForm" size="large">
-        <el-form-item :label="$t('knowledge_base.select_folder')" label-width="140px" label-position="left">
-          <el-tree-select
-            v-model="moveForm.folderId"
-            :data="folderData"
-            :check-strictly="true"
-            :render-after-expand="false"
-            :placeholder="$t('knowledge_base.please_select')"
-            class="!w-322px"
-          />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button plain @click="moveFormVisible = false">
-            {{ $t('knowledge_base.cancel') }}
-          </el-button>
-          <el-button type="primary" @click="moveFormVisible = false">
-            {{ $t('knowledge_base.confirm') }}
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
-    <!-- 弹框：创建副本 -->
-    <CopyFormDialog ref="copyFormDialogRef" />
-    <!-- 弹框：新建团队 -->
-    <CreateTeamDialog
-      v-model="createTeamDialogVisible"
-      @team-created="handleTeamCreated"
-    />
-    <!-- 弹框：空间设置 -->
-    <SpaceSetting
-      v-model="spaceSettingVisible"
-      v-model:active-tab="spaceSettingActiveTab"
+    <!-- 移动端蒙层 -->
+    <div
+      v-if="isMobileDevice && !isCollapsed"
+      class="mobile-overlay"
+      @click="toggleDrawer"
     />
   </div>
 </template>
 
 <style lang="scss" scoped>
+.doc-side-bar-wrapper {
+  position: relative;
+  height: 100%;
+}
+
 .doc-side-bar {
   border-right: 1px solid var(--app-border-regular);
+  position: relative;
+  height: 100%;
+  width: 263px;
+  transition: transform 0.3s ease;
+
+  @media (max-width: 767px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 263px;
+    height: 100%;
+    background-color: var(--el-bg-color);
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    &.collapsed {
+      transform: translateX(-100%);
+    }
+  }
+
+  .drawer-toggle-btn {
+    position: absolute;
+    top: 50%;
+    right: -32px;
+    width: 32px;
+    height: 40px;
+    background-color: var(--el-color-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    z-index: 1000;
+    transform: translateY(-50%);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+    transition: right 0.3s ease;
+  }
 
   .all-doc-btn {
     color: var(--el-color-primary);
@@ -267,5 +352,16 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
       margin: 0;
     }
   }
+}
+
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  backdrop-filter: blur(2px);
 }
 </style>

@@ -165,7 +165,7 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
 
 <template>
   <div h-full flex flex-col pb-18px>
-    <div class="btn-group" mr-54px mt-28px flex justify-end gap-12px>
+    <div class="btn-group flex justify-end gap-12px px-58px pt-28px">
       <el-button plain size="large" @click="openTemplateLibrary">
         <template #icon>
           <SvgoTxt />
@@ -249,7 +249,7 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
         :item-width="83"
       />
       <FolderTable
-        class="mt-16px min-h-0 flex-1"
+        class="folder-table mt-16px min-h-0 flex-1"
         :type="currentFileFilterType"
       />
     </div>
@@ -295,6 +295,13 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
   .el-button {
     margin-left: 0;
   }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    padding: 0;
+    padding-bottom: 14px;
+    padding-top: 14px;
+  }
 }
 
 .folder-container {
@@ -308,6 +315,13 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
     border-radius: 4px;
     border: 1px solid var(--app-border-regular);
     display: flex;
+  }
+}
+
+.folder-table {
+  @media (max-width: 768px) {
+    height: 500px;
+    min-height: 500px;
   }
 }
 </style>

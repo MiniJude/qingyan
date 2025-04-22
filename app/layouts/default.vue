@@ -13,7 +13,7 @@ function openDrawer() {
     <SideBar v-if="!isMobileDevice" />
     <div min-w-0 flex flex-1 flex-col>
       <Header @open-drawer="openDrawer" />
-      <div min-h-0 flex-1>
+      <div min-h-0 flex-1 lt-md:overflow-y-auto>
         <slot />
       </div>
     </div>

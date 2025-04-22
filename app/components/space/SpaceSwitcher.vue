@@ -12,6 +12,7 @@ const { t } = useI18n()
 const spaceStore = useSpaceStore()
 const route = useRoute()
 const localePath = useLocalePath()
+const { isMobileDevice } = useDeviceDetection()
 
 // 控制Popover显示
 const popoverVisible = ref(false)
@@ -118,19 +119,13 @@ onMounted(() => {
 <template>
   <ElPopover
     v-model:visible="popoverVisible"
-    placement="right-start"
+    :placement="isMobileDevice ? 'bottom' : 'right-start'"
     :width="242"
     trigger="click"
     popper-class="space-switcher-popover"
   >
     <template #reference>
-      <div
-        m="l-4px b-12px t-10px"
-        h-35px
-        flex
-        cursor-pointer
-        items-center
-      >
+      <div m="l-4px b-12px t-10px" h-35px flex cursor-pointer items-center>
         <div text="white 10px" h-36px w-36px flex-center flex-shrink-0 rounded-5px bg-primary px-4px text-center>
           {{ getSpaceAbbr(spaceStore.currentSpace) }}
         </div>
@@ -150,17 +145,12 @@ onMounted(() => {
       <!-- 空间列表 -->
       <div class="space-items">
         <NuxtLink
-          v-for="space in spaceStore.spaceList"
-          :key="space.id"
-          v-slot="{ navigate }"
-          :to="localePath(generateSpaceRoute(space) as I18nRoutePath)"
-          class="space-item"
-          :class="{ active: spaceStore.currentSpace?.id === space.id }"
-          custom
+          v-for="space in spaceStore.spaceList" :key="space.id" v-slot="{ navigate }"
+          :to="localePath(generateSpaceRoute(space) as I18nRoutePath)" class="space-item"
+          :class="{ active: spaceStore.currentSpace?.id === space.id }" custom
         >
           <div
-            class="space-item-content"
-            @click="() => {
+            class="space-item-content" @click="() => {
               handleSpaceSwitch(space);
               navigate();
             }"
@@ -169,11 +159,7 @@ onMounted(() => {
               {{ getSpaceAbbr(space) }}
             </div>
             <span ml-12px flex-1>{{ space.name }}</span>
-            <div
-              v-if="spaceStore.currentSpace?.id === space.id"
-              i-carbon:checkmark
-              text-primary
-            />
+            <div v-if="spaceStore.currentSpace?.id === space.id" i-carbon:checkmark text-primary />
           </div>
         </NuxtLink>
       </div>
@@ -181,10 +167,7 @@ onMounted(() => {
       <el-divider class="!my-8px" />
 
       <!-- 创建新空间按钮 -->
-      <div
-        class="create-space-btn"
-        @click="openCreateSpaceDialog('personal')"
-      >
+      <div class="create-space-btn" @click="openCreateSpaceDialog('personal')">
         <div i-carbon:add-alt h-20px w-20px />
         <span ml-8px>{{ $t('common.actions.create') }}</span>
       </div>
@@ -192,24 +175,13 @@ onMounted(() => {
   </ElPopover>
 
   <!-- 创建空间弹框 -->
-  <el-dialog
-    v-model="showCreateDialog"
-    :title="$t('space.create_dialog.title')"
-    width="600px"
-    :destroy-on-close="true"
-  >
+  <el-dialog v-model="showCreateDialog" :title="$t('space.create_dialog.title')" width="600px" :destroy-on-close="true">
     <div class="create-space-container">
       <!-- 空间类型选择器 -->
-      <SpaceTypeSelector
-        v-model="createSpaceType"
-      />
+      <SpaceTypeSelector v-model="createSpaceType" />
 
       <!-- 空间表单 -->
-      <CreateSpaceForm
-        ref="createSpaceFormRef"
-        :type="createSpaceType"
-        @submit="handleCreateSpaceSubmit"
-      />
+      <CreateSpaceForm ref="createSpaceFormRef" :type="createSpaceType" @submit="handleCreateSpaceSubmit" />
     </div>
 
     <!-- 底部按钮 -->
@@ -218,10 +190,7 @@ onMounted(() => {
         <el-button @click="showCreateDialog = false">
           {{ $t('common.actions.cancel') }}
         </el-button>
-        <el-button
-          type="primary"
-          @click="createSpaceFormRef?.handleSubmit()"
-        >
+        <el-button type="primary" @click="createSpaceFormRef?.handleSubmit()">
           {{ $t('common.actions.create') }}
         </el-button>
       </div>
