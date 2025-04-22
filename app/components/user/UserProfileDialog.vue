@@ -8,6 +8,7 @@ import WechatAssistantPanel from './WechatAssistantPanel.vue'
 const dialogVisible = defineModel<boolean>('modelValue')
 const { t } = useI18n()
 const userStore = useUserStore()
+const { isMobileDevice } = useDeviceDetection()
 
 // 从Pinia store获取用户信息
 const userInfo = computed(() => {
@@ -77,7 +78,7 @@ const menuList = computed<MenuItem[]>(() => [
 
 <template>
   <el-dialog
-    v-model="dialogVisible" width="800" class="user-profile-dialog" :close-on-click-modal="false" append-to-body
+    v-model="dialogVisible" width="800" class="user-profile-dialog" :close-on-click-modal="false" append-to-body :fullscreen="isMobileDevice"
     :title="$t('header.user_center')"
   >
     <MenuSplitContent
@@ -88,14 +89,13 @@ const menuList = computed<MenuItem[]>(() => [
   </el-dialog>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .user-profile-dialog {
-  :deep(.el-dialog__header) {
-    display: none;
-  }
-
-  :deep(.el-dialog__body) {
-    padding: 0;
-  }
+  // 移动端
+  // @media screen and (max-width: 768px) {
+  //   width: 100%;
+  //   height: 100%;
+  //   margin: 0;
+  // }
 }
 </style>
