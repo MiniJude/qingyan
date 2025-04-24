@@ -106,7 +106,7 @@ function openMobileDrawer() {
     </div>
 
     <!-- 搜索结果面板 -->
-    <SearchResult :visible="isSearchFocused" :search-value="searchValue" />
+    <SearchResult :visible="isSearchFocused" :search-value="searchValue" :width="isMobileDevice ? '100%' : '700px'" />
   </div>
 </template>
 

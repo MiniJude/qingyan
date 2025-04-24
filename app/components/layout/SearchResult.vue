@@ -296,6 +296,10 @@ function handleResultPanelClick(event: MouseEvent) {
   border-radius: 16px;
   overflow: hidden;
   transform-origin: top center;
+
+  @media screen and (max-width: 768px) {
+    border-radius: 0;
+  }
 }
 
 .search-result-container {
