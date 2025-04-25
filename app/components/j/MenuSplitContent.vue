@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Component, ShallowRef } from 'vue'
+import { Switch } from '@element-plus/icons-vue'
 
 interface MenuItem {
   /** 菜单唯一标识 */
@@ -31,12 +32,25 @@ const props = withDefaults(defineProps<Props>(), {
   contentHeight: '600px',
 })
 
+const { isMobileDevice } = useDeviceDetection()
+
 // 当前选中的菜单
 const activeMenu = defineModel<string>('modelValue')
+
+// 移动端菜单展示状态
+const showMobileMenu = ref(false)
 
 // 切换菜单
 function switchMenu(key: string) {
   activeMenu.value = key
+  if (isMobileDevice.value) {
+    showMobileMenu.value = false
+  }
+}
+
+// 切换移动端菜单显示状态
+function toggleMobileMenu() {
+  showMobileMenu.value = !showMobileMenu.value
 }
 
 // 内容高度
@@ -54,9 +68,24 @@ const currentActiveMenu = computed(() => {
 </script>
 
 <template>
-  <div class="menu-split-content flex" :style="{ height: contentHeightStyle }">
+  <div class="menu-split-content relative flex" :style="{ height: contentHeightStyle }">
+    <!-- 移动端蒙层 -->
+    <div
+      v-if="isMobileDevice && showMobileMenu"
+      class="fixed inset-0 z-20 bg-black bg-opacity-40"
+      @click="showMobileMenu = false"
+    />
+
     <!-- 左侧菜单 -->
-    <div class="w-160px flex flex-col gap-10px rounded-4px p-12px">
+    <div
+      class="z-30 flex flex-col gap-10px rounded-4px bg-white p-12px"
+      :class="[
+        isMobileDevice
+          ? 'fixed left-0 top-0 bottom-0 w-200px transition-transform'
+          : 'w-160px',
+        isMobileDevice && !showMobileMenu ? '-translate-x-full' : 'translate-x-0',
+      ]"
+    >
       <div
         v-for="menu in menuList" :key="menu.key"
         class="menu-btn hover:menu-btn-hover"
@@ -71,13 +100,17 @@ const currentActiveMenu = computed(() => {
     </div>
 
     <!-- 竖分割线 -->
-    <el-divider direction="vertical" class="!h-full" />
+    <el-divider v-if="!isMobileDevice" direction="vertical" class="!h-full" />
 
     <!-- 右侧内容 -->
     <div class="flex-1 overflow-y-auto">
       <!-- 头部标题和描述 -->
       <div class="ml-20px">
-        <div class="text-20px font-bold">
+        <div class="flex items-center text-20px font-bold lt-md:gap-8px">
+          <!-- 移动端菜单切换按钮 -->
+          <el-icon v-if="isMobileDevice" class="flex-center p-4px" size="24px" @click="toggleMobileMenu">
+            <Switch class="text-primary" />
+          </el-icon>
           {{ currentActiveMenu?.name }}
         </div>
         <div v-if="currentActiveMenu?.description" class="mt-8px text-tdisabled">
@@ -98,3 +131,6 @@ const currentActiveMenu = computed(() => {
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+</style>

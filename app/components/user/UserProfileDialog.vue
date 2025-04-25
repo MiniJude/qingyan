@@ -78,24 +78,13 @@ const menuList = computed<MenuItem[]>(() => [
 
 <template>
   <el-dialog
-    v-model="dialogVisible" width="800" class="user-profile-dialog" :close-on-click-modal="false" append-to-body :fullscreen="isMobileDevice"
+    v-model="dialogVisible" width="800" :close-on-click-modal="false" append-to-body :fullscreen="isMobileDevice"
     :title="$t('header.user_center')"
   >
     <MenuSplitContent
       v-model="currentMenu"
       :menu-list="menuList"
-      content-height="600px"
+      :content-height="isMobileDevice ? '100%' : '600px'"
     />
   </el-dialog>
 </template>
-
-<style lang="scss">
-.user-profile-dialog {
-  // 移动端
-  // @media screen and (max-width: 768px) {
-  //   width: 100%;
-  //   height: 100%;
-  //   margin: 0;
-  // }
-}
-</style>

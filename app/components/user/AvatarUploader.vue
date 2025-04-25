@@ -75,7 +75,7 @@ function cancelUpload() {
 
 <template>
   <div class="flex items-center">
-    <div class="avatar-container relative cursor-pointer rounded-full" :style="{ width: `${props.size}px`, height: `${props.size}px` }">
+    <div class="avatar-container relative shrink-0 cursor-pointer rounded-full" :style="{ width: `${props.size}px`, height: `${props.size}px` }">
       <img :src="modelValue" alt="avatar" class="h-full w-full rounded-full object-cover">
       <div class="avatar-overlay absolute left-0 top-0 h-full w-full flex flex-col items-center justify-center rounded-full bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 hover:opacity-100" @click="openFileSelect">
         <div class="text-24px text-white">
