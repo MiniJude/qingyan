@@ -51,7 +51,7 @@ const formDialogRef = ref<InstanceType<typeof FormDialog>>()
       <template #icon>
         <SvgoCirclePlus text="white" />
       </template>
-      <span ml-8px text-16px>{{ $t('agents.create_new') }}</span>
+      <span ml-8px text-16px>{{ $t('common.actions.create') }}</span>
     </el-button>
     <ul>
       <NuxtLink v-for="agent in agents" :key="agent.name" :to="localePath(agent.path)">

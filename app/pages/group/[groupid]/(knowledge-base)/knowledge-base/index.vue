@@ -7,6 +7,8 @@ import { DeleteFilled as Delete, EditPen, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getCurrentInstance } from 'vue'
 
+const { isMobileDevice } = useDeviceDetection()
+
 const folderList = ref([
   {
     name: '文件夹1',
@@ -165,30 +167,30 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
 
 <template>
   <div h-full flex flex-col pb-18px>
-    <div class="btn-group flex justify-end gap-12px px-58px pt-28px">
+    <div class="btn-group flex justify-end gap-12px px-58px pt-28px !lt-md:justify-end !lt-md:p-4">
       <el-button plain size="large" @click="openTemplateLibrary">
         <template #icon>
           <SvgoTxt />
         </template>
-        {{ $t('knowledge_base.index.template_library') }}
-      </el-button>
-      <!-- <el-button plain size="large">
-        <template #icon>
-          <SvgoFolder2 />
+        <template v-if="!isMobileDevice" #default>
+          {{ $t('knowledge_base.index.template_library') }}
         </template>
-        {{ $t('knowledge_base.index.auto_classify') }}
-      </el-button> -->
+      </el-button>
       <el-button plain size="large" @click="openUploadDialog">
         <template #icon>
           <div class="i-carbon:upload" />
         </template>
-        {{ $t('knowledge_base.index.upload') }}
+        <template v-if="!isMobileDevice" #default>
+          {{ $t('knowledge_base.index.upload') }}
+        </template>
       </el-button>
       <el-button type="primary" size="large" @click="openCreateDialog">
         <template #icon>
           <div class="i-carbon:add-large" />
         </template>
-        {{ $t('knowledge_base.index.create_new') }}
+        <template v-if="!isMobileDevice" #default>
+          {{ $t('common.actions.create') }}
+        </template>
       </el-button>
     </div>
     <!-- <Dashboard /> -->

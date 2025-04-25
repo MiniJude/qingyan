@@ -126,10 +126,9 @@
       "confirm": "Confirm"
     },
     "index": {
-      "template_library": "Template Library",
+      "template_library": "Templates",
       "auto_classify": "Auto Classify",
       "upload": "Upload",
-      "create_new": "Create New",
       "document": "Document",
       "spreadsheet": "Spreadsheet",
       "image": "Image",
@@ -391,7 +390,6 @@
     }
   },
   "agents": {
-    "create_new": "Create New",
     "kb_qa_assistant": {
       "name": "Knowledge Base QA Assistant",
       "description": "Hi~ I am your knowledge base Q&A assistant. You can ask me questions about the knowledge base!",

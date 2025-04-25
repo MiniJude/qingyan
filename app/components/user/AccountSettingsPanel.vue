@@ -13,6 +13,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const { t } = useI18n()
+const { isMobileDevice } = useDeviceDetection()
 
 // 表单数据
 const formData = ref({
@@ -266,12 +267,12 @@ function closeDialog(type: 'password' | 'phone' | 'email') {
     :title="$t('header.user_profile.update_phone')"
     width="500px"
     :close-on-click-modal="false"
+    :fullscreen="isMobileDevice"
   >
     <el-form
       ref="phoneFormRef"
       :model="phoneForm"
       :rules="phoneRules"
-      label-width="160px"
     >
       <el-form-item
         :label="$t('header.user_profile.new_phone')"
@@ -303,12 +304,12 @@ function closeDialog(type: 'password' | 'phone' | 'email') {
     :title="$t('header.user_profile.update_email')"
     width="500px"
     :close-on-click-modal="false"
+    :fullscreen="isMobileDevice"
   >
     <el-form
       ref="emailFormRef"
       :model="emailForm"
       :rules="emailRules"
-      label-width="160px"
     >
       <el-form-item
         :label="$t('header.user_profile.new_email')"
@@ -340,12 +341,13 @@ function closeDialog(type: 'password' | 'phone' | 'email') {
     :title="$t('header.user_profile.change_password')"
     width="500px"
     :close-on-click-modal="false"
+    :fullscreen="isMobileDevice"
   >
     <el-form
       ref="passwordFormRef"
       :model="passwordForm"
       :rules="passwordRules"
-      label-width="160px"
+      label-width="100px"
     >
       <!-- a. 当前密码 -->
       <el-form-item

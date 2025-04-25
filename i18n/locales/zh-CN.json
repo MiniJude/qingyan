@@ -129,7 +129,6 @@
       "template_library": "模板库",
       "auto_classify": "自动分类",
       "upload": "上传",
-      "create_new": "新建",
       "document": "文档",
       "spreadsheet": "表格",
       "image": "图片",
@@ -401,7 +400,6 @@
     }
   },
   "agents": {
-    "create_new": "新建",
     "kb_qa_assistant": {
       "name": "知识库问答助手",
       "description": "hi~ 我是你的知识库问答助手，有关知识库的问题都可以问我哦~",

@@ -4,6 +4,7 @@ import { SvgoAiChat, SvgoFolder2 } from '#components'
 const route = useRoute()
 const { t } = useI18n()
 const spaceStore = useSpaceStore()
+const { isMobileDevice } = useDeviceDetection()
 
 // 侧边栏折叠状态
 const isCollapsed = ref(false)
@@ -63,6 +64,7 @@ function getMenuPath(path: string): string {
 
       <!-- 展开/收起按钮 -->
       <div
+        v-if="!isMobileDevice"
         class="collapse-btn bg-white dark:bg-gray-300"
         :class="isCollapsed ? 'right-[-12px] top-20px' : 'right-3 top-20px'"
         @click="toggleSidebar"

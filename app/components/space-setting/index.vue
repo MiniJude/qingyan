@@ -15,6 +15,7 @@ const activeTabModel = defineModel<Props['activeTab']>('activeTab', {
 })
 
 const { t } = useI18n()
+const { isMobileDevice } = useDeviceDetection()
 
 // 当前选中的左侧菜单，使用activeTabModel
 const currentMenu = computed({
@@ -84,7 +85,7 @@ const menuList = computed(() => [
     <MenuSplitContent
       v-model="currentMenu"
       :menu-list="menuList"
-      content-height="800px"
+      :content-height="isMobileDevice ? '100%' : '800px'"
     />
   </el-dialog>
 </template>

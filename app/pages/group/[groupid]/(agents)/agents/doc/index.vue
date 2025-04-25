@@ -56,7 +56,7 @@ const _docTypes = [
           <template #icon>
             <div class="i-carbon:add-large" />
           </template>
-          {{ $t('knowledge_base.index.create_new') }}
+          {{ $t('common.actions.create') }}
         </el-button>
       </div>
       <div mb-16px mt-34px text-16px text-tprimary font-bold>
