@@ -112,7 +112,7 @@ const currentActiveMenu = computed(() => {
     <el-divider v-if="!isMobileDevice" direction="vertical" class="!h-full" />
 
     <!-- 右侧内容 -->
-    <div class="min-h-0 flex flex-1 flex-col">
+    <div class="flex-1 overflow-y-auto">
       <!-- 头部标题和描述 -->
       <div class="ml-20px">
         <div class="flex items-center text-20px font-bold lt-md:gap-8px">
@@ -127,18 +127,16 @@ const currentActiveMenu = computed(() => {
         </div>
         <el-divider class="!my-12px" />
       </div>
-      <div class="min-h-0 flex-1 overflow-auto">
-        <slot :active-menu="activeMenu">
-          <component
-            :is="currentActiveMenu?.component?.value"
-            v-if="currentActiveMenu?.component"
-            v-bind="currentActiveMenu?.props"
-          />
-          <div v-else>
-            <ComingSoon />
-          </div>
-        </slot>
-      </div>
+      <slot :active-menu="activeMenu">
+        <component
+          :is="currentActiveMenu?.component?.value"
+          v-if="currentActiveMenu?.component"
+          v-bind="currentActiveMenu?.props"
+        />
+        <div v-else>
+          <ComingSoon />
+        </div>
+      </slot>
     </div>
   </div>
 </template>

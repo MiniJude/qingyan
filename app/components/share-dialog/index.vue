@@ -12,6 +12,8 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
 
+const { isMobileDevice } = useDeviceDetection()
+
 // 控制弹窗显示/隐藏
 const dialogVisible = computed({
   get: () => props.modelValue,
@@ -28,6 +30,7 @@ const activeTab = ref('invite')
     :title="fileName"
     width="700px"
     class="share-dialog"
+    :fullscreen="isMobileDevice"
   >
     <!-- a标签页 -->
     <el-tabs v-model="activeTab">
