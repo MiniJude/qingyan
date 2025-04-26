@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Component, ShallowRef } from 'vue'
 import type { Team } from '~/types/team'
 import TeamInfo from './TeamInfo.vue'
 import TeamMoreSettings from './TeamMoreSettings.vue'
@@ -36,31 +37,34 @@ function closeDialog() {
 }
 
 // 当前激活的菜单
-const activeSideMenu = ref(props.defaultActiveMenu || 'team-info')
+const activeMenuKey = ref(props.defaultActiveMenu || 'team-info')
 
-// 侧边栏菜单
-const sideMenus = [
+// 侧边栏菜单配置
+const menuList = [
   {
     key: 'team-info',
-    label: t('space.team.team_info'),
+    name: t('space.team.team_info'),
     icon: 'i-carbon:group',
+    description: t('space.team.team_info_description'),
   },
   {
     key: 'permission',
-    label: t('space.team.permission'),
+    name: t('space.team.permission'),
     icon: 'i-carbon:security',
+    description: t('space.team.permission_description'),
   },
   {
     key: 'more-settings',
-    label: t('space.team.more_settings'),
+    name: t('space.team.more_settings'),
     icon: 'i-carbon:settings',
+    description: t('space.team.more_settings_description'),
   },
 ]
 
 // 监听defaultActiveMenu变化
 watch(() => props.defaultActiveMenu, (newVal) => {
   if (newVal) {
-    activeSideMenu.value = newVal
+    activeMenuKey.value = newVal
   }
 })
 
@@ -89,39 +93,26 @@ watch(() => props.team, (newVal) => {
     :fullscreen="isMobileDevice"
     @closed="closeDialog"
   >
-    <div class="team-info-dialog">
-      <div class="h-600px flex">
-        <!-- 左侧菜单 -->
-        <div class="sidebar w-200px border-r border-gray-200 p-20px">
-          <div
-            v-for="menu in sideMenus"
-            :key="menu.key"
-            class="sidebar-item mb-12px flex cursor-pointer items-center rounded-md p-12px transition-all"
-            :class="{ active: activeSideMenu === menu.key }"
-            @click="activeSideMenu = menu.key"
-          >
-            <i :class="menu.icon" class="mr-8px text-18px" />
-            {{ menu.label }}
-          </div>
-        </div>
-
-        <!-- 右侧内容 -->
-        <div class="content flex-1 p-24px">
-          <!-- 使用组件化的方式显示内容 -->
-          <TeamInfo
-            v-if="activeSideMenu === 'team-info' && localTeam"
-            :team="localTeam"
-            @update="handleTeamInfoUpdate"
-          />
-          <TeamPermission
-            v-if="activeSideMenu === 'permission'"
-          />
-          <TeamMoreSettings
-            v-if="activeSideMenu === 'more-settings'"
-          />
-        </div>
-      </div>
-    </div>
+    <MenuSplitContent
+      v-model="activeMenuKey"
+      :menu-list="menuList"
+      content-height="600px"
+    >
+      <!-- 根据活动菜单显示对应的组件 -->
+      <template #default="{ activeMenu }">
+        <TeamInfo
+          v-if="activeMenu === 'team-info' && localTeam"
+          :team="localTeam"
+          @update="handleTeamInfoUpdate"
+        />
+        <TeamPermission
+          v-if="activeMenu === 'permission'"
+        />
+        <TeamMoreSettings
+          v-if="activeMenu === 'more-settings'"
+        />
+      </template>
+    </MenuSplitContent>
   </el-dialog>
 </template>
 

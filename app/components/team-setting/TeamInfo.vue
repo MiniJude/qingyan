@@ -84,14 +84,7 @@ watch(() => props.team, (newVal) => {
 </script>
 
 <template>
-  <div class="team-info-panel">
-    <h3 class="mb-16px text-18px font-medium">
-      {{ t('space.team.team_info') }}
-    </h3>
-    <p class="mb-20px text-sm text-gray-500">
-      {{ t('space.team.team_info_description') }}
-    </p>
-
+  <div class="team-info-panel p-20px">
     <el-form
       ref="teamFormRef"
       :model="localTeam"

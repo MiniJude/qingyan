@@ -16,7 +16,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-
+const { isMobileDevice } = useDeviceDetection()
 // 计算属性：对话框显示状态
 const dialogVisible = computed({
   get: () => props.modelValue,
@@ -124,6 +124,7 @@ function handleClose() {
     :title="t('space.team.batch_add.title')"
     width="640px"
     center
+    :fullscreen="isMobileDevice"
     @closed="handleClose"
   >
     <div class="batch-add-dialog">
@@ -141,7 +142,7 @@ function handleClose() {
 
       <div class="flex" style="min-height: 340px;">
         <!-- 左侧：已选成员预览 -->
-        <div class="w-210px border-r border-gray-200 pr-4">
+        <div class="w-210px border-r border-gray-200 pr-4 lt-md:hidden">
           <div class="mb-3 text-16px font-medium">
             {{ t('space.team.batch_add.selected_count', { count: selectedMembers.length }) }}
           </div>
@@ -220,7 +221,7 @@ function handleClose() {
       </div>
 
       <!-- 底部操作栏 -->
-      <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-4">
+      <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-4 lt-md:flex-col lt-md:gap-4">
         <div class="text-14px">
           {{ t('space.team.batch_add.selected_count', { count: selectedMembers.length }) }}
           <span class="mx-2">{{ t('space.team.batch_add.add_as') }}:</span>

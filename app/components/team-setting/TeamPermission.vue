@@ -115,14 +115,7 @@ function exitTeam() {
 </script>
 
 <template>
-  <div class="permission-panel">
-    <h3 class="mb-16px text-18px font-medium">
-      {{ t('space.team.permission') }}
-    </h3>
-    <p class="mb-20px text-sm text-gray-500">
-      {{ t('space.team.permission_description') }}
-    </p>
-
+  <div class="permission-panel p-20px">
     <!-- 成员列表 -->
     <div>
       <div class="mb-16px flex items-center justify-between">
@@ -183,7 +176,7 @@ function exitTeam() {
           </template>
         </el-table-column>
 
-        <el-table-column :label="t('space.team.operation')" width="120" align="center">
+        <el-table-column :label="t('space.team.operation')" width="60" align="center" fixed="right">
           <template #default="{ row }">
             <div class="flex items-center justify-center">
               <div

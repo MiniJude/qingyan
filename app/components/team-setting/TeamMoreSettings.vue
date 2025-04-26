@@ -15,14 +15,7 @@ function handleDeleteTeam() {
 </script>
 
 <template>
-  <div class="more-settings-panel">
-    <h3 class="mb-16px text-18px font-medium">
-      {{ t('space.team.more_settings') }}
-    </h3>
-    <p class="mb-20px text-sm text-gray-500">
-      {{ t('space.team.more_settings_description') }}
-    </p>
-
+  <div class="more-settings-panel p-20px">
     <!-- 动态 -->
     <div class="mb-24px border-b border-gray-200 pb-20px">
       <div class="mb-12px flex items-center justify-between">
