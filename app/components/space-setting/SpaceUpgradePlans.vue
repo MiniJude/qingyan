@@ -25,6 +25,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:visible', 'upgrade'])
 const { t } = useI18n()
+const { isMobileDevice } = useDeviceDetection()
 
 // 关闭弹窗
 function handleClose() {
@@ -108,6 +109,7 @@ function handleUpgrade(plan: Plan) {
     align-center
     :append-to-body="true"
     :close-on-click-modal="false"
+    :fullscreen="isMobileDevice"
     @update:model-value="val => emit('update:visible', val)"
     @close="handleClose"
   >
@@ -158,6 +160,9 @@ function handleUpgrade(plan: Plan) {
   justify-content: space-between;
   gap: 20px;
   padding: 0 10px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .plan-card {

@@ -7,6 +7,7 @@ import TeamPermission from './TeamPermission.vue'
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 const { t } = useI18n()
+const { isMobileDevice } = useDeviceDetection()
 
 // 接收props
 interface Props {
@@ -85,6 +86,7 @@ watch(() => props.team, (newVal) => {
     :append-to-body="true"
     :close-on-click-modal="false"
     align-center
+    :fullscreen="isMobileDevice"
     @closed="closeDialog"
   >
     <div class="team-info-dialog">

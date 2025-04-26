@@ -142,9 +142,6 @@ function handleTeamCreated(newTeam: Team): void {
   <div class="space-team-panel">
     <!-- 标题和搜索区域 -->
     <div class="flex items-center justify-between p-20px">
-      <h2 class="text-20px font-medium">
-        {{ $t('space.team.title') }}
-      </h2>
       <div class="flex space-x-16px">
         <el-input
           v-model="searchQuery"
@@ -159,59 +156,58 @@ function handleTeamCreated(newTeam: Team): void {
       </div>
     </div>
 
-    <!-- 列表头部 -->
-    <div class="grid grid-cols-3 border-b border-gray-200 px-20px py-12px font-medium">
-      <div class="pl-20px">
-        {{ $t('space.team.team_name') }}
-      </div>
-      <div>{{ $t('space.team.created_time') }}</div>
-      <div>{{ $t('space.team.operations') }}</div>
-    </div>
+    <!-- 使用Element Plus表格 -->
+    <el-table :data="filteredTeams" style="width: 100%">
+      <!-- 团队名称列 -->
+      <el-table-column prop="name" :label="$t('space.team.team_name')" min-width="200">
+        <template #default="{ row }">
+          <div class="flex items-center">
+            <div class="mr-12px h-36px w-36px flex items-center justify-center rounded-md bg-blue-100 text-blue-600">
+              <i class="i-carbon:group text-20px" />
+            </div>
+            <span class="flex items-center">
+              {{ row.name }}
+              <el-icon v-if="row.isLocked" class="ml-8px text-gray-400">
+                <i class="i-carbon:locked" />
+              </el-icon>
+            </span>
+          </div>
+        </template>
+      </el-table-column>
 
-    <!-- 列表内容 -->
-    <div v-for="team in filteredTeams" :key="team.id" class="grid grid-cols-3 border-b border-gray-200 px-20px py-16px">
-      <!-- 团队名称 -->
-      <div class="flex items-center">
-        <div class="mr-12px h-36px w-36px flex items-center justify-center rounded-md bg-blue-100 text-blue-600">
-          <i class="i-carbon:group text-20px" />
-        </div>
-        <span class="flex items-center">
-          {{ team.name }}
-          <el-icon v-if="team.isLocked" class="ml-8px text-gray-400">
-            <i class="i-carbon:locked" />
-          </el-icon>
-        </span>
-      </div>
+      <!-- 创建时间列 -->
+      <el-table-column prop="createdTime" :label="$t('space.team.created_time')">
+        <template #default="{ row }">
+          {{ formatDate(row.createdTime) }}
+        </template>
+      </el-table-column>
 
-      <!-- 创建时间 -->
-      <div class="flex items-center">
-        {{ formatDate(team.createdTime) }}
-      </div>
-
-      <!-- 操作 -->
-      <div class="flex items-center">
-        <el-dropdown trigger="click" @command="action => handleTeamAction(team, action)">
-          <span class="cursor-pointer">
-            <el-icon :size="20">
-              <MoreFilled />
-            </el-icon>
-          </span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="view">
-                {{ $t('space.team.view_team') }}
-              </el-dropdown-item>
-              <el-dropdown-item command="settings">
-                {{ $t('space.team.team_settings') }}
-              </el-dropdown-item>
-              <el-dropdown-item command="delete" divided style="color: #f56c6c;">
-                {{ $t('space.team.delete_team') }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
-    </div>
+      <!-- 操作列 -->
+      <el-table-column :label="$t('space.team.operations')" width="60" align="center" fixed="right">
+        <template #default="{ row }">
+          <el-dropdown trigger="click" @command="action => handleTeamAction(row, action)">
+            <span class="cursor-pointer">
+              <el-icon :size="20">
+                <MoreFilled />
+              </el-icon>
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="view">
+                  {{ $t('space.team.view_team') }}
+                </el-dropdown-item>
+                <el-dropdown-item command="settings">
+                  {{ $t('space.team.team_settings') }}
+                </el-dropdown-item>
+                <el-dropdown-item command="delete" divided style="color: #f56c6c;">
+                  {{ $t('space.team.delete_team') }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </template>
+      </el-table-column>
+    </el-table>
 
     <!-- 分页 -->
     <div class="mt-20px flex justify-center">

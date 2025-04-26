@@ -175,7 +175,7 @@ onMounted(() => {
   </ElPopover>
 
   <!-- 创建空间弹框 -->
-  <el-dialog v-model="showCreateDialog" :title="$t('space.create_dialog.title')" width="600px" :destroy-on-close="true">
+  <el-dialog v-model="showCreateDialog" :title="$t('space.create_dialog.title')" width="600px" :destroy-on-close="true" :fullscreen="isMobileDevice">
     <div class="create-space-container">
       <!-- 空间类型选择器 -->
       <SpaceTypeSelector v-model="createSpaceType" />

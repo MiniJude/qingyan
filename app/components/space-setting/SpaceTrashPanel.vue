@@ -141,7 +141,7 @@ function getFileIcon(type: string) {
 
 <template>
   <div class="space-trash-panel">
-    <div class="search-description-section mb-24px flex items-center justify-between">
+    <div class="search-description-section mb-24px flex items-center justify-between lt-md:flex-col lt-md:items-start lt-md:gap-4">
       <p class="text-14px text-tregular">
         {{ $t('knowledge_base.trash_description') }}
       </p>
@@ -155,42 +155,40 @@ function getFileIcon(type: string) {
       </div>
     </div>
 
-    <div class="trash-list">
-      <div class="trash-list-header grid grid-cols-[3fr_1fr_1fr] rounded-t-4px bg-[#f7f7f7] p-16px text-14px text-tregular font-medium dark:bg-[#333]">
-        <div>{{ $t('knowledge_base.title') }}</div>
-        <div>{{ $t('knowledge_base.delete_time') }}</div>
-        <div class="text-right">
-          {{ $t('knowledge_base.operations') }}
-        </div>
-      </div>
-
-      <div class="trash-list-body rounded-b-4px bg-white dark:bg-[#222]">
-        <div v-if="filteredTrashItems.length === 0" class="p-40px text-center text-tregular">
-          {{ $t('knowledge_base.trash_empty') }}
-        </div>
-        <div
-          v-for="item in filteredTrashItems"
-          :key="item.id"
-          class="trash-item grid grid-cols-[3fr_1fr_1fr] border-b border-[#eee] p-16px dark:border-[#333] hover:bg-[#f9f9f9] dark:hover:bg-[#2a2a2a]"
-        >
+    <el-table :data="filteredTrashItems" style="width: 100%" :empty-text="$t('knowledge_base.trash_empty')">
+      <!-- 标题列 - 占用剩余空间 -->
+      <el-table-column prop="title" :label="$t('knowledge_base.title')" min-width="200">
+        <template #default="{ row }">
           <div class="flex items-center gap-8px">
-            <i :class="getFileIcon(item.type)" class="text-18px" />
-            <span class="truncate">{{ item.title }}</span>
+            <i :class="getFileIcon(row.type)" class="shrink-0 text-18px" />
+            <el-tooltip
+              :content="row.title"
+              :disabled="row.title.length < 20"
+              placement="top"
+            >
+              <span class="truncate">{{ row.title }}</span>
+            </el-tooltip>
           </div>
-          <div class="text-tregular">
-            {{ item.deletedTime }}
-          </div>
+        </template>
+      </el-table-column>
+
+      <!-- 删除时间列 - 固定宽度 -->
+      <el-table-column prop="deletedTime" :label="$t('knowledge_base.delete_time')" />
+
+      <!-- 操作列 - 固定宽度 -->
+      <el-table-column :label="$t('knowledge_base.operations')" width="100" fixed="right">
+        <template #default="{ row }">
           <div class="flex justify-end gap-8px">
-            <el-button size="small" circle @click="handleRestore(item)">
+            <el-button size="small" circle @click="handleRestore(row)">
               <i class="i-carbon:redo text-16px" />
             </el-button>
-            <el-button size="small" circle @click="handleDelete(item)">
+            <el-button size="small" circle @click="handleDelete(row)">
               <i class="i-carbon:trash-can text-16px" />
             </el-button>
           </div>
-        </div>
-      </div>
-    </div>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -198,10 +196,8 @@ function getFileIcon(type: string) {
 .space-trash-panel {
   padding: 24px;
   overflow-y: auto;
-}
-
-.trash-list {
-  border-radius: 4px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 }
 </style>

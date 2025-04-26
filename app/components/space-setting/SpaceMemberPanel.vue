@@ -210,7 +210,7 @@ function setJoinPassword() {
       <span class="text-primary font-bold">{{ $t('space.member.members_count', { count: members.length }) }}</span>
 
       <!-- 搜索成员输入框 -->
-      <div class="w-300px">
+      <div class="w-300px lt-md:w-50%">
         <el-input
           v-model="searchQuery"
           :placeholder="$t('space.member.search_placeholder')"

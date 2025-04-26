@@ -81,6 +81,7 @@ const menuList = computed(() => [
     :append-to-body="true"
     :close-on-click-modal="false"
     align-center
+    :fullscreen="isMobileDevice"
   >
     <MenuSplitContent
       v-model="currentMenu"
