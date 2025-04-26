@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Component, ShallowRef } from 'vue'
+
 // 接收弹框显示状态
 interface Props {
   /** 弹框是否可见 */
@@ -13,9 +15,13 @@ const props = withDefaults(defineProps<Props>(), {
   defaultType: 'all',
   hideLeftTabs: false,
 })
-const emit = defineEmits(['update:modelValue', 'selectTemplate'])
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: boolean): void
+  (e: 'selectTemplate', template: Template): void
+}>()
 
 const { t } = useI18n()
+const { isMobileDevice } = useDeviceDetection()
 
 // 对话框可见性的计算属性
 const dialogVisible = computed({
@@ -23,86 +29,22 @@ const dialogVisible = computed({
   set: val => emit('update:modelValue', val),
 })
 
-// 类型菜单数据
-const typeMenus = [
-  {
-    title: t('knowledge_base.template.all'),
-    type: 'document',
-    file_type: 'all',
-  },
-  {
-    title: t('knowledge_base.template.markdown'),
-    type: 'document',
-    file_type: 'md',
-  },
-  {
-    title: t('knowledge_base.template.mind'),
-    type: 'document',
-    file_type: 'mind',
-  },
-  {
-    title: t('knowledge_base.template.flow'),
-    type: 'document',
-    file_type: 'flow',
-  },
-  {
-    title: t('knowledge_base.template.ai_doc'),
-    type: 'document',
-    file_type: 'ai-rich',
-  },
-  {
-    title: t('knowledge_base.template.online_doc'),
-    type: 'document',
-    file_type: 'rich',
-  },
-  {
-    title: t('knowledge_base.template.word'),
-    type: 'document',
-    file_type: 'word',
-  },
-  {
-    title: t('knowledge_base.template.powerpoint'),
-    type: 'document',
-    file_type: 'powerpoint',
-  },
-  {
-    title: t('knowledge_base.template.excel'),
-    type: 'document',
-    file_type: 'excel',
-  },
-  {
-    title: t('knowledge_base.template.new_folder'),
-    type: 'document',
-    file_type: 'folder',
-  },
-  {
-    title: t('knowledge_base.template.upload'),
-    type: 'document',
-    file_type: 'upload',
-  },
-]
-
-// 当前选中的类型
-const activeType = ref(props.defaultType)
+// 当前选中的菜单
+const activeMenu = ref(props.defaultType)
 
 // 监听默认类型变化
 watch(() => props.defaultType, (newType) => {
   if (newType && dialogVisible.value) {
-    activeType.value = newType
+    activeMenu.value = newType
   }
 })
 
 // 监听弹窗打开，设置默认类型
 watch(() => dialogVisible.value, (isOpen) => {
   if (isOpen && props.defaultType) {
-    activeType.value = props.defaultType
+    activeMenu.value = props.defaultType
   }
 })
-
-// 切换类型
-function switchType(fileType: string) {
-  activeType.value = fileType
-}
 
 // 获取图标
 function getIconClass(fileType: string) {
@@ -143,10 +85,10 @@ fetchTemplates()
 
 // 根据当前选择的类型筛选模板
 const filteredTemplates = computed(() => {
-  if (activeType.value === 'all') {
+  if (activeMenu.value === 'all') {
     return templates.value
   }
-  return templates.value.filter(template => template.file_type === activeType.value)
+  return templates.value.filter(template => template.file_type === activeMenu.value)
 })
 
 // 选择模板并关闭对话框
@@ -161,6 +103,69 @@ const uploadFolders = [
   { label: '我的文档', value: 'documents' },
   { label: '项目资料', value: 'projects' },
 ]
+
+// 菜单列表 - 使用 MenuSplitContent 组件所需的格式
+const menuList = computed(() => {
+  const menus = [
+    {
+      key: 'all',
+      icon: getIconClass('all'),
+      name: t('knowledge_base.template.all'),
+    },
+    {
+      key: 'md',
+      icon: getIconClass('md'),
+      name: t('knowledge_base.template.markdown'),
+    },
+    {
+      key: 'mind',
+      icon: getIconClass('mind'),
+      name: t('knowledge_base.template.mind'),
+    },
+    {
+      key: 'flow',
+      icon: getIconClass('flow'),
+      name: t('knowledge_base.template.flow'),
+    },
+    {
+      key: 'ai-rich',
+      icon: getIconClass('ai-rich'),
+      name: t('knowledge_base.template.ai_doc'),
+    },
+    {
+      key: 'rich',
+      icon: getIconClass('rich'),
+      name: t('knowledge_base.template.online_doc'),
+    },
+    {
+      key: 'word',
+      icon: getIconClass('word'),
+      name: t('knowledge_base.template.word'),
+    },
+    {
+      key: 'powerpoint',
+      icon: getIconClass('powerpoint'),
+      name: t('knowledge_base.template.powerpoint'),
+    },
+    {
+      key: 'excel',
+      icon: getIconClass('excel'),
+      name: t('knowledge_base.template.excel'),
+    },
+    {
+      key: 'folder',
+      icon: getIconClass('folder'),
+      name: t('knowledge_base.template.new_folder'),
+    },
+    {
+      key: 'upload',
+      icon: getIconClass('upload'),
+      name: t('knowledge_base.template.upload'),
+    },
+  ]
+
+  return menus
+})
 </script>
 
 <template>
@@ -172,28 +177,18 @@ const uploadFolders = [
       class="template-library-dialog"
       :close-on-click-modal="false"
       :before-close="() => dialogVisible = false"
+      :fullscreen="isMobileDevice"
     >
-      <div class="h-650px flex">
-        <!-- 左侧类型菜单 -->
-        <div v-if="!hideLeftTabs" class="w-200px flex flex-col gap-4px overflow-y-auto">
-          <div
-            v-for="menu in typeMenus"
-            :key="menu.file_type"
-            class="mx-4px cursor-pointer rounded-4px p-14px transition-all duration-300"
-            :class="activeType === menu.file_type ? 'bg-primary-light-8 font-500 text-primary' : 'hover:bg-primary-light-9'"
-            @click="switchType(menu.file_type)"
-          >
-            <div class="flex items-center">
-              <div class="mr-10px h-20px w-20px" :class="getIconClass(menu.file_type)" />
-              <span>{{ menu.title }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 右侧内容区域 -->
-        <div class="flex-1 overflow-y-auto p-20px">
+      <MenuSplitContent
+        v-if="!props.hideLeftTabs"
+        v-model="activeMenu"
+        :menu-list="menuList"
+        content-height="650px"
+        label-width="210px"
+      >
+        <template #default="{ activeMenu: currentActiveMenu }">
           <!-- 上传文档界面 -->
-          <template v-if="activeType === 'upload'">
+          <template v-if="currentActiveMenu === 'upload'">
             <FileUploadPanel
               :folders="uploadFolders"
             />
@@ -201,12 +196,8 @@ const uploadFolders = [
 
           <!-- 模板展示区域 -->
           <template v-else>
-            <h2 class="mb-20px text-18px font-bold">
-              {{ typeMenus.find(menu => menu.file_type === activeType)?.title }}
-            </h2>
-
             <!-- 模板网格 -->
-            <div class="grid grid-cols-4 gap-24px">
+            <div class="grid grid-cols-4 gap-24px p-10px lt-lg:grid-cols-2 lt-md:grid-cols-1 lt-xl:grid-cols-3">
               <div
                 v-for="template in filteredTemplates"
                 :key="template.id"
@@ -220,14 +211,14 @@ const uploadFolders = [
                 </div>
                 <!-- 模板预览图 -->
                 <div class="relative p-12px pt-0px">
-                  <div class="relative h-200px overflow-hidden rounded-4px">
+                  <div class="relative h-200px overflow-hidden rounded-4px lt-md:h-240px">
                     <img
                       :src="`https://static.writebug.com/static${template.image}`"
                       alt=""
                       class="h-full w-full object-cover"
                     >
                     <!-- 悬停时显示的使用按钮 -->
-                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 lt-md:opacity-100">
                       <div class="mb-16px h-40px w-40px" :class="getIconClass(template.file_type)" />
                       <el-button
                         type="primary"
@@ -247,7 +238,66 @@ const uploadFolders = [
               {{ $t('common.messages.no_templates') }}
             </div>
           </template>
-        </div>
+        </template>
+      </MenuSplitContent>
+
+      <!-- 当 hideLeftTabs 为 true 时，只显示右侧内容 -->
+      <div v-if="props.hideLeftTabs" class="h-650px overflow-y-auto p-20px">
+        <!-- 上传文档界面 -->
+        <template v-if="activeMenu === 'upload'">
+          <FileUploadPanel
+            :folders="uploadFolders"
+          />
+        </template>
+
+        <!-- 模板展示区域 -->
+        <template v-else>
+          <h2 class="mb-20px text-18px font-bold">
+            {{ menuList.find(menu => menu.key === activeMenu)?.name }}
+          </h2>
+
+          <!-- 模板网格 -->
+          <div class="grid grid-cols-4 gap-24px lt-lg:grid-cols-2 lt-md:grid-cols-1 lt-xl:grid-cols-3">
+            <div
+              v-for="template in filteredTemplates"
+              :key="template.id"
+              class="group hover:border-primary-light-8 relative cursor-pointer overflow-hidden border border-gray-200 rounded-8px border-solid bg-overlay shadow-sm transition-all duration-300 hover:translate-y--2px dark:border-gray-9 hover:shadow"
+            >
+              <!-- 模板标题和描述 -->
+              <div class="px-16px py-12px">
+                <h3 class="truncate text-16px font-medium">
+                  {{ template.title }}
+                </h3>
+              </div>
+              <!-- 模板预览图 -->
+              <div class="relative p-12px pt-0px">
+                <div class="relative h-200px overflow-hidden rounded-4px lt-md:h-240px">
+                  <img
+                    :src="`https://static.writebug.com/static${template.image}`"
+                    alt=""
+                    class="h-full w-full object-cover"
+                  >
+                  <!-- 悬停时显示的使用按钮 -->
+                  <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 lt-md:opacity-100">
+                    <div class="mb-16px h-40px w-40px" :class="getIconClass(template.file_type)" />
+                    <el-button
+                      type="primary"
+                      class="transform transition-transform duration-200 hover:scale-105"
+                      @click.stop="selectTemplate(template)"
+                    >
+                      使用
+                    </el-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 无结果提示 -->
+          <div v-if="filteredTemplates.length === 0" class="py-40px text-center text-gray-500">
+            {{ $t('common.messages.no_templates') }}
+          </div>
+        </template>
       </div>
     </el-dialog>
   </ClientOnly>

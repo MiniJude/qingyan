@@ -26,14 +26,15 @@ interface Props {
   modelValue: string
   /** 内容高度 */
   contentHeight?: string | number
+  /** 菜单宽度 */
+  labelWidth?: string | number
 }
 
 const props = withDefaults(defineProps<Props>(), {
   contentHeight: '600px',
+  labelWidth: '160px',
 })
-
 const { isMobileDevice } = useDeviceDetection()
-
 // 当前选中的菜单
 const activeMenu = defineModel<string>('modelValue')
 
@@ -60,6 +61,15 @@ const contentHeightStyle = computed(() => {
     : props.contentHeight
 })
 
+// 菜单宽度
+const labelWidthStyle = computed(() => {
+  const width = typeof props.labelWidth === 'number'
+    ? `${props.labelWidth}px`
+    : props.labelWidth
+  const defaultWidth = isMobileDevice.value ? '200px' : '160px'
+  return width || defaultWidth
+})
+
 // 当前活动菜单
 const currentActiveMenu = computed(() => {
   const menu = props.menuList.find(item => item.key === activeMenu.value)
@@ -78,13 +88,12 @@ const currentActiveMenu = computed(() => {
 
     <!-- 左侧菜单 -->
     <div
-      class="z-30 flex flex-col gap-10px rounded-4px bg-white p-12px"
+      class="z-30 flex flex-col gap-10px overflow-auto rounded-4px bg-white p-12px"
       :class="[
-        isMobileDevice
-          ? 'fixed left-0 top-0 bottom-0 w-200px transition-transform'
-          : 'w-160px',
+        { 'fixed left-0 top-0 bottom-0 w-200px transition-transform': isMobileDevice },
         isMobileDevice && !showMobileMenu ? '-translate-x-full' : 'translate-x-0',
       ]"
+      :style="{ width: labelWidthStyle }"
     >
       <div
         v-for="menu in menuList" :key="menu.key"
@@ -103,7 +112,7 @@ const currentActiveMenu = computed(() => {
     <el-divider v-if="!isMobileDevice" direction="vertical" class="!h-full" />
 
     <!-- 右侧内容 -->
-    <div class="flex-1 overflow-y-auto">
+    <div class="min-h-0 flex flex-1 flex-col">
       <!-- 头部标题和描述 -->
       <div class="ml-20px">
         <div class="flex items-center text-20px font-bold lt-md:gap-8px">
@@ -118,16 +127,18 @@ const currentActiveMenu = computed(() => {
         </div>
         <el-divider class="!my-12px" />
       </div>
-      <slot :active-menu="activeMenu">
-        <component
-          :is="currentActiveMenu?.component?.value"
-          v-if="currentActiveMenu?.component"
-          v-bind="currentActiveMenu?.props"
-        />
-        <div v-else>
-          <ComingSoon />
-        </div>
-      </slot>
+      <div class="min-h-0 flex-1 overflow-auto">
+        <slot :active-menu="activeMenu">
+          <component
+            :is="currentActiveMenu?.component?.value"
+            v-if="currentActiveMenu?.component"
+            v-bind="currentActiveMenu?.props"
+          />
+          <div v-else>
+            <ComingSoon />
+          </div>
+        </slot>
+      </div>
     </div>
   </div>
 </template>

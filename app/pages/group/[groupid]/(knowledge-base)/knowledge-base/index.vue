@@ -195,7 +195,7 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
     </div>
     <!-- <Dashboard /> -->
     <!-- 文件夹 -->
-    <div pl-37px pr-53px>
+    <div pl-37px pr-53px lt-md:pl-10px lt-md:pr-10px>
       <div mb-8px text-16px text-tprimary font-bold>
         {{ $t('knowledge_base.index.folders') }}
       </div>
@@ -235,7 +235,7 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
       </div>
     </div>
     <!-- 知识空间 -->
-    <div mt-16px min-h-0 flex flex-1 flex-col pl-37px pr-53px>
+    <div mt-16px min-h-0 flex flex-1 flex-col pl-37px pr-53px lt-md:pl-10px lt-md:pr-10px>
       <div mb-16px flex items-center justify-between>
         <span text-16px text-tprimary font-bold>
           {{ $t('knowledge_base.index.knowledge_space') }}

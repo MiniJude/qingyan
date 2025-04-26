@@ -153,7 +153,7 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
         </div>
       </template>
 
-      <el-table-column prop="fileName" :label="$t('knowledge_base.folder_table.file_name')" label-class-name="text-tregular !font-normal">
+      <el-table-column prop="fileName" :label="$t('knowledge_base.folder_table.file_name')" min-width="220" label-class-name="text-tregular !font-normal">
         <template #default="{ row }">
           <div class="file-name-cell">
             <FileIcon :file-type="row.fileType" :size="20" />
@@ -162,19 +162,19 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
         </template>
       </el-table-column>
 
-      <el-table-column prop="owner" :label="$t('knowledge_base.folder_table.owner')" label-class-name="text-tregular !font-normal">
+      <el-table-column prop="owner" :label="$t('knowledge_base.folder_table.owner')" min-width="220" label-class-name="text-tregular !font-normal">
         <template #default="{ row }">
           <span text-tregular>{{ row.owner }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column prop="updateTime" label-class-name="text-tregular !font-normal" :label="$t('knowledge_base.folder_table.last_update')" width="220">
+      <el-table-column prop="updateTime" label-class-name="text-tregular !font-normal" :label="$t('knowledge_base.folder_table.last_update')" width="200">
         <template #default="{ row }">
           <span text-tregular>{{ row.updateTime }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="" width="120">
+      <el-table-column label="" width="60" fixed="right">
         <template #default="{ row }">
           <div class="file-actions">
             <el-dropdown trigger="click">
