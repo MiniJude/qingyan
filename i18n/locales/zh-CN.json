@@ -264,7 +264,7 @@
       "download": {
         "download_desc": "设置当前文件的下载权限",
         "download_permission": "下载权限",
-        "who_can_download": "谁可以下载",
+        "who_can_download": "是否允许下载",
         "permission_updated": "下载权限更新成功",
         "anyone_can_download": "任何人可下载",
         "space_download": "空间成员可下载",
@@ -275,7 +275,7 @@
       "annotation": {
         "annotation_desc": "设置当前文件预览状态下的批注权限",
         "annotation_permission": "批注权限设置",
-        "who_can_annotate": "谁可以批注",
+        "who_can_annotate": "是否允许批注",
         "permission_updated": "批注权限更新成功",
         "space_can_edit": "空间成员可编辑",
         "space_can_view": "空间成员仅查看"

@@ -43,6 +43,15 @@ const activeTab = ref('invite')
         <InviteCollaboration />
       </el-tab-pane>
 
+      <!-- 下载权限 -->
+      <el-tab-pane name="download">
+        <template #label>
+          <el-icon><Download /></el-icon>
+          <span>{{ $t('knowledge_base.share_dialog.download_tab') }}</span>
+        </template>
+        <DownloadPermission />
+      </el-tab-pane>
+
       <!-- 批注权限 -->
       <el-tab-pane name="annotation">
         <template #label>

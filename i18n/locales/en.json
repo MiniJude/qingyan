@@ -264,7 +264,7 @@
       "download": {
         "download_desc": "Set download permissions for the current file",
         "download_permission": "Download Permissions",
-        "who_can_download": "Who can download",
+        "who_can_download": "Allow Download",
         "permission_updated": "Download permission updated successfully",
         "anyone_can_download": "Anyone can download",
         "space_download": "Space members can download",
@@ -287,6 +287,16 @@
       "message": "Are you sure you want to rename?",
       "success": "Renamed successfully",
       "error": "Rename failed"
+    },
+    "annotation_tab": "Annotation Permissions",
+    "permission_updated": "Permission updated successfully",
+    "annotation": {
+      "annotation_desc": "Set annotation permissions when previewing the current file",
+      "annotation_permission": "Annotation Permission Settings",
+      "who_can_annotate": "Allow Annotation",
+      "permission_updated": "Annotation permission updated successfully",
+      "space_can_edit": "Space members can edit",
+      "space_can_view": "Space members view only"
     }
   },
   "common": {
