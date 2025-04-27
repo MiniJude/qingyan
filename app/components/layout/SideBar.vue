@@ -1,4 +1,8 @@
 <script setup lang="ts">
+// 定义emit事件
+const emit = defineEmits<{
+  (e: 'closeDrawer'): void
+}>()
 const route = useRoute()
 const spaceStore = useSpaceStore()
 const { isMobileDevice } = useDeviceDetection()
@@ -30,6 +34,12 @@ function getMenuPath(path: string): string {
   const currentSpaceId = spaceStore.currentSpace?.id || '1'
   // 组合完整路径
   return `/group/${currentSpaceId}/${path.replace('/', '')}`
+}
+
+// 点击菜单项的处理函数
+function handleMenuClick() {
+  // 发出关闭抽屉的事件
+  emit('closeDrawer')
 }
 </script>
 
@@ -76,6 +86,7 @@ function getMenuPath(path: string): string {
           v-for="item in menuList"
           :key="item.path"
           :to="getMenuPath(item.path)"
+          @click="handleMenuClick"
         >
           <el-menu-item :index="item.path.replace('/', '')">
             <component :is="item.iconUrl" class="w-20px text-20px" />

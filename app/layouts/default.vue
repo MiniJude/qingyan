@@ -6,6 +6,11 @@ const drawerVisible = ref(false)
 function openDrawer() {
   drawerVisible.value = true
 }
+
+// 关闭抽屉菜单
+function closeDrawer() {
+  drawerVisible.value = false
+}
 </script>
 
 <template>
@@ -28,7 +33,7 @@ function openDrawer() {
       direction="ltr"
       destroy-on-close
     >
-      <SideBar />
+      <SideBar @close-drawer="closeDrawer" />
     </el-drawer>
   </main>
 </template>

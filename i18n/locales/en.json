@@ -154,7 +154,14 @@
       "viewing_shared_files": "Currently Viewing: Shared Files",
       "viewing_team_files": "Currently Viewing: Team Files",
       "viewing_personal_shared_files": "Currently Viewing: Personal Shared Files",
-      "viewing_team_shared_files": "Currently Viewing: Team Shared Files"
+      "viewing_team_shared_files": "Currently Viewing: Team Shared Files",
+      "folder_examples": {
+        "folder1": "Folder 1",
+        "folder2": "Folder 2",
+        "folder3": "Folder 3",
+        "folder4": "Folder 4",
+        "to_be_archived": "To Be Archived"
+      }
     },
     "dashboard": {
       "knowledge_radar": "Knowledge Radar",
@@ -297,7 +304,18 @@
       "success": "Renamed successfully",
       "error": "Rename failed"
     },
-    "permission_updated": "Permission updated successfully"
+    "permission_updated": "Permission updated successfully",
+    "folder": {
+      "rename": "Rename",
+      "delete_confirm_message": "Are you sure you want to delete folder \"{name}\"? This action cannot be undone.",
+      "delete_confirm_title": "Delete Confirmation",
+      "delete_success": "Folder \"{name}\" has been deleted",
+      "name_empty_error": "Folder name cannot be empty",
+      "rename_success": "Folder has been renamed to \"{name}\"",
+      "rename_failed": "Rename failed: {error}",
+      "rename_dialog_title": "Rename Folder",
+      "enter_new_folder_name": "Please enter a new folder name"
+    }
   },
   "common": {
     "coming_soon": {
@@ -328,7 +346,8 @@
       "format_error": "Format error",
       "upload_success": "{item} uploaded successfully",
       "size_error": "{item} size cannot exceed {size}",
-      "no_templates": "No templates found"
+      "no_templates": "No templates found",
+      "unknown_error": "Unknown error"
     },
     "actions": {
       "save": "Save",

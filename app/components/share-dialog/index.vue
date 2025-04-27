@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Connection, Download, Edit, Share } from '@element-plus/icons-vue'
+import { Download, Edit, Share } from '@element-plus/icons-vue'
 
 // 定义props
 interface Props {

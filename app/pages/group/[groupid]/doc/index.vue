@@ -2,6 +2,8 @@
 // 使用文件过滤hook
 const { currentFileFilterType, switchColumns } = useFileFilter()
 
+const { isMobileDevice } = useDeviceDetection()
+
 // 模板库对话框
 const templateLibraryDialog = ref(false)
 const templateLibraryType = ref('all')
@@ -25,14 +27,14 @@ function openNewDocDialog() {
 <template>
   <div flex flex-col>
     <div min-h-0 flex flex-1 flex-col p-20px>
-      <div class="flex self-end gap-12px">
-        <el-button plain size="large" @click="openUploadDialog">
+      <div class="flex self-end">
+        <el-button plain :size="isMobileDevice ? 'default' : 'large'" @click="openUploadDialog">
           <template #icon>
             <div class="i-carbon:upload" />
           </template>
           {{ $t('knowledge_base.index.upload') }}
         </el-button>
-        <el-button type="primary" size="large" @click="openNewDocDialog">
+        <el-button type="primary" :size="isMobileDevice ? 'default' : 'large'" @click="openNewDocDialog">
           <template #icon>
             <div class="i-carbon:add-large" />
           </template>
@@ -44,6 +46,7 @@ function openNewDocDialog() {
         h-36px
         :columns="switchColumns"
         :item-width="83"
+        class="mt-16px"
       />
       <FolderTable
         class="mt-16px min-h-0 flex-1"

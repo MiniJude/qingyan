@@ -154,7 +154,14 @@
       "viewing_shared_files": "当前查看: 协作文件",
       "viewing_team_files": "当前查看: 团队文件",
       "viewing_personal_shared_files": "当前查看: 个人协作文件",
-      "viewing_team_shared_files": "当前查看: 团队协作文件"
+      "viewing_team_shared_files": "当前查看: 团队协作文件",
+      "folder_examples": {
+        "folder1": "文件夹1",
+        "folder2": "文件夹2",
+        "folder3": "文件夹3",
+        "folder4": "文件夹4",
+        "to_be_archived": "待归档"
+      }
     },
     "dashboard": {
       "knowledge_radar": "知识雷达",
@@ -296,6 +303,17 @@
       "message": "确定要更改名称吗?",
       "success": "重命名成功",
       "error": "重命名失败"
+    },
+    "folder": {
+      "rename": "重命名",
+      "delete_confirm_message": "确定要删除文件夹 \"{name}\" 吗？删除后将无法恢复。",
+      "delete_confirm_title": "删除确认",
+      "delete_success": "文件夹 \"{name}\" 已删除",
+      "name_empty_error": "文件夹名称不能为空",
+      "rename_success": "文件夹已重命名为 \"{name}\"",
+      "rename_failed": "重命名失败：{error}",
+      "rename_dialog_title": "重命名文件夹",
+      "enter_new_folder_name": "请输入新的文件夹名称"
     }
   },
   "common": {
@@ -327,7 +345,8 @@
       "format_error": "格式错误",
       "upload_success": "{item}上传成功",
       "size_error": "{item}大小不能超过{size}",
-      "no_templates": "没有找到相关模板"
+      "no_templates": "没有找到相关模板",
+      "unknown_error": "未知错误"
     },
     "actions": {
       "save": "保存",

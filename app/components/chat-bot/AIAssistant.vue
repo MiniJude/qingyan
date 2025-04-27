@@ -3,10 +3,12 @@ import ChatBot from '~/components/chat-bot/index.vue'
 
 // 抽屉显示状态
 const showChatDrawer = ref(false)
+
+const { isMobileDevice } = useDeviceDetection()
 </script>
 
 <template>
-  <div class="ai-assistant-wrapper">
+  <div class="ai-assistant-wrapper !md:hover:right-0">
     <!-- AI助手按钮 -->
     <el-button
       type="primary"
@@ -22,10 +24,9 @@ const showChatDrawer = ref(false)
     <el-drawer
       v-model="showChatDrawer"
       direction="rtl"
-      size="530px"
-      :with-header="false"
+      :size="isMobileDevice ? '100%' : '530px'"
       :before-close="() => showChatDrawer = false"
-      custom-class="chat-drawer"
+      modal-class="chat-drawer"
     >
       <div class="chat-drawer-container">
         <!-- 使用聊天机器人组件 -->
@@ -40,8 +41,9 @@ const showChatDrawer = ref(false)
   position: relative;
   z-index: 1999;
   position: absolute;
-  right: 0;
+  right: -100px;
   top: 100px;
+  transition: all 0.3s ease;
 }
 
 .ai-assistant-btn {
@@ -101,6 +103,9 @@ const showChatDrawer = ref(false)
     padding: 0;
     height: 100%;
     overflow: hidden;
+  }
+  .el-drawer__header {
+    margin-bottom: 0 !important;
   }
 }
 </style>

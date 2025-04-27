@@ -6,8 +6,10 @@ import { useFileFilter } from '@/composables/useFileFilter'
 import { DeleteFilled as Delete, EditPen, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getCurrentInstance } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const { isMobileDevice } = useDeviceDetection()
+const { t } = useI18n()
 
 const folderList = ref([
   {
@@ -70,11 +72,11 @@ function openRenameDialog(item: { name: string }, index: number) {
 // 处理删除
 function handleDelete(item: { name: string }) {
   ElMessageBox.confirm(
-    `确定要删除文件夹 "${item.name}" 吗？删除后将无法恢复。`,
-    '删除确认',
+    t('knowledge_base.folder.delete_confirm_message', { name: item.name }),
+    t('knowledge_base.folder.delete_confirm_title'),
     {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+      confirmButtonText: t('common.actions.confirm'),
+      cancelButtonText: t('common.actions.cancel'),
       type: 'warning',
     },
   )
@@ -87,7 +89,7 @@ function handleDelete(item: { name: string }) {
       }
 
       ElMessage.success({
-        message: `文件夹 "${item.name}" 已删除`,
+        message: t('knowledge_base.folder.delete_success', { name: item.name }),
         duration: 2000,
       }, appContext)
     })
@@ -100,7 +102,7 @@ function handleDelete(item: { name: string }) {
 function handleRename() {
   if (!newFolderName.value.trim()) {
     ElMessage.warning({
-      message: '文件夹名称不能为空',
+      message: t('knowledge_base.folder.name_empty_error'),
       duration: 2000,
     }, appContext)
     return
@@ -127,7 +129,7 @@ function handleRename() {
       }
 
       ElMessage.success({
-        message: `文件夹已重命名为 "${newFolderName.value}"`,
+        message: t('knowledge_base.folder.rename_success', { name: newFolderName.value }),
         duration: 2000,
       }, appContext)
 
@@ -136,7 +138,7 @@ function handleRename() {
     .catch((error) => {
       // API失败，显示错误提示
       ElMessage.error({
-        message: `重命名失败：${error.message || '未知错误'}`,
+        message: t('knowledge_base.folder.rename_failed', { error: error.message || t('common.messages.unknown_error') }),
         duration: 2000,
       }, appContext)
     })
@@ -206,12 +208,12 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
                 <el-dropdown-item command="rename" @click="openRenameDialog(item, folderList.indexOf(item))">
                   <el-icon class="mr-5px">
                     <EditPen />
-                  </el-icon>重命名
+                  </el-icon>{{ $t('knowledge_base.folder.rename') }}
                 </el-dropdown-item>
                 <el-dropdown-item command="delete" divided @click="handleDelete(item)">
                   <el-icon class="mr-5px">
                     <Delete />
-                  </el-icon>删除
+                  </el-icon>{{ $t('knowledge_base.delete') }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -249,22 +251,22 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
     <!-- 重命名对话框 -->
     <el-dialog
       v-model="renameDialogVisible"
-      title="重命名文件夹"
-      width="400px"
+      :title="$t('knowledge_base.folder.rename_dialog_title')"
+      width="360px"
     >
       <el-form @submit.prevent="handleRename">
         <el-form-item>
           <el-input
             v-model="newFolderName"
-            placeholder="请输入新的文件夹名称"
+            :placeholder="$t('knowledge_base.folder.enter_new_folder_name')"
             autofocus
           />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="renameDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleRename">确定</el-button>
+          <el-button @click="renameDialogVisible = false">{{ $t('common.actions.cancel') }}</el-button>
+          <el-button type="primary" @click="handleRename">{{ $t('common.actions.confirm') }}</el-button>
         </span>
       </template>
     </el-dialog>

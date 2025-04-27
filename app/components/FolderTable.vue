@@ -215,7 +215,7 @@ const { height: folderTableHeight } = useElementSize(folderTableRef)
     <el-dialog
       v-model="deleteDialogVisible"
       :title="$t('knowledge_base.delete_confirm.title')"
-      width="30%"
+      width="360px"
       align-center
     >
       <span>{{ $t('knowledge_base.delete_confirm.message') }}</span>

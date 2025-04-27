@@ -8,7 +8,7 @@ const activeIndex = ref(0)
 <template>
   <div p="t-29px r-53px b-27px l-19px" relative h-full flex flex-col gap-58px>
     <!-- 顶部区域 -->
-    <div flex items-center justify-between>
+    <div flex items-center justify-between lt-md:flex-col lt-md:items-start lt-md:gap-12px>
       <div flex flex-col gap-4px>
         <FileBreadCrumb />
         <span class="last-modify-time">{{ $t('knowledge_base.doc_view.last_modified', { date: '2025年1月1日' }) }}</span>
