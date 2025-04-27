@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { SvgoAiChat, SvgoFolder2 } from '#components'
-
 const route = useRoute()
-const { t } = useI18n()
 const spaceStore = useSpaceStore()
 const { isMobileDevice } = useDeviceDetection()
+const { menu: menuList } = useMenu()
 
 // 侧边栏折叠状态
 const isCollapsed = ref(false)
@@ -14,31 +12,16 @@ function toggleSidebar() {
   isCollapsed.value = !isCollapsed.value
 }
 
-// 改为计算属性，依赖 locale 变化自动更新
-const menuList = computed<{
-  name: string
-  icon: Component
-  path: string
-}[]>(() => [
-  {
-    name: t('sidebar.knowledge_base'),
-    icon: SvgoFolder2,
-    path: 'knowledge-base',
-  },
-  {
-    name: t('sidebar.ai_assistant'),
-    icon: SvgoAiChat,
-    path: 'agents',
-  },
-])
-
 // 计算当前应该激活的菜单项
 const activeMenu = computed(() => {
   // 获取当前路径的最后一部分，例如从/group/1/knowledge-base中提取knowledge-base
   const pathSegments = route.path.split('/')
   const lastSegment = pathSegments[pathSegments.length - 1]
 
-  return menuList.value.find(item => item.path === lastSegment || route.path.includes(item.path))?.path ?? ''
+  return menuList.value.find(item =>
+    item.path.replace('/', '') === lastSegment
+    || route.path.includes(item.path.replace('/', '')),
+  )?.path.replace('/', '') ?? ''
 })
 
 // 生成带有当前空间ID的菜单路径
@@ -46,7 +29,7 @@ function getMenuPath(path: string): string {
   // 获取当前空间ID，如果不存在则使用默认值1
   const currentSpaceId = spaceStore.currentSpace?.id || '1'
   // 组合完整路径
-  return `/group/${currentSpaceId}/${path}`
+  return `/group/${currentSpaceId}/${path.replace('/', '')}`
 }
 </script>
 
@@ -94,8 +77,8 @@ function getMenuPath(path: string): string {
           :key="item.path"
           :to="getMenuPath(item.path)"
         >
-          <el-menu-item :index="item.path">
-            <component :is="item.icon" text="20px" />
+          <el-menu-item :index="item.path.replace('/', '')">
+            <component :is="item.iconUrl" class="w-20px text-20px" />
             <template #title>
               <span :class="{ 'ml-30px': !isCollapsed }">
                 {{ item.name }}

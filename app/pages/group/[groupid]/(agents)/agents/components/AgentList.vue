@@ -29,13 +29,6 @@ const agents = ref<Agent[]>([
     dateTime: useNuxtApp().$i18n.t('agents.kb_qa_assistant.today'),
     path: getFullPath('/agents/qa'),
   },
-  {
-    name: useNuxtApp().$i18n.t('agents.doc_assistant.name'),
-    icon: '',
-    description: useNuxtApp().$i18n.t('agents.doc_assistant.description'),
-    dateTime: useNuxtApp().$i18n.t('agents.doc_assistant.yesterday'),
-    path: getFullPath('/agents/doc'),
-  },
 ])
 
 const activeAgentPath = computed(() => {

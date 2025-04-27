@@ -1,5 +1,4 @@
-import Ai2Icon from '@/assets/svg/ai2.svg?component'
-import BookIcon from '@/assets/svg/book.svg?component'
+import { SvgoAiChat, SvgoFolder2 } from '#components'
 import { HOME_ROUTE } from '~/constants'
 import { useSpaceStore } from '~/stores/space'
 
@@ -9,21 +8,24 @@ export function useMenu() {
   const localePath = useLocalePath()
   const spaceStore = useSpaceStore()
 
-  // 创建图标引用
-  const knowledgeIcon = shallowRef(BookIcon)
-  const aiIcon = shallowRef(Ai2Icon)
-
   // 定义菜单结构
   const menu = ref([
     {
       key: 'knowledge_base',
       path: '/knowledge-base',
-      iconUrl: knowledgeIcon,
+      iconUrl: SvgoFolder2,
     },
     {
       key: 'ai_assistant',
       path: '/agents',
-      iconUrl: aiIcon,
+      iconUrl: SvgoAiChat,
+    },
+    {
+      key: 'ai_doc',
+      path: '/doc',
+      iconUrl: h('div', {
+        class: 'i-carbon:align-box-bottom-center',
+      }),
     },
   ])
 
