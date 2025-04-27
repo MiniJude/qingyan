@@ -236,6 +236,25 @@ const onClick = ()=>{
 ```
 请注意无论是ElMessage.success还是ElMessageBox.confirm**等等**，都要加appContext参数。
 
+### 15. **移动端适配**
+
+- 如果是ts代码中需要判断是否是移动端，则需要在`<script setup lang="ts">`顶部引入`useDeviceDetection`：
+```ts
+const { isMobileDevice } = useDeviceDetection()
+```
+
+- 如果是纯css适配则考虑unocss适配和媒体查询：
+```html
+<div class="lt-md:margin-0" />
+```
+或者
+```css
+@media (max-width: 768px) {
+    margin: 0;
+}
+```
+
+
 
 
 

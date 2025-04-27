@@ -164,6 +164,10 @@ function handleExampleClick(question: string) {
   gap: 20px;
   width: 100%;
 
+  @media (max-width: 768px) {
+    gap: 0;
+  }
+
   .avatar {
     align-self: flex-start;
   }

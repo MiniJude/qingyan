@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { personalData } from '~/mock/knowledge-base'
 
+const { isMobileDevice } = useDeviceDetection()
+
 // 创建副本
 const visible = ref(false)
 const form = ref({
@@ -90,12 +92,14 @@ defineExpose({
 
     <!-- 第二步：选择数据范围 -->
     <div v-if="currentStep === 2" h-420px flex>
-      <div h-35px w-154px flex items-center whitespace-nowrap rounded-4px bg-primary pl-13px text-white>
-        <SvgoFolder2 text-20px />
-        <span flex-1 text-center>{{ $t('agents.form.knowledge_base') }}</span>
-      </div>
+      <template v-if="!isMobileDevice">
+        <div h-35px w-154px flex items-center whitespace-nowrap rounded-4px bg-primary pl-13px text-white>
+          <SvgoFolder2 text-20px />
+          <span flex-1 text-center>{{ $t('agents.form.knowledge_base') }}</span>
+        </div>
 
-      <el-divider direction="vertical" class="h-full" />
+        <el-divider direction="vertical" class="h-full" />
+      </template>
 
       <div flex-1>
         <div class="pure-doc-tree-container" p="r-20px b-24px l-20px" h-410px w-full overflow-y-auto rounded-4px>

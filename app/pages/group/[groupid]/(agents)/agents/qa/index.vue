@@ -33,7 +33,7 @@ const dataSourceLabel = computed(() => {
     </div>
 
     <div class="agent-content min-h-0 flex flex-1 flex-col">
-      <div class="date-display mb-4 mt-43px flex items-center justify-center gap-17px text-14px" style="color: #86909C;">
+      <div class="date-display my-4 flex items-center justify-center gap-17px text-14px" style="color: #86909C;">
         <span>{{ $t('agents.qa.date') }}</span>
         <el-icon class="cursor-pointer">
           <ArrowDown />
