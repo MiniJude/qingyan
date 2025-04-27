@@ -52,10 +52,6 @@ function openCreateDialog() {
 // 使用文件过滤hook
 const { currentFileFilterType, viewingText, switchColumns } = useFileFilter()
 
-// 分享对话框
-const shareDialogVisible = ref(false)
-const selectedFolder = ref<{ name: string } | null>(null)
-
 // 重命名对话框
 const renameDialogVisible = ref(false)
 const newFolderName = ref('')
@@ -69,12 +65,6 @@ function openRenameDialog(item: { name: string }, index: number) {
   folderToRename.value = { ...item, index }
   newFolderName.value = item.name
   renameDialogVisible.value = true
-}
-
-// 处理分享
-function handleShare(item: { name: string }) {
-  selectedFolder.value = item
-  shareDialogVisible.value = true
 }
 
 // 处理删除
@@ -218,11 +208,6 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
                     <EditPen />
                   </el-icon>重命名
                 </el-dropdown-item>
-                <el-dropdown-item command="share" @click="handleShare(item)">
-                  <el-icon class="mr-5px">
-                    <Share />
-                  </el-icon>分享
-                </el-dropdown-item>
                 <el-dropdown-item command="delete" divided @click="handleDelete(item)">
                   <el-icon class="mr-5px">
                     <Delete />
@@ -259,12 +244,6 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
     <TemplateLibraryDialog
       v-model="templateLibraryDialog"
       :default-type="templateLibraryType"
-    />
-
-    <!-- 分享对话框 -->
-    <ShareDialog
-      v-model="shareDialogVisible"
-      :file-name="selectedFolder?.name || ''"
     />
 
     <!-- 重命名对话框 -->

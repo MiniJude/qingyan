@@ -318,10 +318,7 @@ function showDeleteConfirm(index: number) {
 // 确认删除消息
 function confirmDelete() {
   if (messageToDeleteIndex.value !== null) {
-    const message = messages.value[messageToDeleteIndex.value]
-    if (message) {
-      message.isDeleted = true
-    }
+    messages.value.splice(messageToDeleteIndex.value, 1)
     messageToDeleteIndex.value = null
   }
   showDeleteDialog.value = false

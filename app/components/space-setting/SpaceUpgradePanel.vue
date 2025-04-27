@@ -37,19 +37,9 @@ const aiQuotaPercentage = computed(() => {
   return (spaceInfo.aiQuotaUsed / spaceInfo.aiQuotaTotal) * 100
 })
 
-// 计算代码质量评估使用百分比
-const qualityQuotaPercentage = computed(() => {
-  return (spaceInfo.qualityQuotaUsed / spaceInfo.qualityQuotaTotal) * 100
-})
-
 // 计算成员数量使用百分比
 const membersPercentage = computed(() => {
   return (spaceInfo.membersUsed / spaceInfo.membersTotal) * 100
-})
-
-// 计算团队存储空间使用百分比
-const teamStoragePercentage = computed(() => {
-  return 70 // 实际应该根据使用量计算，这里使用示例值
 })
 
 // 打开升级套餐弹框
@@ -117,26 +107,6 @@ function handleUpgrade(data: { plan: { title: string }, type: string }) {
 
     <el-divider border-style="dashed" class="!my-20px" />
 
-    <!-- 代码质量评估次数使用情况 -->
-    <div class="section-title">
-      <span>{{ $t('space.upgrade.code_quality_capacity') }}</span>
-    </div>
-    <div class="section-content">
-      <div class="section-content-left">
-        <div class="mb-12px flex items-center justify-between">
-          <span>{{ $t('space.upgrade.total_capacity') }} {{ spaceInfo.qualityQuotaTotal }} {{ $t('space.upgrade.times') }}，{{ $t('space.upgrade.used') }} {{ spaceInfo.qualityQuotaUsed }} {{ $t('space.upgrade.times') }}</span>
-          <span class="text-primary">{{ $t('space.upgrade.remaining') }} {{ spaceInfo.qualityQuotaRemaining }}</span>
-        </div>
-        <el-progress
-          :percentage="qualityQuotaPercentage"
-          :show-text="false"
-        />
-      </div>
-      <div class="buy-btn i-twemoji:money-bag" @click="openUpgradeDialog('quality')" />
-    </div>
-
-    <el-divider border-style="dashed" class="!my-20px" />
-
     <!-- 人数扩容使用情况 -->
     <div class="section-title">
       <span>{{ $t('space.upgrade.members_capacity') }}</span>
@@ -156,24 +126,6 @@ function handleUpgrade(data: { plan: { title: string }, type: string }) {
     </div>
 
     <el-divider border-style="dashed" class="!my-20px" />
-
-    <!-- 团队存储空间使用情况 -->
-    <div class="section-title">
-      <span>{{ $t('space.upgrade.team_storage_capacity') }}</span>
-    </div>
-    <div class="section-content">
-      <div class="section-content-left">
-        <div class="mb-12px flex items-center justify-between">
-          <span>{{ $t('space.upgrade.total_capacity') }} {{ spaceInfo.teamStorageTotal }}，{{ $t('space.upgrade.used') }} {{ spaceInfo.teamStorageUsed }}</span>
-          <span class="text-primary">{{ $t('space.upgrade.remaining') }} {{ spaceInfo.teamStorageRemaining }}</span>
-        </div>
-        <el-progress
-          :percentage="teamStoragePercentage"
-          :show-text="false"
-        />
-      </div>
-      <div class="buy-btn i-twemoji:money-bag" @click="openUpgradeDialog('team_storage')" />
-    </div>
 
     <!-- 升级套餐弹框 -->
     <SpaceUpgradePlans
