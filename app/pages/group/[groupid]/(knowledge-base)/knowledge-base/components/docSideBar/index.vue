@@ -226,7 +226,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
       </div>
 
       <!-- 顶部按钮（全部文档） -->
-      <NuxtLink :to="getFullPath('/knowledge-base')" class="mb-24px">
+      <NuxtLink :to="getFullPath('/knowledge-base')">
         <div class="all-doc-btn" :class="{ active: isAllDoc }">
           <CircleDoc />
           <span ml-12px text-16px>{{ $t('knowledge_base.all_documents') }}</span>

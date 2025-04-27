@@ -3,6 +3,7 @@ import type { ElTree } from 'element-plus'
 import ArrowRightFilled from '@/assets/svg/arrow-right-filled.svg?component'
 import Folder from '@/assets/svg/folder.svg?component'
 import { Link } from '@element-plus/icons-vue'
+import EditableText from './EditableText.vue'
 
 interface Props {
   data: FileTreeType[]
@@ -26,9 +27,12 @@ const emits = defineEmits<{
   (e: 'addFolder', parentId: string, name: string): void
   (e: 'addFile', parentId: string, templateId: string): void
   (e: 'openTeamSetting', activeMenu: string, teamName: string): void
+  (e: 'renameNode', node: FileTreeType, newName: string): void
 }>()
 
 const { isMobileDevice } = useDeviceDetection()
+const { appContext } = getCurrentInstance()!
+const { t } = useI18n()
 
 // 默认展开一级节点
 const defaultExpandedKeys = ref<string[]>([])
@@ -36,6 +40,7 @@ onMounted(() => {
   defaultExpandedKeys.value = props.data.filter(item => item.level === 1).map(item => item.id)
 })
 
+// 处理节点点击
 function handleNodeClick(data: FileTreeType, node: any) {
   // 递归寻找node.parent.label
   const getFileRoute = (node: any): string => {
@@ -49,6 +54,24 @@ function handleNodeClick(data: FileTreeType, node: any) {
   const fileRouteStr = getFileRoute(node)
 
   emits('nodeClick', data, fileRouteStr.split('/').filter(Boolean))
+}
+
+// 处理节点重命名
+function handleRename(node: FileTreeType, newName: string) {
+  if (newName !== node.label) {
+    // 在实际应用中，这里应该调用API保存重命名
+    // 这里仅触发事件通知父组件
+    emits('renameNode', node, newName)
+
+    // 临时更新节点名称以立即显示效果
+    node.label = newName
+
+    // 提示成功
+    ElMessage.success({
+      message: t('knowledge_base.rename_confirm.success'),
+      appContext,
+    })
+  }
 }
 
 // 判断是否显示用户图标
@@ -136,7 +159,15 @@ const bindWechatDialogVisible = ref(false)
           <FileIcon :file-type="data.fileType" mr-7px :size="12" />
         </template>
 
-        <span flex-1>{{ node.label }}</span>
+        <!-- 使用可编辑文本替换原有的文本显示 -->
+        <EditableText
+          :model-value="node.label"
+          :disabled="!props.editable"
+          :item-type="data.type === 'folder' ? 'folder' : 'file'"
+          class="flex-1 text-sm"
+          @update:model-value="(newName) => handleRename(data, newName)"
+        />
+
         <template v-if="props.editable">
           <div flex gap-5px style="color: #C9CDD4;" @click.stop>
             <el-icon v-if="node.label === '微信输入' && data.level === 1" @click="bindWechatDialogVisible = true">

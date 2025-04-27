@@ -117,6 +117,14 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "create_team": "Create Team",
+    "add_root_folder": "Add Root Directory",
+    "add_root_folder_dialog": {
+      "title": "Add Root Directory",
+      "folder_name": "Folder Name",
+      "folder_name_placeholder": "Please enter folder name",
+      "success": "Root directory created successfully",
+      "error": "Failed to create root directory"
+    },
     "copy_dialog": {
       "title": "Create Copy",
       "select_kb": "Select Knowledge Base",
@@ -273,6 +281,12 @@
       "message": "The file will be moved to trash and can be restored manually within 30 days!",
       "cancel": "Cancel",
       "confirm": "Confirm"
+    },
+    "rename_confirm": {
+      "title": "Rename Confirmation",
+      "message": "Are you sure you want to rename?",
+      "success": "Renamed successfully",
+      "error": "Rename failed"
     }
   },
   "common": {
