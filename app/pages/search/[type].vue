@@ -9,6 +9,8 @@ const route = useRoute() as any
 const { type } = route.params
 const queryParam = route.query.q as string || ''
 const localePath = useLocalePath()
+const { goHome } = useMenu()
+const { isMobileDevice } = useDeviceDetection()
 
 // 搜索类型选项
 const searchTypes = [
@@ -220,6 +222,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
 <template>
   <div class="search-page">
     <div class="search-header">
+      <img v-if="!isMobileDevice" src="@/assets/img/logo.png" width="120" alt="logo" class="logo" @click="goHome">
       <div class="search-container">
         <el-input
           v-model="searchValue"
@@ -245,7 +248,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
       <SearchResult
         :visible="isSearchFocused"
         :search-value="searchValue"
-        width="600px"
+        :width="isMobileDevice ? '100%' : '600px'"
         class="mt-2"
       />
     </div>
@@ -392,6 +395,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
         :page-size="pageSize"
         :total="total"
         layout="prev, pager, next"
+        :pager-count="5"
         @current-change="handlePageChange"
       />
     </div>
@@ -407,6 +411,13 @@ watch(() => route.query, (newQuery, oldQuery) => {
   max-width: 1200px;
   margin: 0 auto;
   background-color: var(--el-bg-color);
+
+  .logo {
+    position: absolute;
+    top: -2px;
+    left: 20px;
+    cursor: pointer;
+  }
 }
 
 .search-header {
@@ -415,6 +426,9 @@ watch(() => route.query, (newQuery, oldQuery) => {
   flex-direction: column;
   margin-bottom: 24px;
   position: relative;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 }
 
 .search-container {
@@ -426,6 +440,9 @@ watch(() => route.query, (newQuery, oldQuery) => {
 
 .search-input {
   flex: 1;
+  @media screen and (max-width: 768px) {
+    padding: 0 20px;
+  }
 
   :deep(.el-input__wrapper) {
     border-radius: 25px;
@@ -438,6 +455,10 @@ watch(() => route.query, (newQuery, oldQuery) => {
   :deep(.el-input__inner) {
     height: 48px;
     font-size: 18px;
+    @media screen and (max-width: 768px) {
+      font-size: 14px;
+      height: 40px;
+    }
   }
 }
 
@@ -447,6 +468,9 @@ watch(() => route.query, (newQuery, oldQuery) => {
   align-items: center;
   flex-wrap: wrap;
   padding: 0 20px;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 }
 
 .filter-left {

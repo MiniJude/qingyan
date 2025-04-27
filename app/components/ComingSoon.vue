@@ -21,7 +21,7 @@ const localePath = useLocalePath()
       <p mx-auto max-w-500px text-center text-16px text-tdisabled>
         {{ $t('common.coming_soon.description') }}
       </p>
-      <NuxtLink v-if="showBackHome" :to="localePath(HOME_ROUTE)">
+      <NuxtLink v-if="showBackHome" :to="localePath(HOME_ROUTE as I18nRoutePath)">
         <el-button type="primary" size="large" mt-40px rounded>
           {{ $t('common.coming_soon.back_home') }}
         </el-button>
