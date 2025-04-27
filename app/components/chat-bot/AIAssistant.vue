@@ -38,7 +38,7 @@ const showChatDrawer = ref(false)
 <style lang="scss" scoped>
 .ai-assistant-wrapper {
   position: relative;
-  z-index: 10000;
+  z-index: 1999;
   position: absolute;
   right: 0;
   top: 100px;
