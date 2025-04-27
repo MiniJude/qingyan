@@ -230,6 +230,7 @@
       "invite_tab": "邀请协作",
       "sync_tab": "内容同步",
       "download_tab": "下载权限",
+      "annotation_tab": "批注权限",
       "invite": {
         "share_link": "分享链接",
         "copy_link": "复制链接",
@@ -270,8 +271,6 @@
         "space_download": "空间成员可下载",
         "only_self_download": "任何人（除自己外）禁止下载"
       },
-      "annotation_tab": "批注权限",
-      "permission_updated": "权限更新成功",
       "annotation": {
         "annotation_desc": "设置当前文件预览状态下的批注权限",
         "annotation_permission": "批注权限设置",

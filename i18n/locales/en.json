@@ -230,6 +230,7 @@
       "invite_tab": "Invite Collaboration",
       "sync_tab": "Content Sync",
       "download_tab": "Download Permission",
+      "annotation_tab": "Annotation Permissions",
       "invite": {
         "share_link": "Share Link",
         "copy_link": "Copy Link",
@@ -269,6 +270,14 @@
         "anyone_can_download": "Anyone can download",
         "space_download": "Space members can download",
         "only_self_download": "Anyone (except myself) cannot download"
+      },
+      "annotation": {
+        "annotation_desc": "Set annotation permissions when previewing the current file",
+        "annotation_permission": "Annotation Permission Settings",
+        "who_can_annotate": "Allow Annotation",
+        "permission_updated": "Annotation permission updated successfully",
+        "space_can_edit": "Space members can edit",
+        "space_can_view": "Space members view only"
       }
     },
     "new_folder": "New Folder",
@@ -288,16 +297,7 @@
       "success": "Renamed successfully",
       "error": "Rename failed"
     },
-    "annotation_tab": "Annotation Permissions",
-    "permission_updated": "Permission updated successfully",
-    "annotation": {
-      "annotation_desc": "Set annotation permissions when previewing the current file",
-      "annotation_permission": "Annotation Permission Settings",
-      "who_can_annotate": "Allow Annotation",
-      "permission_updated": "Annotation permission updated successfully",
-      "space_can_edit": "Space members can edit",
-      "space_can_view": "Space members view only"
-    }
+    "permission_updated": "Permission updated successfully"
   },
   "common": {
     "coming_soon": {
