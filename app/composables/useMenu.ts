@@ -1,4 +1,4 @@
-import { SvgoAiChat, SvgoFolder2 } from '#components'
+import { SvgoAiChat, SvgoAiDoc, SvgoFolder2 } from '#components'
 import { HOME_ROUTE } from '~/constants'
 import { useSpaceStore } from '~/stores/space'
 
@@ -13,19 +13,17 @@ export function useMenu() {
     {
       key: 'knowledge_base',
       path: '/knowledge-base',
-      iconUrl: SvgoFolder2,
+      iconUrl: shallowRef(SvgoFolder2),
     },
     {
       key: 'ai_assistant',
       path: '/agents',
-      iconUrl: SvgoAiChat,
+      iconUrl: shallowRef(SvgoAiChat),
     },
     {
       key: 'ai_doc',
       path: '/doc',
-      iconUrl: h('div', {
-        class: 'i-carbon:align-box-bottom-center',
-      }),
+      iconUrl: shallowRef(SvgoAiDoc),
     },
   ])
 

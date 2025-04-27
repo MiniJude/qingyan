@@ -59,7 +59,7 @@ function openMobileDrawer() {
         <el-button v-if="isMobileDevice" link @click="openMobileDrawer">
           <div i-carbon:menu h-24px w-24px text-primary />
         </el-button>
-        <component :is="currentMenu?.iconUrl" class="h-30px w-30px text-primary lt-md:hidden" />
+        <component :is="currentMenu?.iconUrl" class="h-30px w-30px text-20px text-primary lt-md:hidden" />
         <span class="ml-8px shrink-0 lt-md:text-primary">{{ currentMenu?.name }}</span>
       </div>
 
