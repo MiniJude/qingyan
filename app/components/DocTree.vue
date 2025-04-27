@@ -2,6 +2,7 @@
 import type { ElTree } from 'element-plus'
 import ArrowRightFilled from '@/assets/svg/arrow-right-filled.svg?component'
 import Folder from '@/assets/svg/folder.svg?component'
+import { Link } from '@element-plus/icons-vue'
 
 interface Props {
   data: FileTreeType[]
@@ -26,6 +27,8 @@ const emits = defineEmits<{
   (e: 'addFile', parentId: string, templateId: string): void
   (e: 'openTeamSetting', activeMenu: string, teamName: string): void
 }>()
+
+const { isMobileDevice } = useDeviceDetection()
 
 // 默认展开一级节点
 const defaultExpandedKeys = ref<string[]>([])
@@ -106,6 +109,9 @@ function handleSelectTemplate(template: any) {
 function openTeamSetting(activeMenu: string, teamName: string) {
   emits('openTeamSetting', activeMenu, teamName)
 }
+
+// 绑定微信弹框
+const bindWechatDialogVisible = ref(false)
 </script>
 
 <template>
@@ -133,6 +139,9 @@ function openTeamSetting(activeMenu: string, teamName: string) {
         <span flex-1>{{ node.label }}</span>
         <template v-if="props.editable">
           <div flex gap-5px style="color: #C9CDD4;" @click.stop>
+            <el-icon v-if="node.label === '微信输入' && data.level === 1" @click="bindWechatDialogVisible = true">
+              <Link />
+            </el-icon>
             <div class="relative">
               <el-dropdown trigger="click" @command="(command) => handleAddCommand(command, data)">
                 <div class="cursor-pointer">
@@ -206,6 +215,11 @@ function openTeamSetting(activeMenu: string, teamName: string) {
     v-model="templateLibraryVisible"
     @select-template="handleSelectTemplate"
   />
+
+  <!-- 绑定微信弹框 -->
+  <el-dialog v-model="bindWechatDialogVisible" :title="$t('header.user_profile.wechat_assistant')" :fullscreen="isMobileDevice">
+    <WechatAssistantPanel />
+  </el-dialog>
 </template>
 
 <style lang="scss" scoped>
