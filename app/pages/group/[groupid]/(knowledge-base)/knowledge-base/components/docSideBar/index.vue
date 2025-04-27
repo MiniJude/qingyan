@@ -8,6 +8,8 @@ import DocTree from './docTree/index.vue'
 const route = useRoute()
 const spaceStore = useSpaceStore()
 const { isMobileDevice } = useDeviceDetection()
+const { appContext } = getCurrentInstance()!
+const { t } = useI18n()
 
 const docTreeRef = useTemplateRef<InstanceType<typeof DocTree>>('docTreeRef')
 const createTeamDialogVisible = ref(false)
@@ -141,6 +143,58 @@ const moveForm = ref({
   folderId: '',
 })
 
+// 删除确认对话框
+const deleteDialogVisible = ref(false)
+
+// 删除按钮点击事件
+function handleDelete() {
+  deleteDialogVisible.value = true
+}
+
+// 确认删除
+async function confirmDelete() {
+  try {
+    // 这里添加删除文件的API调用
+    // const result = await $api(`/api/knowledge-base/delete`, {
+    //   method: 'POST',
+    //   body: { fileIds: allCheckedKeys.value },
+    // })
+
+    // 暂时使用模拟的删除成功
+    ElMessage.success({ message: t('common.messages.deleted'), duration: 2000 }, appContext)
+
+    // 关闭对话框
+    deleteDialogVisible.value = false
+
+    // 刷新文档树
+    refreshTree()
+  }
+  catch (error) {
+    console.error('删除文件失败:', error)
+    ElMessage.error({ message: t('common.messages.operation_failed', { operation: t('knowledge_base.delete') }), duration: 2000 }, appContext)
+  }
+}
+
+// 刷新文档树
+async function refreshTree() {
+  if (docTreeRef.value) {
+    const knowledgeBaseData = await $api<FileTreeType[]>(`/mock-api/knowledge-base?spaceId=${currentSpaceId.value}`)
+
+    if (Array.isArray(knowledgeBaseData)) {
+      docTreeRef.value.data = knowledgeBaseData.map(item => ({
+        treeData: [item],
+        checkboxVisible: false,
+        checkedKeys: [],
+      }))
+    }
+  }
+}
+
+// 取消删除
+function cancelDelete() {
+  deleteDialogVisible.value = false
+}
+
 // 团队创建回调
 function handleTeamCreated(_team: any) {
   // 处理团队创建成功后的逻辑
@@ -204,7 +258,7 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
         <el-button plain :disabled="!allCheckedKeys.length" @click="moveFormVisible = true">
           {{ $t('knowledge_base.move_to') }}
         </el-button>
-        <el-button plain :disabled="!allCheckedKeys.length">
+        <el-button plain :disabled="!allCheckedKeys.length" @click="handleDelete">
           {{ $t('knowledge_base.delete') }}
         </el-button>
       </div>
@@ -234,6 +288,25 @@ const copyFormDialogRef = useTemplateRef<InstanceType<typeof CopyFormDialog>>('c
           </div>
         </template>
       </el-dialog>
+
+      <!-- 弹框：删除确认 -->
+      <el-dialog
+        v-model="deleteDialogVisible"
+        :title="$t('knowledge_base.delete_confirm.title')"
+        width="400"
+        align-center
+      >
+        <span>{{ $t('knowledge_base.delete_confirm.message') }}</span>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="cancelDelete">{{ $t('knowledge_base.delete_confirm.cancel') }}</el-button>
+            <el-button type="primary" @click="confirmDelete">
+              {{ $t('knowledge_base.delete_confirm.confirm') }}
+            </el-button>
+          </span>
+        </template>
+      </el-dialog>
+
       <!-- 弹框：创建副本 -->
       <CopyFormDialog ref="copyFormDialogRef" />
       <!-- 弹框：新建团队 -->
