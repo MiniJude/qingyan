@@ -245,7 +245,9 @@
       "company_intro": "公司介绍",
       "project_report": "项目汇报",
       "budget": "预算表",
-      "project_tracking": "项目跟踪表"
+      "project_tracking": "项目跟踪表",
+      "use": "使用",
+      "select_folder": "选择文件夹"
     },
     "share_dialog": {
       "invite_tab": "邀请协作",
@@ -327,7 +329,15 @@
       "rename_success": "文件夹已重命名为 \"{name}\"",
       "rename_failed": "重命名失败：{error}",
       "rename_dialog_title": "重命名文件夹",
-      "enter_new_folder_name": "请输入新的文件夹名称"
+      "enter_new_folder_name": "请输入新的文件夹名称",
+      "create_dialog_title": "新建文件夹",
+      "create_success": "已成功创建文件夹 \"{name}\"",
+      "create_failed": "创建文件夹失败：{error}",
+      "target_location": "目标位置",
+      "folder_name": "文件夹名称",
+      "enter_folder_name": "请输入文件夹名称",
+      "root_folder": "根目录",
+      "select_folder": "选择文件夹"
     }
   },
   "common": {

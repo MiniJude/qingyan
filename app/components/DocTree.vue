@@ -186,7 +186,7 @@ const bindWechatDialogVisible = ref(false)
                         {{ $t('knowledge_base.new_folder') }}
                       </div>
                     </el-dropdown-item>
-                    <el-dropdown-item v-if="data.level !== 1" command="file">
+                    <el-dropdown-item command="file">
                       <div flex items-center>
                         <div class="i-carbon:document-add mr-8px" />
                         {{ $t('knowledge_base.new_file') }}

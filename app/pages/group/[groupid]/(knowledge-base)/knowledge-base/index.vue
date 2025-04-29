@@ -3,10 +3,21 @@ import FolderIcon from '@/assets/svg/folder.svg?component'
 import ShareDialog from '@/components/share-dialog/index.vue'
 import TemplateLibraryDialog from '@/components/TemplateLibraryDialog.vue'
 import { useFileFilter } from '@/composables/useFileFilter'
-import { DeleteFilled as Delete, EditPen, Share } from '@element-plus/icons-vue'
+import { DeleteFilled as Delete, EditPen, FolderAdd, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getCurrentInstance } from 'vue'
 import { useI18n } from 'vue-i18n'
+
+// 模板接口定义
+interface Template {
+  id: string
+  type: string
+  file_type: string
+  title: string
+  content: string
+  image: string
+  preview_url: string
+}
 
 const { isMobileDevice } = useDeviceDetection()
 const { t } = useI18n()
@@ -32,6 +43,8 @@ const folderList = ref([
 // 模板库对话框
 const templateLibraryDialog = ref(false)
 const templateLibraryType = ref('all')
+const selectedTemplate = ref<Template | null>(null)
+const selectFolderDialogVisible = ref(false)
 
 // 打开模板库对话框
 function openTemplateLibrary() {
@@ -45,12 +58,6 @@ function openUploadDialog() {
   templateLibraryType.value = 'upload'
 }
 
-// 打开创建对话框
-function openCreateDialog() {
-  templateLibraryDialog.value = true
-  templateLibraryType.value = 'rich'
-}
-
 // 使用文件过滤hook
 const { currentFileFilterType, viewingText, switchColumns } = useFileFilter()
 
@@ -58,6 +65,11 @@ const { currentFileFilterType, viewingText, switchColumns } = useFileFilter()
 const renameDialogVisible = ref(false)
 const newFolderName = ref('')
 const folderToRename = ref<{ name: string, index: number } | null>(null)
+
+// 新建文件夹对话框
+const createFolderDialogVisible = ref(false)
+const createFolderName = ref('')
+const selectedParentFolder = ref<string>('root') // 默认选择根目录
 
 // 获取应用上下文（用于ElMessage）
 const { appContext } = getCurrentInstance()!
@@ -155,6 +167,83 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
     }, 500)
   })
 }
+
+// 打开新建文件夹对话框
+function openCreateFolderDialog() {
+  createFolderName.value = ''
+  selectedParentFolder.value = 'root'
+  createFolderDialogVisible.value = true
+}
+
+// 创建文件夹API封装（示例）
+function callCreateFolderApi(_name: string, _parentFolder: string) {
+  // 这里替换为实际的API调用
+  return new Promise<void>((resolve, _reject) => {
+    // 模拟API调用成功
+    // 如果要模拟失败，使用: reject(new Error('创建失败，请稍后重试'))
+    setTimeout(() => {
+      resolve()
+    }, 500)
+  })
+}
+
+// 处理创建文件夹
+function handleCreateFolder() {
+  if (!createFolderName.value.trim()) {
+    ElMessage.warning({
+      message: t('knowledge_base.folder.name_empty_error'),
+      duration: 2000,
+    }, appContext)
+    return
+  }
+
+  // 调用创建文件夹API
+  callCreateFolderApi(createFolderName.value, selectedParentFolder.value)
+    .then(() => {
+      // API成功，添加到本地数据
+      folderList.value.push({
+        name: createFolderName.value,
+      })
+
+      ElMessage.success({
+        message: t('knowledge_base.folder.create_success', { name: createFolderName.value }),
+        duration: 2000,
+      }, appContext)
+
+      createFolderDialogVisible.value = false
+    })
+    .catch((error) => {
+      // API失败，显示错误提示
+      ElMessage.error({
+        message: t('knowledge_base.folder.create_failed', { error: error.message || t('common.messages.unknown_error') }),
+        duration: 2000,
+      }, appContext)
+    })
+}
+
+// 处理模板选择事件
+function handleSelectTemplate(template: Template) {
+  selectedTemplate.value = template
+  selectFolderDialogVisible.value = true
+}
+
+// 处理模板创建确认
+function handleTemplateConfirm() {
+  if (!selectedTemplate.value) {
+    return
+  }
+
+  // 这里将来需要实现模板创建的API调用
+  // 例如：createDocumentFromTemplate(selectedTemplate.value, selectedParentFolder.value)
+
+  ElMessage.success({
+    message: t('common.messages.operation_success', { operation: t('knowledge_base.template.use') }),
+    duration: 2000,
+  }, appContext)
+
+  selectFolderDialogVisible.value = false
+  selectedTemplate.value = null
+}
 </script>
 
 <template>
@@ -176,14 +265,26 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
           {{ $t('knowledge_base.index.upload') }}
         </template>
       </el-button>
-      <el-button type="primary" size="large" @click="openCreateDialog">
-        <template #icon>
-          <div class="i-carbon:add-large" />
+      <el-dropdown>
+        <el-button type="primary" size="large">
+          <template v-if="!isMobileDevice">
+            {{ $t('common.actions.create') }}
+          </template>
+          <template v-else>
+            <div class="i-carbon:add-large" />
+          </template>
+          <div ml-8px h-16px w-16px flex-center>
+            <SvgoArrowBottomFilled text-6px />
+          </div>
+        </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="openCreateFolderDialog">
+              {{ $t('knowledge_base.index.folder') }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
         </template>
-        <template v-if="!isMobileDevice" #default>
-          {{ $t('common.actions.create') }}
-        </template>
-      </el-button>
+      </el-dropdown>
     </div>
     <!-- <Dashboard /> -->
     <!-- 文件夹 -->
@@ -246,6 +347,7 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
     <TemplateLibraryDialog
       v-model="templateLibraryDialog"
       :default-type="templateLibraryType"
+      @select-template="handleSelectTemplate"
     />
 
     <!-- 重命名对话框 -->
@@ -267,6 +369,87 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
         <span class="dialog-footer">
           <el-button @click="renameDialogVisible = false">{{ $t('common.actions.cancel') }}</el-button>
           <el-button type="primary" @click="handleRename">{{ $t('common.actions.confirm') }}</el-button>
+        </span>
+      </template>
+    </el-dialog>
+
+    <!-- 新建文件夹对话框 -->
+    <el-dialog
+      v-model="createFolderDialogVisible"
+      :title="$t('knowledge_base.folder.create_dialog_title')"
+      width="400px"
+      class="create-folder-dialog"
+      :fullscreen="isMobileDevice"
+    >
+      <el-form label-width="100px" @submit.prevent="handleCreateFolder">
+        <el-form-item :label="$t('knowledge_base.folder.target_location')" class="lt-md:mb-4">
+          <el-select
+            v-model="selectedParentFolder"
+            :placeholder="$t('knowledge_base.folder.select_folder')"
+            class="w-full"
+          >
+            <el-option
+              key="root"
+              :label="$t('knowledge_base.folder.root_folder')"
+              value="root"
+            />
+            <el-option
+              v-for="item in folderList"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('knowledge_base.folder.folder_name')" class="lt-md:mb-4">
+          <el-input
+            v-model="createFolderName"
+            :placeholder="$t('knowledge_base.folder.enter_folder_name')"
+            autofocus
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="createFolderDialogVisible = false">{{ $t('common.actions.cancel') }}</el-button>
+          <el-button type="primary" @click="handleCreateFolder">{{ $t('common.actions.confirm') }}</el-button>
+        </span>
+      </template>
+    </el-dialog>
+
+    <!-- 选择目录对话框 -->
+    <el-dialog
+      v-model="selectFolderDialogVisible"
+      :title="$t('knowledge_base.template.select_folder')"
+      width="400px"
+      class="select-folder-dialog"
+      :fullscreen="isMobileDevice"
+    >
+      <el-form label-width="100px" @submit.prevent="handleTemplateConfirm">
+        <el-form-item :label="$t('knowledge_base.folder.target_location')" class="lt-md:mb-4">
+          <el-select
+            v-model="selectedParentFolder"
+            :placeholder="$t('knowledge_base.folder.select_folder')"
+            class="w-full"
+          >
+            <el-option
+              key="root"
+              :label="$t('knowledge_base.folder.root_folder')"
+              value="root"
+            />
+            <el-option
+              v-for="item in folderList"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="selectFolderDialogVisible = false">{{ $t('common.actions.cancel') }}</el-button>
+          <el-button type="primary" @click="handleTemplateConfirm">{{ $t('common.actions.confirm') }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -305,6 +488,25 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
   @media (max-width: 768px) {
     height: 500px;
     min-height: 500px;
+  }
+}
+
+.create-folder-dialog {
+  .el-form-item {
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .el-form-item__label {
+      padding-bottom: 8px;
+      display: block;
+      text-align: left;
+    }
+
+    .el-select,
+    .el-input {
+      width: 100%;
+    }
   }
 }
 </style>

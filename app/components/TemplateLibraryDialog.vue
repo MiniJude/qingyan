@@ -225,7 +225,7 @@ const menuList = computed(() => {
                         class="transform transition-transform duration-200 hover:scale-105"
                         @click.stop="selectTemplate(template)"
                       >
-                        使用
+                        {{ $t('knowledge_base.template.use') }}
                       </el-button>
                     </div>
                   </div>
