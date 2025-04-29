@@ -40,6 +40,20 @@
     "info": "Info Color",
     "reset": "Reset Default"
   },
+  "notification": {
+    "title": "Notifications",
+    "unread_count": "You have {count} unread messages",
+    "no_unread": "No unread messages",
+    "mark_all_read": "Mark all as read",
+    "mark_read": "Mark as read",
+    "marked_as_read": "Marked as read",
+    "all_marked_as_read": "All messages marked as read",
+    "empty": "No notifications",
+    "capacity_insufficient": "Your storage space is insufficient. Please expand capacity.",
+    "token_insufficient": "Your token balance is low. Please recharge.",
+    "vip_expiring": "Your VIP membership is about to expire. Please renew.",
+    "system_update": "System updated. New features are available."
+  },
   "header": {
     "user_center": "User Center",
     "logout": "Logout",

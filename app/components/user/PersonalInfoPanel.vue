@@ -153,10 +153,5 @@ const avatar = computed({
 <style lang="scss" scoped>
 .personal-info-form {
   padding: 20px;
-
-  :deep(.el-input),
-  :deep(.el-textarea) {
-    width: 70%;
-  }
 }
 </style>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useNotificationStore } from '~/stores/notification'
 import { useUserStore } from '~/stores/user'
 import SearchBar from './SearchBar.vue'
 import SearchResult from './SearchResult.vue'
@@ -13,13 +14,21 @@ const { currentMenu } = useMenu()
 const { t, locale, setLocale } = useI18n()
 const localePath = useLocalePath()
 const userStore = useUserStore()
+const notificationStore = useNotificationStore()
 const { isMobileDevice } = useDeviceDetection()
 // 个人中心弹框可见性
 const userProfileDialogVisible = ref(false)
+// 消息通知弹框可见性
+const notificationsDialogVisible = ref(false)
 
 // 打开个人中心弹框
 function openUserProfile() {
   userProfileDialogVisible.value = true
+}
+
+// 打开消息通知弹框
+function openNotificationsDialog() {
+  notificationsDialogVisible.value = true
 }
 
 // 切换语言
@@ -74,7 +83,9 @@ function openMobileDrawer() {
           {{ locale === 'en' ? '中' : 'EN' }}
         </el-button>
         <!-- <DarkToggle /> -->
-        <SvgoNotice class="icon-notice shrink-0" text="24px" cursor-pointer />
+        <el-badge :value="notificationStore.unreadCount" :hidden="notificationStore.unreadCount === 0" class="notification-badge">
+          <SvgoNotice class="icon-notice shrink-0" text="24px" cursor-pointer @click="openNotificationsDialog" />
+        </el-badge>
         <el-dropdown trigger="click">
           <div class="shrink-0">
             <ClientOnly>
@@ -103,6 +114,9 @@ function openMobileDrawer() {
 
       <!-- 个人中心弹框 -->
       <UserProfileDialog v-model="userProfileDialogVisible" />
+
+      <!-- 消息通知弹框 -->
+      <NotificationsDialog v-model:visible="notificationsDialogVisible" />
     </div>
 
     <!-- 搜索结果面板 -->
@@ -119,9 +133,14 @@ function openMobileDrawer() {
 .header {
   border-bottom: 1px solid var(--app-border-regular);
   position: relative;
+}
 
-  .icon-notice {
-    color: #4e5969;
+.notification-badge {
+  height: 24px;
+  line-height: 1;
+
+  :deep(.el-badge__content) {
+    border: none;
   }
 }
 </style>

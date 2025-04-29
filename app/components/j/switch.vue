@@ -119,6 +119,7 @@ onUnmounted(() => {
   position: relative;
   border-radius: 4px;
   padding: v-bind('`${PADDING}px`');
+  z-index: 1;
 
   .slider {
     position: absolute;

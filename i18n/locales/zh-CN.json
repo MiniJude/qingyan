@@ -40,6 +40,20 @@
     "info": "信息颜色",
     "reset": "重置默认"
   },
+  "notification": {
+    "title": "消息通知",
+    "unread_count": "您有 {count} 条未读消息",
+    "no_unread": "暂无未读消息",
+    "mark_all_read": "全部标为已读",
+    "mark_read": "标为已读",
+    "marked_as_read": "已标记为已读",
+    "all_marked_as_read": "全部消息已标记为已读",
+    "empty": "暂无消息通知",
+    "capacity_insufficient": "您的存储空间不足，请及时扩容",
+    "token_insufficient": "您的令牌余额不足，请及时充值",
+    "vip_expiring": "您的VIP会员即将到期，请及时续费",
+    "system_update": "系统已更新，新功能上线，快来体验吧"
+  },
   "header": {
     "user_center": "个人中心",
     "logout": "退出登录",
