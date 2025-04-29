@@ -32,6 +32,12 @@ const activeMenu = computed(() => {
 function getMenuPath(path: string): string {
   // 获取当前空间ID，如果不存在则使用默认值1
   const currentSpaceId = spaceStore.currentSpace?.id || '1'
+
+  // 移动端特殊处理ai_assistant菜单
+  if (isMobileDevice.value && path === '/agents') {
+    return `/group/${currentSpaceId}/agents/qa`
+  }
+
   // 组合完整路径
   return `/group/${currentSpaceId}/${path.replace('/', '')}`
 }
