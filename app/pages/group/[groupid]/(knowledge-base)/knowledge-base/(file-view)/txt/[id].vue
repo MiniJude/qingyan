@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AIAssistant from '~/components/chat-bot/AIAssistant.vue'
+import FileHeader from '../../components/FileHeader.vue'
 
 // 获取当前路由参数
 const route = useRoute()
@@ -57,14 +58,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div p="t-29px r-53px b-27px l-19px" relative h-full flex flex-col gap-58px>
+  <div p="t-29px r-53px b-27px l-19px" relative h-full flex flex-col gap-16px>
     <!-- 顶部区域 -->
-    <div flex items-center justify-between>
-      <div flex flex-col gap-4px>
-        <FileBreadCrumb />
-        <span class="last-modify-time">{{ $t('knowledge_base.doc_view.last_modified', { date: '2025年1月1日' }) }}</span>
-      </div>
-    </div>
+    <FileHeader />
 
     <!-- 内容区域 -->
     <div min-h-0 flex flex-1 flex-gap-67px pl-81px>

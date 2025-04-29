@@ -3,6 +3,7 @@ import { ElMessage } from 'element-plus'
 import LuckyExcel from 'luckyexcel'
 import { useRoute } from 'vue-router'
 import AIAssistant from '~/components/chat-bot/AIAssistant.vue'
+import FileHeader from '../../components/FileHeader.vue'
 
 const spaceStore = useSpaceStore()
 
@@ -75,10 +76,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div relative h-full>
-    <div id="luckysheet" />
-    <div v-show="isMaskShow" id="tip">
-      正在加载...
+  <div p="t-29px r-53px b-27px l-19px" relative h-full flex flex-col gap-16px>
+    <!-- 顶部区域 -->
+    <FileHeader />
+
+    <!-- 内容区域 -->
+    <div relative h-full>
+      <div id="luckysheet" />
+      <div v-show="isMaskShow" id="tip">
+        正在加载...
+      </div>
     </div>
 
     <!-- AI助手组件 -->

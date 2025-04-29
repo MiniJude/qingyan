@@ -1,48 +1,15 @@
 <script setup lang="ts">
 // 引入国际化
 import AIAssistant from '~/components/chat-bot/AIAssistant.vue'
+import FileHeader from '../../components/FileHeader.vue'
 
 const activeIndex = ref(0)
 </script>
 
 <template>
-  <div p="t-29px r-53px b-27px l-19px" relative h-full flex flex-col gap-58px>
+  <div p="t-29px r-53px b-27px l-19px" relative h-full flex flex-col gap-16px>
     <!-- 顶部区域 -->
-    <div flex items-center justify-between lt-md:flex-col lt-md:items-start lt-md:gap-12px>
-      <div flex flex-col gap-4px>
-        <FileBreadCrumb />
-        <span class="last-modify-time">{{ $t('knowledge_base.doc_view.last_modified', { date: '2025年1月1日' }) }}</span>
-      </div>
-      <div class="btn-group" flex gap-12px>
-        <el-button plain size="large">
-          <template #icon>
-            <SvgoEdit />
-          </template>
-          {{ $t('knowledge_base.doc_view.edit') }}
-        </el-button>
-        <el-button plain size="large">
-          <template #icon>
-            <SvgoDownload />
-          </template>
-          {{ $t('knowledge_base.doc_view.download') }}
-        </el-button>
-
-        <el-dropdown>
-          <el-button type="primary" size="large">
-            {{ $t('knowledge_base.doc_view.share') }}
-            <div ml-8px h-16px w-16px flex-center>
-              <SvgoArrowBottomFilled text-6px />
-            </div>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>{{ $t('knowledge_base.doc_view.copy_link') }}</el-dropdown-item>
-              <el-dropdown-item>{{ $t('knowledge_base.doc_view.generate_qrcode') }}</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
-    </div>
+    <FileHeader />
 
     <!-- 内容区域 -->
     <div min-h-0 flex flex-1 flex-gap-67px pl-81px>
@@ -63,15 +30,3 @@ const activeIndex = ref(0)
     <AIAssistant />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.last-modify-time {
-  color: var(--el-text-color-disabled);
-}
-
-.btn-group {
-  .el-button {
-    margin-left: 0;
-  }
-}
-</style>
