@@ -15,7 +15,7 @@ function handleDeleteTeam() {
 </script>
 
 <template>
-  <div class="more-settings-panel p-20px">
+  <div>
     <!-- 动态 -->
     <div class="mb-24px border-b border-gray-200 pb-20px">
       <div class="mb-12px flex items-center justify-between">

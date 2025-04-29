@@ -194,7 +194,6 @@ function getFileIcon(type: string) {
 
 <style lang="scss" scoped>
 .space-trash-panel {
-  padding: 24px;
   overflow-y: auto;
   @media (max-width: 768px) {
     padding: 0;

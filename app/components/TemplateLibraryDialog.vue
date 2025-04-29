@@ -180,11 +180,11 @@ const menuList = computed(() => {
       :fullscreen="isMobileDevice"
     >
       <MenuSplitContent
-        v-if="!props.hideLeftTabs"
         v-model="activeMenu"
         :menu-list="menuList"
         content-height="650px"
         label-width="210px"
+        :show-menu="!hideLeftTabs"
       >
         <template #default="{ activeMenu: currentActiveMenu }">
           <!-- 上传文档界面 -->
@@ -197,7 +197,7 @@ const menuList = computed(() => {
           <!-- 模板展示区域 -->
           <template v-else>
             <!-- 模板网格 -->
-            <div class="grid grid-cols-4 gap-24px p-10px lt-lg:grid-cols-2 lt-md:grid-cols-1 lt-xl:grid-cols-3">
+            <div class="grid grid-cols-4 gap-24px lt-lg:grid-cols-2 lt-md:grid-cols-1 lt-xl:grid-cols-3">
               <div
                 v-for="template in filteredTemplates"
                 :key="template.id"
@@ -240,65 +240,6 @@ const menuList = computed(() => {
           </template>
         </template>
       </MenuSplitContent>
-
-      <!-- 当 hideLeftTabs 为 true 时，只显示右侧内容 -->
-      <div v-if="props.hideLeftTabs" class="h-650px overflow-y-auto p-20px">
-        <!-- 上传文档界面 -->
-        <template v-if="activeMenu === 'upload'">
-          <FileUploadPanel
-            :folders="uploadFolders"
-          />
-        </template>
-
-        <!-- 模板展示区域 -->
-        <template v-else>
-          <h2 class="mb-20px text-18px font-bold">
-            {{ menuList.find(menu => menu.key === activeMenu)?.name }}
-          </h2>
-
-          <!-- 模板网格 -->
-          <div class="grid grid-cols-4 gap-24px lt-lg:grid-cols-2 lt-md:grid-cols-1 lt-xl:grid-cols-3">
-            <div
-              v-for="template in filteredTemplates"
-              :key="template.id"
-              class="group hover:border-primary-light-8 relative cursor-pointer overflow-hidden border border-gray-200 rounded-8px border-solid bg-overlay shadow-sm transition-all duration-300 hover:translate-y--2px dark:border-gray-9 hover:shadow"
-            >
-              <!-- 模板标题和描述 -->
-              <div class="px-16px py-12px">
-                <h3 class="truncate text-16px font-medium">
-                  {{ template.title }}
-                </h3>
-              </div>
-              <!-- 模板预览图 -->
-              <div class="relative p-12px pt-0px">
-                <div class="relative h-200px overflow-hidden rounded-4px lt-md:h-240px">
-                  <img
-                    :src="`https://static.writebug.com/static${template.image}`"
-                    alt=""
-                    class="h-full w-full object-cover"
-                  >
-                  <!-- 悬停时显示的使用按钮 -->
-                  <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 lt-md:opacity-100">
-                    <div class="mb-16px h-40px w-40px" :class="getIconClass(template.file_type)" />
-                    <el-button
-                      type="primary"
-                      class="transform transition-transform duration-200 hover:scale-105"
-                      @click.stop="selectTemplate(template)"
-                    >
-                      使用
-                    </el-button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 无结果提示 -->
-          <div v-if="filteredTemplates.length === 0" class="py-40px text-center text-gray-500">
-            {{ $t('common.messages.no_templates') }}
-          </div>
-        </template>
-      </div>
     </el-dialog>
   </ClientOnly>
 </template>

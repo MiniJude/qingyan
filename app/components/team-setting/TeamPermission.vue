@@ -115,83 +115,80 @@ function exitTeam() {
 </script>
 
 <template>
-  <div class="permission-panel p-20px">
-    <!-- 成员列表 -->
-    <div>
-      <div class="mb-16px flex items-center justify-between">
-        <div class="text-18px font-medium">
-          {{ t('space.team.members') }}
-        </div>
-        <el-button type="primary" @click="handleAddBatchMembers">
-          {{ t('space.team.add_member') }}
-        </el-button>
+  <!-- 成员列表 -->
+  <div>
+    <div class="mb-16px flex items-center justify-between">
+      <div class="text-18px font-medium">
+        {{ t('space.team.members') }}
       </div>
-
-      <el-table :data="members" border>
-        <el-table-column :label="t('space.team.name')" min-width="160">
-          <template #default="{ row }">
-            <div class="flex items-center">
-              <el-avatar :size="32" class="mr-8px">
-                {{ row.name.charAt(0).toUpperCase() }}
-              </el-avatar>
-              <div>
-                <div>{{ row.name }}</div>
-                <div v-if="row.role === 'owner'" class="mt-2px text-12px text-gray-500">
-                  {{ row.role === 'owner' ? t('space.team.owner') : '' }}
-                </div>
-              </div>
-            </div>
-          </template>
-        </el-table-column>
-
-        <el-table-column :label="t('common.departments.department')" prop="department" min-width="150" />
-
-        <el-table-column :label="t('space.team.role')" min-width="150">
-          <template #default="{ row }">
-            <div>
-              <el-dropdown
-                v-if="row.role !== 'owner'"
-                trigger="click"
-                @command="permission => handlePermissionChange(row, permission)"
-              >
-                <span class="flex cursor-pointer items-center font-bold">
-                  {{ row.permission === 'manageable' ? t('space.team.manageable') : t('space.team.read_only_permission') }}
-                  <el-icon class="el-icon--right"><i class="i-carbon:chevron-down" /></el-icon>
-                </span>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item command="manageable">
-                      {{ t('space.team.manageable') }}
-                    </el-dropdown-item>
-                    <el-dropdown-item command="read_only">
-                      {{ t('space.team.read_only_permission') }}
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
-              <span v-else class="font-bold">
-                {{ t('space.team.admin') }}
-              </span>
-            </div>
-          </template>
-        </el-table-column>
-
-        <el-table-column :label="t('space.team.operation')" width="60" align="center" fixed="right">
-          <template #default="{ row }">
-            <div class="flex items-center justify-center">
-              <div
-                v-if="row.role !== 'owner'"
-                class="i-carbon:trash-can cursor-pointer"
-                @click="removeMember(row)"
-              />
-
-              <div v-else class="i-carbon:exit rotate-180" cursor-pointer @click="exitTeam" />
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-button type="primary" @click="handleAddBatchMembers">
+        {{ t('space.team.add_member') }}
+      </el-button>
     </div>
 
+    <el-table :data="members" border>
+      <el-table-column :label="t('space.team.name')" min-width="160">
+        <template #default="{ row }">
+          <div class="flex items-center">
+            <el-avatar :size="32" class="mr-8px">
+              {{ row.name.charAt(0).toUpperCase() }}
+            </el-avatar>
+            <div>
+              <div>{{ row.name }}</div>
+              <div v-if="row.role === 'owner'" class="mt-2px text-12px text-gray-500">
+                {{ row.role === 'owner' ? t('space.team.owner') : '' }}
+              </div>
+            </div>
+          </div>
+        </template>
+      </el-table-column>
+
+      <el-table-column :label="t('common.departments.department')" prop="department" min-width="150" />
+
+      <el-table-column :label="t('space.team.role')" min-width="150">
+        <template #default="{ row }">
+          <div>
+            <el-dropdown
+              v-if="row.role !== 'owner'"
+              trigger="click"
+              @command="permission => handlePermissionChange(row, permission)"
+            >
+              <span class="flex cursor-pointer items-center font-bold">
+                {{ row.permission === 'manageable' ? t('space.team.manageable') : t('space.team.read_only_permission') }}
+                <el-icon class="el-icon--right"><i class="i-carbon:chevron-down" /></el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="manageable">
+                    {{ t('space.team.manageable') }}
+                  </el-dropdown-item>
+                  <el-dropdown-item command="read_only">
+                    {{ t('space.team.read_only_permission') }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+            <span v-else class="font-bold">
+              {{ t('space.team.admin') }}
+            </span>
+          </div>
+        </template>
+      </el-table-column>
+
+      <el-table-column :label="t('space.team.operation')" width="60" align="center" fixed="right">
+        <template #default="{ row }">
+          <div class="flex items-center justify-center">
+            <div
+              v-if="row.role !== 'owner'"
+              class="i-carbon:trash-can cursor-pointer"
+              @click="removeMember(row)"
+            />
+
+            <div v-else class="i-carbon:exit rotate-180" cursor-pointer @click="exitTeam" />
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
     <!-- 批量添加成员对话框 -->
     <BatchAddMemberDialog
       v-model="batchAddDialogVisible"

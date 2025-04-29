@@ -28,11 +28,14 @@ interface Props {
   contentHeight?: string | number
   /** 菜单宽度 */
   labelWidth?: string | number
+  /** 是否显示左侧菜单 */
+  showMenu?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   contentHeight: '600px',
   labelWidth: '160px',
+  showMenu: true,
 })
 const { isMobileDevice } = useDeviceDetection()
 // 当前选中的菜单
@@ -81,13 +84,14 @@ const currentActiveMenu = computed(() => {
   <div class="menu-split-content relative flex" :style="{ height: contentHeightStyle }">
     <!-- 移动端蒙层 -->
     <div
-      v-if="isMobileDevice && showMobileMenu"
+      v-if="isMobileDevice && showMobileMenu && showMenu"
       class="fixed inset-0 z-20 bg-black bg-opacity-40"
       @click="showMobileMenu = false"
     />
 
     <!-- 左侧菜单 -->
     <div
+      v-if="showMenu"
       class="z-30 flex flex-col gap-10px overflow-auto rounded-4px bg-white p-12px"
       :class="[
         { 'fixed left-0 top-0 bottom-0 w-200px transition-transform': isMobileDevice },
@@ -109,7 +113,7 @@ const currentActiveMenu = computed(() => {
     </div>
 
     <!-- 竖分割线 -->
-    <el-divider v-if="!isMobileDevice" direction="vertical" class="!h-full" />
+    <el-divider v-if="!isMobileDevice && showMenu" direction="vertical" class="!h-full" />
 
     <!-- 右侧内容 -->
     <div class="flex-1 overflow-y-auto">
@@ -117,7 +121,7 @@ const currentActiveMenu = computed(() => {
       <div class="ml-20px">
         <div class="flex items-center text-20px font-bold lt-md:gap-8px">
           <!-- 移动端菜单切换按钮 -->
-          <el-icon v-if="isMobileDevice" class="flex-center p-4px" size="24px" @click="toggleMobileMenu">
+          <el-icon v-if="isMobileDevice && showMenu" class="flex-center p-4px" size="24px" @click="toggleMobileMenu">
             <Switch class="text-primary" />
           </el-icon>
           {{ currentActiveMenu?.name }}
@@ -127,16 +131,18 @@ const currentActiveMenu = computed(() => {
         </div>
         <el-divider class="!my-12px" />
       </div>
-      <slot :active-menu="activeMenu">
-        <component
-          :is="currentActiveMenu?.component?.value"
-          v-if="currentActiveMenu?.component"
-          v-bind="currentActiveMenu?.props"
-        />
-        <div v-else>
-          <ComingSoon />
-        </div>
-      </slot>
+      <div class="px-20px">
+        <slot :active-menu="activeMenu">
+          <component
+            :is="currentActiveMenu?.component?.value"
+            v-if="currentActiveMenu?.component"
+            v-bind="currentActiveMenu?.props"
+          />
+          <div v-else>
+            <ComingSoon />
+          </div>
+        </slot>
+      </div>
     </div>
   </div>
 </template>

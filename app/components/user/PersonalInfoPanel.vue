@@ -108,7 +108,6 @@ const avatar = computed({
     :model="formData"
     :rules="rules"
     label-width="80px"
-    class="personal-info-form"
   >
     <!-- 头像 -->
     <el-form-item>
@@ -149,9 +148,3 @@ const avatar = computed({
     </el-form-item>
   </el-form>
 </template>
-
-<style lang="scss" scoped>
-.personal-info-form {
-  padding: 20px;
-}
-</style>

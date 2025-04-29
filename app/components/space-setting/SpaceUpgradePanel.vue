@@ -56,7 +56,7 @@ function handleUpgrade(data: { plan: { title: string }, type: string }) {
 </script>
 
 <template>
-  <div class="panel-container" flex flex-col p-20px>
+  <div class="panel-container" flex flex-col>
     <!-- 当前版本信息 -->
     <div class="flex items-center justify-between">
       <div>{{ $t('space.upgrade.current_version') }}：{{ spaceInfo.currentVersion }}</div>

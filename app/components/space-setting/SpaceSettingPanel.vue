@@ -66,16 +66,15 @@ function handleLogoUpdate(newLogo: string) {
 </script>
 
 <template>
-  <div class="space-settings-panel">
-    <el-form
-      ref="formRef"
-      :model="formData"
-      :rules="rules"
-      label-position="top"
-      class="setting-form"
-    >
-      <!-- 空间公开设置 -->
-      <el-form-item :label="$t('space.settings.public.title')">
+  <el-form
+    ref="formRef"
+    :model="formData"
+    :rules="rules"
+    label-position="top"
+    class="setting-form"
+  >
+    <!-- 空间公开设置 -->
+    <!-- <el-form-item :label="$t('space.settings.public.title')">
         <div flex items-center gap-2>
           <el-switch v-model="formData.publicSpace" />
           <el-tooltip
@@ -93,10 +92,10 @@ function handleLogoUpdate(newLogo: string) {
             <span text-tprimary>{{ formData.publicSpace ? $t('space.settings.public.public') : $t('space.settings.public.private') }}</span>
           </div>
         </div>
-      </el-form-item>
+      </el-form-item> -->
 
-      <!-- 公开申请加入设置 -->
-      <el-form-item :label="$t('space.settings.public_apply.title')">
+    <!-- 公开申请加入设置 -->
+    <!-- <el-form-item :label="$t('space.settings.public_apply.title')">
         <div flex items-center gap-2>
           <el-switch v-model="formData.publicApply" />
           <el-tooltip
@@ -114,54 +113,49 @@ function handleLogoUpdate(newLogo: string) {
             <span text-tprimary>{{ formData.publicApply ? $t('space.settings.public_apply.on') : $t('space.settings.public_apply.off') }}</span>
           </div>
         </div>
-      </el-form-item>
+      </el-form-item> -->
 
-      <!-- 空间LOGO -->
-      <el-form-item :label="$t('space.settings.domain.title')">
-        <AvatarUploader
-          v-model="formData.logo"
-          :has-changed="logoChanged"
-          :original-avatar="originalLogo"
-          @cancel="handleCancelLogoUpload"
-          @update:model-value="handleLogoUpdate"
-        />
-      </el-form-item>
+    <!-- 空间LOGO -->
+    <el-form-item :label="$t('space.settings.domain.title')">
+      <AvatarUploader
+        v-model="formData.logo"
+        :has-changed="logoChanged"
+        :original-avatar="originalLogo"
+        @cancel="handleCancelLogoUpload"
+        @update:model-value="handleLogoUpdate"
+      />
+    </el-form-item>
 
-      <!-- 空间名称 -->
-      <el-form-item :label="$t('space.settings.domain.name')" prop="name">
-        <el-input v-model="formData.name" :placeholder="$t('space.settings.name_placeholder')" />
-      </el-form-item>
+    <!-- 空间名称 -->
+    <el-form-item :label="$t('space.settings.domain.name')" prop="name">
+      <el-input v-model="formData.name" :placeholder="$t('space.settings.name_placeholder')" />
+    </el-form-item>
 
-      <!-- 空间域名 -->
-      <el-form-item :label="$t('space.settings.domain.domain')">
-        <el-input v-model="formData.domain" disabled />
-      </el-form-item>
+    <!-- 空间域名 -->
+    <el-form-item :label="$t('space.settings.domain.domain')">
+      <el-input v-model="formData.domain" disabled />
+    </el-form-item>
 
-      <!-- 空间描述 -->
-      <el-form-item :label="$t('space.settings.space_description')" prop="description">
-        <el-input
-          v-model="formData.description"
-          type="textarea"
-          :rows="4"
-          :placeholder="$t('space.settings.description_placeholder')"
-        />
-      </el-form-item>
+    <!-- 空间描述 -->
+    <el-form-item :label="$t('space.settings.space_description')" prop="description">
+      <el-input
+        v-model="formData.description"
+        type="textarea"
+        :rows="4"
+        :placeholder="$t('space.settings.description_placeholder')"
+      />
+    </el-form-item>
 
-      <!-- 保存按钮 -->
-      <el-form-item>
-        <el-button type="primary" @click="saveSettings">
-          {{ $t('common.actions.save') }}
-        </el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+    <!-- 保存按钮 -->
+    <el-form-item>
+      <el-button type="primary" @click="saveSettings">
+        {{ $t('common.actions.save') }}
+      </el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <style lang="scss" scoped>
-.space-settings-panel {
-  padding: 20px;
-}
-
 .setting-form {
   :deep(.el-form-item__label) {
     font-size: 16px;

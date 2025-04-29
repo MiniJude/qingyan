@@ -11,7 +11,7 @@ useI18n()
 </script>
 
 <template>
-  <div class="space-permission-panel">
+  <div>
     <!-- 管理员权限 -->
     <div class="role-card">
       <div class="role-title">
@@ -49,10 +49,6 @@ useI18n()
 </template>
 
 <style lang="scss" scoped>
-.space-permission-panel {
-  padding: 20px;
-}
-
 .role-card {
   padding: 16px;
   margin-bottom: 16px;

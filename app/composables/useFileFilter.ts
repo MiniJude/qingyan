@@ -63,10 +63,6 @@ export function useFileFilter() {
           label: t('knowledge_base.index.my_team'),
           value: FileFilterType.TEAM,
         },
-        {
-          label: t('knowledge_base.index.team_shared'),
-          value: FileFilterType.TEAM_SHARED,
-        },
       ]
     }
 

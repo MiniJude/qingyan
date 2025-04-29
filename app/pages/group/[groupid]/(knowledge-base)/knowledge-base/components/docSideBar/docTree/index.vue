@@ -252,7 +252,7 @@ defineExpose({
     </div>
     <div v-else>
       <!-- 添加新增根文件夹按钮 -->
-      <div class="border-color mb-12px flex items-center justify-end border-b py-2">
+      <div v-if="spaceStore.currentSpace?.type !== 'team'" class="border-color flex items-center justify-end border-b py-2">
         <el-button type="primary" size="small" text @click="showAddRootFolderDialog">
           <div class="flex items-center">
             <el-icon class="mr-1">
@@ -263,22 +263,24 @@ defineExpose({
         </el-button>
       </div>
 
-      <div v-for="(item, index) in data" :key="index">
-        <DocTree
-          v-if="item.treeData.length > 0"
-          ref="treeRef"
-          :data="item.treeData"
-          :checkbox-visible="item.checkboxVisible"
-          editable
-          :is-team-space="spaceStore.currentSpace?.type === 'team'"
-          @update:checkbox-visible="item.checkboxVisible = $event"
-          @check-change="keys => handleCheckChange(keys, index)"
-          @node-click="handleNodeClick"
-          @add-folder="handleAddFolder"
-          @add-file="handleAddFile"
-          @open-team-setting="handleOpenTeamSetting"
-          @rename-node="handleRenameNode"
-        />
+      <div class="mt-12px">
+        <div v-for="(item, index) in data" :key="index">
+          <DocTree
+            v-if="item.treeData.length > 0"
+            ref="treeRef"
+            :data="item.treeData"
+            :checkbox-visible="item.checkboxVisible"
+            editable
+            :is-team-space="spaceStore.currentSpace?.type === 'team'"
+            @update:checkbox-visible="item.checkboxVisible = $event"
+            @check-change="keys => handleCheckChange(keys, index)"
+            @node-click="handleNodeClick"
+            @add-folder="handleAddFolder"
+            @add-file="handleAddFile"
+            @open-team-setting="handleOpenTeamSetting"
+            @rename-node="handleRenameNode"
+          />
+        </div>
       </div>
 
       <!-- 团队设置弹框 -->

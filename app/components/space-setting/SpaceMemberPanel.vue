@@ -157,7 +157,7 @@ function setJoinPassword() {
 <template>
   <div class="space-member-panel">
     <!-- 邀请成员区域 -->
-    <div class="border-b border-gray-200 p-20px">
+    <div class="border-b border-gray-200">
       <h3 class="mb-12px text-16px font-normal">
         {{ $t('space.member.invite_title') }}
       </h3>

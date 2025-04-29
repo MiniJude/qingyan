@@ -14,7 +14,7 @@ const spaces = [
 </script>
 
 <template>
-  <div class="p-20px">
+  <div>
     <!-- 第一步：绑定微信 -->
     <div class="mb-20px">
       <h3 class="mb-16px text-18px font-bold">

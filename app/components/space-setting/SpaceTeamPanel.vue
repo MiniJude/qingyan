@@ -141,7 +141,7 @@ function handleTeamCreated(newTeam: Team): void {
 <template>
   <div class="space-team-panel">
     <!-- 标题和搜索区域 -->
-    <div class="flex items-center justify-between p-20px">
+    <div class="flex items-center justify-between py-20px">
       <div class="flex space-x-16px">
         <el-input
           v-model="searchQuery"

@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { MenuSplitContent, SpaceMemberPanel, SpaceModelSettingPanel, SpacePermissionPanel, SpaceSettingPanel, SpaceTeamPanel, SpaceTrashPanel, SpaceUpgradePanel } from '#components'
-
-interface Props {
-  activeTab?: 'space-upgrade' | 'space-setting' | 'space-model' | 'space-member' | 'space-permission' | 'space-team' | 'space-trash'
-}
+import { useSpaceStore } from '~/stores/space'
 
 const props = withDefaults(defineProps<Props>(), {
   activeTab: 'space-upgrade', // 默认是升级选项卡
 })
+
+const spaceStore = useSpaceStore()
+
+interface Props {
+  activeTab?: 'space-upgrade' | 'space-setting' | 'space-model' | 'space-member' | 'space-permission' | 'space-team' | 'space-trash'
+}
 
 const dialogVisible = defineModel<boolean>('modelValue')
 const activeTabModel = defineModel<Props['activeTab']>('activeTab', {
@@ -25,8 +28,8 @@ const currentMenu = computed({
   },
 })
 
-// 菜单列表
-const menuList = computed(() => [
+// 所有可用的菜单项
+const allMenuItems = [
   {
     key: 'space-upgrade',
     icon: 'i-carbon:upgrade',
@@ -70,7 +73,18 @@ const menuList = computed(() => [
     name: t('knowledge_base.trash'),
     component: shallowRef(SpaceTrashPanel),
   },
-])
+]
+
+// 根据空间类型过滤菜单
+const menuList = computed(() => {
+  const isPersonalSpace = spaceStore.currentSpace?.type === 'personal'
+  if (isPersonalSpace) {
+    // 个人空间只显示前三个菜单项
+    return allMenuItems.slice(0, 3)
+  }
+  // 团队空间显示所有菜单项
+  return allMenuItems
+})
 </script>
 
 <template>
@@ -87,6 +101,7 @@ const menuList = computed(() => [
       v-model="currentMenu"
       :menu-list="menuList"
       :content-height="isMobileDevice ? '100%' : '800px'"
+      :show-menu="menuList.length > 1"
     />
   </el-dialog>
 </template>

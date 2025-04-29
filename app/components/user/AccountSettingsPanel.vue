@@ -405,8 +405,6 @@ function closeDialog(type: 'password' | 'phone' | 'email') {
 
 <style lang="scss" scoped>
 .account-settings-form {
-  padding: 20px;
-
   :deep(.el-form-item) {
     margin-bottom: 0;
     padding: 20px 0;

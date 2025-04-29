@@ -84,49 +84,47 @@ watch(() => props.team, (newVal) => {
 </script>
 
 <template>
-  <div class="team-info-panel p-20px">
-    <el-form
-      ref="teamFormRef"
-      :model="localTeam"
-      :rules="teamFormRules"
-      label-position="top"
-    >
-      <div class="mb-24px">
-        <div class="mb-12px">
-          {{ t('space.team.team_avatar') }}
-        </div>
-        <!-- 使用AvatarUploader组件 -->
-        <AvatarUploader
-          v-model="teamAvatar"
-          :size="60"
-          :has-changed="avatarChanged"
-          :original-avatar="originalAvatar"
-          @update:model-value="handleAvatarChange"
-          @cancel="cancelAvatarUpload"
-        />
+  <el-form
+    ref="teamFormRef"
+    :model="localTeam"
+    :rules="teamFormRules"
+    label-position="top"
+  >
+    <div class="mb-24px">
+      <div class="mb-12px">
+        {{ t('space.team.team_avatar') }}
       </div>
+      <!-- 使用AvatarUploader组件 -->
+      <AvatarUploader
+        v-model="teamAvatar"
+        :size="60"
+        :has-changed="avatarChanged"
+        :original-avatar="originalAvatar"
+        @update:model-value="handleAvatarChange"
+        @cancel="cancelAvatarUpload"
+      />
+    </div>
 
-      <el-form-item :label="t('space.team.team_name')" prop="name" required>
-        <el-input v-model="localTeam.name" class="w-300px" />
-      </el-form-item>
+    <el-form-item :label="t('space.team.team_name')" prop="name" required>
+      <el-input v-model="localTeam.name" class="w-300px" />
+    </el-form-item>
 
-      <el-form-item :label="t('space.team.team_description')" prop="description">
-        <el-input
-          v-model="localTeam.description"
-          type="textarea"
-          :rows="4"
-          :placeholder="t('space.team.description_placeholder')"
-          class="max-w-lg w-full"
-          :maxlength="200"
-          show-word-limit
-        />
-      </el-form-item>
+    <el-form-item :label="t('space.team.team_description')" prop="description">
+      <el-input
+        v-model="localTeam.description"
+        type="textarea"
+        :rows="4"
+        :placeholder="t('space.team.description_placeholder')"
+        class="max-w-lg w-full"
+        :maxlength="200"
+        show-word-limit
+      />
+    </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" @click="saveTeamChanges">
-          {{ t('common.actions.save') }}
-        </el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+    <el-form-item>
+      <el-button type="primary" @click="saveTeamChanges">
+        {{ t('common.actions.save') }}
+      </el-button>
+    </el-form-item>
+  </el-form>
 </template>
