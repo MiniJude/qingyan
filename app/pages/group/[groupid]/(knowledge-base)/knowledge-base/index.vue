@@ -168,6 +168,12 @@ function callRenameFolderApi(_oldName: string, _newName: string) {
   })
 }
 
+// 打开新建文件对话框
+function openCreateFileDialog() {
+  templateLibraryDialog.value = true
+  templateLibraryType.value = 'upload'
+}
+
 // 打开新建文件夹对话框
 function openCreateFolderDialog() {
   createFolderName.value = ''
@@ -281,6 +287,9 @@ function handleTemplateConfirm() {
           <el-dropdown-menu>
             <el-dropdown-item @click="openCreateFolderDialog">
               {{ $t('knowledge_base.index.folder') }}
+            </el-dropdown-item>
+            <el-dropdown-item @click="openCreateFileDialog">
+              {{ $t('knowledge_base.index.file') }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>

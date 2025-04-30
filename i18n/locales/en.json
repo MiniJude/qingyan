@@ -155,6 +155,7 @@
       "document": "Document",
       "spreadsheet": "Spreadsheet",
       "image": "Image",
+      "file": "File",
       "folder": "Folder",
       "folders": "Folders",
       "knowledge_space": "Knowledge Space",
