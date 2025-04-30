@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // 使用文件过滤hook
-const { currentFileFilterType, switchColumns } = useFileFilter()
+const { currentFileFilterType } = useFileFilter()
 
 const { isMobileDevice } = useDeviceDetection()
 
@@ -41,13 +41,6 @@ function openNewDocDialog() {
           {{ $t('common.actions.create') }}
         </el-button>
       </div>
-      <Switch
-        v-model="currentFileFilterType"
-        h-36px
-        :columns="switchColumns"
-        :item-width="83"
-        class="mt-16px"
-      />
       <FolderTable
         class="mt-16px min-h-0 flex-1"
         :type="currentFileFilterType"

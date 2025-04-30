@@ -79,8 +79,7 @@ const allMenuItems = [
 const menuList = computed(() => {
   const isPersonalSpace = spaceStore.currentSpace?.type === 'personal'
   if (isPersonalSpace) {
-    // 个人空间只显示前三个菜单项
-    return allMenuItems.slice(0, 3)
+    return [...allMenuItems.slice(0, 3), ...allMenuItems.slice(-1)]
   }
   // 团队空间显示所有菜单项
   return allMenuItems

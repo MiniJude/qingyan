@@ -13,8 +13,7 @@ export function useFileFilter() {
   // 是否是团队空间
   const isTeamSpace = computed(() => spaceStore.currentSpace?.type === 'team')
 
-  // 当前选中的文件筛选类型，初始化时根据当前空间类型决定
-  const currentFileFilterType = ref(isTeamSpace.value ? FileFilterType.TEAM : FileFilterType.PERSONAL)
+  const currentFileFilterType = ref(FileFilterType.PERSONAL)
 
   // 监听空间类型变化，更新当前筛选类型
   watch(() => isTeamSpace.value, (newIsTeam) => {
