@@ -76,7 +76,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div p="t-29px r-53px b-27px l-19px" relative h-full flex flex-col gap-16px>
+  <div class="p-30px" relative h-full flex flex-col gap-16px>
     <!-- 顶部区域 -->
     <FileHeader />
 

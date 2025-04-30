@@ -27,5 +27,7 @@ const props = withDefaults(defineProps<{
     <LinkIcon v-else-if="props.fileType === 'link'" />
     <div v-else-if="props.fileType === 'video'" class="i-carbon:video-player" />
     <div v-else-if="props.fileType === 'txt'" class="i-carbon:txt" />
+    <div v-else-if="props.fileType === 'pdf'" class="i-carbon:pdf" />
+    <div v-else-if="props.fileType === 'audio'" class="i-carbon:audio-console" />
   </div>
 </template>
