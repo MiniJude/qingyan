@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { init as initPpt } from 'pptx-preview'
-// 引入国际化
 import AIAssistant from '~/components/chat-bot/AIAssistant.vue'
 import FileHeader from '../../components/FileHeader.vue'
 

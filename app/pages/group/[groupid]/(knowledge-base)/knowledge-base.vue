@@ -11,7 +11,7 @@ definePageMeta({
     <DocSideBar />
     <div min-w-0 flex-1>
       <!-- 使用NuxtPage作为嵌套路由出口 -->
-      <NuxtPage class="overflow-hidden" />
+      <NuxtPage />
     </div>
   </div>
 </template>
